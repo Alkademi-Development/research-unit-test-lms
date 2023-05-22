@@ -1,0 +1,142 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-05-22T08:03:36.302Z",
+    "end": "2023-05-22T08:03:56.787Z",
+    "duration": 20485,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "3fa08938-7138-40be-81eb-f7ab20ead3f8",
+      "title": "",
+      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\login.js",
+      "file": "\\test\\login.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "bb5b2e8f-62c6-49d2-a454-372b616d4391",
+          "title": "login to app",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\login.js",
+          "file": "\\test\\login.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"login to app\"",
+              "fullTitle": "login to app \"before each\" hook in \"login to app\"",
+              "timedOut": null,
+              "duration": 1342,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": null,
+              "context": null,
+              "code": "// proxy.doHAR(appHost, function(err, data) {\n//     if (err) {\n//         console.error('ERROR: ' + err);\n//     } else {\n//         fs.writeFileSync('yahoo.com.har', data, 'utf8');\n//     }\n// });\ndriver = await new Builder()\n    .forBrowser(index)\n    .build();",
+              "err": {},
+              "uuid": "53fad8ba-2914-4b0b-b7c6-25b6b46f360c",
+              "parentUUID": null,
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"login to app\"",
+              "fullTitle": "login to app \"after each\" hook in \"login to app\"",
+              "timedOut": null,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": null,
+              "context": null,
+              "code": "if(this.currentTest.state === 'failed') {\n    await driver.quit();\n}",
+              "err": {},
+              "uuid": "476a9902-c6ed-4060-8088-d592b65a49d8",
+              "parentUUID": null,
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "successfully login",
+              "fullTitle": "login to app successfully login",
+              "timedOut": null,
+              "duration": 18725,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// launch the browser\n// const driver = await new Builder().forBrowser(index).build();\n    \n// navigate to the application\nawait driver.get(appHost);\n// login to the application\nawait driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);\nawait driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);\nawait driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));\nlet textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n// Jalankan skrip JavaScript untuk mengumpulkan data jaringan\nconst networkData = await driver.executeScript(`\n    const performanceEntries = performance.getEntriesByType('resource');\n    const requests = performanceEntries.map(entry => {\n        return {\n            entry,\n            url: entry.name,\n            method: entry.initiatorType,\n            type: entry.entryType,\n        };\n    });\n    \n    return requests;\n`);\n// Tampilkan data jaringan\nlet correctUrl = networkData.find(data => data.url.includes(\"v1/user/me\"));\nlet userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\nuserData = JSON.parse(userData);\n\nassert.strictEqual(textStatus > 1, textStatus > 1); \nexpect(correctUrl.url).to.includes(\"v1/user/me\");\nexpect(userData.id).to.greaterThan(0);\n// close the browser\nawait driver.sleep(3000);\nawait driver.quit();",
+              "err": {},
+              "uuid": "8f765593-0bc7-4535-8bc4-47cbb24acd42",
+              "parentUUID": null,
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "8f765593-0bc7-4535-8bc4-47cbb24acd42"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 18725,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": null
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "test-results",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "D:/allbasic/nodejs/selenium/testingapp/testReports",
+        "reportFilename": "test-results",
+        "reportPageTitle": "Laporan-Harian-Testing"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
