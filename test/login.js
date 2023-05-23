@@ -1,4 +1,4 @@
-const { describe } = require('mocha');
+const { describe, afterEach, before } = require('mocha');
 const { Builder, By, Key, until, logging, Capabilities } = require('selenium-webdriver');
 require('dotenv').config({ path: '.env.development' });
 const assert = require('assert');
@@ -6,35 +6,28 @@ const { expect } = require("chai");
 const { BROWSERS } = require('../commons/constants/browser');
 const LOGIN_URL = process.env.LOGIN_URL;
 
-let driver;
 let user = {
     email: 'shivu@master.id',
     password: 'Terseraaah'
 };
+let appHost = LOGIN_URL;
+let driver;
 
-describe("login to app", () => {
+describe("Login", () => {
 
-    const browsers = BROWSERS;
-    var appHost = LOGIN_URL;
-
-    browsers.forEach(index => {
+    afterEach(async () => {
+        await driver.sleep(3000);
+        await driver.quit();
+    })
+    
+    BROWSERS.forEach(browser => {
         
-        beforeEach(async function () {
-            driver = await new Builder()
-                .forBrowser(index)
+        it(`Login to dashboard from browser ${browser}`, async () => {
+                
+            driver = new Builder()
+                .forBrowser(browser)
                 .build();
 
-        });
-        
-        afterEach(async function () {
-            if(this.currentTest.state === 'failed') {
-                await driver.quit();
-            }
-        })
-        
-        it("successfully login", async function () {
-    
-            // navigate to the application
             await driver.get(appHost);
 
             // login to the application
@@ -67,15 +60,15 @@ describe("login to app", () => {
             assert.strictEqual(textStatus > 1, textStatus > 1); 
             expect(correctUrl.url).to.includes("v1/user/me");
             expect(userData.id).to.greaterThan(0);
+            
+        });
+        
+        it(`Failed login (wrong email) from browser ${browser}`, async () => {
+            
+            driver = new Builder()
+                .forBrowser(browser)
+                .build();
 
-            // close the browser
-            await driver.sleep(3000);
-            await driver.quit();
-    
-        })
-
-        it("failed login (wrong email)", async function () {
-    
             // navigate to the application
             await driver.get(appHost);
 
@@ -89,15 +82,15 @@ describe("login to app", () => {
 
             assert.strictEqual(typeStatus.includes("email"), true); 
             assert.strictEqual(textStatus > 1, typeStatus > 1); 
-
-            // close the browser
-            await driver.sleep(3000);
-            await driver.quit();
-    
-        })
-        
-        it("failed login (wrong password)", async function () {
             
+        });
+
+        it(`failed login (wrong password) from browser ${browser}`, async function () {
+            
+            driver = new Builder()
+                .forBrowser(browser)
+                .build();
+
             // navigate to the application
             await driver.get(appHost);
 
@@ -111,14 +104,11 @@ describe("login to app", () => {
 
             assert.strictEqual(typeStatus.includes("password"), true); 
             assert.strictEqual(textStatus > 1, typeStatus > 1); 
-
-            // close the browser
-            await driver.sleep(3000);
-            await driver.quit();
     
         })
 
-    });
-
+    })
     
-})
+
+
+});
