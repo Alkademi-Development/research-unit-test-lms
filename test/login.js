@@ -1,10 +1,12 @@
 const { describe } = require('mocha');
 const { Builder, By, Key, until, logging, Capabilities } = require('selenium-webdriver');
+require('dotenv').config({ path: '.env.development' });
 var Proxy = require('browsermob-proxy').Proxy
   , proxy = new Proxy()
   , fs = require('fs');
 const assert = require('assert');
 const { expect } = require("chai");
+const LOGIN_URL = process.env.LOGIN_URL;
 
 let driver;
 let user = {
@@ -15,7 +17,7 @@ let user = {
 describe("login to app", () => {
 
     const browsers = ['chrome'];
-    var appHost = "https://dev-akun.alkamedia.id/auth?redirectTo=http%3A%2F%2F192.168.18.94%3A4000&lmsId=2d317a6b0744b136d41ef7f5cbc4b22e3d2e10"
+    var appHost = LOGIN_URL;
 
     browsers.forEach(index => {
         
@@ -74,55 +76,49 @@ describe("login to app", () => {
     
         })
 
-        // it("failed login (wrong email)", async function () {
-            
-        //     // launch the browser
-        //     // const driver = await new Builder().forBrowser(index).build();
+        it("failed login (wrong email)", async function () {
     
-        //     // navigate to the application
-        //     await driver.get(appHost);
+            // navigate to the application
+            await driver.get(appHost);
 
-        //     // login to the application
-        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email + 'a', Key.RETURN);
-        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
-        //     await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]`)));
+            // login to the application
+            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email + 'a', Key.RETURN);
+            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
+            await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]`)));
 
-        //     let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
-        //     textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
+            let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
+            textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
 
-        //     assert.strictEqual(typeStatus.includes("email"), true); 
-        //     assert.strictEqual(textStatus > 1, typeStatus > 1); 
+            assert.strictEqual(typeStatus.includes("email"), true); 
+            assert.strictEqual(textStatus > 1, typeStatus > 1); 
 
-        //     // close the browser
-        //     await driver.sleep(3000);
-        //     await driver.quit();
+            // close the browser
+            await driver.sleep(3000);
+            await driver.quit();
     
-        // })
+        })
         
-        // it("failed login (wrong password)", async function () {
+        it("failed login (wrong password)", async function () {
             
-        //     // launch the browser
-        //     // const driver = await new Builder().forBrowser(index).build();
+            // navigate to the application
+            await driver.get(appHost);
+
+            // login to the application
+            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
+            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password[0], Key.RETURN);
+            await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/div[1]`)));
+
+            let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
+            textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
+
+            assert.strictEqual(typeStatus.includes("password"), true); 
+            assert.strictEqual(textStatus > 1, typeStatus > 1); 
+
+            // close the browser
+            await driver.sleep(3000);
+            await driver.quit();
     
-        //     // navigate to the application
-        //     await driver.get(appHost);
-
-        //     // login to the application
-        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
-        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password[0], Key.RETURN);
-        //     await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/div[1]`)));
-
-        //     let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
-        //     textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
-
-        //     assert.strictEqual(typeStatus.includes("password"), true); 
-        //     assert.strictEqual(textStatus > 1, typeStatus > 1); 
-
-        //     // close the browser
-        //     await driver.sleep(3000);
-        //     await driver.quit();
-    
-        // })
+        })
 
     });
 
