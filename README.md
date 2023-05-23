@@ -3,7 +3,9 @@
 ## Setup Awal
 
 Cukup jalankan :
-- npm install
+```
+npm install
+```
 
 ## Run the test
 1. Run this command
