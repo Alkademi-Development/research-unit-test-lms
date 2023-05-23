@@ -2,13 +2,38 @@ const { describe, afterEach, before } = require('mocha');
 const { Builder, By, Key, until, logging, Capabilities } = require('selenium-webdriver');
 const assert = require('assert');
 const { expect } = require("chai");
+const { argv } = require('yargs');
 const { BROWSERS } = require('../commons/constants/browser');
 const LOGIN_URL = process.env.LOGIN_URL;
 
+/**
+ * Get the user data for authentication
+ */
+
 let user = {
-    email: 'shivu@master.id',
-    password: 'Terseraaah'
+    name: '',
+    email: '',
+    password: '',
+    kind: null,
 };
+
+if(argv?.data != null) {
+    const data = argv?.data?.split(',');
+    const role =  Number(data.find(item => item.includes("role")).split("=")[1]);
+    
+    if(role === 1) {
+        user.email = 'alkademi.edu@gmail.com';
+        user.password = 'semuasama'
+    } else {
+        user.email = 'shivu@master.id';
+        user.password = 'Terseraaah'
+    }
+} else {
+    user.email = 'shivu@master.id';
+    user.password = 'Terseraaah'
+}
+
+
 let appHost = LOGIN_URL;
 let driver;
 

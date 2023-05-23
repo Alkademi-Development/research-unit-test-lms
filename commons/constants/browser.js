@@ -1,7 +1,7 @@
 /**
  * chrome, firefox, MicrosoftEdge, internet explorer, safari
  */
-const BROWSERS = ['chrome'];
+const BROWSERS = ['chrome', 'firefox'];
 
 module.exports = {
     BROWSERS
