@@ -2,6 +2,7 @@ var readline = require('readline');
 var fs = require('fs');
 var { exec, execSync } = require('child_process');
 var clc = require('cli-color');
+require('dotenv').config({ path: '.env.development' });
 
 const testFolder = './test/';
 

@@ -1,6 +1,5 @@
 const { describe, afterEach, before } = require('mocha');
 const { Builder, By, Key, until, logging, Capabilities } = require('selenium-webdriver');
-require('dotenv').config({ path: '.env.development' });
 const assert = require('assert');
 const { expect } = require("chai");
 const { BROWSERS } = require('../commons/constants/browser');
