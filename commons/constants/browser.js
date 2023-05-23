@@ -1,6 +1,4 @@
-const BROWSERS = [
-    'firefox'
-];
+const BROWSERS = ['chrome'];
 
 module.exports = {
     BROWSERS
