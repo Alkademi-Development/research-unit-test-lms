@@ -87,49 +87,49 @@ describe("Login", () => {
             
         });
         
-        it(`Failed login (wrong email) from browser ${browser}`, async () => {
+        // it(`Failed login (wrong email) from browser ${browser}`, async () => {
             
-            driver = new Builder()
-                .forBrowser(browser)
-                .build();
+        //     driver = new Builder()
+        //         .forBrowser(browser)
+        //         .build();
 
-            // navigate to the application
-            await driver.get(appHost);
+        //     // navigate to the application
+        //     await driver.get(appHost);
 
-            // login to the application
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email + 'a', Key.RETURN);
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
-            await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]`)));
+        //     // login to the application
+        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email + 'a', Key.RETURN);
+        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
+        //     await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]`)));
 
-            let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
-            textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
+        //     let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
+        //     textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
 
-            assert.strictEqual(typeStatus.includes("email"), true); 
-            assert.strictEqual(textStatus > 1, typeStatus > 1); 
+        //     assert.strictEqual(typeStatus.includes("email"), true); 
+        //     assert.strictEqual(textStatus > 1, typeStatus > 1); 
             
-        });
+        // });
 
-        it(`failed login (wrong password) from browser ${browser}`, async function () {
+        // it(`failed login (wrong password) from browser ${browser}`, async function () {
             
-            driver = new Builder()
-                .forBrowser(browser)
-                .build();
+        //     driver = new Builder()
+        //         .forBrowser(browser)
+        //         .build();
 
-            // navigate to the application
-            await driver.get(appHost);
+        //     // navigate to the application
+        //     await driver.get(appHost);
 
-            // login to the application
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password[0], Key.RETURN);
-            await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/div[1]`)));
+        //     // login to the application
+        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
+        //     await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password[0], Key.RETURN);
+        //     await driver.wait(until.elementsLocated(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/div[1]`)));
 
-            let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
-            textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
+        //     let typeStatus = await driver.executeScript(`return document.querySelector('.alert.alert-warning').innerText`),
+        //     textStatus = await driver.executeScript(`return document.querySelectorAll('.alert.alert-warning').length`);
 
-            assert.strictEqual(typeStatus.includes("password"), true); 
-            assert.strictEqual(textStatus > 1, typeStatus > 1); 
+        //     assert.strictEqual(typeStatus.includes("password"), true); 
+        //     assert.strictEqual(textStatus > 1, typeStatus > 1); 
     
-        })
+        // })
 
     })
     

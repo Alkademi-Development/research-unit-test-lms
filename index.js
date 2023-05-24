@@ -1,8 +1,8 @@
 var readline = require('readline');
 var fs = require('fs');
-var { exec, execSync } = require('child_process');
+var { exec, execSync, spawn } = require('child_process');
 var clc = require('cli-color');
-require('dotenv').config({ path: '.env.development' });
+require('dotenv').config({ path: '.env' });
 const { ROLES } = require('./commons/constants/role')
 
 const testFolder = './test/';
@@ -36,17 +36,68 @@ function getInputFileName() {
             console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
             rl.close();
         } else if(input.trim() === "all") {
-            exec(`npm test`, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
-                }
+            const data = [];
+ 
+            console.log(clc.yellowBright('=== File Tester Membutuhkan akun untuk Authentication, Silahkan pilih role yang ingin di gunakan ==='));
+            console.log(clc.yellow('=== ROLE YANG TERSEDIA ==='));
+            const roles = ROLES;
+            roles.forEach((role, index) => {
+                console.log(`${index+1}. ${role}`)
+            })
+            function getRole() {
+                rl.question(clc.blue('Masukkan tipe role dari akun yang ingin di test (ketik x untuk kembali memilih file & ketik xx untuk close test) : '), (input) => {
+                    if(input.trim() === "") {
+                        console.log(clc.red('⚠ Tolong masukkan role yang sesuai dan tersedia!'));
+                        getRole();
+                    } else if (input.trim() === "x") {
+                        getTheListOfFile();
+                        getInputFileName();
+                    } else if (input.trim() === "xx") {
+                        console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                        rl.close();
+                    } else if (!roles.includes(input)) {
+                        console.log(clc.red('⚠ Maaf role yang anda cari atau ketik tidak di temukan, pilih yang tersedia!'));
+                        getRole();
+                    }  else {
+                        switch (input) {
+                            case 'admin':
+                                data.push(`role=${1}`)
+                                break;
+                            case 'mentor':
+                                data.push(`role=${2}`)
+                            case 'teacher':
+                                data.push(`role=${3}`)
+                            case 'student':
+                                data.push(`role=${4}`)
+                            case 'industry':
+                                data.push(`role=${5}`)
+                            case 'content-writer':
+                                data.push(`role=${6}`)
+                            case 'lead-program':
+                                data.push(`role=${7}`)
+                            case 'lead-region':
+                                data.push(`role=${8}`)
+                            default:
+                                data.push(`role=${0}`)
+                                break;
+                        }
 
-                console.log(stdout);
-                console.log(clc.yellow('Eksekusi telah selesai!'));
-                console.log(clc.green('Terimakasih sudah mencoba tester! 😊'));
+                        exec(`npm test -- --data=${data}`, (error, stdout, stderr) => {
+                            if (error) {
+                                console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                            }
 
-                process.exit();
-            });
+                            console.log(stdout);
+                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+
+                            process.exit();
+                        });
+                    }
+                })
+            }
+            getRole();    
+
         } else {
             let found = false;
             try {
@@ -107,7 +158,7 @@ function getInputFileName() {
                 
                                             console.log(stdout);
                                             console.log(clc.yellow('Eksekusi telah selesai!'));
-                                            console.log(clc.green('Terimakasih sudah mencoba tester! 😊'));
+                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                 
                                             process.exit();
                                         });
@@ -124,7 +175,7 @@ function getInputFileName() {
     
                                 console.log(stdout);
                                 console.log(clc.yellow('Eksekusi telah selesai!'));
-                                console.log(clc.green('Terimakasih sudah mencoba tester! 😊'));
+                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
     
                                 process.exit();
                             });

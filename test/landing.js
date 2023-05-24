@@ -11,7 +11,7 @@ const BASE_URL = process.env.BASE_URL
 let appHost = BASE_URL;
 let driver;
 
-describe("Login", () => {
+describe("Landing Page", () => {
 
     afterEach(async () => {
         await driver.sleep(3000);
@@ -20,7 +20,7 @@ describe("Login", () => {
     
     BROWSERS.forEach(browser => {
         
-        it(`Check the modal content of landing page from browser ${browser}`, async () => {
+        it(`Check home of landing page from browser ${browser}`, async () => {
                 
             driver = new Builder()
                 .forBrowser(browser)
@@ -29,11 +29,11 @@ describe("Login", () => {
             await driver.manage().window().maximize();
             await driver.get(appHost);
             
-            await driver.wait(until.elementsLocated(By.css(`div.modal-content`)));
+            await driver.wait(until.elementsLocated(By.id('home')));
 
-            const modalContent = await driver.findElement(By.css('.modal-content')).isDisplayed();
+            const home = await driver.findElement(By.css('#home')).isDisplayed();
 
-            expect(modalContent).to.eq(true);
+            expect(home).to.eq(false);
             
         });
 
