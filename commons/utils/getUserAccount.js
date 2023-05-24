@@ -8,7 +8,7 @@ const getUserAccount = (argv) => {
         kind: null,
     };
 
-    if(argv?.data != null || argv?.data?.length > 0) {
+    if(argv?.data != null && argv?.data != undefined) {
         const data = argv?.data?.split('=');
         const userAccount = data[1].split(';');
         const email = userAccount[0];

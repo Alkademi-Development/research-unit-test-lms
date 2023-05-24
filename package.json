@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --no-timeouts --reporter mochawesome --require mochawesome/register --reporter-options reportDir=D:/allbasic/nodejs/selenium/testingapp/testReports,reportFilename=test-results,reportPageTitle=Laporan-Harian-Testing",
+    "test": "mocha --no-timeouts --recursive --reporter mochawesome --require mochawesome/register --reporter-options reportDir=D:/allbasic/nodejs/selenium/testingapp/testReports,reportFilename=test-results,reportPageTitle=Laporan-Harian-Testing",
     "start": "node index.js"
   },
   "author": "",

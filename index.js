@@ -35,9 +35,9 @@ function getTheListOfFileRecursively(folderPath, depth = 0) {
 
         if (isDirectory) {
             getTheListOfFileRecursively(filePath, depth + 1); // Memanggil rekursif untuk folder anak
+            index++;
         }
 
-        index++;
     });
 }
 getTheListOfFileRecursively(testFolder);
@@ -123,94 +123,110 @@ function getInputFileName() {
         } else {
             let found = false;
             try {
-                fs.readdirSync(testFolder).forEach(async file => {
-                    let fileName = file.split('.')[0];
-                    if(input.toLowerCase() === fileName.toLowerCase()) {
-                        const data = [];
 
-                        if(TEST_NEED_AUTHENTICATION.includes(fileName.toLocaleLowerCase())) {
-
-                            console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
-
-                            function getInfoAccount() {
-                                
-                                rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
-                                    if(inputEmail.trim() === '') {
-                                        console.log(clc.yellowBright('Wajib memasukkan email & password'));
-                                        getInfoAccount();
-                                    } else if (inputEmail.trim() === "x") {
-                                        console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
-                                        rl.close();
-                                    } else {
-                                        function getPassword() {
-                                            
-                                            rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), (inputPassword) => {
-
-                                                if(inputPassword.trim() === '') {
-                                                    console.log(clc.yellowBright('Wajib memasukkan email & password'))
-                                                    getPassword();
-                                                } else if (inputPassword.trim() === "x") {
-                                                    console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
-                                                    rl.close();
-                                                } else {
-                                                    let dataRequest = { email: inputEmail, password: inputPassword };
-                                                
-                                                    request.post(`auth/signin`)
-                                                    .set(paramsRequest.sApp, paramsRequest.sAppToken)
-                                                    .send(dataRequest)
-                                                    .then((res) => {
-                                                        if(res.body.status === false) {
-                                                            console.log(clc.red(res.body.message));
-                                                            console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
-                                                            getInfoAccount();
-                                                        } else {
-                                                            data.push(`akun=${inputEmail};${inputPassword}`);
-            
-                                                            exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
-                                                                if (error) {
-                                                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
-                                                                }
-                                    
-                                                                console.log(stdout);
-                                                                console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                    
-                                                                process.exit();
-                                                            });
-                                                        }
-                                                    })
-                                                    .catch((err) => {
-                                                        console.log(err);
-                                                    });
-                                                }
-                                             
-                                            });
-                                        }
-                                        getPassword();
-                                    }
-                                });
-
-                            }
-
-                            getInfoAccount();
+                function getTheListOfFileInputRecursively(folderPath) {
+                    const files = fs.readdirSync(folderPath);
+                    const data = [];
+                  
+                    files.forEach((file) => {
+                        const filePath = path.join(folderPath, file);
+                        const stats = fs.statSync(filePath);
+                        const isDirectory = stats.isDirectory();
+                
+                        if (isDirectory) {
 
                         } else {
-    
-                            exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
-                                if (error) {
-                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                            let fileName = file.split('.')[0];
+                            
+                            if(input.toLowerCase() === fileName.toLowerCase()) {
+
+                                if(TEST_NEED_AUTHENTICATION.includes(fileName.toLowerCase())) {
+        
+                                    console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
+        
+                                    function getInfoAccount() {
+                                        
+                                        rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
+                                            if(inputEmail.trim() === '') {
+                                                console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                                getInfoAccount();
+                                            } else if (inputEmail.trim() === "x") {
+                                                console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                rl.close();
+                                            } else {
+                                                function getPassword() {
+                                                    
+                                                    rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), (inputPassword) => {
+        
+                                                        if(inputPassword.trim() === '') {
+                                                            console.log(clc.yellowBright('Wajib memasukkan email & password'))
+                                                            getPassword();
+                                                        } else if (inputPassword.trim() === "x") {
+                                                            console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                            rl.close();
+                                                        } else {
+                                                            let dataRequest = { email: inputEmail, password: inputPassword };
+                                                        
+                                                            request.post(`auth/signin`)
+                                                            .set(paramsRequest.sApp, paramsRequest.sAppToken)
+                                                            .send(dataRequest)
+                                                            .then((res) => {
+                                                                if(res.body.status === false) {
+                                                                    console.log(clc.red(res.body.message));
+                                                                    console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
+                                                                    getInfoAccount();
+                                                                } else {
+                                                                    data.push(`akun=${inputEmail};${inputPassword}`);
+                    
+                                                                    exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
+                                                                        if (error) {
+                                                                            console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                                        }
+                                            
+                                                                        console.log(stdout);
+                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                            
+                                                                        process.exit();
+                                                                    });
+                                                                }
+                                                            })
+                                                            .catch((err) => {
+                                                                console.log(err);
+                                                            });
+                                                        }
+                                                        
+                                                    });
+                                                }
+                                                getPassword();
+                                            }
+                                        });
+        
+                                    }
+        
+                                    getInfoAccount();
+        
+                                } else {
+                                    exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
+                                        if (error) {
+                                            console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                        }
+            
+                                        console.log(stdout);
+                                        console.log(clc.yellow('Eksekusi telah selesai!'));
+                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+            
+                                        process.exit();
+                                    });
                                 }
-    
-                                console.log(stdout);
-                                console.log(clc.yellow('Eksekusi telah selesai!'));
-                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-    
-                                process.exit();
-                            });
+            
+                                found = true;
+                            }
                         }
-                        found = true;
-                    }
-                })
+                    });
+                }
+                getTheListOfFileInputRecursively(testFolder);
+
             } finally {
                 if(!found) {
                     console.log(clc.red('⚠ Maaf, file yang anda masukkan tidak di temukan!'))

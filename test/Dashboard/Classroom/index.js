@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 import { describe, afterEach, before } from 'mocha';
 import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
-import { expect } from 'chai';
-import yargs from 'yargs';
+import assert from 'assert';
+import { expect } from "chai";
+import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/getUserAccount';
 
@@ -18,7 +19,7 @@ const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 let appHost = LOGIN_URL;
 let driver;
 
-describe("Login", () => {
+describe("Classroom", () => {
 
     afterEach(async () => {
         await driver.sleep(3000);
@@ -27,7 +28,7 @@ describe("Login", () => {
     
     BROWSERS.forEach(browser => {
         
-        it(`Logout from browser ${browser}`, async () => {
+        it(`Check for class card ${browser}`, async () => {
                 
             driver = new Builder()
                 .forBrowser(browser)
@@ -40,16 +41,24 @@ describe("Login", () => {
             await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
             await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
             await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
-            
-            await driver.findElement(By.css('.dropdown.navbar-profile')).click();
-            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();
-            await driver.findElement(By.css('.box-action > button.btn-danger')).click();
 
-            await driver.wait(until.elementsLocated(By.id('home')));
-            
-            const pageUrl = await driver.getCurrentUrl();
+            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();
 
-            expect(pageUrl).to.eq(BASE_URL);
+            await driver.findElement(By.css('i.ri-icon.ri-stack-fill')).click()
+
+            await driver.wait(until.elementsLocated(By.css(`div.card-class`)));
+
+            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
+
+            // Tampilkan data jaringan
+            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+            userData = JSON.parse(userData);
+            
+            assert.strictEqual(textStatus > 1, textStatus > 1); 
+            expect(userData.id).to.greaterThan(0);
+            expect(doughnutChart).to.equal(true);
+            expect(classCard).to.equal(true);
             
         });
 

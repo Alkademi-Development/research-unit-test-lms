@@ -1,10 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env' });
 import { describe, afterEach, before } from 'mocha';
 import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
 import { expect } from 'chai';
 import { BROWSERS } from '#root/commons/constants/browser';
 
-const BASE_URL = process.env.BASE_URL
-let appHost = BASE_URL;
+let appHost = process.env.BASE_URL;
 let driver;
 
 describe("Landing Page", () => {
@@ -17,7 +18,6 @@ describe("Landing Page", () => {
     BROWSERS.forEach(browser => {
         
         it(`Check home of landing page from browser ${browser}`, async () => {
-                
             driver = new Builder()
                 .forBrowser(browser)
                 .build();
