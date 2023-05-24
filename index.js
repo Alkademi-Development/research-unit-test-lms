@@ -3,7 +3,9 @@ dotenv.config({ path: '.env' });
 import supertest from 'supertest';
 import readline from 'readline';
 import fs from 'fs';
+import path from 'path';
 import { exec, execSync, spawn } from 'child_process';
+import { TEST_NEED_AUTHENTICATION } from '#root/commons/constants/file';
 import clc from 'cli-color';
 
 const request = supertest(process.env.SERVICES_API + 'v1/');
@@ -19,16 +21,26 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-function getTheListOfFile() {
-    
-    console.log('=== LIST OF FILE, CHOOSE THE ONE ===');
-    fs.readdirSync(testFolder).forEach(async (file, index) => {
-        console.log(`${index+1}. ${file}`);
-    })
-    console.log(clc.bold("Or you can type 'all' if you want to test all files"));
+function getTheListOfFileRecursively(folderPath, depth = 0) {
+    const files = fs.readdirSync(folderPath);
+    let index = 1;
+  
+    files.forEach((file) => {
+        const filePath = path.join(folderPath, file);
+        const stats = fs.statSync(filePath);
+        const isDirectory = stats.isDirectory();
+        const prefix = isDirectory ? `${index}.` : `${' '.repeat(depth)}-`;
 
+        console.log(`${' '.repeat(depth)}${prefix} ${file}`);
+
+        if (isDirectory) {
+            getTheListOfFileRecursively(filePath, depth + 1); // Memanggil rekursif untuk folder anak
+        }
+
+        index++;
+    });
 }
-getTheListOfFile();
+getTheListOfFileRecursively(testFolder);
 
 function getInputFileName() {
     
@@ -36,7 +48,7 @@ function getInputFileName() {
     
         if(input.trim() === "") {
             console.log(clc.red('⚠ Tolong masukkan file test yang sesuai!'))
-            getTheListOfFile();
+            getTheListOfFileRecursively(testFolder);
             getInputFileName();
         } else if(input.trim() === "x") {
             console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
@@ -113,10 +125,10 @@ function getInputFileName() {
             try {
                 fs.readdirSync(testFolder).forEach(async file => {
                     let fileName = file.split('.')[0];
-                    if(input === fileName) {
+                    if(input.toLowerCase() === fileName.toLowerCase()) {
                         const data = [];
 
-                        if(fileName == 'login' || fileName == 'logout') {
+                        if(TEST_NEED_AUTHENTICATION.includes(fileName.toLocaleLowerCase())) {
 
                             console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
 
@@ -202,7 +214,7 @@ function getInputFileName() {
             } finally {
                 if(!found) {
                     console.log(clc.red('⚠ Maaf, file yang anda masukkan tidak di temukan!'))
-                    getTheListOfFile();
+                    getTheListOfFileRecursively(testFolder);
                     getInputFileName()
                 }
             }

@@ -5,9 +5,9 @@
     "passes": 6,
     "pending": 0,
     "failures": 0,
-    "start": "2023-05-24T05:56:49.024Z",
-    "end": "2023-05-24T05:58:17.358Z",
-    "duration": 88334,
+    "start": "2023-05-24T07:14:22.041Z",
+    "end": "2023-05-24T07:15:42.891Z",
+    "duration": 80850,
     "testsRegistered": 6,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "7f841161-6b79-4549-97b1-594c599c823e",
+      "uuid": "6814df49-6005-4ae7-901f-5c575fc94832",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "63f1ef4f-9f0c-49aa-8a00-2f79724593b6",
+          "uuid": "a28426dc-6421-4aca-8049-76774b063f6f",
           "title": "Landing Page",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\landing.js",
           "file": "\\test\\landing.js",
@@ -37,7 +37,7 @@
               "title": "\"after each\" hook in \"Landing Page\"",
               "fullTitle": "Landing Page \"after each\" hook in \"Landing Page\"",
               "timedOut": false,
-              "duration": 3965,
+              "duration": 3730,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,8 +46,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "f591ef72-cf46-4ed6-9c67-255ced187e21",
-              "parentUUID": "63f1ef4f-9f0c-49aa-8a00-2f79724593b6",
+              "uuid": "127ee613-a5c8-49b1-8e5f-4f336e616684",
+              "parentUUID": "a28426dc-6421-4aca-8049-76774b063f6f",
               "isHook": true,
               "skipped": false
             }
@@ -57,7 +57,7 @@
               "title": "Check home of landing page from browser chrome",
               "fullTitle": "Landing Page Check home of landing page from browser chrome",
               "timedOut": false,
-              "duration": 4267,
+              "duration": 4363,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -66,8 +66,8 @@
               "context": null,
               "code": "driver = new Builder()\n.forBrowser(browser)\n.build();\n\n            await driver.manage().window().maximize();\n            await driver.get(appHost);\n            \n            await driver.wait(until.elementsLocated(By.id('home')));\n\n            const home = await driver.findElement(By.css('#home')).isDisplayed();\n\n            expect(home).to.eq(true);",
               "err": {},
-              "uuid": "de991fbe-2a11-4f34-8b17-fb9111521015",
-              "parentUUID": "63f1ef4f-9f0c-49aa-8a00-2f79724593b6",
+              "uuid": "c0a2423f-78b7-41a0-a172-e4961e7b0fbc",
+              "parentUUID": "a28426dc-6421-4aca-8049-76774b063f6f",
               "isHook": false,
               "skipped": false
             },
@@ -75,7 +75,7 @@
               "title": "Check home of landing page from browser firefox",
               "fullTitle": "Landing Page Check home of landing page from browser firefox",
               "timedOut": false,
-              "duration": 6861,
+              "duration": 5484,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -84,27 +84,27 @@
               "context": null,
               "code": "driver = new Builder()\n.forBrowser(browser)\n.build();\n\n            await driver.manage().window().maximize();\n            await driver.get(appHost);\n            \n            await driver.wait(until.elementsLocated(By.id('home')));\n\n            const home = await driver.findElement(By.css('#home')).isDisplayed();\n\n            expect(home).to.eq(true);",
               "err": {},
-              "uuid": "5899ad9e-3544-4776-bdd2-d9c791d2aa8b",
-              "parentUUID": "63f1ef4f-9f0c-49aa-8a00-2f79724593b6",
+              "uuid": "209dcdab-5632-4e97-90da-3316de9521da",
+              "parentUUID": "a28426dc-6421-4aca-8049-76774b063f6f",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "de991fbe-2a11-4f34-8b17-fb9111521015",
-            "5899ad9e-3544-4776-bdd2-d9c791d2aa8b"
+            "c0a2423f-78b7-41a0-a172-e4961e7b0fbc",
+            "209dcdab-5632-4e97-90da-3316de9521da"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 11128,
+          "duration": 9847,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "b64cd572-91d2-418a-90b4-5edb26b0131f",
+          "uuid": "bd0a4105-2eee-4393-b396-736e2684a927",
           "title": "Login",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\login.js",
           "file": "\\test\\login.js",
@@ -114,7 +114,7 @@
               "title": "\"after each\" hook in \"Login\"",
               "fullTitle": "Login \"after each\" hook in \"Login\"",
               "timedOut": false,
-              "duration": 3679,
+              "duration": 3796,
               "state": null,
               "speed": null,
               "pass": false,
@@ -123,8 +123,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "0a50e19c-5862-4ee1-8df5-df23eda3533c",
-              "parentUUID": "b64cd572-91d2-418a-90b4-5edb26b0131f",
+              "uuid": "87ec8d00-e0c5-43c1-bc34-81eee3cd1542",
+              "parentUUID": "bd0a4105-2eee-4393-b396-736e2684a927",
               "isHook": true,
               "skipped": false
             }
@@ -134,7 +134,7 @@
               "title": "Login to dashboard from browser chrome",
               "fullTitle": "Login Login to dashboard from browser chrome",
               "timedOut": false,
-              "duration": 13138,
+              "duration": 10145,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -143,8 +143,8 @@
               "context": null,
               "code": "driver = new Builder()\n.forBrowser(browser)\n.build();\n\n            await driver.get(appHost);\n\n            // login to the application\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);\n            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan\n            const networkData = await driver.executeScript(`\nconst performanceEntries = performance.getEntriesByType('resource');\nconst requests = performanceEntries.map(entry => {\n    return {\n        entry,\n        url: entry.name,\n        method: entry.initiatorType,\n        type: entry.entryType,\n    };\n});\n\nreturn requests;\n            `);\n\n            // Tampilkan data jaringan\n            let correctUrl = networkData.find(data => data.url.includes(\"v1/user/me\"));\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(correctUrl.url).to.includes(\"v1/user/me\");\n            expect(userData.id).to.greaterThan(0);",
               "err": {},
-              "uuid": "352ff000-d287-4930-b21b-75f258f9fbe1",
-              "parentUUID": "b64cd572-91d2-418a-90b4-5edb26b0131f",
+              "uuid": "20d9f424-1b0c-4912-94a3-868fe67d8059",
+              "parentUUID": "bd0a4105-2eee-4393-b396-736e2684a927",
               "isHook": false,
               "skipped": false
             },
@@ -152,7 +152,7 @@
               "title": "Login to dashboard from browser firefox",
               "fullTitle": "Login Login to dashboard from browser firefox",
               "timedOut": false,
-              "duration": 12405,
+              "duration": 11547,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -161,27 +161,27 @@
               "context": null,
               "code": "driver = new Builder()\n.forBrowser(browser)\n.build();\n\n            await driver.get(appHost);\n\n            // login to the application\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);\n            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan\n            const networkData = await driver.executeScript(`\nconst performanceEntries = performance.getEntriesByType('resource');\nconst requests = performanceEntries.map(entry => {\n    return {\n        entry,\n        url: entry.name,\n        method: entry.initiatorType,\n        type: entry.entryType,\n    };\n});\n\nreturn requests;\n            `);\n\n            // Tampilkan data jaringan\n            let correctUrl = networkData.find(data => data.url.includes(\"v1/user/me\"));\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(correctUrl.url).to.includes(\"v1/user/me\");\n            expect(userData.id).to.greaterThan(0);",
               "err": {},
-              "uuid": "6644852e-e423-4cce-b7ff-ba16b16aba17",
-              "parentUUID": "b64cd572-91d2-418a-90b4-5edb26b0131f",
+              "uuid": "9df98874-1133-4556-b00b-efb78d3dbb84",
+              "parentUUID": "bd0a4105-2eee-4393-b396-736e2684a927",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "352ff000-d287-4930-b21b-75f258f9fbe1",
-            "6644852e-e423-4cce-b7ff-ba16b16aba17"
+            "20d9f424-1b0c-4912-94a3-868fe67d8059",
+            "9df98874-1133-4556-b00b-efb78d3dbb84"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 25543,
+          "duration": 21692,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "9af4627a-2e53-4df0-9ba7-4b9cb0854e00",
+          "uuid": "721213a6-7ca6-4c57-b2ed-b275a4b6b5be",
           "title": "Login",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\logout.js",
           "file": "\\test\\logout.js",
@@ -191,7 +191,7 @@
               "title": "\"after each\" hook in \"Login\"",
               "fullTitle": "Login \"after each\" hook in \"Login\"",
               "timedOut": false,
-              "duration": 3670,
+              "duration": 3807,
               "state": null,
               "speed": null,
               "pass": false,
@@ -200,8 +200,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "f71d02de-59f7-4810-b9e1-50e711e4260d",
-              "parentUUID": "9af4627a-2e53-4df0-9ba7-4b9cb0854e00",
+              "uuid": "501f9aa9-1de0-4a51-9c28-f57dc518969b",
+              "parentUUID": "721213a6-7ca6-4c57-b2ed-b275a4b6b5be",
               "isHook": true,
               "skipped": false
             }
@@ -211,7 +211,7 @@
               "title": "Logout from browser chrome",
               "fullTitle": "Login Logout from browser chrome",
               "timedOut": false,
-              "duration": 16008,
+              "duration": 13827,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -220,8 +220,8 @@
               "context": null,
               "code": "driver = new Builder()\n.forBrowser(browser)\n.build();\n\n            await driver.manage().window().maximize();\n            await driver.get(appHost);\n\n            // login to the application\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);\n            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));\n            \n            await driver.findElement(By.css('.dropdown.navbar-profile')).click();\n            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();\n            await driver.findElement(By.css('.box-action > button.btn-danger')).click();\n\n            await driver.wait(until.elementsLocated(By.id('home')));\n            \n            const pageUrl = await driver.getCurrentUrl();\n\n            expect(pageUrl).to.eq(BASE_URL);",
               "err": {},
-              "uuid": "75a202d6-28d5-4c61-8a8d-601273d77db8",
-              "parentUUID": "9af4627a-2e53-4df0-9ba7-4b9cb0854e00",
+              "uuid": "0b69a3da-916d-4161-b1f6-79af5f8a1527",
+              "parentUUID": "721213a6-7ca6-4c57-b2ed-b275a4b6b5be",
               "isHook": false,
               "skipped": false
             },
@@ -229,7 +229,7 @@
               "title": "Logout from browser firefox",
               "fullTitle": "Login Logout from browser firefox",
               "timedOut": false,
-              "duration": 15167,
+              "duration": 14967,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -238,21 +238,21 @@
               "context": null,
               "code": "driver = new Builder()\n.forBrowser(browser)\n.build();\n\n            await driver.manage().window().maximize();\n            await driver.get(appHost);\n\n            // login to the application\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);\n            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);\n            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));\n            \n            await driver.findElement(By.css('.dropdown.navbar-profile')).click();\n            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();\n            await driver.findElement(By.css('.box-action > button.btn-danger')).click();\n\n            await driver.wait(until.elementsLocated(By.id('home')));\n            \n            const pageUrl = await driver.getCurrentUrl();\n\n            expect(pageUrl).to.eq(BASE_URL);",
               "err": {},
-              "uuid": "519fd486-c0d2-4f40-8139-6188b797e99a",
-              "parentUUID": "9af4627a-2e53-4df0-9ba7-4b9cb0854e00",
+              "uuid": "90563806-abb7-4f45-b2e2-b2a06cc52da9",
+              "parentUUID": "721213a6-7ca6-4c57-b2ed-b275a4b6b5be",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "75a202d6-28d5-4c61-8a8d-601273d77db8",
-            "519fd486-c0d2-4f40-8139-6188b797e99a"
+            "0b69a3da-916d-4161-b1f6-79af5f8a1527",
+            "90563806-abb7-4f45-b2e2-b2a06cc52da9"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 31175,
+          "duration": 28794,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0

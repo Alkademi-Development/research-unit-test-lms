@@ -8,8 +8,6 @@ const getUserAccount = (argv) => {
         kind: null,
     };
 
-    console.log(argv);
-
     if(argv?.data != null || argv?.data?.length > 0) {
         const data = argv?.data?.split('=');
         const userAccount = data[1].split(';');

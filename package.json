@@ -30,6 +30,9 @@
   "directories": {
     "test": "test"
   },
+  "imports": {
+    "#root/*": "./*.js"
+  },
   "keywords": [],
   "description": ""
 }

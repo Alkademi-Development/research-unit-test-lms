@@ -1,7 +1,7 @@
 import { describe, afterEach, before } from 'mocha';
 import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
 import { expect } from 'chai';
-import { BROWSERS } from '../commons/constants/browser.js';
+import { BROWSERS } from '#root/commons/constants/browser';
 
 const BASE_URL = process.env.BASE_URL
 let appHost = BASE_URL;

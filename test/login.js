@@ -3,8 +3,8 @@ import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriv
 import assert from 'assert';
 import { expect } from "chai";
 import yargs from 'yargs'
-import { BROWSERS } from '../commons/constants/browser.js';
-import { getUserAccount } from '../commons/utils/getUserAccount.js';
+import { BROWSERS } from '#root/commons/constants/browser';
+import { getUserAccount } from '#root/commons/utils/getUserAccount';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 const BASE_URL = process.env.BASE_URL;
