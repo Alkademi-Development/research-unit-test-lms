@@ -1,35 +1,18 @@
-const { describe, afterEach, before } = require('mocha');
-const { Builder, By, Key, until, logging, Capabilities } = require('selenium-webdriver');
-const assert = require('assert');
-const { expect } = require("chai");
-const { argv } = require('yargs');
-const { BROWSERS } = require('../commons/constants/browser');
-const LOGIN_URL = process.env.LOGIN_URL;
+import { describe, afterEach, before } from 'mocha';
+import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
+import assert from 'assert';
+import { expect } from "chai";
+import yargs from 'yargs'
+import { BROWSERS } from '../commons/constants/browser.js';
+import { getUserAccount } from '../commons/utils/getUserAccount.js';
 
+const LOGIN_URL = process.env.LOGIN_URL;
+const BASE_URL = process.env.BASE_URL;
 /**
  * Get the user data for authentication
  */
 
-let user = {
-    name: '',
-    email: '',
-    password: '',
-    kind: null,
-};
-
-if(argv?.data != null) {
-    const data = argv?.data?.split('=');
-    const userAccount = data[1].split(',');
-    const email = userAccount[0];
-    const password = userAccount[1];
-    
-    user.email = email;
-    user.password = password;
-} else {
-    user.email = 'shivu@master.id';
-    user.password = 'Terseraaah'
-}
-
+const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
 let appHost = LOGIN_URL;
 let driver;

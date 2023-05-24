@@ -3,6 +3,6 @@
  */
 const BROWSERS = ['chrome', 'firefox'];
 
-module.exports = {
+export {
     BROWSERS
 }

@@ -1,11 +1,13 @@
-require('dotenv').config({ path: '.env' });
-const supertest = require('supertest');
-var readline = require('readline');
-var fs = require('fs');
-var { exec, execSync, spawn } = require('child_process');
-var clc = require('cli-color');
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env' });
+import supertest from 'supertest';
+import readline from 'readline';
+import fs from 'fs';
+import { exec, execSync, spawn } from 'child_process';
+import clc from 'cli-color';
+// import { ROLES } from './commons/constants/role';
+
 const request = supertest(process.env.SERVICES_API + 'v1/');
-const { ROLES } = require('./commons/constants/role');
 
 const testFolder = './test/';
 
@@ -74,7 +76,7 @@ function getInputFileName() {
                                             console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
                                             getInfoAccount();
                                         } else {
-                                            data.push(`akun=${inputEmail},${inputPassword}`);
+                                            data.push(`akun=${inputEmail};${inputPassword}`);
 
                                             exec(`npm test -- --data=${data}`, (error, stdout, stderr) => {
                                                 if (error) {
@@ -148,7 +150,7 @@ function getInputFileName() {
                                                             console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
                                                             getInfoAccount();
                                                         } else {
-                                                            data.push(`akun=${inputEmail},${inputPassword}`);
+                                                            data.push(`akun=${inputEmail};${inputPassword}`);
             
                                                             exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
                                                                 if (error) {

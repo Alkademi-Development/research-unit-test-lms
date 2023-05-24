@@ -1,13 +1,9 @@
-const { describe, afterEach, before } = require('mocha');
-const { Builder, By, Key, until, logging, Capabilities } = require('selenium-webdriver');
-const assert = require('assert');
-const { expect } = require("chai");
-const { argv } = require('yargs');
-const { BROWSERS } = require('../commons/constants/browser');
-const LOGIN_URL = process.env.LOGIN_URL;
+import { describe, afterEach, before } from 'mocha';
+import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
+import { expect } from 'chai';
+import { BROWSERS } from '../commons/constants/browser.js';
+
 const BASE_URL = process.env.BASE_URL
-
-
 let appHost = BASE_URL;
 let driver;
 
@@ -33,7 +29,7 @@ describe("Landing Page", () => {
 
             const home = await driver.findElement(By.css('#home')).isDisplayed();
 
-            expect(home).to.eq(false);
+            expect(home).to.eq(true);
             
         });
 
