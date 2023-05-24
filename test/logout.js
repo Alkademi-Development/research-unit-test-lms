@@ -19,16 +19,13 @@ let user = {
 };
 
 if(argv?.data != null) {
-    const data = argv?.data?.split(',');
-    const role =  Number(data.find(item => item.includes("role")).split("=")[1]);
+    const data = argv?.data?.split('=');
+    const userAccount = data[1].split(',');
+    const email = userAccount[0];
+    const password = userAccount[1];
     
-    if(role === 1) {
-        user.email = 'alkademi.edu@gmail.com';
-        user.password = 'semuasama'
-    } else {
-        user.email = 'shivu@master.id';
-        user.password = 'Terseraaah'
-    }
+    user.email = email;
+    user.password = password;
 } else {
     user.email = 'shivu@master.id';
     user.password = 'Terseraaah'

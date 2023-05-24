@@ -1,9 +1,11 @@
+require('dotenv').config({ path: '.env' });
+const supertest = require('supertest');
 var readline = require('readline');
 var fs = require('fs');
 var { exec, execSync, spawn } = require('child_process');
 var clc = require('cli-color');
-require('dotenv').config({ path: '.env' });
-const { ROLES } = require('./commons/constants/role')
+const request = supertest(process.env.SERVICES_API + 'v1/');
+const { ROLES } = require('./commons/constants/role');
 
 const testFolder = './test/';
 
@@ -38,65 +40,69 @@ function getInputFileName() {
         } else if(input.trim() === "all") {
             const data = [];
  
-            console.log(clc.yellowBright('=== File Tester Membutuhkan akun untuk Authentication, Silahkan pilih role yang ingin di gunakan ==='));
-            console.log(clc.yellow('=== ROLE YANG TERSEDIA ==='));
-            const roles = ROLES;
-            roles.forEach((role, index) => {
-                console.log(`${index+1}. ${role}`)
-            })
-            function getRole() {
-                rl.question(clc.blue('Masukkan tipe role dari akun yang ingin di test (ketik x untuk kembali memilih file & ketik xx untuk close test) : '), (input) => {
-                    if(input.trim() === "") {
-                        console.log(clc.red('⚠ Tolong masukkan role yang sesuai dan tersedia!'));
-                        getRole();
-                    } else if (input.trim() === "x") {
-                        getTheListOfFile();
-                        getInputFileName();
-                    } else if (input.trim() === "xx") {
+            console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file yang membutuhkan authentication ==='));
+
+            function getInfoAccount() {
+                
+                rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
+                    if(inputEmail.trim() === '') {
+                        console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                        getInfoAccount();
+                    } else if (inputEmail.trim() === "x") {
                         console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
                         rl.close();
-                    } else if (!roles.includes(input)) {
-                        console.log(clc.red('⚠ Maaf role yang anda cari atau ketik tidak di temukan, pilih yang tersedia!'));
-                        getRole();
-                    }  else {
-                        switch (input) {
-                            case 'admin':
-                                data.push(`role=${1}`)
-                                break;
-                            case 'mentor':
-                                data.push(`role=${2}`)
-                            case 'teacher':
-                                data.push(`role=${3}`)
-                            case 'student':
-                                data.push(`role=${4}`)
-                            case 'industry':
-                                data.push(`role=${5}`)
-                            case 'content-writer':
-                                data.push(`role=${6}`)
-                            case 'lead-program':
-                                data.push(`role=${7}`)
-                            case 'lead-region':
-                                data.push(`role=${8}`)
-                            default:
-                                data.push(`role=${0}`)
-                                break;
+                    } else {
+                        function getPassword() {
+                            
+                            rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), (inputPassword) => {
+
+                                if(inputPassword.trim() === '') {
+                                    console.log(clc.yellowBright('Wajib memasukkan email & password'))
+                                    getPassword();
+                                } else if (inputPassword.trim() === "x") {
+                                    console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                    rl.close();
+                                } else {
+                                    let dataRequest = { email: inputEmail, password: inputPassword };
+                                
+                                    request.post(`auth/signin`)
+                                    .set('S-App-Authorization', 'ab89d3a579eaf78207bd6e1f2fa88fb1cf1fce58b161a5f93462ea6cc81497df')
+                                    .send(dataRequest)
+                                    .then((res) => {
+                                        if(res.body.status === false) {
+                                            console.log(clc.red(res.body.message));
+                                            console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
+                                            getInfoAccount();
+                                        } else {
+                                            data.push(`akun=${inputEmail},${inputPassword}`);
+
+                                            exec(`npm test -- --data=${data}`, (error, stdout, stderr) => {
+                                                if (error) {
+                                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                }
+                    
+                                                console.log(stdout);
+                                                console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                    
+                                                process.exit();
+                                            });
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                    });
+                                }
+                             
+                            });
                         }
-
-                        exec(`npm test -- --data=${data}`, (error, stdout, stderr) => {
-                            if (error) {
-                                console.error(clc.red('❌ Terjadi kesalahan: '), error);
-                            }
-
-                            console.log(stdout);
-                            console.log(clc.yellow('Eksekusi telah selesai!'));
-                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-
-                            process.exit();
-                        });
+                        getPassword();
                     }
-                })
+                });
+
             }
-            getRole();    
+
+            getInfoAccount(); 
 
         } else {
             let found = false;
@@ -107,65 +113,71 @@ function getInputFileName() {
                         const data = [];
 
                         if(fileName == 'login' || fileName == 'logout') {
-                            console.log(clc.yellowBright('=== File Tester ini Membutuhkan akun untuk Authentication, Silahkan pilih role yang ingin di gunakan ==='));
-                            console.log(clc.yellow('=== ROLE YANG TERSEDIA ==='));
-                            const roles = ROLES;
-                            roles.forEach((role, index) => {
-                                console.log(`${index+1}. ${role}`)
-                            })
-                            function getRole() {
-                                rl.question(clc.blue('Masukkan tipe role dari akun yang ingin di test (ketik x untuk kembali memilih file & ketik xx untuk close test) : '), (input) => {
-                                    if(input.trim() === "") {
-                                        console.log(clc.red('⚠ Tolong masukkan role yang sesuai dan tersedia!'));
-                                        getRole();
-                                    } else if (input.trim() === "x") {
-                                        getTheListOfFile();
-                                        getInputFileName();
-                                    } else if (input.trim() === "xx") {
+
+                            console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
+
+                            function getInfoAccount() {
+                                
+                                rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
+                                    if(inputEmail.trim() === '') {
+                                        console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                        getInfoAccount();
+                                    } else if (inputEmail.trim() === "x") {
                                         console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
                                         rl.close();
-                                    } else if (!roles.includes(input)) {
-                                        console.log(clc.red('⚠ Maaf role yang anda cari atau ketik tidak di temukan, pilih yang tersedia!'));
-                                        getRole();
-                                    }  else {
-                                        switch (input) {
-                                            case 'admin':
-                                                data.push(`role=${1}`)
-                                                break;
-                                            case 'mentor':
-                                                data.push(`role=${2}`)
-                                            case 'teacher':
-                                                data.push(`role=${3}`)
-                                            case 'student':
-                                                data.push(`role=${4}`)
-                                            case 'industry':
-                                                data.push(`role=${5}`)
-                                            case 'content-writer':
-                                                data.push(`role=${6}`)
-                                            case 'lead-program':
-                                                data.push(`role=${7}`)
-                                            case 'lead-region':
-                                                data.push(`role=${8}`)
-                                            default:
-                                                data.push(`role=${0}`)
-                                                break;
+                                    } else {
+                                        function getPassword() {
+                                            
+                                            rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), (inputPassword) => {
+
+                                                if(inputPassword.trim() === '') {
+                                                    console.log(clc.yellowBright('Wajib memasukkan email & password'))
+                                                    getPassword();
+                                                } else if (inputPassword.trim() === "x") {
+                                                    console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                    rl.close();
+                                                } else {
+                                                    let dataRequest = { email: inputEmail, password: inputPassword };
+                                                
+                                                    request.post(`auth/signin`)
+                                                    .set('S-App-Authorization', 'ab89d3a579eaf78207bd6e1f2fa88fb1cf1fce58b161a5f93462ea6cc81497df')
+                                                    .send(dataRequest)
+                                                    .then((res) => {
+                                                        if(res.body.status === false) {
+                                                            console.log(clc.red(res.body.message));
+                                                            console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
+                                                            getInfoAccount();
+                                                        } else {
+                                                            data.push(`akun=${inputEmail},${inputPassword}`);
+            
+                                                            exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
+                                                                if (error) {
+                                                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                                }
+                                    
+                                                                console.log(stdout);
+                                                                console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                    
+                                                                process.exit();
+                                                            });
+                                                        }
+                                                    })
+                                                    .catch((err) => {
+                                                        console.log(err);
+                                                    });
+                                                }
+                                             
+                                            });
                                         }
-        
-                                        exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
-                                            if (error) {
-                                                console.error(clc.red('❌ Terjadi kesalahan: '), error);
-                                            }
-                
-                                            console.log(stdout);
-                                            console.log(clc.yellow('Eksekusi telah selesai!'));
-                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                
-                                            process.exit();
-                                        });
+                                        getPassword();
                                     }
-                                })
+                                });
+
                             }
-                            getRole();
+
+                            getInfoAccount();
+
                         } else {
     
                             exec(`npm test test/${file} -- --data=${data}`, (error, stdout, stderr) => {
@@ -185,7 +197,7 @@ function getInputFileName() {
                 })
             } finally {
                 if(!found) {
-                    console.log(clc.red('⚠ Maaf, file yang masukkan tidak di temukan!'))
+                    console.log(clc.red('⚠ Maaf, file yang anda masukkan tidak di temukan!'))
                     getTheListOfFile();
                     getInputFileName()
                 }
