@@ -5,9 +5,12 @@ import readline from 'readline';
 import fs from 'fs';
 import { exec, execSync, spawn } from 'child_process';
 import clc from 'cli-color';
-// import { ROLES } from './commons/constants/role';
 
 const request = supertest(process.env.SERVICES_API + 'v1/');
+const paramsRequest = {
+    sApp: 'S-App-Authorization',
+    sAppToken: 'ab89d3a579eaf78207bd6e1f2fa88fb1cf1fce58b161a5f93462ea6cc81497df'
+};
 
 const testFolder = './test/';
 
@@ -25,7 +28,6 @@ function getTheListOfFile() {
     console.log(clc.bold("Or you can type 'all' if you want to test all files"));
 
 }
-
 getTheListOfFile();
 
 function getInputFileName() {
@@ -68,7 +70,7 @@ function getInputFileName() {
                                     let dataRequest = { email: inputEmail, password: inputPassword };
                                 
                                     request.post(`auth/signin`)
-                                    .set('S-App-Authorization', 'ab89d3a579eaf78207bd6e1f2fa88fb1cf1fce58b161a5f93462ea6cc81497df')
+                                    .set(paramsRequest.sApp, paramsRequest.sAppToken)
                                     .send(dataRequest)
                                     .then((res) => {
                                         if(res.body.status === false) {
@@ -142,7 +144,7 @@ function getInputFileName() {
                                                     let dataRequest = { email: inputEmail, password: inputPassword };
                                                 
                                                     request.post(`auth/signin`)
-                                                    .set('S-App-Authorization', 'ab89d3a579eaf78207bd6e1f2fa88fb1cf1fce58b161a5f93462ea6cc81497df')
+                                                    .set(paramsRequest.sApp, paramsRequest.sAppToken)
                                                     .send(dataRequest)
                                                     .then((res) => {
                                                         if(res.body.status === false) {
@@ -209,5 +211,4 @@ function getInputFileName() {
     });
 
 }
-
 getInputFileName();
