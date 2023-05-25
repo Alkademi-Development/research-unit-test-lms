@@ -4,7 +4,7 @@ import assert from 'assert';
 import { expect } from "chai";
 import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
-import { getUserAccount } from '#root/commons/utils/getUserAccount';
+import { getUserAccount } from '#root/commons/utils/userUtils';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 const BASE_URL = process.env.BASE_URL;
@@ -43,7 +43,7 @@ describe("Classroom", () => {
             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
             let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();
 
-            await driver.findElement(By.css('i.ri-icon.ri-stack-fill')).click()
+            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()
 
             await driver.wait(until.elementsLocated(By.css(`div.card-class`)));
 

@@ -4,10 +4,9 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config({ path: path.join(__dirname, '.env.development') });
 import supertest from 'supertest';
 import readline from 'readline';
-import asciitree from 'ascii-tree';
 import { exec, execSync, spawn } from 'child_process';
 import { TEST_NEED_AUTHENTICATION } from '#root/commons/constants/file';
 import clc from 'cli-color';
@@ -136,6 +135,7 @@ async function getInput() {
                                             })
                                             .catch((err) => {
                                                 console.log(err);
+                                                process.exit();
                                             });
                                         }
                                         
@@ -449,6 +449,9 @@ async function getInput() {
                         }
                         getTheListOfFileInputRecursively(testFolder);
         
+                    } catch(error) {
+                        console.log(error);
+                        process.exit();
                     } finally {
                         if(!found) {
                             console.log(clc.red('⚠ Maaf, file yang anda masukkan tidak di temukan!'));

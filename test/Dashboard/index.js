@@ -4,7 +4,7 @@ import assert from 'assert';
 import { expect } from "chai";
 import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
-import { getUserAccount } from '#root/commons/utils/getUserAccount';
+import { getUserAccount } from '#root/commons/utils/user';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 const BASE_URL = process.env.BASE_URL;

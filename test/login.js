@@ -4,7 +4,8 @@ import assert from 'assert';
 import { expect } from "chai";
 import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
-import { getUserAccount } from '#root/commons/utils/getUserAccount';
+import { getUserAccount } from '#root/commons/utils/userUtils';
+import { enterDashbard } from '#root/commons/utils/dashboardUtils';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 const BASE_URL = process.env.BASE_URL;
@@ -35,8 +36,8 @@ describe("Login", () => {
             await driver.get(appHost);
 
             // login to the application
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
+            await driver.findElement(By.css(`.input-group.input-group-merge >input[type="email"]`)).sendKeys(user.email, Key.RETURN);
+            await driver.findElement(By.css(`.input-group.input-group-merge >input[type="password"]`)).sendKeys(user.password, Key.RETURN);
             await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
 
             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
