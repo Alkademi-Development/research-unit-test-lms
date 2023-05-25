@@ -7,6 +7,7 @@ import supertest from 'supertest';
 import readline from 'readline';
 import fs from 'fs';
 import path from 'path';
+import asciitree from 'ascii-tree';
 import { exec, execSync, spawn } from 'child_process';
 import { TEST_NEED_AUTHENTICATION } from '#root/commons/constants/file';
 import clc from 'cli-color';
@@ -25,27 +26,36 @@ const rl = readline.createInterface({
 });
 
 console.log(clc.bold('=== LIST OF FILE, CHOOSE THE ONE ==='));
-function getTheListOfFileRecursively(folderPath, depth = 0) {
-    const files = fs.readdirSync(folderPath);
-    let index = 1;
-  
-    files.forEach((file) => {
-        const filePath = path.join(folderPath, file);
-        const stats = fs.statSync(filePath);
-        const isDirectory = stats.isDirectory();
-        const prefix = isDirectory ? '' : `${' '.repeat(depth)}-`;
+function getTheListOfFileRecursively(folderPath, indent = '') {
+  const files = fs.readdirSync(folderPath);
+  let tree = '';
 
-        console.log(`${' '.repeat(depth)}${prefix} ${file} (${isDirectory ? 'Folder' : 'File'})`);
+  files.forEach((file, index) => {
+    const filePath = path.join(folderPath, file);
+    const stats = fs.statSync(filePath);
+    const isDirectory = stats.isDirectory();
+    const isLast = index === files.length - 1;
+    const nodePrefix = isLast ? '└──' : '├──';
+    const nodeIndent = isLast ? '    ' : '│   ';
+    const nodeLabel = isDirectory ? `${clc.yellowBright(file)} (Folder)` : `${clc.blueBright(file)} (File)`;
 
-        if (isDirectory) {
-            getTheListOfFileRecursively(filePath, depth + 1); // Memanggil rekursif untuk folder anak
-            index++;
-        }
+    tree += `${indent}${nodePrefix} ${nodeLabel}\n`;
 
-    });
+    if (isDirectory) {
+      const childIndent = isLast ? '    ' : '│   ';
+      tree += getTheListOfFileRecursively(filePath, `${indent}${nodeIndent}`);
+    }
+  });
+
+  return tree;
 }
-getTheListOfFileRecursively(testFolder);
+function printFileTree(folderPath) {
+  const tree = getTheListOfFileRecursively(folderPath);
+  console.log(tree);
+}
+printFileTree(testFolder);
 console.log(clc.bold(`Or you can type 'all' if you want to test all files, and if you want to test nested file just type like this ${clc.yellow('test/nametest')}`));
+
 
 function getInputFileName() {
     
@@ -438,3 +448,4 @@ function getInputFileName() {
 
 }
 getInputFileName();
+
