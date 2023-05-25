@@ -132,27 +132,27 @@ function getInputFileName() {
                 function getTheListOfFileInputRecursively(folderPath) {
                     const files = fs.readdirSync(folderPath);
                     const testFolderPath = path.join(testFolder, input);
-                    const absolutePath = path.join(testFolderPath);
+                    let absolutePath = path.join(testFolderPath);
                     const data = [];
                   
                     files.forEach((file) => {
                         const filePath = path.join(folderPath, file);
                         const statsFolder = fs.statSync(filePath);
                         const isDirectory = statsFolder.isDirectory();
-                        const statsFile = fs.statSync(filePath);
-                        const isFile = statsFile.isDirectory();
+
+                        let filePathMatch = (filePath + '\\' + input.split('/').slice(1).join('\\')).toLowerCase().endsWith(input.toLowerCase().replaceAll('/', '\\'));
                 
-                        if (isDirectory && !isFile) {
-                            if(fs.existsSync(absolutePath) && isFile) {
+                        if (isDirectory && input.includes('/')  && filePathMatch) {
 
-                                absolutePath = path.join(testFolderPath + '.js');
-                                
-                                let matchFound = TEST_NEED_AUTHENTICATION.some((item) =>
+                            if(fs.existsSync(absolutePath)) { // Mengakses default file di parent / dalam folder
+
+                                // Dapatkan terlebih dahulu file yang ingin di running nya apa, tapi karena ini default file maka langsung saja yg di test ini file defaultnya
+
+                                // Mencari file test yang membutuhkan account untuk authentication
+                                let authenticationFound = TEST_NEED_AUTHENTICATION.some((item) =>
                                     input.toLowerCase().includes(item)
                                 );
-
-                                if(matchFound) {
-                                    
+                                if(authenticationFound) { // jika ketemu, maka dia harus memasukkan akun untuk authentication
                                     console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
 
                                     function getInfoAccount() {
@@ -217,115 +217,124 @@ function getInputFileName() {
 
                                     getInfoAccount();
 
-                                } else {
-
+                                    found = true;
+                                } else { // Jika tidak maka jalankan tanpa tahap authentication
+                                    
                                     exec(`npm test ${absolutePath} -- --data=${data}`, (error, stdout, stderr) => {
                                         if (error) {
                                             console.error(clc.red('❌ Terjadi kesalahan: '), error);
                                         }
-                            
+            
                                         console.log(stdout);
                                         console.log(clc.yellow('Eksekusi telah selesai!'));
                                         console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                            
+            
                                         process.exit();
                                     });
+                                    
+                                    found = true;
 
                                 }
-
-                            } else {
                                 
-                                
-                                let matchFound = TEST_NEED_AUTHENTICATION.some((item) =>
-                                    input.toLowerCase().includes(item)
-                                );
+                            }  else {
 
-                                if(matchFound) {
+                                // Dapatkan terlebih dahulu file yang ingin di running nya apa, jika memang ada maka di run akan tetapi jika tidak ada maka gagal menemukan file
+                                if(fs.existsSync(absolutePath + '.js')) {
                                     
-                                    console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
-
-                                    function getInfoAccount() {
-                                        
-                                        rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
-                                            if(inputEmail.trim() === '') {
-                                                console.log(clc.yellowBright('Wajib memasukkan email & password'));
-                                                getInfoAccount();
-                                            } else if (inputEmail.trim() === "x") {
-                                                console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
-                                                rl.close();
-                                            } else {
-                                                function getPassword() {
-                                                    
-                                                    rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), (inputPassword) => {
-
-                                                        if(inputPassword.trim() === '') {
-                                                            console.log(clc.yellowBright('Wajib memasukkan email & password'))
-                                                            getPassword();
-                                                        } else if (inputPassword.trim() === "x") {
-                                                            console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
-                                                            rl.close();
-                                                        } else {
-                                                            let dataRequest = { email: inputEmail, password: inputPassword };
-                                                        
-                                                            request.post(`auth/signin`)
-                                                            .set(paramsRequest.sApp, paramsRequest.sAppToken)
-                                                            .send(dataRequest)
-                                                            .then((res) => {
-                                                                if(res.body.status === false) {
-                                                                    console.log(clc.red(res.body.message));
-                                                                    console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
-                                                                    getInfoAccount();
-                                                                } else {
-                                                                    data.push(`akun=${inputEmail};${inputPassword}`);
-
-                                                                    exec(`npm test ${absolutePath} -- --data=${data}`, (error, stdout, stderr) => {
-                                                                        if (error) {
-                                                                            console.error(clc.red('❌ Terjadi kesalahan: '), error);
-                                                                        }
+                                    // Mencari file test yang membutuhkan account untuk authentication
+                                    let authenticationFound = TEST_NEED_AUTHENTICATION.some((item) =>
+                                        input.toLowerCase().includes(item)
+                                    );
+                                    if(authenticationFound) { // jika ketemu, maka dia harus memasukkan akun untuk authentication
+                                        console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
+    
+                                        function getInfoAccount() {
                                             
-                                                                        console.log(stdout);
-                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                            
-                                                                        process.exit();
-                                                                    });
-                                                                }
-                                                            })
-                                                            .catch((err) => {
-                                                                console.log(err);
-                                                            });
-                                                        }
+                                            rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
+                                                if(inputEmail.trim() === '') {
+                                                    console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                                    getInfoAccount();
+                                                } else if (inputEmail.trim() === "x") {
+                                                    console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                    rl.close();
+                                                } else {
+                                                    function getPassword() {
                                                         
-                                                    });
+                                                        rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), (inputPassword) => {
+    
+                                                            if(inputPassword.trim() === '') {
+                                                                console.log(clc.yellowBright('Wajib memasukkan email & password'))
+                                                                getPassword();
+                                                            } else if (inputPassword.trim() === "x") {
+                                                                console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                                rl.close();
+                                                            } else {
+                                                                let dataRequest = { email: inputEmail, password: inputPassword };
+                                                            
+                                                                request.post(`auth/signin`)
+                                                                .set(paramsRequest.sApp, paramsRequest.sAppToken)
+                                                                .send(dataRequest)
+                                                                .then((res) => {
+                                                                    if(res.body.status === false) {
+                                                                        console.log(clc.red(res.body.message));
+                                                                        console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
+                                                                        getInfoAccount();
+                                                                    } else {
+                                                                        data.push(`akun=${inputEmail};${inputPassword}`);
+    
+                                                                        exec(`npm test ${absolutePath} -- --data=${data}`, (error, stdout, stderr) => {
+                                                                            if (error) {
+                                                                                console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                                            }
+                                                
+                                                                            console.log(stdout);
+                                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                
+                                                                            process.exit();
+                                                                        });
+                                                                    }
+                                                                })
+                                                                .catch((err) => {
+                                                                    console.log(err);
+                                                                });
+                                                            }
+                                                            
+                                                        });
+                                                    }
+                                                    getPassword();
                                                 }
-                                                getPassword();
+                                            });
+    
+                                        }
+    
+                                        getInfoAccount();
+    
+                                        found = true;
+                                    } else { // Jika tidak maka jalankan tanpa tahap authentication
+                                        
+                                        exec(`npm test ${absolutePath} -- --data=${data}`, (error, stdout, stderr) => {
+                                            if (error) {
+                                                console.error(clc.red('❌ Terjadi kesalahan: '), error);
                                             }
+                
+                                            console.log(stdout);
+                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                
+                                            process.exit();
                                         });
-
+                                        
+                                        found = true;
+    
                                     }
 
-                                    getInfoAccount();
-
-                                } else {
-
-                                    exec(`npm test ${absolutePath} -- --data=${data}`, (error, stdout, stderr) => {
-                                        if (error) {
-                                            console.error(clc.red('❌ Terjadi kesalahan: '), error);
-                                        }
-                            
-                                        console.log(stdout);
-                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                            
-                                        process.exit();
-                                    });
-
                                 }
+
 
                             }
-
-                            found = true;
-
+                            
+                            
                         } else {
                             let fileName = file.split('.')[0];
                             
