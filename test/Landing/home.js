@@ -1,7 +1,5 @@
-import * as dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
-dotenv.config({ path: '.env' });
 import { describe, afterEach, before } from 'mocha';
 import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
 import { expect } from 'chai';
