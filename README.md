@@ -29,3 +29,4 @@ node .
 - Can use cmd for testing file (all and one)
 - Can use dynamic environment
 - Style the list of file tests
+- Multiple reports 
