@@ -25,7 +25,7 @@ describe("Landing Page", () => {
 
             await driver.manage().window().maximize();
             
-            const homeFound = await driver.wait(until.elementsLocated(By.id('home')), 5000);
+            await driver.wait(until.elementsLocated(By.id('home')), 5000);
 
             const home = await driver.findElement(By.css('#home')).isDisplayed();
 

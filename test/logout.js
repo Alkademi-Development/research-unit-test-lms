@@ -18,7 +18,7 @@ const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 let appHost = LOGIN_URL;
 let driver;
 
-describe("Login", () => {
+describe("Logout", () => {
 
     afterEach(async () => {
         await driver.sleep(3000);

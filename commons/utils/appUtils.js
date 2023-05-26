@@ -13,5 +13,5 @@ const goToApp = async (browser, appHost) => {
 }
 
 export {
-    goToApp
+    goToApp,
 }
