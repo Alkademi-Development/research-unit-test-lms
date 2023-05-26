@@ -6,6 +6,8 @@ import { expect } from "chai";
 import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
+import { enterDashboard } from '#root/commons/utils/dashboardUtils';
+import { goToApp } from '#root/commons/utils/appUtils';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 /**
@@ -28,17 +30,13 @@ describe("User", () => {
         
         it(`Create user in dashboard from browser ${browser}`, async () => {
                 
-            driver = new Builder()
-                .forBrowser(browser)
-                .build();
+            // Go to application
+            driver = await goToApp(browser, appHost)
 
             await driver.manage().window().maximize();
-            await driver.get(appHost);
 
             // login to the application
-            await driver.findElement(By.css(`.input-group.input-group-merge >input[type="email"]`)).sendKeys(user.email, Key.RETURN);
-            await driver.findElement(By.css(`.input-group.input-group-merge >input[type="password"]`)).sendKeys(user.password, Key.RETURN);
-            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
+            await enterDashboard(driver, user);
 
             // Selections & Actions
             await driver.findElement(By.css('a > i.ri-icon.ri-user-3-line')).click();

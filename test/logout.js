@@ -4,6 +4,8 @@ import { expect } from 'chai';
 import yargs from 'yargs';
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
+import { enterDashboard } from '#root/commons/utils/dashboardUtils';
+import { goToApp } from '#root/commons/utils/appUtils';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 const BASE_URL = process.env.BASE_URL;
@@ -27,17 +29,13 @@ describe("Login", () => {
         
         it(`Logout from browser ${browser}`, async () => {
                 
-            driver = new Builder()
-                .forBrowser(browser)
-                .build();
+            // Go to application
+            driver = await goToApp(browser, appHost)
 
             await driver.manage().window().maximize();
-            await driver.get(appHost);
 
             // login to the application
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
-            await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
-            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
+            await enterDashboard(driver, user);
             
             await driver.findElement(By.css('.dropdown.navbar-profile')).click();
             await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();

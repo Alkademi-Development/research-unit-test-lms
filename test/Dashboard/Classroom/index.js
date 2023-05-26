@@ -5,6 +5,7 @@ import { expect } from "chai";
 import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
+import { goToApp } from '#root/commons/utils/appUtils';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 const BASE_URL = process.env.BASE_URL;
@@ -28,9 +29,8 @@ describe("Classroom", () => {
         
         it(`Check for class card ${browser}`, async () => {
                 
-            driver = new Builder()
-                .forBrowser(browser)
-                .build();
+            // Go to application
+            driver = await goToApp(browser, appHost)
 
             await driver.manage().window().maximize();
             await driver.get(appHost);

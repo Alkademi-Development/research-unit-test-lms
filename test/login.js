@@ -5,7 +5,8 @@ import { expect } from "chai";
 import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
-import { enterDashbard } from '#root/commons/utils/dashboardUtils';
+import { enterDashboard } from '#root/commons/utils/dashboardUtils';
+import { goToApp } from '#root/commons/utils/appUtils';
 
 const LOGIN_URL = process.env.LOGIN_URL;
 const BASE_URL = process.env.BASE_URL;
@@ -29,16 +30,11 @@ describe("Login", () => {
         
         it(`Login to dashboard from browser ${browser}`, async () => {
                 
-            driver = new Builder()
-                .forBrowser(browser)
-                .build();
-
-            await driver.get(appHost);
+            // Go to application
+            driver = await goToApp(browser, appHost)
 
             // login to the application
-            await driver.findElement(By.css(`.input-group.input-group-merge >input[type="email"]`)).sendKeys(user.email, Key.RETURN);
-            await driver.findElement(By.css(`.input-group.input-group-merge >input[type="password"]`)).sendKeys(user.password, Key.RETURN);
-            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
+            await enterDashboard(driver, user);
 
             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 

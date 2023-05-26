@@ -4,6 +4,7 @@ import { describe, afterEach, before } from 'mocha';
 import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
 import { expect } from 'chai';
 import { BROWSERS } from '#root/commons/constants/browser';
+import { goToApp } from '#root/commons/utils/appUtils';
 
 let appHost = process.env.BASE_URL;
 let driver;
@@ -18,12 +19,11 @@ describe("Landing Page", () => {
     BROWSERS.forEach(browser => {
         
         it(`Check home of landing page from browser ${browser}`, async () => {
-            driver = new Builder()
-                .forBrowser(browser)
-                .build();
+
+            // Go to application
+            driver = await goToApp(browser, appHost)
 
             await driver.manage().window().maximize();
-            await driver.get(appHost);
             
             await driver.wait(until.elementsLocated(By.id('home')));
 

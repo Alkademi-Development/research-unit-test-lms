@@ -10,6 +10,9 @@ import readline from 'readline';
 import { exec, execSync, spawn } from 'child_process';
 import { TEST_NEED_AUTHENTICATION } from '#root/commons/constants/file';
 import clc from 'cli-color';
+import Mocha from 'mocha';
+import detectMocha from "detect-mocha";
+const mocha = new Mocha();
 
 const request = supertest(process.env.SERVICES_API + 'v1/');
 const paramsRequest = {
@@ -23,6 +26,11 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
+
+if(detectMocha()) {
+    console.log("tested");
+}
 
 /** Start Input File */
 function getTheListOfFileRecursively(folderPath, indent = '') {
@@ -55,6 +63,32 @@ function printFileTree(folderPath) {
 }
 /** End Input File */
 
+function getAllFilePaths(folderPath) {
+    const result = [];
+  
+    function traverseFolder(currentPath) {
+      const files = fs.readdirSync(currentPath);
+  
+      files.forEach((file) => {
+        const filePath = path.join(currentPath, file);
+        const stat = fs.statSync(filePath);
+  
+        if (stat.isFile()) {
+          result.push(filePath);
+        } else if (stat.isDirectory()) {
+          traverseFolder(filePath);
+        }
+      });
+    }
+  
+    traverseFolder(folderPath);
+    return result;
+}
+
+// Contoh penggunaan
+const folderPath = './test/';
+const filePaths = getAllFilePaths(folderPath);
+
 async function getInput() {
 
     rl.question(clc.bold(`1. Apakah anda ingin membuat file laporan / report testnya terpisah ?, \n jika iya masukkan nama report (formatnya ${clc.yellow("'tester'")} atau ${clc.yellow("'tester-file'")} atau jika anda ingin menaruh nya di dalam folder bisa seperti ini ${clc.yellow("'folder/tester-file'")} ) : `), inputReportFile => {
@@ -66,7 +100,7 @@ async function getInput() {
 
         console.log(`${inputReportFile.trim() === '' ? "\n Baiklah, data report akan di generate by default" : "\n Baiklah, data report akan di sesuaikan dari anda dengan report file " + clc.green("'" + inputReportFile.trim() + "'")}`)
         
-        let inputReportCommand = inputReportFile ? `-- --reporter-options reportDir=testReports,reportFilename=${inputReportFile.toLowerCase()},reportPageTitle=${inputReportFile.toUpperCase()}` : '--reporter-options reportDir=testReports,reportFilename=test-results,reportPageTitle=Laporan-Harian-Testing test/Landing';
+        let inputReportCommand = inputReportFile ? `-- --reporter-options reportDir=testReports,reportFilename=${inputReportFile.toLowerCase()},reportPageTitle=${inputReportFile.toUpperCase()}` : '--reporter-options reportDir=testReports,reportFilename=test-results,reportPageTitle=Laporan-Harian-Testing';
 
         printFileTree(testFolder);
         console.log(clc.bold(`Or you can type 'all' if you want to test all files, and if you want to test nested file just type like this ${clc.yellow("'test/nametest'")}`));
@@ -119,10 +153,10 @@ async function getInput() {
                                                     getInfoAccount();
                                                 } else {
                                                     data.push(`akun=${inputEmail};${inputPassword}`);
-        
+                                                    
                                                     exec(`npm test -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                         if (error) {
-                                                            console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                         }
                             
                                                         console.log(stdout);
@@ -131,6 +165,7 @@ async function getInput() {
                             
                                                         process.exit();
                                                     });
+                                                    
                                                 }
                                             })
                                             .catch((err) => {
@@ -165,6 +200,7 @@ async function getInput() {
                                 const isDirectory = statsFolder.isDirectory();
         
                                 let filePathMatch = (filePath + '\\' + input.split('/').slice(1).join('\\')).toLowerCase().endsWith(input.toLowerCase().replaceAll('/', '\\'));
+                                let filePathJoinInput = filePath + '\\' + input.split('/').slice(1).join('\\').toLowerCase();
                         
                                 if (isDirectory && input.includes('/')  && filePathMatch) {
         
@@ -213,9 +249,10 @@ async function getInput() {
                                                                         } else {
                                                                             data.push(`akun=${inputEmail};${inputPassword}`);
         
+                                                                            console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + filePathJoinInput))}`);
                                                                             exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                 if (error) {
-                                                                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                 }
                                                     
                                                                                 console.log(stdout);
@@ -243,10 +280,11 @@ async function getInput() {
         
                                             found = true;
                                         } else { // Jika tidak maka jalankan tanpa tahap authentication
-                                            
+
+                                            console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + filePathJoinInput))}`);
                                             exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                 if (error) {
-                                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                 }
                     
                                                 console.log(stdout);
@@ -306,9 +344,10 @@ async function getInput() {
                                                                             } else {
                                                                                 data.push(`akun=${inputEmail};${inputPassword}`);
             
+                                                                                console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + filePathJoinInput))}`);
                                                                                 exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                     if (error) {
-                                                                                        console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                                                        console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                     }
                                                         
                                                                                     console.log(stdout);
@@ -337,9 +376,10 @@ async function getInput() {
                                                 found = true;
                                             } else { // Jika tidak maka jalankan tanpa tahap authentication
                                                 
+                                                console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + filePathJoinInput))}`);
                                                 exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                     if (error) {
-                                                        console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                        console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                     }
                         
                                                     console.log(stdout);
@@ -400,9 +440,10 @@ async function getInput() {
                                                                         } else {
                                                                             data.push(`akun=${inputEmail};${inputPassword}`);
                             
+                                                                            console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + filePathJoinInput))}`);
                                                                             exec(`npm test test/${file} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                 if (error) {
-                                                                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                 }
                                                     
                                                                                 console.log(stdout);
@@ -429,9 +470,10 @@ async function getInput() {
                                             getInfoAccount();
                 
                                         } else {
+                                            console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + filePathJoinInput))}`);
                                             exec(`npm test test/${file} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                 if (error) {
-                                                    console.error(clc.red('❌ Terjadi kesalahan: '), error);
+                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                 }
                     
                                                 console.log(stdout);
