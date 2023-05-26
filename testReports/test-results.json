@@ -5,9 +5,9 @@
     "passes": 8,
     "pending": 0,
     "failures": 4,
-    "start": "2023-05-26T07:34:15.978Z",
-    "end": "2023-05-26T07:40:27.950Z",
-    "duration": 371972,
+    "start": "2023-05-26T07:44:54.342Z",
+    "end": "2023-05-26T07:50:52.433Z",
+    "duration": 358091,
     "testsRegistered": 12,
     "passPercent": 66.66666666666666,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "a4a7ed90-96ff-4e29-b86d-88bda7599a5f",
+      "uuid": "bb0e015d-68dc-44e9-8283-1c4f877f4b8f",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "c04ab7c3-4e73-43a9-b9e2-4fd6ac8bb217",
+          "uuid": "e92f8b25-8291-4898-9d8d-8bd94e3692b5",
           "title": "Classroom",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\Classroom\\index.js",
           "file": "\\test\\Dashboard\\Classroom\\index.js",
@@ -37,7 +37,7 @@
               "title": "\"after each\" hook in \"Classroom\"",
               "fullTitle": "Classroom \"after each\" hook in \"Classroom\"",
               "timedOut": false,
-              "duration": 3666,
+              "duration": 4265,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,8 +46,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "fd4a53fd-fd5c-4427-8353-bceb1067bce1",
-              "parentUUID": "c04ab7c3-4e73-43a9-b9e2-4fd6ac8bb217",
+              "uuid": "983716b5-71eb-4c13-a962-002717d350b9",
+              "parentUUID": "e92f8b25-8291-4898-9d8d-8bd94e3692b5",
               "isHook": true,
               "skipped": false
             }
@@ -57,7 +57,7 @@
               "title": "Check for class card chrome",
               "fullTitle": "Classroom Check for class card chrome",
               "timedOut": false,
-              "duration": 16105,
+              "duration": 25151,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -66,8 +66,8 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            \n            // login to the application\n            await enterDashboard(driver, user);\n\n            await driver.manage().window().maximize();\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()\n\n            await driver.wait(until.elementsLocated(By.css(`div.card-class`)), 10000);\n\n            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();\n\n            // Tampilkan data jaringan\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);\n            expect(classCard).to.equal(true);",
               "err": {},
-              "uuid": "1f645080-d096-44c1-8a53-14f71f2fbdca",
-              "parentUUID": "c04ab7c3-4e73-43a9-b9e2-4fd6ac8bb217",
+              "uuid": "e4eaaba5-8cd5-4512-81b1-66118b30772b",
+              "parentUUID": "e92f8b25-8291-4898-9d8d-8bd94e3692b5",
               "isHook": false,
               "skipped": false
             },
@@ -75,7 +75,7 @@
               "title": "Check for class card firefox",
               "fullTitle": "Classroom Check for class card firefox",
               "timedOut": false,
-              "duration": 22056,
+              "duration": 41896,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -84,27 +84,27 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            \n            // login to the application\n            await enterDashboard(driver, user);\n\n            await driver.manage().window().maximize();\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()\n\n            await driver.wait(until.elementsLocated(By.css(`div.card-class`)), 10000);\n\n            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();\n\n            // Tampilkan data jaringan\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);\n            expect(classCard).to.equal(true);",
               "err": {},
-              "uuid": "5e2f606b-d52e-4bb3-912c-cadc5b4a15bf",
-              "parentUUID": "c04ab7c3-4e73-43a9-b9e2-4fd6ac8bb217",
+              "uuid": "befb14ca-fdef-4b09-a1c4-2a2debd9afa4",
+              "parentUUID": "e92f8b25-8291-4898-9d8d-8bd94e3692b5",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "1f645080-d096-44c1-8a53-14f71f2fbdca",
-            "5e2f606b-d52e-4bb3-912c-cadc5b4a15bf"
+            "e4eaaba5-8cd5-4512-81b1-66118b30772b",
+            "befb14ca-fdef-4b09-a1c4-2a2debd9afa4"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 38161,
+          "duration": 67047,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "2a3053d0-b135-4430-97a5-28d06b645ce1",
+          "uuid": "db922bbd-5cd8-45b7-9245-f7670269834e",
           "title": "Dashboard",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\index.js",
           "file": "\\test\\Dashboard\\index.js",
@@ -114,7 +114,7 @@
               "title": "\"after each\" hook in \"Dashboard\"",
               "fullTitle": "Dashboard \"after each\" hook in \"Dashboard\"",
               "timedOut": false,
-              "duration": 4293,
+              "duration": 4183,
               "state": null,
               "speed": null,
               "pass": false,
@@ -123,8 +123,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "a7e2c247-827a-4321-9410-1a292d3d1b57",
-              "parentUUID": "2a3053d0-b135-4430-97a5-28d06b645ce1",
+              "uuid": "4670db4c-b28a-460b-b14b-ccb2cafc5a70",
+              "parentUUID": "db922bbd-5cd8-45b7-9245-f7670269834e",
               "isHook": true,
               "skipped": false
             }
@@ -134,7 +134,7 @@
               "title": "Check for analytic charts chrome",
               "fullTitle": "Dashboard Check for analytic charts chrome",
               "timedOut": false,
-              "duration": 18600,
+              "duration": 22233,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -143,8 +143,8 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            await driver.get(appHost);\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);",
               "err": {},
-              "uuid": "92c6fd37-f6a5-4541-a6d9-934f4bc48bec",
-              "parentUUID": "2a3053d0-b135-4430-97a5-28d06b645ce1",
+              "uuid": "0f417cf1-6933-45b3-b5a1-1782cebc683d",
+              "parentUUID": "db922bbd-5cd8-45b7-9245-f7670269834e",
               "isHook": false,
               "skipped": false
             },
@@ -152,7 +152,7 @@
               "title": "Check for analytic charts firefox",
               "fullTitle": "Dashboard Check for analytic charts firefox",
               "timedOut": false,
-              "duration": 17922,
+              "duration": 29314,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -161,27 +161,27 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            await driver.get(appHost);\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);",
               "err": {},
-              "uuid": "a2668b08-fdc8-4165-b5e3-2e6ab9ae1587",
-              "parentUUID": "2a3053d0-b135-4430-97a5-28d06b645ce1",
+              "uuid": "8c1d961e-979c-48e7-be32-dddb178c4e80",
+              "parentUUID": "db922bbd-5cd8-45b7-9245-f7670269834e",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "92c6fd37-f6a5-4541-a6d9-934f4bc48bec",
-            "a2668b08-fdc8-4165-b5e3-2e6ab9ae1587"
+            "0f417cf1-6933-45b3-b5a1-1782cebc683d",
+            "8c1d961e-979c-48e7-be32-dddb178c4e80"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 36522,
+          "duration": 51547,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "b60efa10-f03c-4fe7-bf27-0be056664b6b",
+          "uuid": "3e9842ee-4fbb-496e-ac00-d5a8492d2132",
           "title": "User",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\User\\create.js",
           "file": "\\test\\Dashboard\\User\\create.js",
@@ -191,7 +191,7 @@
               "title": "\"after each\" hook in \"User\"",
               "fullTitle": "User \"after each\" hook in \"User\"",
               "timedOut": false,
-              "duration": 4148,
+              "duration": 4045,
               "state": null,
               "speed": null,
               "pass": false,
@@ -200,8 +200,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "6e03ab06-19f0-4747-b317-15e002a08275",
-              "parentUUID": "b60efa10-f03c-4fe7-bf27-0be056664b6b",
+              "uuid": "4d165be5-fa76-4a7d-89d1-af73acfc007e",
+              "parentUUID": "3e9842ee-4fbb-496e-ac00-d5a8492d2132",
               "isHook": true,
               "skipped": false
             }
@@ -211,7 +211,7 @@
               "title": "Create user in dashboard from browser chrome",
               "fullTitle": "User Create user in dashboard from browser chrome",
               "timedOut": false,
-              "duration": 22344,
+              "duration": 28881,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -220,8 +220,8 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            await driver.manage().window().maximize();\n\n            // Selections & Actions\n            \n            await driver.findElement(By.css('a > i.ri-icon.ri-user-3-line')).click();\n            await driver.findElement(By.css('button.btn.btn-primary')).click();\n            \n            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)));\n            let cardForm = await driver.findElement(By.css('.card-wrapper')).isDisplayed();\n            let cardFormTitle = await driver.findElement(By.css(\".card-wrapper .card .card-header h3\")).getText();\n\n            // Fill the Form\n            await driver.wait(until.elementsLocated(By.css(`div.program-card`)));\n            let selectUserRole = await driver.findElement(By.css(\".program-card\"));\n            await selectUserRole.click();\n            \n            // Get the results\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            // Result Output\n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(cardForm).to.eq(true);\n            expect(cardFormTitle).to.eq(\"Create Users\");\n\n            expect(await selectUserRole.getAttribute('class')).contain('bg-primary');",
               "err": {},
-              "uuid": "6b8de57f-7ab2-46be-b45c-19508afce2d9",
-              "parentUUID": "b60efa10-f03c-4fe7-bf27-0be056664b6b",
+              "uuid": "c4a0d91e-cf66-4ae9-bf5c-13f7522ace6a",
+              "parentUUID": "3e9842ee-4fbb-496e-ac00-d5a8492d2132",
               "isHook": false,
               "skipped": false
             },
@@ -229,7 +229,7 @@
               "title": "Create user in dashboard from browser firefox",
               "fullTitle": "User Create user in dashboard from browser firefox",
               "timedOut": false,
-              "duration": 28354,
+              "duration": 32691,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -238,27 +238,27 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            await driver.manage().window().maximize();\n\n            // Selections & Actions\n            \n            await driver.findElement(By.css('a > i.ri-icon.ri-user-3-line')).click();\n            await driver.findElement(By.css('button.btn.btn-primary')).click();\n            \n            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)));\n            let cardForm = await driver.findElement(By.css('.card-wrapper')).isDisplayed();\n            let cardFormTitle = await driver.findElement(By.css(\".card-wrapper .card .card-header h3\")).getText();\n\n            // Fill the Form\n            await driver.wait(until.elementsLocated(By.css(`div.program-card`)));\n            let selectUserRole = await driver.findElement(By.css(\".program-card\"));\n            await selectUserRole.click();\n            \n            // Get the results\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            // Result Output\n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(cardForm).to.eq(true);\n            expect(cardFormTitle).to.eq(\"Create Users\");\n\n            expect(await selectUserRole.getAttribute('class')).contain('bg-primary');",
               "err": {},
-              "uuid": "a62dac90-1f34-4930-84e5-cdac32528703",
-              "parentUUID": "b60efa10-f03c-4fe7-bf27-0be056664b6b",
+              "uuid": "19e7f5d6-d6d0-4391-8d19-335cbf135775",
+              "parentUUID": "3e9842ee-4fbb-496e-ac00-d5a8492d2132",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "6b8de57f-7ab2-46be-b45c-19508afce2d9",
-            "a62dac90-1f34-4930-84e5-cdac32528703"
+            "c4a0d91e-cf66-4ae9-bf5c-13f7522ace6a",
+            "19e7f5d6-d6d0-4391-8d19-335cbf135775"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 50698,
+          "duration": 61572,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "26dd2fd4-c520-4faa-8b6a-719989087177",
+          "uuid": "4b71c161-107e-4c77-b08f-6d19ca2f1284",
           "title": "Landing Page",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\home.js",
           "file": "\\test\\home.js",
@@ -268,7 +268,7 @@
               "title": "\"after each\" hook in \"Landing Page\"",
               "fullTitle": "Landing Page \"after each\" hook in \"Landing Page\"",
               "timedOut": false,
-              "duration": 3776,
+              "duration": 4155,
               "state": null,
               "speed": null,
               "pass": false,
@@ -277,8 +277,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "e6206b1a-170b-46fd-bd41-6452366092e9",
-              "parentUUID": "26dd2fd4-c520-4faa-8b6a-719989087177",
+              "uuid": "103ecef6-3ceb-49d1-8c88-9c900d0d37ea",
+              "parentUUID": "4b71c161-107e-4c77-b08f-6d19ca2f1284",
               "isHook": true,
               "skipped": false
             }
@@ -288,7 +288,7 @@
               "title": "Check home of landing page from browser chrome",
               "fullTitle": "Landing Page Check home of landing page from browser chrome",
               "timedOut": false,
-              "duration": 10348,
+              "duration": 11341,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -297,12 +297,12 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n            \n            await driver.wait(until.elementsLocated(By.id('home')), 5000);\n            const home = await driver.findElement(By.css('#home')).isDisplayed();\n            expect(home).to.eq(true);",
               "err": {
-                "message": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5135ms",
-                "estack": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5135ms\n    at D:\\allbasic\\nodejs\\selenium\\testingapp\\node_modules\\selenium-webdriver\\lib\\webdriver.js:929:17\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "message": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5004ms",
+                "estack": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5004ms\n    at D:\\allbasic\\nodejs\\selenium\\testingapp\\node_modules\\selenium-webdriver\\lib\\webdriver.js:929:17\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
                 "diff": null
               },
-              "uuid": "11be874f-10a8-422b-baff-b035670438a0",
-              "parentUUID": "26dd2fd4-c520-4faa-8b6a-719989087177",
+              "uuid": "8de6bac3-90d0-44cc-9564-c345ad6124cb",
+              "parentUUID": "4b71c161-107e-4c77-b08f-6d19ca2f1284",
               "isHook": false,
               "skipped": false
             },
@@ -310,7 +310,7 @@
               "title": "Check home of landing page from browser firefox",
               "fullTitle": "Landing Page Check home of landing page from browser firefox",
               "timedOut": false,
-              "duration": 14405,
+              "duration": 15827,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -319,12 +319,12 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n            \n            await driver.wait(until.elementsLocated(By.id('home')), 5000);\n            const home = await driver.findElement(By.css('#home')).isDisplayed();\n            expect(home).to.eq(true);",
               "err": {
-                "message": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5145ms",
-                "estack": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5145ms\n    at D:\\allbasic\\nodejs\\selenium\\testingapp\\node_modules\\selenium-webdriver\\lib\\webdriver.js:929:17\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "message": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5076ms",
+                "estack": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5076ms\n    at D:\\allbasic\\nodejs\\selenium\\testingapp\\node_modules\\selenium-webdriver\\lib\\webdriver.js:929:17\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
                 "diff": null
               },
-              "uuid": "5fd979fe-3654-4c15-bff1-c8319b354aab",
-              "parentUUID": "26dd2fd4-c520-4faa-8b6a-719989087177",
+              "uuid": "e22a4855-9e91-4165-8b42-23ea37c77770",
+              "parentUUID": "4b71c161-107e-4c77-b08f-6d19ca2f1284",
               "isHook": false,
               "skipped": false
             }
@@ -332,18 +332,18 @@
           "suites": [],
           "passes": [],
           "failures": [
-            "11be874f-10a8-422b-baff-b035670438a0",
-            "5fd979fe-3654-4c15-bff1-c8319b354aab"
+            "8de6bac3-90d0-44cc-9564-c345ad6124cb",
+            "e22a4855-9e91-4165-8b42-23ea37c77770"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 24753,
+          "duration": 27168,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "5aef28e0-d47a-4aaf-8518-4b50d5a4c0fe",
+          "uuid": "69ee936a-8e20-4208-8ff0-ce64efec6e14",
           "title": "Login",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\login.js",
           "file": "\\test\\login.js",
@@ -353,7 +353,7 @@
               "title": "\"after each\" hook in \"Login\"",
               "fullTitle": "Login \"after each\" hook in \"Login\"",
               "timedOut": false,
-              "duration": 3921,
+              "duration": 3919,
               "state": null,
               "speed": null,
               "pass": false,
@@ -362,8 +362,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "f1b6bd29-80cd-4c62-b8ca-31c51c3ce03c",
-              "parentUUID": "5aef28e0-d47a-4aaf-8518-4b50d5a4c0fe",
+              "uuid": "3d9c04c7-5927-4f22-b8fe-230b58389890",
+              "parentUUID": "69ee936a-8e20-4208-8ff0-ce64efec6e14",
               "isHook": true,
               "skipped": false
             }
@@ -373,7 +373,7 @@
               "title": "Login to dashboard from browser chrome",
               "fullTitle": "Login Login to dashboard from browser chrome",
               "timedOut": false,
-              "duration": 20269,
+              "duration": 19730,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -382,8 +382,8 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan\n            const networkData = await driver.executeScript(`\nconst performanceEntries = performance.getEntriesByType('resource');\nconst requests = performanceEntries.map(entry => {\n    return {\n        entry,\n        url: entry.name,\n        method: entry.initiatorType,\n        type: entry.entryType,\n    };\n});\n\nreturn requests;\n            `);\n\n            // Tampilkan data jaringan\n            let correctUrl = networkData.find(data => data.url.includes(\"v1/user/me\"));\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(correctUrl.url).to.includes(\"v1/user/me\");\n            expect(userData.id).to.greaterThan(0);",
               "err": {},
-              "uuid": "43b0fc56-f425-4f35-b1e5-1416eb8c4d00",
-              "parentUUID": "5aef28e0-d47a-4aaf-8518-4b50d5a4c0fe",
+              "uuid": "9955f30e-46a2-42b2-9091-ed8b38a51644",
+              "parentUUID": "69ee936a-8e20-4208-8ff0-ce64efec6e14",
               "isHook": false,
               "skipped": false
             },
@@ -391,7 +391,7 @@
               "title": "Login to dashboard from browser firefox",
               "fullTitle": "Login Login to dashboard from browser firefox",
               "timedOut": false,
-              "duration": 27433,
+              "duration": 31983,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -400,27 +400,27 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan\n            const networkData = await driver.executeScript(`\nconst performanceEntries = performance.getEntriesByType('resource');\nconst requests = performanceEntries.map(entry => {\n    return {\n        entry,\n        url: entry.name,\n        method: entry.initiatorType,\n        type: entry.entryType,\n    };\n});\n\nreturn requests;\n            `);\n\n            // Tampilkan data jaringan\n            let correctUrl = networkData.find(data => data.url.includes(\"v1/user/me\"));\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(correctUrl.url).to.includes(\"v1/user/me\");\n            expect(userData.id).to.greaterThan(0);",
               "err": {},
-              "uuid": "4864168e-b062-4860-bb3a-697a2c275dcf",
-              "parentUUID": "5aef28e0-d47a-4aaf-8518-4b50d5a4c0fe",
+              "uuid": "448ba9ad-7d8d-42dc-9c6f-0b091363fc3c",
+              "parentUUID": "69ee936a-8e20-4208-8ff0-ce64efec6e14",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "43b0fc56-f425-4f35-b1e5-1416eb8c4d00",
-            "4864168e-b062-4860-bb3a-697a2c275dcf"
+            "9955f30e-46a2-42b2-9091-ed8b38a51644",
+            "448ba9ad-7d8d-42dc-9c6f-0b091363fc3c"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 47702,
+          "duration": 51713,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "18a9185f-0eee-4773-bfbd-14ccacfa7f92",
+          "uuid": "4d478a44-ffcf-4355-9252-957fe732b55e",
           "title": "Logout",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\logout.js",
           "file": "\\test\\logout.js",
@@ -430,7 +430,7 @@
               "title": "\"after each\" hook in \"Logout\"",
               "fullTitle": "Logout \"after each\" hook in \"Logout\"",
               "timedOut": false,
-              "duration": 4080,
+              "duration": 3972,
               "state": null,
               "speed": null,
               "pass": false,
@@ -439,8 +439,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "4aa4e2e1-2ccb-49c7-9670-138d13d08abb",
-              "parentUUID": "18a9185f-0eee-4773-bfbd-14ccacfa7f92",
+              "uuid": "765bee8f-a257-460e-8543-c732a7ddcf3b",
+              "parentUUID": "4d478a44-ffcf-4355-9252-957fe732b55e",
               "isHook": true,
               "skipped": false
             }
@@ -450,21 +450,21 @@
               "title": "Logout from browser chrome",
               "fullTitle": "Logout Logout from browser chrome",
               "timedOut": false,
-              "duration": 61208,
+              "duration": 25864,
               "state": "failed",
               "speed": null,
               "pass": false,
               "fail": true,
               "pending": false,
               "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n            \n            await driver.findElement(By.css('.dropdown.navbar-profile')).click();\n            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();\n            await driver.findElement(By.css('.box-action > button.btn-danger')).click();\n\n            await driver.wait(until.elementsLocated(By.id('home')));\n            \n            const pageUrl = await driver.getCurrentUrl();\n\n            expect(pageUrl).to.eq(BASE_URL);",
+              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n            \n            await driver.findElement(By.css('.dropdown.navbar-profile')).click();\n            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();\n            await driver.findElement(By.css('.box-action > button.btn-danger')).click();\n\n            await driver.wait(until.elementsLocated(By.id('home')), 5000);\n            \n            const pageUrl = await driver.getCurrentUrl();\n\n            expect(pageUrl).to.eq(BASE_URL);",
               "err": {
-                "message": "WebDriverError: target frame detached\n  (failed to check if window was closed: disconnected: Unable to receive message from renderer)\n  (Session info: chrome=113.0.5672.93)",
-                "estack": "WebDriverError: target frame detached\n  (failed to check if window was closed: disconnected: Unable to receive message from renderer)\n  (Session info: chrome=113.0.5672.93)\n    at Object.throwDecodedError (node_modules\\selenium-webdriver\\lib\\error.js:524:15)\n    at parseHttpResponse (node_modules\\selenium-webdriver\\lib\\http.js:601:13)\n    at Executor.execute (node_modules\\selenium-webdriver\\lib\\http.js:529:28)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Driver.execute (node_modules\\selenium-webdriver\\lib\\webdriver.js:745:17)\n    at async Driver.findElements (node_modules\\selenium-webdriver\\lib\\webdriver.js:1089:17)",
+                "message": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5064ms",
+                "estack": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5064ms\n    at D:\\allbasic\\nodejs\\selenium\\testingapp\\node_modules\\selenium-webdriver\\lib\\webdriver.js:929:17\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
                 "diff": null
               },
-              "uuid": "eefb825e-7ba0-46f7-9133-55451dfe536f",
-              "parentUUID": "18a9185f-0eee-4773-bfbd-14ccacfa7f92",
+              "uuid": "5cb66602-fad0-4bab-963d-77dba4c3d9a1",
+              "parentUUID": "4d478a44-ffcf-4355-9252-957fe732b55e",
               "isHook": false,
               "skipped": false
             },
@@ -472,21 +472,21 @@
               "title": "Logout from browser firefox",
               "fullTitle": "Logout Logout from browser firefox",
               "timedOut": false,
-              "duration": 70794,
+              "duration": 30088,
               "state": "failed",
               "speed": null,
               "pass": false,
               "fail": true,
               "pending": false,
               "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n            \n            await driver.findElement(By.css('.dropdown.navbar-profile')).click();\n            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();\n            await driver.findElement(By.css('.box-action > button.btn-danger')).click();\n\n            await driver.wait(until.elementsLocated(By.id('home')));\n            \n            const pageUrl = await driver.getCurrentUrl();\n\n            expect(pageUrl).to.eq(BASE_URL);",
+              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n            \n            await driver.findElement(By.css('.dropdown.navbar-profile')).click();\n            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();\n            await driver.findElement(By.css('.box-action > button.btn-danger')).click();\n\n            await driver.wait(until.elementsLocated(By.id('home')), 5000);\n            \n            const pageUrl = await driver.getCurrentUrl();\n\n            expect(pageUrl).to.eq(BASE_URL);",
               "err": {
-                "message": "NoSuchWindowError: Browsing context has been discarded",
-                "estack": "NoSuchWindowError: Browsing context has been discarded\n    at Object.throwDecodedError (node_modules\\selenium-webdriver\\lib\\error.js:524:15)\n    at parseHttpResponse (node_modules\\selenium-webdriver\\lib\\http.js:601:13)\n    at Executor.execute (node_modules\\selenium-webdriver\\lib\\http.js:529:28)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Driver.execute (node_modules\\selenium-webdriver\\lib\\webdriver.js:745:17)\n    at async Driver.findElements (node_modules\\selenium-webdriver\\lib\\webdriver.js:1089:17)",
+                "message": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5165ms",
+                "estack": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 5165ms\n    at D:\\allbasic\\nodejs\\selenium\\testingapp\\node_modules\\selenium-webdriver\\lib\\webdriver.js:929:17\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
                 "diff": null
               },
-              "uuid": "29c7b30e-243c-4220-a35e-7be1dde0095d",
-              "parentUUID": "18a9185f-0eee-4773-bfbd-14ccacfa7f92",
+              "uuid": "3a10a3cf-2d3e-4960-aa88-d221c8ccfa60",
+              "parentUUID": "4d478a44-ffcf-4355-9252-957fe732b55e",
               "isHook": false,
               "skipped": false
             }
@@ -494,12 +494,12 @@
           "suites": [],
           "passes": [],
           "failures": [
-            "eefb825e-7ba0-46f7-9133-55451dfe536f",
-            "29c7b30e-243c-4220-a35e-7be1dde0095d"
+            "5cb66602-fad0-4bab-963d-77dba4c3d9a1",
+            "3a10a3cf-2d3e-4960-aa88-d221c8ccfa60"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 132002,
+          "duration": 55952,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0

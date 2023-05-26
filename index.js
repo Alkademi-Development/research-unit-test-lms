@@ -13,11 +13,6 @@ import { getCustomOptionReportFile } from '#root/commons/utils/inputUtils';
 
 const { questionInputReportFile } = ALL_TEXT_INPUT;
 
-const paramsRequest = {
-    sApp: 'S-App-Authorization',
-    sAppToken: 'ab89d3a579eaf78207bd6e1f2fa88fb1cf1fce58b161a5f93462ea6cc81497df'
-};
-
 /** Start Input File */
 const testFolder = './test/';
 printFileTree(testFolder)
@@ -77,7 +72,7 @@ async function getInput() {
                                         } else {
                                             let dataRequest = { email: inputEmail, password: inputPassword };
                                             
-                                            const response = await signIn(paramsRequest, dataRequest);
+                                            const response = await signIn(dataRequest);
 
                                             if(response?.body?.status === false) {
                                                 console.log(clc.red(String(response?.body?.message).toUpperCase()));
@@ -174,7 +169,7 @@ async function getInput() {
                                                                 } else {
                                                                     let dataRequest = { email: inputEmail, password: inputPassword };
 
-                                                                    const response = await signIn(paramsRequest, dataRequest);
+                                                                    const response = await signIn(dataRequest);
                                                                 
                                                                     if(response?.body?.status === false) {
                                                                         console.log(clc.red(response?.body?.message));
@@ -263,7 +258,7 @@ async function getInput() {
                                                                     } else {
                                                                         let dataRequest = { email: inputEmail, password: inputPassword };
                                                                     
-                                                                        const response = await signIn(paramsRequest, dataRequest);
+                                                                        const response = await signIn(dataRequest);
                                                                         
                                                                         if(response?.body?.status === false) {
                                                                             console.log(clc.red(response?.body?.message));
@@ -355,7 +350,7 @@ async function getInput() {
                                                                 } else {
                                                                     let dataRequest = { email: inputEmail, password: inputPassword };
                                                                 
-                                                                    const response = await signIn(paramsRequest, dataRequest);
+                                                                    const response = await signIn(dataRequest);
 
                                                                     if(response?.body?.status === false) {
                                                                         console.log(clc.red(response?.body?.message));
