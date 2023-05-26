@@ -8,15 +8,13 @@ import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
-
-const LOGIN_URL = process.env.LOGIN_URL;
+import { appHost } from '#root/api/app-token';
 /**
  * Get the user data for authentication
  */
 
 const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
-let appHost = LOGIN_URL;
 let driver;
 
 describe("User", () => {

@@ -1,6 +1,6 @@
 import clc from 'cli-color';
 import { request } from './services-api.js';
-import { paramsRequest } from './services-api.js';
+import { paramsRequest } from './app-token.js';
 
 const signIn = async (dataRequest) => {
 

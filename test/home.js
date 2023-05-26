@@ -5,8 +5,9 @@ import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriv
 import { expect } from 'chai';
 import { BROWSERS } from '#root/commons/constants/browser';
 import { goToApp } from '#root/commons/utils/appUtils';
+import { appHost } from '#root/api/app-token';
+import { parseToDomain } from '#root/commons/utils/generalUtils';
 
-let appHost = process.env.BASE_URL;
 let driver;
 
 describe("Landing Page", () => {
@@ -21,7 +22,8 @@ describe("Landing Page", () => {
         it(`Check home of landing page from browser ${browser}`, async () => {
 
             // Go to application
-            driver = await goToApp(browser, appHost)
+
+            driver = await goToApp(browser, parseToDomain(appHost));
 
             await driver.manage().window().maximize();
             

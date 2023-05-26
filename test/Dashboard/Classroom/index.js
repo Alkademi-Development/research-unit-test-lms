@@ -7,16 +7,14 @@ import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
+import { appHost } from '#root/api/app-token';
 
-const LOGIN_URL = process.env.LOGIN_URL;
-const BASE_URL = process.env.BASE_URL;
 /**
  * Get the user data for authentication
  */
 
 const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
-let appHost = LOGIN_URL;
 let driver;
 
 describe("Classroom", () => {

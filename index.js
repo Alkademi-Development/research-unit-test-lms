@@ -1,5 +1,3 @@
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '.env.development' });
 import fs from 'fs';
 import path from 'path';
 import clc from 'cli-color';
@@ -83,7 +81,7 @@ async function getInput() {
                                                 
                                                 try {
                                                     
-                                                    exec(`npm test -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                    exec(`npm test -- --data=${data} ${inputReportCommand}`, { stdio: 'inherit' }, (error, stdout, stderr) => {
                                                         if (error) {
                                                             console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                         }

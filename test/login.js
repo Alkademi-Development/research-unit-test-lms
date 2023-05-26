@@ -7,16 +7,13 @@ import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
-
-const LOGIN_URL = process.env.LOGIN_URL;
-const BASE_URL = process.env.BASE_URL;
+import { appHost } from '#root/api/app-token';
 /**
  * Get the user data for authentication
  */
 
 const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
-let appHost = LOGIN_URL;
 let driver;
 
 describe("Login", () => {
@@ -31,7 +28,7 @@ describe("Login", () => {
         it(`Login to dashboard from browser ${browser}`, async () => {
                 
             // Go to application
-            driver = await goToApp(browser, appHost)
+            driver = await goToApp(browser, appHost);
 
             // login to the application
             await enterDashboard(driver, user);

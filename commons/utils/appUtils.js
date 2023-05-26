@@ -1,4 +1,5 @@
-import { Builder } from 'selenium-webdriver';
+import { Builder, By, until } from 'selenium-webdriver';
+
 
 const goToApp = async (browser, appHost) => {
 
@@ -6,6 +7,8 @@ const goToApp = async (browser, appHost) => {
         .forBrowser(browser)
         .build();
 
+    await driver.manage().setTimeouts({ implicit: 10000 });
+    
     await driver.get(appHost);
 
     return driver;
