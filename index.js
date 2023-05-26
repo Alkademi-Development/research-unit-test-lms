@@ -10,9 +10,7 @@ import readline from 'readline';
 import { exec, execSync, spawn } from 'child_process';
 import { TEST_NEED_AUTHENTICATION } from '#root/commons/constants/file';
 import clc from 'cli-color';
-import Mocha from 'mocha';
-import detectMocha from "detect-mocha";
-const mocha = new Mocha();
+import { Runner } from 'mocha';
 
 const request = supertest(process.env.SERVICES_API + 'v1/');
 const paramsRequest = {
@@ -26,11 +24,6 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
-
-
-if(detectMocha()) {
-    console.log("tested");
-}
 
 /** Start Input File */
 function getTheListOfFileRecursively(folderPath, indent = '') {
@@ -154,18 +147,25 @@ async function getInput() {
                                                 } else {
                                                     data.push(`akun=${inputEmail};${inputPassword}`);
                                                     
-                                                    exec(`npm test -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                        if (error) {
-                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
-                                                        }
-                            
-                                                        console.log(stdout);
-                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                            
+                                                    try {
+                                                        
+                                                        exec(`npm test -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                            if (error) {
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                            }
+                                
+                                                            console.log(stdout);
+                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                
+                                                            process.exit();
+                                                        });
+
+                                                    } catch (error) {
+                                                        console.log(error);
                                                         process.exit();
-                                                    });
-                                                    
+                                                    }
+
                                                 }
                                             })
                                             .catch((err) => {
@@ -265,6 +265,7 @@ async function getInput() {
                                                                     })
                                                                     .catch((err) => {
                                                                         console.log(err);
+                                                                        process.exit();
                                                                     });
                                                                 }
                                                                 
@@ -441,7 +442,7 @@ async function getInput() {
                                                                             data.push(`akun=${inputEmail};${inputPassword}`);
                             
                                                                             console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + filePathJoinInput))}`);
-                                                                            exec(`npm test test/${file} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                            const resultTest = exec(`npm test test/${file} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                 if (error) {
                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                 }
@@ -456,6 +457,7 @@ async function getInput() {
                                                                     })
                                                                     .catch((err) => {
                                                                         console.log(err);
+                                                                        process.exit();
                                                                     });
                                                                 }
                                                                 
