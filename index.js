@@ -163,6 +163,7 @@ async function getInput() {
 
                                                     } catch (error) {
                                                         console.log(error);
+                                                        console.log(clc.red(clc.bold('Oops!, Something went wrong')));
                                                         process.exit();
                                                     }
 
@@ -170,6 +171,7 @@ async function getInput() {
                                             })
                                             .catch((err) => {
                                                 console.log(err);
+                                                console.log(clc.red(clc.bold('Oops!, Something went wrong')));
                                                 process.exit();
                                             });
                                         }

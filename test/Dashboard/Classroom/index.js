@@ -38,14 +38,14 @@ describe("Classroom", () => {
             // login to the application
             await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[1]/div/input`)).sendKeys(user.email, Key.RETURN);
             await driver.findElement(By.xpath(`/html/body/div/div/div/div/div/div/div/div/div/div[2]/form/div[2]/div/input`)).sendKeys(user.password, Key.RETURN);
-            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
+            await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)), 5000);
 
             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
             let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();
 
             await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()
 
-            await driver.wait(until.elementsLocated(By.css(`div.card-class`)));
+            await driver.wait(until.elementsLocated(By.css(`div.card-class`)), 5000);
 
             let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
 

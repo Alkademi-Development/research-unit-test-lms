@@ -41,7 +41,7 @@ describe("Login", () => {
             await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();
             await driver.findElement(By.css('.box-action > button.btn-danger')).click();
 
-            await driver.wait(until.elementsLocated(By.id('home')));
+            await driver.wait(until.elementsLocated(By.id('home')), 5000);
             
             const pageUrl = await driver.getCurrentUrl();
 

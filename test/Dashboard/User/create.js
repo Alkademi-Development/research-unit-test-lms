@@ -42,12 +42,12 @@ describe("User", () => {
             await driver.findElement(By.css('a > i.ri-icon.ri-user-3-line')).click();
             await driver.findElement(By.css('button.btn.btn-primary')).click();
             
-            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)));
+            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)), 5000);
             let cardForm = await driver.findElement(By.css('.card-wrapper')).isDisplayed();
             let cardFormTitle = await driver.findElement(By.css(".card-wrapper .card .card-header h3")).getText();
 
             // Fill the Form
-            await driver.wait(until.elementsLocated(By.css(`div.program-card`)));
+            await driver.wait(until.elementsLocated(By.css(`div.program-card`)), 5000);
             let selectUserRole = await driver.findElement(By.css(".program-card"));
             await selectUserRole.click();
             
