@@ -30,11 +30,11 @@ describe("User", () => {
                 
             // Go to application
             driver = await goToApp(browser, appHost)
+            await driver.manage().window().maximize();
 
             // login to the application
             await enterDashboard(driver, user);
 
-            await driver.manage().window().maximize();
 
             // Selections & Actions
             

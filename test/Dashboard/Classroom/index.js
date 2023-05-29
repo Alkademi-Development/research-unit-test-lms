@@ -30,11 +30,11 @@ describe("Classroom", () => {
                 
             // Go to application
             driver = await goToApp(browser, appHost)
+            await driver.manage().window().maximize();
             
             // login to the application
             await enterDashboard(driver, user);
 
-            await driver.manage().window().maximize();
 
             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
             let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();

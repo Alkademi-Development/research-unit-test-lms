@@ -29,6 +29,7 @@ describe("Dashboard", () => {
                 
             // Go to application
             driver = await goToApp(browser, appHost)
+            await driver.manager().window().maximize();
 
             await driver.get(appHost);
 
