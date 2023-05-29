@@ -54,8 +54,18 @@ function printFileTree(folderPath) {
   console.log(tree);
 }
 
+function checkStringForKeywords(string, keywords) {
+  for (const keyword of keywords) {
+    if (string.includes(keyword)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export {
     getAllFilePaths,
     getTheListOfFileRecursively,
     printFileTree,
+    checkStringForKeywords
 }

@@ -29,7 +29,7 @@ describe("Logout", () => {
         it(`Logout from browser ${browser}`, async () => {
                 
             // Go to application
-            driver = await goToApp(browser, appHost)
+            driver = await goToApp(browser, appHost);
 
             await driver.manage().window().maximize();
 

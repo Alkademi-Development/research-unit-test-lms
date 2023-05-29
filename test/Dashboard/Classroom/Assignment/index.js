@@ -17,7 +17,7 @@ const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
 let driver;
 
-describe("Classroom", () => {
+describe("Assignment", () => {
 
     afterEach(async () => {
         await driver.sleep(3000);
@@ -41,8 +41,7 @@ describe("Classroom", () => {
 
             await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()
 
-            const cardClass = driver.findElement(By.css(`div.card-class`));
-            await driver.wait(until.stalenessOf(cardClass));
+            await driver.wait(until.elementLocated(By.css(`div.card-class`)));
 
             let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
 

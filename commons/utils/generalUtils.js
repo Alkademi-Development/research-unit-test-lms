@@ -5,7 +5,7 @@ const parseToDomain = (url) => {
     
     // Mendapatkan domain utama tanpa subdomain
     const hostname = parsedUrl.hostname;
-    const domain = hostname.startsWith('www.') ? parsedUrl.protocol + hostname.substring(4).split('.').slice(-2).join('.') : parsedUrl.protocol + hostname.split('.').slice(-2).join('.');
+    const domain = hostname.startsWith('www.') ? parsedUrl.protocol + '//' + hostname.substring(4).split('.').slice(-2).join('.') : parsedUrl.protocol + '//' + hostname.split('.').slice(-2).join('.') + '/';
     
     
     return domain
