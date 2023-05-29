@@ -12,6 +12,7 @@
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.21.4",
     "@babel/register": "^7.21.0",
+    "@faker-js/faker": "^8.0.2",
     "@vitejs/plugin-react": "^4.0.0",
     "chai": "^4.3.7",
     "cli-color": "^2.0.3",
