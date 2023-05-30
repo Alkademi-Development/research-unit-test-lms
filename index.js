@@ -39,7 +39,7 @@ async function getInput() {
             
                 if(input.trim() === "") {
                     console.log(clc.red('⚠ Tolong masukkan file test yang sesuai!'))
-                    getTheListOfFileRecursively(testFolder);
+                    printFileTree(testFolder);
                     getInputFileName();
                 } else if(input.trim() === "x") {
                     console.log(clc.green('Terimakasih sudah mencoba tester 😊'))

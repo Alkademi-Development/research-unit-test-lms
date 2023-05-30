@@ -49,7 +49,7 @@ function getTheListOfFileRecursively(folderPath, indent = '') {
 }
 
 function printFileTree(folderPath) {
-  console.log(clc.bold('\n === LIST OF FILE, CHOOSE THE ONE === \n'));
+  console.log(clc.bold('\n === LIST OF FILE, CHOOSE THE ONE === '));
   const tree = getTheListOfFileRecursively(folderPath);
   console.log(tree);
 }

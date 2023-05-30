@@ -1,13 +1,13 @@
 import { describe, afterEach, before } from 'mocha';
-import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
-import assert from 'assert';
-import { expect } from "chai";
+import pkg from 'selenium-webdriver';
+const { By, until } = pkg;
 import yargs from 'yargs'
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
 import { appHost } from '#root/api/app-token';
+import { expect } from 'chai';
 /**
  * Get the user data for authentication
  */
@@ -16,7 +16,7 @@ const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
 let driver;
 
-describe("Dashboard", () => {
+describe("Program", () => {
 
     afterEach(async () => {
         await driver.sleep(3000);
@@ -25,28 +25,31 @@ describe("Dashboard", () => {
     
     BROWSERS.forEach(browser => {
         
-        it(`Check for analytic charts ${browser}`, async () => {
+        it(`List program in dashboard from browser ${browser}`, async () => {
                 
+            
             // Go to application
             driver = await goToApp(browser, appHost)
             await driver.manage().window().maximize();
 
-            await driver.get(appHost);
-
             // login to the application
             await enterDashboard(driver, user);
 
-            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
-            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();
 
-            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
-            userData = JSON.parse(userData);
+            // Selections & Actions
+            await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();
+            const loading = await driver.findElement(By.css('span.spinner-border'));
+            await driver.wait(until.stalenessOf(loading));
+            const tableRowDataLength = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr').length`);
             
-            assert.strictEqual(textStatus > 1, textStatus > 1); 
-            expect(userData.id).to.greaterThan(0);
-            expect(doughnutChart).to.equal(true);
             
-        });
+            // Get the results
+            
+            // Result Output
+            expect(tableRowDataLength).to.greaterThan(1);
+            
+            
+        })
 
     })
     

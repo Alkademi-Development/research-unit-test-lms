@@ -1,0 +1,127 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2023-05-30T08:58:40.285Z",
+    "end": "2023-05-30T08:59:31.314Z",
+    "duration": 51029,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "f7991c84-3c02-4589-88c5-6d0ba1c408a3",
+      "title": "",
+      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\program\\edit.js",
+      "file": "\\test\\dashboard\\program\\edit.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "bfa79a0a-18e1-4224-8528-aca6d9bc54ab",
+          "title": "Program",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\program\\edit.js",
+          "file": "\\test\\dashboard\\program\\edit.js",
+          "beforeHooks": [],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"Program\"",
+              "fullTitle": "Program \"after each\" hook in \"Program\"",
+              "timedOut": false,
+              "duration": 3211,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.sleep(3000);\nawait driver.quit();",
+              "err": {},
+              "uuid": "1a698933-6635-496a-a81b-e3a21f1df48b",
+              "parentUUID": "bfa79a0a-18e1-4224-8528-aca6d9bc54ab",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Edit program in dashboard from browser chrome",
+              "fullTitle": "Program Edit program in dashboard from browser chrome",
+              "timedOut": false,
+              "duration": 47809,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n            await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();\n            const loading = await driver.findElement(By.css('span.spinner-border'));\n            await driver.wait(until.stalenessOf(loading));\n            const tableRowData = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr')`);\n            \n            tableRowData.forEach(async row => {\nawait row.findElement(By.css('button.btn.btn-warning')).click();\n            })\n\n            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)));\n            let cardForm = await driver.findElement(By.css('.card-wrapper')).isDisplayed();\n            \n            // Result Output\n            const pageUrl = driver.getCurrentUrl();\n            expect(pageUrl).to.includes('/edit');",
+              "err": {
+                "message": "AssertionError: the given combination of arguments (promise and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string",
+                "estack": "AssertionError: the given combination of arguments (promise and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string\n    at Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/dashboard/program/edit.js:54:32)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "diff": null
+              },
+              "uuid": "d1037e64-267d-4767-bb26-6a357e4becb1",
+              "parentUUID": "bfa79a0a-18e1-4224-8528-aca6d9bc54ab",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "d1037e64-267d-4767-bb26-6a357e4becb1"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 47809,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 0
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "dashboard/program/edit.js",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "testReports",
+        "reportFilename": "dashboard/program/edit.js",
+        "reportPageTitle": "DASHBOARD/PROGRAM/EDIT.JS"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

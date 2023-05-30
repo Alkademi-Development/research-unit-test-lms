@@ -85,13 +85,10 @@ describe("User", () => {
             await driver.findElement(By.css("button[type='submit']")).click();
             
             // Get the results
-            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
-
             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
             userData = JSON.parse(userData);
             
             // Result Output
-            assert.strictEqual(textStatus > 1, textStatus > 1); 
             expect(userData.id).to.greaterThan(0);
             expect(cardForm).to.eq(true);
             expect(cardFormTitle).to.eq("Create Users");
