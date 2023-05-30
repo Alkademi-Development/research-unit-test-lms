@@ -176,6 +176,119 @@ async function getInput() {
                                         } else {
                                             data.push(`akun=${inputEmail};${inputPassword}`);
                                             
+                                            let isHaveFolder = fs.readdirSync(absolutePath);
+                                            isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
+                                            
+                                            if(isHaveFolder) {
+                                                rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+
+                                                    if(inputConfirm.trim() === '') {
+                                                        console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
+                                                        printFileTree(testFolder);
+                                                    } else if(inputConfirm.trim() != '') {
+                                                        
+                                                        if(inputConfirm.trim().toLowerCase() === 'y') {
+                                                            console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                            exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                if (error) {
+                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                }
+                                    
+                                                                console.log(stdout);
+                                                                console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                    
+                                                                process.exit();
+                                                            });
+                                                        } else {
+                                                            console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                            exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                if (error) {
+                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                }
+                                    
+                                                                console.log(stdout);
+                                                                console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                    
+                                                                process.exit();
+                                                            });
+                                                        }
+
+                                                    } else {
+                                                        console.log(`${clc.red(clc.bold('Input yang anda masukkan tidak valid!'))}`);
+                                                        printFileTree(testFolder);
+                                                    }
+
+                                                })
+                                            } else {
+                                                
+                                                console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                    if (error) {
+                                                        console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                    }
+                        
+                                                    console.log(stdout);
+                                                    console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                    console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                        
+                                                    process.exit();
+                                                });
+                                                
+                                            }
+                                        }
+
+                                        found = true;
+                                    } else { // Jika tidak maka jalankan tanpa tahap authentication
+
+                                        
+                                        let isHaveFolder = fs.readdirSync(absolutePath);
+                                        isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
+                                        
+                                        if(isHaveFolder) {
+                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+
+                                                if(inputConfirm.trim() === '') {
+                                                    console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
+                                                    printFileTree(testFolder);
+                                                } else if(inputConfirm.trim() != '') {
+                                                    
+                                                    if(inputConfirm.trim().toLowerCase() === 'y') {
+                                                        console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                        exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                            if (error) {
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                            }
+                                
+                                                            console.log(stdout);
+                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                
+                                                            process.exit();
+                                                        });
+                                                    } else {
+                                                        console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                        exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                            if (error) {
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                            }
+                                
+                                                            console.log(stdout);
+                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                
+                                                            process.exit();
+                                                        });
+                                                    }
+
+                                                } else {
+                                                    console.log(`${clc.red(clc.bold('Input yang anda masukkan tidak valid!'))}`);
+                                                    printFileTree(testFolder);
+                                                }
+
+                                            })
+                                        } else {
                                             console.log(`\n ${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                             exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                 if (error) {
@@ -189,22 +302,6 @@ async function getInput() {
                                                 process.exit();
                                             });
                                         }
-
-                                        found = true;
-                                    } else { // Jika tidak maka jalankan tanpa tahap authentication
-
-                                        
-                                        exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
-                                            if (error) {
-                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
-                                            }
-                
-                                            console.log(stdout);
-                                            console.log(clc.yellow('Eksekusi telah selesai!'));
-                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                
-                                            process.exit();
-                                        });
                                         
                                         found = true;
     

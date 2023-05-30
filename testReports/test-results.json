@@ -1,15 +1,15 @@
 {
   "stats": {
-    "suites": 12,
-    "tests": 12,
-    "passes": 10,
+    "suites": 2,
+    "tests": 2,
+    "passes": 1,
     "pending": 0,
-    "failures": 2,
-    "start": "2023-05-30T10:17:32.723Z",
-    "end": "2023-05-30T10:31:36.572Z",
-    "duration": 843849,
-    "testsRegistered": 12,
-    "passPercent": 83.33333333333334,
+    "failures": 1,
+    "start": "2023-05-30T11:24:49.016Z",
+    "end": "2023-05-30T11:26:08.557Z",
+    "duration": 79541,
+    "testsRegistered": 2,
+    "passPercent": 50,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "4b5b837a-d6c1-45fd-b6e3-ee63a9fd2aec",
+      "uuid": "eae7f108-3534-43ef-af95-d3534dd940c0",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -27,17 +27,17 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "58996ac1-be20-42a3-a756-215e6843924b",
+          "uuid": "6dba7780-64da-476d-af87-11c025c842ab",
           "title": "Assignment",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\Classroom\\Assignment\\index.js",
-          "file": "\\test\\Dashboard\\Classroom\\Assignment\\index.js",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\classroom\\Assignment\\index.js",
+          "file": "\\test\\dashboard\\classroom\\Assignment\\index.js",
           "beforeHooks": [],
           "afterHooks": [
             {
               "title": "\"after each\" hook in \"Assignment\"",
               "fullTitle": "Assignment \"after each\" hook in \"Assignment\"",
               "timedOut": false,
-              "duration": 3049,
+              "duration": 3073,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,8 +46,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "faba80f7-7b60-44ce-aee9-9b41c1918a6e",
-              "parentUUID": "58996ac1-be20-42a3-a756-215e6843924b",
+              "uuid": "811e23c0-24a6-480b-a887-4ab415ae2cae",
+              "parentUUID": "6dba7780-64da-476d-af87-11c025c842ab",
               "isHook": true,
               "skipped": false
             }
@@ -57,7 +57,7 @@
               "title": "Check for class card chrome",
               "fullTitle": "Assignment Check for class card chrome",
               "timedOut": false,
-              "duration": 33217,
+              "duration": 29656,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -66,36 +66,36 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            \n            // login to the application\n            await enterDashboard(driver, user);\n\n            await driver.manage().window().maximize();\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()\n\n            await driver.wait(until.elementLocated(By.css(`div.card-class`)));\n\n            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();\n\n            // Tampilkan data jaringan\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);\n            expect(classCard).to.equal(true);",
               "err": {},
-              "uuid": "2743fdd6-b93f-4cd8-a053-a0620c66591b",
-              "parentUUID": "58996ac1-be20-42a3-a756-215e6843924b",
+              "uuid": "d3505056-ed67-4d82-b0ce-3118b2ea73a4",
+              "parentUUID": "6dba7780-64da-476d-af87-11c025c842ab",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "2743fdd6-b93f-4cd8-a053-a0620c66591b"
+            "d3505056-ed67-4d82-b0ce-3118b2ea73a4"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 33217,
+          "duration": 29656,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
         },
         {
-          "uuid": "da232863-a24c-4869-a455-e1acdca9e77a",
+          "uuid": "4be88c59-1316-4f70-97fc-98aa579cffdd",
           "title": "Classroom",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\Classroom\\index.js",
-          "file": "\\test\\Dashboard\\Classroom\\index.js",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\classroom\\index.js",
+          "file": "\\test\\dashboard\\classroom\\index.js",
           "beforeHooks": [],
           "afterHooks": [
             {
               "title": "\"after each\" hook in \"Classroom\"",
               "fullTitle": "Classroom \"after each\" hook in \"Classroom\"",
               "timedOut": false,
-              "duration": 3068,
+              "duration": 3053,
               "state": null,
               "speed": null,
               "pass": false,
@@ -104,8 +104,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "5c9b6220-23ac-4c9f-b088-19fa1fe87379",
-              "parentUUID": "da232863-a24c-4869-a455-e1acdca9e77a",
+              "uuid": "387b1235-f8fc-4ce1-b250-73ddb6b8caa3",
+              "parentUUID": "4be88c59-1316-4f70-97fc-98aa579cffdd",
               "isHook": true,
               "skipped": false
             }
@@ -115,485 +115,21 @@
               "title": "Check for class card chrome",
               "fullTitle": "Classroom Check for class card chrome",
               "timedOut": false,
-              "duration": 50479,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
+              "duration": 43752,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
               "pending": false,
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n            \n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()\n\n            const cardClass = driver.findElement(By.css(`div.card-class`));\n            await driver.wait(until.stalenessOf(cardClass));\n\n            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();\n\n            // Tampilkan data jaringan\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);\n            expect(classCard).to.equal(true);",
-              "err": {},
-              "uuid": "d132e2a2-f3aa-4788-bbd6-0dae781e3989",
-              "parentUUID": "da232863-a24c-4869-a455-e1acdca9e77a",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "d132e2a2-f3aa-4788-bbd6-0dae781e3989"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 50479,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "b1ff7050-5d08-4424-ad44-dfd56128957f",
-          "title": "Dashboard",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\index.js",
-          "file": "\\test\\Dashboard\\index.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"Dashboard\"",
-              "fullTitle": "Dashboard \"after each\" hook in \"Dashboard\"",
-              "timedOut": false,
-              "duration": 3052,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "7aa2dde7-9718-4948-849a-bbc51f98564c",
-              "parentUUID": "b1ff7050-5d08-4424-ad44-dfd56128957f",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "Check for analytic charts chrome",
-              "fullTitle": "Dashboard Check for analytic charts chrome",
-              "timedOut": false,
-              "duration": 33962,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            await driver.get(appHost);\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);",
-              "err": {},
-              "uuid": "dad9d91e-d6da-4b6d-9c7f-54bbde3e3061",
-              "parentUUID": "b1ff7050-5d08-4424-ad44-dfd56128957f",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "dad9d91e-d6da-4b6d-9c7f-54bbde3e3061"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 33962,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "0fb89b91-170f-41c6-aa4a-4e007c426683",
-          "title": "User",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\Program\\create.js",
-          "file": "\\test\\Dashboard\\Program\\create.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"User\"",
-              "fullTitle": "User \"after each\" hook in \"User\"",
-              "timedOut": false,
-              "duration": 3084,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "6f639f80-7d17-466e-8c13-499b4a497763",
-              "parentUUID": "0fb89b91-170f-41c6-aa4a-4e007c426683",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "(SUCCESS) Create program with image in dashboard from browser chrome",
-              "fullTitle": "User (SUCCESS) Create program with image in dashboard from browser chrome",
-              "timedOut": false,
-              "duration": 367596,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n             \n            await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();\n            await driver.wait(until.elementLocated(By.css('a.btn.btn-primary')));\n            await driver.findElement(By.css('a.btn.btn-primary')).click();\n            \n            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)));\n            let cardForm = await driver.findElement(By.css('.card-wrapper')).isDisplayed();\n\n            // Select & Fill the Form\n            const { inputTitle, textareaSummary, inputMethod, inputMeet, textareaDescriptionElement } = await createData(driver);\n\n            // Periksa apakah semua elemen telah terisi\n            const isAllFilled = await Promise.all([\ninputTitle.getAttribute('value'),\ntextareaSummary.getAttribute('value'),\ninputMethod.getAttribute('value'),\ninputMeet.getAttribute('value'),\ntextareaDescriptionElement.getAttribute('value'),\n            ])\n.then(values => values.every(value => value !== ''));\n\n            if(isAllFilled) {\nawait driver.findElement(By.css(\"button[type='submit']\")).click();\n            }\n            \n            // Get the results\n            \n            // Result Output\n            expect(cardForm).to.equal(true);\n            const alertDanger = await driver.findElements(By.css('.alert .alert-danger'));\n            expect(alertDanger.length).to.equal(0);\n            expect(isAllFilled).to.equal(true);\n            \n            const pageUrl = await driver.getCurrentUrl();\n            if(pageUrl === appHost + 'dashboard/programs') {\ndataProgram = { inputTitle, textareaSummary, inputMethod, inputMeet, textareaDescriptionElement };\n            }\n            expect(pageUrl).to.eq(appHost + 'dashboard/programs');",
-              "err": {},
-              "uuid": "a4825787-932c-47d8-b579-77fb4e6f4856",
-              "parentUUID": "0fb89b91-170f-41c6-aa4a-4e007c426683",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "a4825787-932c-47d8-b579-77fb4e6f4856"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 367596,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "6c53bd8e-d185-49ab-9763-f6f6aa6daf3c",
-          "title": "User",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\Program\\delete.js",
-          "file": "\\test\\Dashboard\\Program\\delete.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"User\"",
-              "fullTitle": "User \"after each\" hook in \"User\"",
-              "timedOut": false,
-              "duration": 3051,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "07b0f9e1-972c-4951-be5c-395dd6113cfd",
-              "parentUUID": "6c53bd8e-d185-49ab-9763-f6f6aa6daf3c",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "(SUCCESS) Delete one program in dashboard from browser chrome",
-              "fullTitle": "User (SUCCESS) Delete one program in dashboard from browser chrome",
-              "timedOut": false,
-              "duration": 46150,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n             \n            await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();\n            let loading = await driver.findElement(By.css('span.spinner-border'));\n            await driver.wait(until.stalenessOf(loading));\n            const tableRowData = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr')`);\n            let deletedRowData;\n\n            let index = 0\n            do {\ndeletedRowData = await tableRowData[index];\nawait tableRowData[index].findElement(By.css('button.btn.btn-danger')).click();\nawait driver.wait(until.elementLocated(By.css('.modal .modal-dialog')));\nawait driver.findElement(By.css(\".modal-footer button.btn.btn-danger\")).click();\nindex++;\n            } while (index < 1);\n\n            loading = await driver.findElement(By.css('span.spinner-border'));\n            await driver.wait(until.stalenessOf(loading));\n\n            const findDeletedRow = await tableRowData.some(item => item !== deletedRowData);\n            expect(findDeletedRow).to.be.equal(true);",
-              "err": {},
-              "uuid": "d5cdb695-8a73-48df-afc0-f45bdc9e23ef",
-              "parentUUID": "6c53bd8e-d185-49ab-9763-f6f6aa6daf3c",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "d5cdb695-8a73-48df-afc0-f45bdc9e23ef"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 46150,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "069abffa-9346-4e14-b396-5d98b00cb067",
-          "title": "Program",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\Program\\edit.js",
-          "file": "\\test\\Dashboard\\Program\\edit.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"Program\"",
-              "fullTitle": "Program \"after each\" hook in \"Program\"",
-              "timedOut": false,
-              "duration": 3046,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "d5099f1f-b6f9-44b0-8dca-77cc30d31900",
-              "parentUUID": "069abffa-9346-4e14-b396-5d98b00cb067",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "Edit program in dashboard from browser chrome",
-              "fullTitle": "Program Edit program in dashboard from browser chrome",
-              "timedOut": false,
-              "duration": 67643,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n            await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();\n            let loading = await driver.findElement(By.css('span.spinner-border'));\n            await driver.wait(until.stalenessOf(loading));\n            const tableRowData = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr')`);\n            let editedRow;\n\n            tableRowData.forEach(async row => {\neditedRow = await row.findElement(By.css('button.btn.btn-warning'));\neditedRow.click();\n            })\n\n            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)));\n            await driver.findElement(By.css('.card-wrapper')).isDisplayed();\n\n            // Elements\n            let formControls = await driver.findElements(By.css('.form-control'));\n            let inputTitle = await formControls[1];\n            let textareaSummary = await formControls[2];\n\n            // Values\n            let valueTitleFaker = faker.helpers.arrayElement(['Jongkoding', 'Alkamedia', 'Alkademi']);\n            let valueSummaryFaker = faker.lorem.paragraphs(5);\n            \n            // Set Values\n            inputTitle.clear();\n            textareaSummary.clear();\n            \n            await inputTitle.sendKeys(valueTitleFaker);\n            await textareaSummary.sendKeys(valueSummaryFaker);\n        \n            // Periksa apakah semua elemen telah terisi\n            const isAllFilled = await Promise.all([\ninputTitle.getAttribute('value'),\ntextareaSummary.getAttribute('value'),\n            ])\n.then(values => values.every(value => value !== ''));\n\n            \n            if(isAllFilled) {\nawait driver.findElement(By.css(\"button[type='submit']\")).click();\n            }\n            \n            await driver.wait(until.elementLocated(By.css('#datatables')));\n            loading = await driver.findElement(By.css('span.spinner-border'));\n            await driver.wait(until.stalenessOf(loading));\n            \n            const findEditedRow = await tableRowData.some(item => item !== editedRow);\n\n            // Result Output\n            const pageUrl = await driver.getCurrentUrl();\n\n            const alertDanger = await driver.findElements(By.css('.alert .alert-danger'));\n            expect(alertDanger.length).to.equal(0);\n            expect(isAllFilled).to.equal(true);\n            expect(pageUrl).to.eq(appHost + 'dashboard/programs');\n            expect(findEditedRow).to.be.equal(true);",
-              "err": {},
-              "uuid": "6b44c533-f4a9-47fc-bb97-b96da2e5cb6d",
-              "parentUUID": "069abffa-9346-4e14-b396-5d98b00cb067",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "6b44c533-f4a9-47fc-bb97-b96da2e5cb6d"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 67643,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "99a502c8-db37-4d73-b1f6-fcad266afe1a",
-          "title": "Program",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\Program\\index.js",
-          "file": "\\test\\Dashboard\\Program\\index.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"Program\"",
-              "fullTitle": "Program \"after each\" hook in \"Program\"",
-              "timedOut": false,
-              "duration": 3050,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "38269a81-f3f0-4962-b0da-d06beefef4b4",
-              "parentUUID": "99a502c8-db37-4d73-b1f6-fcad266afe1a",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "List program in dashboard from browser chrome",
-              "fullTitle": "Program List program in dashboard from browser chrome",
-              "timedOut": false,
-              "duration": 34105,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n            await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();\n            const loading = await driver.findElement(By.css('span.spinner-border'));\n            await driver.wait(until.stalenessOf(loading));\n            const tableRowDataLength = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr').length`);\n            \n            \n            // Get the results\n            \n            // Result Output\n            expect(tableRowDataLength).to.greaterThan(1);",
-              "err": {},
-              "uuid": "40e1f765-2921-44a0-9618-0a803f77e4c3",
-              "parentUUID": "99a502c8-db37-4d73-b1f6-fcad266afe1a",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "40e1f765-2921-44a0-9618-0a803f77e4c3"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 34105,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "dba36d38-a3eb-4bff-81bc-0faa621cf855",
-          "title": "User",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\User\\create.js",
-          "file": "\\test\\Dashboard\\User\\create.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"User\"",
-              "fullTitle": "User \"after each\" hook in \"User\"",
-              "timedOut": false,
-              "duration": 3051,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "0f76d5e5-d425-43c3-944c-2af365bc798d",
-              "parentUUID": "dba36d38-a3eb-4bff-81bc-0faa621cf855",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "(SUCCESS) Create user role admin in dashboard from browser chrome",
-              "fullTitle": "User (SUCCESS) Create user role admin in dashboard from browser chrome",
-              "timedOut": false,
-              "duration": 39627,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n            \n            await driver.findElement(By.css('a > i.ri-icon.ri-user-3-line')).click();\n            await driver.findElement(By.css('button.btn.btn-primary')).click();\n            \n            await driver.wait(until.elementsLocated(By.css(`div.card-wrapper`)));\n            let cardForm = await driver.findElement(By.css('.card-wrapper')).isDisplayed();\n            let cardFormTitle = await driver.findElement(By.css(\".card-wrapper .card .card-header h3\")).getText();\n\n            // Select & Fill the Form\n            await driver.wait(until.elementsLocated(By.css(`div.program-card`)));\n            let selectUserRole = await driver.findElement(By.css(\".program-card\"));\n            await selectUserRole.click();\n            const inputNameLocator = locateWith(By.tagName('input')).above(By.id('name'));\n            const inputEmailLocator = locateWith(By.tagName('input')).above(By.id('email'));\n            const inputTelpLocator = locateWith(By.tagName('input')).above(By.id('phone'));\n            const inputPasswordLocator = locateWith(By.tagName('input')).above(By.id('password'));\n            const inputConfirmPasswordLocator = locateWith(By.tagName('input')).above(By.id('retypepassword'));\n            let inputNameElement = await driver.findElement(inputNameLocator);\n            let inputEmailElement = await driver.findElement(inputEmailLocator);\n            let inputTelpElement = await driver.findElement(inputTelpLocator);\n            let selectGenderInput = await driver.findElement(By.css('.custom-select'));\n            let inputPasswordElement = await driver.findElement(inputPasswordLocator);\n            let inputConfirmPasswordElement = await driver.findElement(inputConfirmPasswordLocator);\n\n            await inputNameElement.sendKeys(faker.person.fullName());\n            let fullName = await inputNameElement.getAttribute('value');\n            await inputEmailElement.sendKeys(fullName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + '@gmail.com');\n            await inputTelpElement.sendKeys(faker.phone.number('+62 ### #### ####'));\n            let optionElement = await selectGenderInput.findElement(By.css(`option[value=\"${Math.random() < 0.5 ? 'L' : 'P'}\"]`));\n            await optionElement.click();\n            await inputPasswordElement.sendKeys('semuasama');\n            await inputConfirmPasswordElement.sendKeys('semuasama');\n\n            // Periksa apakah semua elemen telah terisi\n            const isAllFilled = await Promise.all([\ninputNameElement.getAttribute('value'),\ninputEmailElement.getAttribute('value'),\ninputTelpElement.getAttribute('value'),\nselectGenderInput.getAttribute('value'),\ninputPasswordElement.getAttribute('value'),\ninputConfirmPasswordElement.getAttribute('value')\n            ])\n.then(values => values.every(value => value !== ''));\n\n            await driver.findElement(By.css(\"button[type='submit']\")).click();\n            \n            // Get the results\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            // Result Output\n            expect(userData.id).to.greaterThan(0);\n            expect(cardForm).to.eq(true);\n            expect(cardFormTitle).to.eq(\"Create Users\");\n\n            expect(await selectUserRole.getAttribute('class')).contain('bg-primary');\n            expect(isAllFilled).to.equal(true);\n            \n            const alertDanger = await driver.findElements(By.css('.alert .alert-danger'));\n            expect(alertDanger.length).to.equal(0);\n\n            const pageUrl = await driver.getCurrentUrl();\n            expect(pageUrl).to.eq(appHost + 'dashboard/users');",
-              "err": {},
-              "uuid": "41fbe064-bdba-4012-aac2-622bb578d99f",
-              "parentUUID": "dba36d38-a3eb-4bff-81bc-0faa621cf855",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "41fbe064-bdba-4012-aac2-622bb578d99f"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 39627,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "67563911-4ffa-4a50-8d86-7abc8772be80",
-          "title": "User",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\Dashboard\\User\\index.js",
-          "file": "\\test\\Dashboard\\User\\index.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"User\"",
-              "fullTitle": "User \"after each\" hook in \"User\"",
-              "timedOut": false,
-              "duration": 3052,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "752a0a9a-d70d-43f2-afae-74134ce09e26",
-              "parentUUID": "67563911-4ffa-4a50-8d86-7abc8772be80",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "List user in dashboard from browser chrome",
-              "fullTitle": "User List user in dashboard from browser chrome",
-              "timedOut": false,
-              "duration": 35820,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n            await driver.findElement(By.css('a > i.ri-icon.ri-user-3-line')).click();\n            const dataTables = await driver.findElement(By.css('#datatables'));\n            const loading = await driver.findElement(By.css('.vs__spinner'));\n            await driver.wait(until.elementIsNotVisible(loading));\n            const tableRowDataLength = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr').length`);\n            \n            \n            // Get the results\n            \n            // Result Output\n            expect(tableRowDataLength).to.greaterThan(0);",
-              "err": {},
-              "uuid": "41e03fd6-a4a5-46fc-a325-449da3d0c8a4",
-              "parentUUID": "67563911-4ffa-4a50-8d86-7abc8772be80",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "41e03fd6-a4a5-46fc-a325-449da3d0c8a4"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 35820,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "c07fdb84-38fa-4ece-9466-3a14cd09bdb1",
-          "title": "Landing Page",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\home.js",
-          "file": "\\test\\home.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"Landing Page\"",
-              "fullTitle": "Landing Page \"after each\" hook in \"Landing Page\"",
-              "timedOut": false,
-              "duration": 3003,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "041046db-d7f3-4b40-ab40-04a40024d6db",
-              "parentUUID": "c07fdb84-38fa-4ece-9466-3a14cd09bdb1",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "Check home of landing page from browser chrome",
-              "fullTitle": "Landing Page Check home of landing page from browser chrome",
-              "timedOut": false,
-              "duration": 27370,
-              "state": "failed",
-              "speed": null,
-              "pass": false,
-              "fail": true,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, parseToDomain(appHost));\n            await driver.manage().window().maximize();\n            \n            await driver.wait(until.elementsLocated(By.id('home')), 5000);\n            const home = await driver.findElement(By.css('#home')).isDisplayed();\n            expect(home).to.eq(true);",
               "err": {
-                "message": "NoSuchWindowError: no such window: target window already closed\nfrom unknown error: web view not found\n  (Session info: chrome=113.0.5672.127)",
-                "estack": "NoSuchWindowError: no such window: target window already closed\nfrom unknown error: web view not found\n  (Session info: chrome=113.0.5672.127)\n    at Object.throwDecodedError (node_modules\\selenium-webdriver\\lib\\error.js:524:15)\n    at parseHttpResponse (node_modules\\selenium-webdriver\\lib\\http.js:601:13)\n    at Executor.execute (node_modules\\selenium-webdriver\\lib\\http.js:529:28)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Driver.execute (node_modules\\selenium-webdriver\\lib\\webdriver.js:745:17)\n    at async Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/home.js:28:13)",
+                "message": "WebDriverError: unknown error: unhandled inspector error: {\"code\":-32000,\"message\":\"No node with given id found\"}\n  (Session info: chrome=113.0.5672.127)",
+                "estack": "WebDriverError: unknown error: unhandled inspector error: {\"code\":-32000,\"message\":\"No node with given id found\"}\n  (Session info: chrome=113.0.5672.127)\n    at Object.throwDecodedError (node_modules\\selenium-webdriver\\lib\\error.js:524:15)\n    at parseHttpResponse (node_modules\\selenium-webdriver\\lib\\http.js:601:13)\n    at Executor.execute (node_modules\\selenium-webdriver\\lib\\http.js:529:28)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Driver.execute (node_modules\\selenium-webdriver\\lib\\webdriver.js:745:17)",
                 "diff": null
               },
-              "uuid": "8534eebe-fe32-4bd6-9429-a30fc61a04e2",
-              "parentUUID": "c07fdb84-38fa-4ece-9466-3a14cd09bdb1",
+              "uuid": "c16c1fbe-2240-431f-bfea-14674a65dee6",
+              "parentUUID": "4be88c59-1316-4f70-97fc-98aa579cffdd",
               "isHook": false,
               "skipped": false
             }
@@ -601,131 +137,11 @@
           "suites": [],
           "passes": [],
           "failures": [
-            "8534eebe-fe32-4bd6-9429-a30fc61a04e2"
+            "c16c1fbe-2240-431f-bfea-14674a65dee6"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 27370,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "aec0d811-f623-4b3f-a611-4c27339c97c5",
-          "title": "Login",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\login.js",
-          "file": "\\test\\login.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"Login\"",
-              "fullTitle": "Login \"after each\" hook in \"Login\"",
-              "timedOut": false,
-              "duration": 3090,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "e2b5d76e-5086-4024-a0d2-6ede6a8ad1be",
-              "parentUUID": "aec0d811-f623-4b3f-a611-4c27339c97c5",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "Login to dashboard from browser chrome",
-              "fullTitle": "Login Login to dashboard from browser chrome",
-              "timedOut": false,
-              "duration": 32302,
-              "state": "passed",
-              "speed": "slow",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost);\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan\n            const networkData = await driver.executeScript(`\nconst performanceEntries = performance.getEntriesByType('resource');\nconst requests = performanceEntries.map(entry => {\n    return {\n        entry,\n        url: entry.name,\n        method: entry.initiatorType,\n        type: entry.entryType,\n    };\n});\n\nreturn requests;\n            `);\n\n            // Tampilkan data jaringan\n            let correctUrl = networkData.find(data => data.url.includes(\"v1/user/me\"));\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(correctUrl.url).to.includes(\"v1/user/me\");\n            expect(userData.id).to.greaterThan(0);",
-              "err": {},
-              "uuid": "b706220e-2c62-4547-bead-902a6405f60d",
-              "parentUUID": "aec0d811-f623-4b3f-a611-4c27339c97c5",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "b706220e-2c62-4547-bead-902a6405f60d"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 32302,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "466a0b38-9d44-4e1a-ac35-4c18fe26641e",
-          "title": "Logout",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\logout.js",
-          "file": "\\test\\logout.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"Logout\"",
-              "fullTitle": "Logout \"after each\" hook in \"Logout\"",
-              "timedOut": false,
-              "duration": 3112,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "67357543-237b-4808-a33d-ffb1ca6f6cd2",
-              "parentUUID": "466a0b38-9d44-4e1a-ac35-4c18fe26641e",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "Logout from browser chrome",
-              "fullTitle": "Logout Logout from browser chrome",
-              "timedOut": false,
-              "duration": 38856,
-              "state": "failed",
-              "speed": null,
-              "pass": false,
-              "fail": true,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost);\n\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n            \n            await driver.findElement(By.css('.dropdown.navbar-profile')).click();\n            await driver.findElement(By.css('.dropdown-menu.dropdown-menu-left > button')).click();\n            await driver.findElement(By.css('.box-action > button.btn-danger')).click();\n\n            await driver.wait(until.elementsLocated(By.id('home')), 5000);\n            \n            const pageUrl = await driver.getCurrentUrl();\n\n            expect(pageUrl).to.eq(parseToDomain(appHost));",
-              "err": {
-                "message": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 10028ms",
-                "estack": "TimeoutError: Waiting for at least one element to be located By(css selector, *[id=\"home\"])\nWait timed out after 10028ms\n    at D:\\allbasic\\nodejs\\selenium\\testingapp\\node_modules\\selenium-webdriver\\lib\\webdriver.js:929:17\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
-                "diff": null
-              },
-              "uuid": "43fd27b5-ca51-4909-9adf-956f53ef65d9",
-              "parentUUID": "466a0b38-9d44-4e1a-ac35-4c18fe26641e",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [],
-          "failures": [
-            "43fd27b5-ca51-4909-9adf-956f53ef65d9"
-          ],
-          "pending": [],
-          "skipped": [],
-          "duration": 38856,
+          "duration": 43752,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0

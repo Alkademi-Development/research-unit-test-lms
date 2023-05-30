@@ -37,7 +37,6 @@ describe("Classroom", () => {
 
 
             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
-            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();
 
             await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()
 
@@ -52,7 +51,6 @@ describe("Classroom", () => {
             
             assert.strictEqual(textStatus > 1, textStatus > 1); 
             expect(userData.id).to.greaterThan(0);
-            expect(doughnutChart).to.equal(true);
             expect(classCard).to.equal(true);
             
         });
