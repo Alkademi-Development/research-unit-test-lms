@@ -26,6 +26,7 @@ node .
 ## The Features
 - Dynamic Webdriver
 - Nested File
+- Can Choose Recursive Tests or No
 - Can use cmd for testing file (all and one)
 - Can use dynamic environment
 - Style the list of file tests
