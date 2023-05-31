@@ -1,15 +1,15 @@
 {
   "stats": {
-    "suites": 2,
-    "tests": 2,
+    "suites": 1,
+    "tests": 1,
     "passes": 1,
     "pending": 0,
-    "failures": 1,
-    "start": "2023-05-30T11:24:49.016Z",
-    "end": "2023-05-30T11:26:08.557Z",
-    "duration": 79541,
-    "testsRegistered": 2,
-    "passPercent": 50,
+    "failures": 0,
+    "start": "2023-05-31T09:42:45.225Z",
+    "end": "2023-05-31T09:43:23.700Z",
+    "duration": 38475,
+    "testsRegistered": 1,
+    "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,26 +18,26 @@
   },
   "results": [
     {
-      "uuid": "eae7f108-3534-43ef-af95-d3534dd940c0",
+      "uuid": "ab41b26a-3195-45fe-80e7-7af66340d259",
       "title": "",
-      "fullFile": "",
-      "file": "",
+      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\program\\index.js",
+      "file": "\\test\\dashboard\\program\\index.js",
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
-          "uuid": "6dba7780-64da-476d-af87-11c025c842ab",
-          "title": "Assignment",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\classroom\\Assignment\\index.js",
-          "file": "\\test\\dashboard\\classroom\\Assignment\\index.js",
+          "uuid": "e9cadb25-d573-401a-9582-ad822cb719c1",
+          "title": "Program",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\program\\index.js",
+          "file": "\\test\\dashboard\\program\\index.js",
           "beforeHooks": [],
           "afterHooks": [
             {
-              "title": "\"after each\" hook in \"Assignment\"",
-              "fullTitle": "Assignment \"after each\" hook in \"Assignment\"",
+              "title": "\"after each\" hook in \"Program\"",
+              "fullTitle": "Program \"after each\" hook in \"Program\"",
               "timedOut": false,
-              "duration": 3073,
+              "duration": 3043,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,102 +46,40 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "811e23c0-24a6-480b-a887-4ab415ae2cae",
-              "parentUUID": "6dba7780-64da-476d-af87-11c025c842ab",
+              "uuid": "9f25bd52-6b38-4d04-ade0-09e484c2f92a",
+              "parentUUID": "e9cadb25-d573-401a-9582-ad822cb719c1",
               "isHook": true,
               "skipped": false
             }
           ],
           "tests": [
             {
-              "title": "Check for class card chrome",
-              "fullTitle": "Assignment Check for class card chrome",
+              "title": "List program in dashboard from browser chrome",
+              "fullTitle": "Program List program in dashboard from browser chrome",
               "timedOut": false,
-              "duration": 29656,
+              "duration": 35425,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            \n            // login to the application\n            await enterDashboard(driver, user);\n\n            await driver.manage().window().maximize();\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()\n\n            await driver.wait(until.elementLocated(By.css(`div.card-class`)));\n\n            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();\n\n            // Tampilkan data jaringan\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);\n            expect(classCard).to.equal(true);",
+              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            // Selections & Actions\n            await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();\n            let loading = await driver.findElement(By.css('span.spinner-border'));\n            await driver.wait(until.stalenessOf(loading));\n            let tableRowDataLength = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr').length`);\n            \n            \n            // Get the results\n            \n            // Result Output\n            expect(tableRowDataLength).to.greaterThan(1);",
               "err": {},
-              "uuid": "d3505056-ed67-4d82-b0ce-3118b2ea73a4",
-              "parentUUID": "6dba7780-64da-476d-af87-11c025c842ab",
+              "uuid": "dde679ed-b1c3-4a42-bf3c-0a18b1a1a668",
+              "parentUUID": "e9cadb25-d573-401a-9582-ad822cb719c1",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "d3505056-ed67-4d82-b0ce-3118b2ea73a4"
+            "dde679ed-b1c3-4a42-bf3c-0a18b1a1a668"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 29656,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 0
-        },
-        {
-          "uuid": "4be88c59-1316-4f70-97fc-98aa579cffdd",
-          "title": "Classroom",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\dashboard\\classroom\\index.js",
-          "file": "\\test\\dashboard\\classroom\\index.js",
-          "beforeHooks": [],
-          "afterHooks": [
-            {
-              "title": "\"after each\" hook in \"Classroom\"",
-              "fullTitle": "Classroom \"after each\" hook in \"Classroom\"",
-              "timedOut": false,
-              "duration": 3053,
-              "state": null,
-              "speed": null,
-              "pass": false,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "await driver.sleep(3000);\nawait driver.quit();",
-              "err": {},
-              "uuid": "387b1235-f8fc-4ce1-b250-73ddb6b8caa3",
-              "parentUUID": "4be88c59-1316-4f70-97fc-98aa579cffdd",
-              "isHook": true,
-              "skipped": false
-            }
-          ],
-          "tests": [
-            {
-              "title": "Check for class card chrome",
-              "fullTitle": "Classroom Check for class card chrome",
-              "timedOut": false,
-              "duration": 43752,
-              "state": "failed",
-              "speed": null,
-              "pass": false,
-              "fail": true,
-              "pending": false,
-              "context": null,
-              "code": "// Go to application\n            driver = await goToApp(browser, appHost)\n            await driver.manage().window().maximize();\n            \n            // login to the application\n            await enterDashboard(driver, user);\n\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n            let doughnutChart = await driver.findElement(By.id('doughnut-chart')).isDisplayed();\n\n            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click()\n\n            const cardClass = driver.findElement(By.css(`div.card-class`));\n            await driver.wait(until.stalenessOf(cardClass));\n\n            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();\n\n            // Tampilkan data jaringan\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(userData.id).to.greaterThan(0);\n            expect(doughnutChart).to.equal(true);\n            expect(classCard).to.equal(true);",
-              "err": {
-                "message": "WebDriverError: unknown error: unhandled inspector error: {\"code\":-32000,\"message\":\"No node with given id found\"}\n  (Session info: chrome=113.0.5672.127)",
-                "estack": "WebDriverError: unknown error: unhandled inspector error: {\"code\":-32000,\"message\":\"No node with given id found\"}\n  (Session info: chrome=113.0.5672.127)\n    at Object.throwDecodedError (node_modules\\selenium-webdriver\\lib\\error.js:524:15)\n    at parseHttpResponse (node_modules\\selenium-webdriver\\lib\\http.js:601:13)\n    at Executor.execute (node_modules\\selenium-webdriver\\lib\\http.js:529:28)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Driver.execute (node_modules\\selenium-webdriver\\lib\\webdriver.js:745:17)",
-                "diff": null
-              },
-              "uuid": "c16c1fbe-2240-431f-bfea-14674a65dee6",
-              "parentUUID": "4be88c59-1316-4f70-97fc-98aa579cffdd",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [],
-          "failures": [
-            "c16c1fbe-2240-431f-bfea-14674a65dee6"
-          ],
-          "pending": [],
-          "skipped": [],
-          "duration": 43752,
+          "duration": 35425,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0

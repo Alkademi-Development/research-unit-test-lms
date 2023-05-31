@@ -38,9 +38,9 @@ describe("Program", () => {
 
             // Selections & Actions
             await driver.findElement(By.css('a > i.ri-icon.ri-rocket-line')).click();
-            const loading = await driver.findElement(By.css('span.spinner-border'));
+            let loading = await driver.findElement(By.css('span.spinner-border'));
             await driver.wait(until.stalenessOf(loading));
-            const tableRowDataLength = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr').length`);
+            let tableRowDataLength = await driver.executeScript(`return document.querySelectorAll('#datatables tbody tr').length`);
             
             
             // Get the results
