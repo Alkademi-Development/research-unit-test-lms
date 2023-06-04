@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --no-timeouts --reporter mochawesome --require mochawesome/register",
+    "test": "mocha --no-timeouts --charts --code --reporter mochawesome --require mochawesome/register",
     "start": "node index.js"
   },
   "author": "",

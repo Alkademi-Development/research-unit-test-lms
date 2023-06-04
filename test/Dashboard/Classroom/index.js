@@ -9,9 +9,6 @@ import { goToApp } from '#root/commons/utils/appUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { appHost } from '#root/api/app-token';
 
-/**
- * Get the user data for authentication
- */
 
 const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 

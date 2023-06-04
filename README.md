@@ -18,7 +18,7 @@ OR
 node .
 ```
 
-2. Choose the one you want to run of the test or choose 'all'
+2. Choose the one you want to run of the test or choose 'all', if you want to just run one test than just type the name of file test with extension .js e.g 'index.js' or 'test.js'
 3. Waiting for the test to complete
 4. Check the reports of each test in testReports directory 
 5. Done
