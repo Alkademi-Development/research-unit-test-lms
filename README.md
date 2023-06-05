@@ -9,13 +9,12 @@ npm install
 
 ## Run the test
 1. Install all of driver browser, you can download it from below :
-- <a href="URL" target="_blank" rel="noopener noreferrer">Judul Hyperlink</a>
-- Chrome: <a href="chromedriver.storage.googleapis.com/index.html" target="_blank">chromedriver(.exe)</a>
-- Internet Explorer: <a href="selenium.dev/downloads" target="_blank">IEDriverServer.exe</a>
-- Microsoft Edge: <a href="go.microsoft.com/fwlink/?LinkId=619687/" target="_blank">MicrosoftWebDriver.msi</a>
-- Firefox: <a href="github.com/mozilla/geckodriver/releases/" target="_blank">geckodriver(.exe)</a>
-- Opera: <a href="github.com/operasoftware/operachromiumdriver/releases/" target="_blank">operadriver(.exe)</a>
-- Safari: <a href="developer.apple.com/library/prerelease/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html#//apple_ref/doc/uid/TP40014305-CH11-DontLinkElementID_28/" target="_blank">safaridriver</a>
+- Chrome: [chromedriver(.exe)](http://chromedriver.storage.googleapis.com/index.html)
+- Internet Explorer: [IEDriverServer.exe](https://www.selenium.dev/downloads)
+- Microsoft Edge: [MicrosoftWebDriver.msi](http://go.microsoft.com/fwlink/?LinkId=619687)
+- Firefox: [geckodriver(.exe)](https://github.com/mozilla/geckodriver/releases)
+- Opera: [operadriver(.exe)](https://github.com/operasoftware/operachromiumdriver/releases)
+- Safari: [safaridriver](https://developer.apple.com/library/prerelease/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html#//apple_ref/doc/uid/TP40014305-CH11-DontLinkElementID_28)
 
 2. Run this command
 
