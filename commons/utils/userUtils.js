@@ -16,10 +16,7 @@ const getUserAccount = (argv) => {
         
         user.email = email;
         user.password = password;
-    } else {
-        user.email = 'shivu@master.id';
-        user.password = 'Terseraaah';
-    }
+    } 
 
     return user;
 }

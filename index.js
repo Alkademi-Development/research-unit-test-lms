@@ -79,7 +79,8 @@ async function getInput() {
                                                 console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
                                                 getInfoAccount();
                                             } else {
-                                                data.push(`akun=${inputEmail};${inputPassword}`);
+                                                const { name, email, kind } = response?.body?.data;
+                                                data.push(`akun=${email};${inputPassword};${name};${kind}`);
                                                 
                                                 try {
                                                     
@@ -167,7 +168,8 @@ async function getInput() {
                                                                     console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
                                                                     getInfoAccount();
                                                                 } else {
-                                                                    data.push(`akun=${inputEmail};${inputPassword}`);
+                                                                    const { name, email, kind } = response?.body?.data;
+                                                                    data.push(`akun=${email};${inputPassword};${name};${kind}`);
                                                                     
                                                                     let isHaveFolder = fs.readdirSync(absolutePath);
                                                                     isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
@@ -350,7 +352,8 @@ async function getInput() {
                                                                     console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
                                                                     getInfoAccount();
                                                                 } else {
-                                                                    data.push(`akun=${inputEmail};${inputPassword}`);
+                                                                    const { name, email, kind } = response?.body?.data;
+                                                                    data.push(`akun=${email};${inputPassword};${name};${kind}`);
                     
                                                                     console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                                     const resultTest = exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
@@ -383,7 +386,7 @@ async function getInput() {
                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                         exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                             if (error) {
-                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                             }
                 
                                             console.log(stdout);

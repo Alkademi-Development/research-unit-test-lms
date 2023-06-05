@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2023-06-04T06:43:29.794Z",
-    "end": "2023-06-04T06:44:11.240Z",
-    "duration": 41446,
+    "start": "2023-06-05T02:57:56.857Z",
+    "end": "2023-06-05T02:58:33.239Z",
+    "duration": 36382,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "dd1ad892-07fa-4203-8a55-289429a5bf34",
+      "uuid": "1ff5e560-eaa9-46c6-a545-e575920c2c9e",
       "title": "",
       "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\login.js",
       "file": "\\test\\login.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "290c26d9-7e63-4faf-9a07-983a9e359502",
+          "uuid": "c9a837ab-ade2-427c-b0a8-d511fec29f8b",
           "title": "Login",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\login.js",
           "file": "\\test\\login.js",
@@ -37,7 +37,7 @@
               "title": "\"after each\" hook in \"Login\"",
               "fullTitle": "Login \"after each\" hook in \"Login\"",
               "timedOut": false,
-              "duration": 3077,
+              "duration": 3053,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,8 +46,8 @@
               "context": null,
               "code": "await driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "b1975f5b-1b30-42ca-aa01-b21707415c43",
-              "parentUUID": "290c26d9-7e63-4faf-9a07-983a9e359502",
+              "uuid": "267c35a8-d0bd-49d3-a094-fba403d97999",
+              "parentUUID": "c9a837ab-ade2-427c-b0a8-d511fec29f8b",
               "isHook": true,
               "skipped": false
             }
@@ -57,7 +57,7 @@
               "title": "Login to dashboard from browser chrome",
               "fullTitle": "Login Login to dashboard from browser chrome",
               "timedOut": false,
-              "duration": 38362,
+              "duration": 33323,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -66,20 +66,20 @@
               "context": null,
               "code": "// Go to application\n            driver = await goToApp(browser, appHost);\n\n            // login to the application\n            await enterDashboard(driver, user);\n\n            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n\n            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan\n            const networkData = await driver.executeScript(`\nconst performanceEntries = performance.getEntriesByType('resource');\nconst requests = performanceEntries.map(entry => {\n    return {\n        entry,\n        url: entry.name,\n        method: entry.initiatorType,\n        type: entry.entryType,\n    };\n});\n\nreturn requests;\n            `);\n\n            // Tampilkan data jaringan\n            let correctUrl = networkData.find(data => data.url.includes(\"v1/user/me\"));\n            let userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\n            userData = JSON.parse(userData);\n            \n            assert.strictEqual(textStatus > 1, textStatus > 1); \n            expect(correctUrl.url).to.includes(\"v1/user/me\");\n            expect(userData.id).to.greaterThan(0);",
               "err": {},
-              "uuid": "ea0d7790-a4e9-4ab3-948d-9d7bd4eb264c",
-              "parentUUID": "290c26d9-7e63-4faf-9a07-983a9e359502",
+              "uuid": "374ec026-ef64-40cf-bed8-e00715f0ef15",
+              "parentUUID": "c9a837ab-ade2-427c-b0a8-d511fec29f8b",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "ea0d7790-a4e9-4ab3-948d-9d7bd4eb264c"
+            "374ec026-ef64-40cf-bed8-e00715f0ef15"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 38362,
+          "duration": 33323,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
