@@ -9,7 +9,7 @@ npm install
 
 ## Run the test
 1. Install all of driver browser, you can download it from below :
-- [Judul Hyperlink](URL "Keterangan Hyperlink"){:target="_blank"}
+- <a href="https://www.contoh.com" target="_blank">Tautan Baru</a>
 - Chrome: <a href="chromedriver.storage.googleapis.com/index.html" target="_blank">chromedriver(.exe)</a>
 - Internet Explorer: <a href="selenium.dev/downloads" target="_blank">IEDriverServer.exe</a>
 - Microsoft Edge: <a href="go.microsoft.com/fwlink/?LinkId=619687/" target="_blank">MicrosoftWebDriver.msi</a>
