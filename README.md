@@ -9,12 +9,13 @@ npm install
 
 ## Run the test
 1. Install all of driver browser, you can download it from below :
-- Chrome: [chromedriver(.exe)](http://chromedriver.storage.googleapis.com/index.html/)
-- Internet Explorer: [IEDriverServer.exe](https://www.selenium.dev/downloads/)
-- Microsoft Edge: [MicrosoftWebDriver.msi](http://go.microsoft.com/fwlink/?LinkId=619687/)
-- Firefox: [geckodriver(.exe)](https://github.com/mozilla/geckodriver/releases/)
-- Opera: [operadriver(.exe)](https://github.com/operasoftware/operachromiumdriver/releases/)
-- Safari: [safaridriver](https://developer.apple.com/library/prerelease/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html#//apple_ref/doc/uid/TP40014305-CH11-DontLinkElementID_28/)
+- Chrome: [chromedriver(.exe)](https://external.ink?to=chromedriver.storage.googleapis.com/index.html)
+- Internet Explorer: [IEDriverServer.exe](https://external.ink?to=selenium.dev/downloads)
+- Microsoft Edge: [MicrosoftWebDriver.msi](https://external.ink?to=go.microsoft.com/fwlink/?LinkId=619687/)
+- Firefox: [geckodriver(.exe)](https://external.ink?to=github.com/mozilla/geckodriver/releases/)
+- Opera: [operadriver(.exe)](https://external.ink?to=github.com/operasoftware/operachromiumdriver/releases/)
+- Safari: [safaridriver](https://external.ink?to=developer.apple.com/library/prerelease/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html#//apple_ref/doc/uid/TP40014305-CH11-DontLinkElementID_28/)
+
 2. Run this command
 
 ```
