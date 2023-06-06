@@ -1,8 +1,6 @@
 # RESEARCH UNIT TEST
 
-## Setup Awal
-
-## Run the test
+## Setup and Run the test
 1. Download all of driver browser, you can download it from below :
 - Chrome: [chromedriver(.exe)](http://chromedriver.storage.googleapis.com/index.html)
 - Internet Explorer: [IEDriverServer.exe](https://www.selenium.dev/downloads)
