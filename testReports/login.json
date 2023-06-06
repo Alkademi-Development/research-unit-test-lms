@@ -1,0 +1,123 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-06-06T09:32:08.293Z",
+    "end": "2023-06-06T09:32:50.337Z",
+    "duration": 42044,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "74facefa-73fd-454d-936e-59a2e118b393",
+      "title": "",
+      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\examples\\login.js",
+      "file": "\\test\\examples\\login.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4ee20680-f18e-4a89-82e8-d0596e4ea774",
+          "title": "Login",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\examples\\login.js",
+          "file": "\\test\\examples\\login.js",
+          "beforeHooks": [],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"Login\"",
+              "fullTitle": "Login \"after each\" hook in \"Login\"",
+              "timedOut": false,
+              "duration": 3399,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "let html = await driver.findElement(By.css(\"html\"));\nlet encodedString = await html.takeScreenshot(true);\nfs.writeFileSync(path.resolve(`./assets/screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`), encodedString, 'base64');\nawait driver.sleep(3000);\nawait driver.quit();",
+              "err": {},
+              "uuid": "8a39d724-e774-44b6-8b11-15a8343e08d3",
+              "parentUUID": "4ee20680-f18e-4a89-82e8-d0596e4ea774",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Login to dashboard from browser chrome",
+              "fullTitle": "Login Login to dashboard from browser chrome",
+              "timedOut": false,
+              "duration": 38634,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n\n// Go to application\ndriver = await goToApp(browser, appHost);\n// login to the application\nawait enterDashboard(driver, user);\nlet textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);\n// Jalankan skrip JavaScript untuk mengumpulkan data jaringan\nconst networkData = await driver.executeScript(`\n    const performanceEntries = performance.getEntriesByType('resource');\n    const requests = performanceEntries.map(entry => {\n        return {\n            entry,\n            url: entry.name,\n            method: entry.initiatorType,\n            type: entry.entryType,\n        };\n    });\n    \n    return requests;\n`);\n// Tampilkan data jaringan\nlet correctUrl = await networkData.find(data => data.url.includes(\"v1/user/me\"));\nlet userData = await driver.executeScript(\"return window.localStorage.getItem('user')\")\nuserData = await JSON.parse(userData);\nassert.strictEqual(textStatus > 1, textStatus > 1); \nexpect(correctUrl.url).to.includes(\"v1/user/me\");\nexpect(userData.id).to.greaterThan(0);\n            } catch (error) {\nexpect.fail(error);\n            }",
+              "err": {},
+              "uuid": "5ecbfa77-c937-4c9b-a905-d3ed58569160",
+              "parentUUID": "4ee20680-f18e-4a89-82e8-d0596e4ea774",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "5ecbfa77-c937-4c9b-a905-d3ed58569160"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 38634,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 0
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "login",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "testReports",
+        "reportFilename": "login",
+        "reportPageTitle": "LOGIN"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

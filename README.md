@@ -2,11 +2,6 @@
 
 ## Setup Awal
 
-Cukup jalankan :
-```
-npm install
-```
-
 ## Run the test
 1. Download all of driver browser, you can download it from below :
 - Chrome: [chromedriver(.exe)](http://chromedriver.storage.googleapis.com/index.html)
@@ -20,6 +15,10 @@ npm install
 after that you must copy the path of that driver file saved it before and enter it into environment variables so that it can be accessed globally.
 
 3. After you already setup environment variables. You can run this command in the project
+
+```
+npm install
+```
 
 ```
 npm run start
@@ -42,3 +41,4 @@ node .
 - Can use dynamic environment
 - Style the list of file tests
 - Multiple reports 
+- Get the screenshoot at the end of test
