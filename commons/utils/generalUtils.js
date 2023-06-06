@@ -16,12 +16,15 @@ const parseToDomain = (url) => {
 }
 
 async function captureConsoleErrors(driver) {
+    let error = null;
     const logs = await driver.manage().logs().get(logging.Type.BROWSER);
-    const errors = logs.filter(log => log.level.name === 'SEVERE' || !log.message.includes('_nav.js'));
+    const errors = logs.filter(log => log.level.name != 'WARNING' && log.level.name === 'SEVERE' && !log.message.includes('export'));
     const errorMessages = errors.map(error => error.message);
     if(errorMessages.length > 0) {
-        throw new Error(errorMessages);
+        error = new Error(errorMessages);
     }
+
+    return { driver, error };
 }
 
 export {

@@ -2,14 +2,14 @@ import { describe, afterEach, before } from 'mocha';
 import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
 import assert from 'assert';
 import { expect } from "chai";
-import yargs from 'yargs'
+import yargs from 'yargs';
+import fs from 'fs';
+import path from 'path';
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
 import { appHost } from '#root/api/app-token';
-import fs from 'fs';
-import path from 'path';
 
 /**
  * Get the user data for authentication
@@ -22,10 +22,10 @@ let driver;
 describe("Login", () => {
 
     afterEach(async function() {
+        let html = await driver.findElement(By.css("html"));
+        let encodedString = await html.takeScreenshot(true);
+        fs.writeFileSync(path.resolve(`./assets/screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`), encodedString, 'base64');
         await driver.sleep(3000);
-        let body = await driver.findElement(By.css("body"));
-        let encodedString = await body.takeScreenshot(true);
-        fs.writeFileSync(path.resolve(`./assets/screenshoot/test/login/${this.currentTest.title.trim().toLowerCase().replaceAll(" ", "-")}.png`), encodedString, 'base64');
         await driver.quit();
     })
     
@@ -62,22 +62,6 @@ describe("Login", () => {
                 let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
                 let userData = await driver.executeScript("return window.localStorage.getItem('user')")
                 userData = await JSON.parse(userData);
-
-                // Tunggu hingga halaman selesai dimuat
-                await driver.wait(async function () {
-                    const logs = await driver.manage().logs().get(logging.Type.BROWSER);
-                    const errors = logs.filter(entry => entry.level.name === 'SEVERE');
-                    return errors.length > 0;
-                }, 10000); // Timeout setelah 10 detik
-                
-                // Ambil log konsol
-                const logs = await driver.manage().logs().get(logging.Type.BROWSER);
-                const errors = logs.filter(entry => entry.level.name === 'SEVERE');
-                
-                // Tampilkan pesan error
-                for (const error of errors) {
-                    console.log('Error:', error.message);
-                }
 
                 assert.strictEqual(textStatus > 1, textStatus > 1); 
                 expect(correctUrl.url).to.includes("v1/user/me");

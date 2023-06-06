@@ -16,6 +16,7 @@
     "@jitsi/robotjs": "^0.6.12",
     "@vitejs/plugin-react": "^4.0.0",
     "chai": "^4.3.7",
+    "cheerio": "^1.0.0-rc.12",
     "cli-color": "^2.0.3",
     "detect-mocha": "^0.1.0",
     "mocha": "^10.2.0",
