@@ -56,3 +56,11 @@ npm run start
 - `--require mochawesome/register` ( Flag ini digunakan untuk memuat modul mochawesome/register sebelum menjalankan tes. Modul ini bertanggung jawab untuk mendaftarkan reporter mochawesome dan mengonfigurasi pengaturannya. Dengan menggunakan --require mochawesome/register, Anda memastikan bahwa reporter mochawesome siap digunakan saat Mocha dijalankan. )
 
 - [More informations](https://mochajs.org/#features)
+
+## Directory Structure
+- `api` ( berisi untuk keperluan mengenai server )
+- `assets` ( untuk kebutuhan resources pada saat tester )
+- `commons` ( untuk kebutuhan helpers dan semacamnya )
+- `helpers` ( berbeda dengan commons, folder ini berfungsi untuk kebutuhan helpers feature dr app. misal seperti crud )
+- `test` ( berisi file-file test )
+- `testReports` ( berisi hasil test reports )
