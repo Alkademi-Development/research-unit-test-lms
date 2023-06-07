@@ -7,26 +7,26 @@ describe('Users', () => {
 
     let userId = null;
 
-    describe.skip('Create a User (POST)', () => {
+    describe('(POST)', () => {
 
-        it('/users', () => {
+        it('Create a User /user/create', () => {
             const data = {
                 name: "Content " + faker.person.fullName(),
-                email: "content@" + this.name + "gmail.com",
                 password: "semuasama",
                 phone: "08822222222",
-                gender: faker.arrayElement(['L', 'P']),
+                gender: faker.helpers.arrayElement(['L', 'P']),
                 kind: 6
             };
+            data.email = data.name.replaceAll(" ", "").toLowerCase() + "@gmail.com";
     
             return request
             .post(`/user/create`)
-            .set(paramsRequest.sApp, paramsRequest.sAppToken)
+            .set('Authorization', apiParamsRequest.Authorization)
+            .set('AppToken', apiParamsRequest.AppToken)
             .send(data)
             .then((res) => {
-                // expect(res.body.data.email).to.eq(data.email);
-                // expect(res.body.data.status).to.eq(data.status);
-                expect(res.body.data).to.deep.include(data);
+                expect(res.body).to.have.property('data').that.exist;
+                expect(res.body.data.email).to.equal(data.email);
                 userId = res.body.data.id;
             });
         })
@@ -35,7 +35,7 @@ describe('Users', () => {
 
     describe('GET', () => {
         
-        it('List User /users', () => {
+        it('List User /user/list', () => {
     
             return request.get(`/user/list`)
             .set('Authorization', apiParamsRequest.Authorization)
@@ -61,22 +61,19 @@ describe('Users', () => {
 
     describe.skip('PUT', () => {
         
-        it('/users/:id', () => {
+        it('Edit User /user/edit?userId=:id', () => {
     
             const data = {
-                status: 'active',
                 name: 'John',
             };
     
             return request
-            .put(`/users/${userId}`)
-            .set('Authorization', `Bearer ${TOKEN}`)
+            .post(`/user/edit?userId=${userId}`)
+            .set('Authorization', apiParamsRequest.Authorization)
+            .set('AppToken', apiParamsRequest.AppToken)
             .send(data)
             .then((res) => {
-                // expect(res.body.data.email).to.eq(data.email);
-                // expect(res.body.data.status).to.eq(data.status);
-                expect(res.body.data).to.deep.include(data);
-                expect(res.body.data.id).to.eq(userId);
+                expect(res?.body?.status).to.equal(true);
             });
         });
 

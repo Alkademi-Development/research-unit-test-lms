@@ -2,15 +2,15 @@
   "stats": {
     "suites": 5,
     "tests": 5,
-    "passes": 2,
-    "pending": 3,
+    "passes": 3,
+    "pending": 2,
     "failures": 0,
-    "start": "2023-06-07T08:03:42.905Z",
-    "end": "2023-06-07T08:03:44.499Z",
-    "duration": 1594,
+    "start": "2023-06-07T09:30:09.929Z",
+    "end": "2023-06-07T09:30:13.944Z",
+    "duration": 4015,
     "testsRegistered": 5,
     "passPercent": 100,
-    "pendingPercent": 60,
+    "pendingPercent": 40,
     "other": 0,
     "hasOther": false,
     "skipped": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "83790703-c6a7-4d3c-8fc8-4599ad3fe0f2",
+      "uuid": "1037eaad-3c4b-4391-b4d3-b43204038f7c",
       "title": "",
       "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\api\\user.js",
       "file": "\\test\\api\\user.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "7fd2275b-c554-4b72-8e3b-65c3bb57e90c",
+          "uuid": "a42c5da8-69fc-4d6d-923a-bbd420820b3f",
           "title": "Users",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\api\\user.js",
           "file": "\\test\\api\\user.js",
@@ -36,46 +36,46 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "d0d5ba02-ff98-4a3d-bb5f-05e8d50f9253",
-              "title": "Create a User (POST)",
+              "uuid": "822da77e-a27c-4cfa-9be4-8bc3bd11dd44",
+              "title": "(POST)",
               "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\api\\user.js",
               "file": "\\test\\api\\user.js",
               "beforeHooks": [],
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "/users",
-                  "fullTitle": "Users Create a User (POST) /users",
+                  "title": "Create a User /user/create",
+                  "fullTitle": "Users (POST) Create a User /user/create",
                   "timedOut": false,
-                  "duration": 0,
-                  "state": "pending",
-                  "speed": null,
-                  "pass": false,
+                  "duration": 681,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
                   "fail": false,
-                  "pending": true,
+                  "pending": false,
                   "context": null,
-                  "code": "",
+                  "code": "const data = {\n    name: \"Content \" + faker.person.fullName(),\n    password: \"semuasama\",\n    phone: \"08822222222\",\n    gender: faker.helpers.arrayElement(['L', 'P']),\n    kind: 6\n};\ndata.email = data.name.replaceAll(\" \", \"\").toLowerCase() + \"@gmail.com\";\n    \nreturn request\n.post(`/user/create`)\n.set('Authorization', apiParamsRequest.Authorization)\n.set('AppToken', apiParamsRequest.AppToken)\n.send(data)\n.then((res) => {\n    expect(res.body).to.have.property('data').that.exist;\n    expect(res.body.data.email).to.equal(data.email);\n    userId = res.body.data.id;\n});",
                   "err": {},
-                  "uuid": "26f988d1-964e-4680-92f5-f2c319a014a9",
-                  "parentUUID": "d0d5ba02-ff98-4a3d-bb5f-05e8d50f9253",
+                  "uuid": "f9843c1b-045d-4bd2-9ba7-0abecb7e3485",
+                  "parentUUID": "822da77e-a27c-4cfa-9be4-8bc3bd11dd44",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
-              "passes": [],
-              "failures": [],
-              "pending": [
-                "26f988d1-964e-4680-92f5-f2c319a014a9"
+              "passes": [
+                "f9843c1b-045d-4bd2-9ba7-0abecb7e3485"
               ],
+              "failures": [],
+              "pending": [],
               "skipped": [],
-              "duration": 0,
+              "duration": 681,
               "root": false,
               "rootEmpty": false,
               "_timeout": 0
             },
             {
-              "uuid": "1a5ed227-3c37-4d72-aaa8-48b225e9554d",
+              "uuid": "8d5beab1-e7b9-414e-9030-122ffb2219e0",
               "title": "GET",
               "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\api\\user.js",
               "file": "\\test\\api\\user.js",
@@ -83,10 +83,10 @@
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "List User /users",
-                  "fullTitle": "Users GET List User /users",
+                  "title": "List User /user/list",
+                  "fullTitle": "Users GET List User /user/list",
                   "timedOut": false,
-                  "duration": 525,
+                  "duration": 1176,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -95,8 +95,8 @@
                   "context": null,
                   "code": "return request.get(`/user/list`)\n        .set('Authorization', apiParamsRequest.Authorization)\n        .set('AppToken', apiParamsRequest.AppToken)\n        .then(res => {\n            expect(res.body.data).to.not.be.empty;\n            if(userId === null) userId = res?.body?.data[0].id;\n        })",
                   "err": {},
-                  "uuid": "dc976e5d-9656-4f94-af3a-037acd5c5c65",
-                  "parentUUID": "1a5ed227-3c37-4d72-aaa8-48b225e9554d",
+                  "uuid": "9abd0a70-e5f9-4ce0-ad29-89f46885252a",
+                  "parentUUID": "8d5beab1-e7b9-414e-9030-122ffb2219e0",
                   "isHook": false,
                   "skipped": false
                 },
@@ -104,7 +104,7 @@
                   "title": "Detail User /users/:id",
                   "fullTitle": "Users GET Detail User /users/:id",
                   "timedOut": false,
-                  "duration": 1054,
+                  "duration": 2124,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -113,27 +113,27 @@
                   "context": null,
                   "code": "return request.get(`/user/detail?userId=${userId}`)\n.set('Authorization', apiParamsRequest.Authorization)\n.set('AppToken', apiParamsRequest.AppToken)\n.then(res => {\n    expect(res.body.data).to.not.be.empty;\n    expect(res.body.data.id).to.be.eq(userId);\n})",
                   "err": {},
-                  "uuid": "86dbc9fc-0c9c-46de-9430-246408c37b75",
-                  "parentUUID": "1a5ed227-3c37-4d72-aaa8-48b225e9554d",
+                  "uuid": "a7fc4fce-b3d4-4f06-8ff7-5cc89ed4163f",
+                  "parentUUID": "8d5beab1-e7b9-414e-9030-122ffb2219e0",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "dc976e5d-9656-4f94-af3a-037acd5c5c65",
-                "86dbc9fc-0c9c-46de-9430-246408c37b75"
+                "9abd0a70-e5f9-4ce0-ad29-89f46885252a",
+                "a7fc4fce-b3d4-4f06-8ff7-5cc89ed4163f"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 1579,
+              "duration": 3300,
               "root": false,
               "rootEmpty": false,
               "_timeout": 0
             },
             {
-              "uuid": "161a2ac3-a7ba-40d8-ab9e-72a3f3913cd6",
+              "uuid": "e800af7a-eb50-4f2b-b903-d9abf2d96bd8",
               "title": "PUT",
               "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\api\\user.js",
               "file": "\\test\\api\\user.js",
@@ -141,8 +141,8 @@
               "afterHooks": [],
               "tests": [
                 {
-                  "title": "/users/:id",
-                  "fullTitle": "Users PUT /users/:id",
+                  "title": "Edit User /user/edit?userId=:id",
+                  "fullTitle": "Users PUT Edit User /user/edit?userId=:id",
                   "timedOut": false,
                   "duration": 0,
                   "state": "pending",
@@ -153,8 +153,8 @@
                   "context": null,
                   "code": "",
                   "err": {},
-                  "uuid": "b4cbee40-3542-4a88-84ad-b56e2b4f5a3d",
-                  "parentUUID": "161a2ac3-a7ba-40d8-ab9e-72a3f3913cd6",
+                  "uuid": "c932b3c9-197c-4106-aa35-7f792ac7d23d",
+                  "parentUUID": "e800af7a-eb50-4f2b-b903-d9abf2d96bd8",
                   "isHook": false,
                   "skipped": false
                 }
@@ -163,7 +163,7 @@
               "passes": [],
               "failures": [],
               "pending": [
-                "b4cbee40-3542-4a88-84ad-b56e2b4f5a3d"
+                "c932b3c9-197c-4106-aa35-7f792ac7d23d"
               ],
               "skipped": [],
               "duration": 0,
@@ -172,7 +172,7 @@
               "_timeout": 0
             },
             {
-              "uuid": "9e6df263-a972-410e-8a7f-92ce0156bfb4",
+              "uuid": "a6ea0fb0-85d9-4c6f-b56b-dff24bd61aae",
               "title": "DELETE",
               "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\api\\user.js",
               "file": "\\test\\api\\user.js",
@@ -192,8 +192,8 @@
                   "context": null,
                   "code": "",
                   "err": {},
-                  "uuid": "8eb4a87f-7624-4977-9f74-c1702ce8e1c3",
-                  "parentUUID": "9e6df263-a972-410e-8a7f-92ce0156bfb4",
+                  "uuid": "a01a3fdb-4391-40ee-b26e-b3b3daa19343",
+                  "parentUUID": "a6ea0fb0-85d9-4c6f-b56b-dff24bd61aae",
                   "isHook": false,
                   "skipped": false
                 }
@@ -202,7 +202,7 @@
               "passes": [],
               "failures": [],
               "pending": [
-                "8eb4a87f-7624-4977-9f74-c1702ce8e1c3"
+                "a01a3fdb-4391-40ee-b26e-b3b3daa19343"
               ],
               "skipped": [],
               "duration": 0,
