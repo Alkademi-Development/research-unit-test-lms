@@ -2,25 +2,25 @@
 
 ## Setup and Run the test
 1. Download all of driver browser, you can download it from below :
-- Chrome: [chromedriver(.exe)](http://chromedriver.storage.googleapis.com/index.html)
-- Internet Explorer: [IEDriverServer.exe](https://www.selenium.dev/downloads)
-- Microsoft Edge: [MicrosoftWebDriver.msi](http://go.microsoft.com/fwlink/?LinkId=619687)
-- Firefox: [geckodriver(.exe)](https://github.com/mozilla/geckodriver/releases)
-- Opera: [operadriver(.exe)](https://github.com/operasoftware/operachromiumdriver/releases)
-- Safari: [safaridriver](https://developer.apple.com/library/prerelease/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html#//apple_ref/doc/uid/TP40014305-CH11-DontLinkElementID_28)
+    - Chrome: [chromedriver(.exe)](http://chromedriver.storage.googleapis.com/index.html)
+    - Internet Explorer: [IEDriverServer.exe](https://www.selenium.dev/downloads)
+    - Microsoft Edge: [MicrosoftWebDriver.msi](http://go.microsoft.com/fwlink/?LinkId=619687)
+    - Firefox: [geckodriver(.exe)](https://github.com/mozilla/geckodriver/releases)
+    - Opera: [operadriver(.exe)](https://github.com/operasoftware/operachromiumdriver/releases)
+    - Safari: [safaridriver](https://developer.apple.com/library/prerelease/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html#//apple_ref/doc/uid/TP40014305-CH11-DontLinkElementID_28)
 
 2. Setup Environment Variables, after you downloaded all webdriver. you can put that driver file in folder SysWOW64 or System32 at disk C:\Windows\SysWOW64 or C:\Windows\System32,
 after that you must copy the path of that driver file saved it before and enter it into environment variables so that it can be accessed globally.
 
 3. After you already setup environment variables. You can run this command in the project
 
-```
-npm install
-```
+    ```
+    npm install
+    ```
 
-```
-npm run start
-```
+    ```
+    npm run start
+    ```
 
 4. Choose the one you want to run of the test or choose 'all', if you want to just run one test than just type the name of file test with extension .js e.g 'index.js' or 'test.js'
 5. Waiting for the test to complete
@@ -64,3 +64,4 @@ npm run start
 - `helpers` ( berbeda dengan commons, folder ini berfungsi untuk kebutuhan helpers feature dr app. misal seperti crud )
 - `test` ( berisi file-file test )
 - `testReports` ( berisi hasil test reports )
+- `screenshoot` ( untuk hasil screenshoot-an dari setiap hasil test yg telah selesai di jalankan )
