@@ -24,7 +24,7 @@ describe("Logout", () => {
     afterEach(async function() {
         let html = await driver.findElement(By.css("html"));
         let encodedString = await html.takeScreenshot(true);
-        fs.writeFileSync(path.resolve(`./assets/screenshoot/test/logout/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`), encodedString, 'base64');
+        fs.writeFileSync(path.resolve(`./screenshoot/test/logout/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`), encodedString, 'base64');
         await driver.sleep(3000);
         await driver.quit();
     })

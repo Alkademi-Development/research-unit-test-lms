@@ -21,7 +21,7 @@ let errorMessages;
 describe("Classroom", () => {
 
     afterEach(async function() {
-        await takeScreenshot(driver, path.resolve(`./assets/screenshoot/test/Dashboard/Classroom/index/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
+        await takeScreenshot(driver, path.resolve(`./screenshoot/test/Dashboard/Classroom/index/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
         await driver.sleep(3000);
         await driver.quit();
     })

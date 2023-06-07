@@ -44,7 +44,7 @@
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "let html = await driver.findElement(By.css(\"html\"));\nlet encodedString = await html.takeScreenshot(true);\nfs.writeFileSync(path.resolve(`./assets/screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`), encodedString, 'base64');\nawait driver.sleep(3000);\nawait driver.quit();",
+              "code": "let html = await driver.findElement(By.css(\"html\"));\nlet encodedString = await html.takeScreenshot(true);\nfs.writeFileSync(path.resolve(`./screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`), encodedString, 'base64');\nawait driver.sleep(3000);\nawait driver.quit();",
               "err": {},
               "uuid": "8a39d724-e774-44b6-8b11-15a8343e08d3",
               "parentUUID": "4ee20680-f18e-4a89-82e8-d0596e4ea774",

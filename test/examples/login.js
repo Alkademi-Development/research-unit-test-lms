@@ -19,12 +19,12 @@ import { takeScreenshot } from '#root/commons/utils/fileUtils';
 const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
 let driver;
-let errorsMessages;
+let errorMessages;
 
 describe("Login", () => {
 
     afterEach(async function() {
-        await takeScreenshot(driver, path.resolve(`./assets/screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
+        await takeScreenshot(driver, path.resolve(`./screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
         await driver.sleep(3000);
         await driver.quit();
     })
@@ -39,7 +39,7 @@ describe("Login", () => {
                 driver = await goToApp(browser, appHost);
 
                 // login to the application
-                errorsMessages = await enterDashboard(driver, user);
+                errorMessages = await enterDashboard(driver, user);
 
                 let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -62,6 +62,10 @@ describe("Login", () => {
                 let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
                 let userData = await driver.executeScript("return window.localStorage.getItem('user')")
                 userData = await JSON.parse(userData);
+                
+                if(errorMessages.length > 0) {
+                    throw new Error(errorMessages);
+                }
 
                 assert.strictEqual(textStatus > 1, textStatus > 1); 
                 expect(correctUrl.url).to.includes("v1/user/me");
