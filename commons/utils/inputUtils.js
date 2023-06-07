@@ -7,7 +7,7 @@ export const rl = readline.createInterface({
 });
 
 const getCustomOptionReportFile = (inputReportFile) => {
-  return inputReportFile ? `-- --reporter-options reportDir=testReports,reportFilename=${inputReportFile.toLowerCase()},reportPageTitle=${inputReportFile.toUpperCase()}` : '--reporter-options reportDir=testReports,reportFilename=test-results,reportPageTitle=Laporan-Harian-Testing';
+  return inputReportFile ? `-- --reporter-options reportDir=testReports,reportFilename=${inputReportFile.replaceAll(' ', '').toLowerCase()},reportPageTitle=Laporan-Harian-Testing` : '--reporter-options reportDir=testReports,reportFilename=examples/test-results,reportPageTitle=Laporan-Harian-Testing';
 }
 
 export {
