@@ -65,3 +65,12 @@ after that you must copy the path of that driver file saved it before and enter 
 - `test` ( berisi file-file test )
 - `testReports` ( berisi hasil test reports )
 - `screenshoot` ( untuk hasil screenshoot-an dari setiap hasil test yg telah selesai di jalankan )
+
+## NOTES
+- di sarankan apabila membuat sebuah tester itu harus menggunakan trycatch agar bisa mendapatkan expect.fail() apabila terjadi kesalahan dari sisi client
+- untuk pengetesan di env yg berbeda itu bisa dengan membuat beberapa branch saja. jadi semisal, ada branch :
+1. master
+2. production
+3. staging
+4. development
+5. local
