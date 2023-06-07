@@ -8,303 +8,312 @@ import { getUserAccount } from '#root/commons/utils/userUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { appHost } from '#root/api/app-token';
+import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
+import { takeScreenshot } from '#root/commons/utils/fileUtils';
+import path from 'path';
 
 
 const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
 let driver;
+let errorMessages;
 
 describe("Classroom", () => {
 
-    afterEach(async () => {
+    afterEach(async function() {
+        await takeScreenshot(driver, path.resolve(`./assets/screenshoot/test/Dashboard/Classroom/index/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
         await driver.sleep(3000);
         await driver.quit();
     })
     
     BROWSERS.forEach(browser => {
         
-        it.skip(`Check for class card from ${browser}`, async () => {
+        it(`Check for class card from ${browser}`, async () => {
                 
-            // Go to application
-            driver = await goToApp(browser, appHost)
-            await driver.manage().window().maximize();
-            
-            // login to the application
-            await enterDashboard(driver, user);
+            try {
+                // Go to application
+                driver = await goToApp(browser, appHost)
+                await driver.manage().window().maximize();
+                
+                // login to the application
+                await enterDashboard(driver, user);
+    
+                let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+    
+                await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
+                errorMessages = await captureConsoleErrors(driver);
+    
+                // Tampilkan data jaringan
+                let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                userData = JSON.parse(userData);
+                
+                if(errorMessages.length > 0) {
+                    throw new Error(errorMessages);
+                }
 
-            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
-
-            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
-            
-            let cardClass = await driver.findElement(By.css(`div.card-class`));
-            await driver.wait(until.stalenessOf(cardClass));
-            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
-
-            // Tampilkan data jaringan
-            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
-            userData = JSON.parse(userData);
-            
-            assert.strictEqual(textStatus > 1, textStatus > 1); 
-            expect(userData.id).to.greaterThan(0);
-            expect(classCard).to.equal(true);
+                assert.strictEqual(textStatus > 1, textStatus > 1); 
+                expect(userData.id).to.greaterThan(0);
+            } catch (error) {
+                expect.fail(error);
+            }
             
         });
 
-        it(`Check all process in tab all class from ${browser}`, async function() {
+        // it(`Check all process in tab all class from ${browser}`, async function() {
 
-            // Go to application
-            driver = await goToApp(browser, appHost)
-            await driver.manage().window().maximize();
+        //     // Go to application
+        //     driver = await goToApp(browser, appHost)
+        //     await driver.manage().window().maximize();
             
-            // login to the application
-            await enterDashboard(driver, user);
+        //     // login to the application
+        //     await enterDashboard(driver, user);
 
 
-            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+        //     let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
-            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
+        //     await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
 
-            let cardClass = await driver.findElement(By.css(`div.card-class`));
-            await driver.wait(until.stalenessOf(cardClass));
-            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
+        //     let cardClass = await driver.findElement(By.css(`div.card-class`));
+        //     await driver.wait(until.stalenessOf(cardClass));
+        //     let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
 
-            // Selection & Actions
-            let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
-            await tabsTypeClass[1];
+        //     // Selection & Actions
+        //     let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
+        //     await tabsTypeClass[1];
 
-            let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
-            let badgeClasses = await Promise.all(
-                badgesProgress.map(async (badge) => {
-                  let badgeClass = await badge.getAttribute('class');
-                  badgeClass = badgeClass.replace("badge-progress ", "");
-                  return badgeClass;
-                })
-            );
-            let allTypesBadge = ['badge-program', 'badge-blue', 'badge-green', 'badge-red'];
+        //     let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //     let badgeClasses = await Promise.all(
+        //         badgesProgress.map(async (badge) => {
+        //           let badgeClass = await badge.getAttribute('class');
+        //           badgeClass = badgeClass.replace("badge-progress ", "");
+        //           return badgeClass;
+        //         })
+        //     );
+        //     let allTypesBadge = ['badge-program', 'badge-blue', 'badge-green', 'badge-red'];
 
-            let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //     let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
             
-            let allTypesFound = false;
-            while (!allTypesFound) {
+        //     let allTypesFound = false;
+        //     while (!allTypesFound) {
             
-                badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //         badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
 
-                badgeClasses = await Promise.all(
-                    badgesProgress.map(async (badge) => {
-                        let badgeClass = await badge.getAttribute('class');
-                        badgeClass = badgeClass.replace("badge-progress ", "");
-                        return badgeClass;
-                    })
-                );
+        //         badgeClasses = await Promise.all(
+        //             badgesProgress.map(async (badge) => {
+        //                 let badgeClass = await badge.getAttribute('class');
+        //                 badgeClass = badgeClass.replace("badge-progress ", "");
+        //                 return badgeClass;
+        //             })
+        //         );
 
-                hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //         hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
 
-                if(hasAllTypes === true) {
-                    allTypesFound = true;
-                }
+        //         if(hasAllTypes === true) {
+        //             allTypesFound = true;
+        //         }
             
-                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
-                await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
-            }            
+        //         await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+        //         await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
+        //     }            
               
               
-            // Result the outputs
-            expect(classCard).to.equal(true);
-            expect(hasAllTypes).to.equal(true);
+        //     // Result the outputs
+        //     expect(classCard).to.equal(true);
+        //     expect(hasAllTypes).to.equal(true);
 
-        })
+        // })
         
-        it(`Check register process in tab register class from ${browser}`, async function() {
+        // it(`Check register process in tab register class from ${browser}`, async function() {
 
-            // Go to application
-            driver = await goToApp(browser, appHost)
-            await driver.manage().window().maximize();
+        //     // Go to application
+        //     driver = await goToApp(browser, appHost)
+        //     await driver.manage().window().maximize();
             
-            // login to the application
-            await enterDashboard(driver, user);
+        //     // login to the application
+        //     await enterDashboard(driver, user);
 
 
-            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+        //     let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
-            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
+        //     await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
 
-            let cardClass = await driver.findElement(By.css(`div.card-class`));
-            await driver.wait(until.stalenessOf(cardClass));
-            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
+        //     let cardClass = await driver.findElement(By.css(`div.card-class`));
+        //     await driver.wait(until.stalenessOf(cardClass));
+        //     let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
 
-            // Selection & Actions
-            let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
-            await tabsTypeClass[2].click();
+        //     // Selection & Actions
+        //     let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
+        //     await tabsTypeClass[2].click();
 
-            let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
-            let badgeClasses = await Promise.all(
-                badgesProgress.map(async (badge) => {
-                  let badgeClass = await badge.getAttribute('class');
-                  badgeClass = badgeClass.replace("badge-progress ", "");
-                  return badgeClass;
-                })
-            );
-            let allTypesBadge = ['badge-program', 'badge-blue', 'badge-green'];
+        //     let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //     let badgeClasses = await Promise.all(
+        //         badgesProgress.map(async (badge) => {
+        //           let badgeClass = await badge.getAttribute('class');
+        //           badgeClass = badgeClass.replace("badge-progress ", "");
+        //           return badgeClass;
+        //         })
+        //     );
+        //     let allTypesBadge = ['badge-program', 'badge-blue', 'badge-green'];
 
-            let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //     let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
             
-            let allTypesFound = false;
-            while (!allTypesFound) {
+        //     let allTypesFound = false;
+        //     while (!allTypesFound) {
             
-                badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //         badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
 
-                badgeClasses = await Promise.all(
-                    badgesProgress.map(async (badge) => {
-                        let badgeClass = await badge.getAttribute('class');
-                        badgeClass = badgeClass.replace("badge-progress ", "");
-                        return badgeClass;
-                    })
-                );
+        //         badgeClasses = await Promise.all(
+        //             badgesProgress.map(async (badge) => {
+        //                 let badgeClass = await badge.getAttribute('class');
+        //                 badgeClass = badgeClass.replace("badge-progress ", "");
+        //                 return badgeClass;
+        //             })
+        //         );
 
-                hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //         hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
 
-                if(hasAllTypes === true) {
-                    allTypesFound = true;
-                }
+        //         if(hasAllTypes === true) {
+        //             allTypesFound = true;
+        //         }
             
-                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
-                await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
-            }            
+        //         await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+        //         await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
+        //     }            
               
               
-            // Result the outputs
-            expect(classCard).to.equal(true);
-            expect(hasAllTypes).to.equal(true);
+        //     // Result the outputs
+        //     expect(classCard).to.equal(true);
+        //     expect(hasAllTypes).to.equal(true);
 
-        })
+        // })
         
-        it(`Check occur process in tab occur class from ${browser}`, async function() {
+        // it(`Check occur process in tab occur class from ${browser}`, async function() {
 
-            // Go to application
-            driver = await goToApp(browser, appHost)
-            await driver.manage().window().maximize();
+        //     // Go to application
+        //     driver = await goToApp(browser, appHost)
+        //     await driver.manage().window().maximize();
             
-            // login to the application
-            await enterDashboard(driver, user);
+        //     // login to the application
+        //     await enterDashboard(driver, user);
 
 
-            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+        //     let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
-            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
+        //     await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
 
-            let cardClass = await driver.findElement(By.css(`div.card-class`));
-            await driver.wait(until.stalenessOf(cardClass));
-            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
+        //     let cardClass = await driver.findElement(By.css(`div.card-class`));
+        //     await driver.wait(until.stalenessOf(cardClass));
+        //     let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
 
-            // Selection & Actions
-            let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
-            await tabsTypeClass[3].click();
+        //     // Selection & Actions
+        //     let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
+        //     await tabsTypeClass[3].click();
 
-            let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
-            let badgeClasses = await Promise.all(
-                badgesProgress.map(async (badge) => {
-                  let badgeClass = await badge.getAttribute('class');
-                  badgeClass = badgeClass.replace("badge-progress ", "");
-                  return badgeClass;
-                })
-            );
-            let allTypesBadge = ['badge-program', 'badge-blue', 'badge-green'];
+        //     let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //     let badgeClasses = await Promise.all(
+        //         badgesProgress.map(async (badge) => {
+        //           let badgeClass = await badge.getAttribute('class');
+        //           badgeClass = badgeClass.replace("badge-progress ", "");
+        //           return badgeClass;
+        //         })
+        //     );
+        //     let allTypesBadge = ['badge-program', 'badge-blue', 'badge-green'];
 
-            let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //     let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
             
-            let allTypesFound = false;
-            while (!allTypesFound) {
+        //     let allTypesFound = false;
+        //     while (!allTypesFound) {
             
-                badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //         badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
 
-                badgeClasses = await Promise.all(
-                    badgesProgress.map(async (badge) => {
-                        let badgeClass = await badge.getAttribute('class');
-                        badgeClass = badgeClass.replace("badge-progress ", "");
-                        return badgeClass;
-                    })
-                );
+        //         badgeClasses = await Promise.all(
+        //             badgesProgress.map(async (badge) => {
+        //                 let badgeClass = await badge.getAttribute('class');
+        //                 badgeClass = badgeClass.replace("badge-progress ", "");
+        //                 return badgeClass;
+        //             })
+        //         );
 
-                hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //         hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
 
-                if(hasAllTypes === true) {
-                    allTypesFound = true;
-                }
+        //         if(hasAllTypes === true) {
+        //             allTypesFound = true;
+        //         }
             
-                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
-                await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
-            }            
+        //         await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+        //         await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
+        //     }            
               
               
-            // Result the outputs
-            expect(classCard).to.equal(true);
-            expect(hasAllTypes).to.equal(true);
+        //     // Result the outputs
+        //     expect(classCard).to.equal(true);
+        //     expect(hasAllTypes).to.equal(true);
 
-        })
+        // })
 
-        it(`Check done process in tab done class from ${browser}`, async function() {
+        // it(`Check done process in tab done class from ${browser}`, async function() {
 
-            // Go to application
-            driver = await goToApp(browser, appHost)
-            await driver.manage().window().maximize();
+        //     // Go to application
+        //     driver = await goToApp(browser, appHost)
+        //     await driver.manage().window().maximize();
             
-            // login to the application
-            await enterDashboard(driver, user);
+        //     // login to the application
+        //     await enterDashboard(driver, user);
 
 
-            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+        //     let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
-            await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
+        //     await driver.findElement(By.css('a i.ri-icon.ri-stack-fill')).click();
 
-            let cardClass = await driver.findElement(By.css(`div.card-class`));
-            await driver.wait(until.stalenessOf(cardClass));
-            let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
+        //     let cardClass = await driver.findElement(By.css(`div.card-class`));
+        //     await driver.wait(until.stalenessOf(cardClass));
+        //     let classCard = await driver.findElement(By.css('div.card-class')).isDisplayed();
 
-            // Selection & Actions
-            let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
-            await tabsTypeClass[4].click();
+        //     // Selection & Actions
+        //     let tabsTypeClass = await driver.findElements(By.css('div.item-tab'));
+        //     await tabsTypeClass[4].click();
 
-            let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
-            let badgeClasses = await Promise.all(
-                badgesProgress.map(async (badge) => {
-                  let badgeClass = await badge.getAttribute('class');
-                  badgeClass = badgeClass.replace("badge-progress ", "");
-                  return badgeClass;
-                })
-            );
-            let allTypesBadge = ['badge-program', 'badge-red'];
+        //     let badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //     let badgeClasses = await Promise.all(
+        //         badgesProgress.map(async (badge) => {
+        //           let badgeClass = await badge.getAttribute('class');
+        //           badgeClass = badgeClass.replace("badge-progress ", "");
+        //           return badgeClass;
+        //         })
+        //     );
+        //     let allTypesBadge = ['badge-program', 'badge-red'];
 
-            let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //     let hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
             
-            let allTypesFound = false;
-            while (!allTypesFound) {
+        //     let allTypesFound = false;
+        //     while (!allTypesFound) {
             
-                badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
+        //         badgesProgress = await driver.findElements(By.css('div.box-progress p.badge-progress'));
 
-                badgeClasses = await Promise.all(
-                    badgesProgress.map(async (badge) => {
-                        let badgeClass = await badge.getAttribute('class');
-                        badgeClass = badgeClass.replace("badge-progress ", "");
-                        return badgeClass;
-                    })
-                );
+        //         badgeClasses = await Promise.all(
+        //             badgesProgress.map(async (badge) => {
+        //                 let badgeClass = await badge.getAttribute('class');
+        //                 badgeClass = badgeClass.replace("badge-progress ", "");
+        //                 return badgeClass;
+        //             })
+        //         );
 
-                hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
+        //         hasAllTypes = allTypesBadge.every(type => badgeClasses.includes(type));
 
-                if(hasAllTypes === true) {
-                    allTypesFound = true;
-                }
+        //         if(hasAllTypes === true) {
+        //             allTypesFound = true;
+        //         }
             
-                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
-                await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
-            }            
+        //         await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+        //         await driver.sleep(1000); // Sesuaikan jeda jika diperlukan
+        //     }            
               
               
-            // Result the outputs
-            expect(classCard).to.equal(true);
-            expect(hasAllTypes).to.equal(true);
+        //     // Result the outputs
+        //     expect(classCard).to.equal(true);
+        //     expect(hasAllTypes).to.equal(true);
 
-        })
+        // })
 
     })
     

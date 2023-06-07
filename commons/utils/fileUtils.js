@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import clc from 'cli-color';
+import { By } from 'selenium-webdriver';
 
 function getAllFilePaths(folderPath) {
     const result = [];
@@ -63,9 +64,18 @@ function checkStringForKeywords(string, keywords) {
   return false;
 }
 
+async function takeScreenshot(driver, path) {
+  const bodyElement = await driver.findElement(By.css('body'));
+  await driver.executeScript("document.body.style.height = '100%';");
+  await driver.takeScreenshot().then(data => {
+    fs.writeFileSync(path, data, 'base64');
+  });
+}
+
 export {
     getAllFilePaths,
     getTheListOfFileRecursively,
     printFileTree,
-    checkStringForKeywords
+    checkStringForKeywords,
+    takeScreenshot
 }

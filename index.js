@@ -22,7 +22,10 @@ async function getInput() {
     rl.question(clc.bold(questionInputReportFile), inputReportFile => {
 
         if(inputReportFile.includes(' ')) {
-            console.log('Tidak boleh ada spasi!');
+            console.log(clc.red('Tidak boleh ada spasi!, tolong masukkan nama nya sesuai format yang di berikan'));
+            return getInput();
+        } else if(inputReportFile.includes('.')) {
+            console.log(clc.red('Tidak boleh ada tanda titik!, tolong masukkan nama nya sesuai format yang di berikan'));
             return getInput();
         }
 
@@ -74,34 +77,41 @@ async function getInput() {
                                             
                                             const response = await signIn(dataRequest);
 
-                                            if(response?.body?.status === false) {
-                                                console.log(clc.red(String(response?.body?.message).toUpperCase()));
-                                                console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
-                                                getInfoAccount();
-                                            } else {
-                                                const { name, email, kind } = response?.body?.data;
-                                                data.push(`akun=${email};${inputPassword};${name};${kind}`);
-                                                
-                                                try {
+                                            if(response.ok) {
+                                                if(response?.body?.status === false) {
+                                                    console.log(clc.red(String(response?.body?.message).toUpperCase()));
+                                                    console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
+                                                    getInfoAccount();
+                                                } else {
+                                                    const { name, email, kind } = response?.body?.data;
+                                                    data.push(`akun=${email};${inputPassword};${name};${kind}`);
                                                     
-                                                    exec(`npm test -- --data=${data} --recursive ${inputReportCommand}`, { stdio: 'inherit' }, (error, stdout, stderr) => {
-                                                        if (error) {
-                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
-                                                        }
-                                    
-                                                        console.log(stdout);
-                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                    
+                                                    try {
+                                                        
+                                                        exec(`npm test -- --data=${data} --recursive ${inputReportCommand}`, { stdio: 'inherit' }, (error, stdout, stderr) => {
+                                                            if (error) {
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                            }
+                                        
+                                                            console.log(stdout);
+                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                        
+                                                            process.exit();
+                                                        });
+                                        
+                                                    } catch (error) {
+                                                        console.log(error);
+                                                        console.log(clc.red(clc.bold('Oops!, Something went wrong')));
                                                         process.exit();
-                                                    });
-                                    
-                                                } catch (error) {
-                                                    console.log(error);
-                                                    console.log(clc.red(clc.bold('Oops!, Something went wrong')));
-                                                    process.exit();
+                                                    }
+                                        
                                                 }
-                                    
+                                            } else {
+                                                console.log(clc.red(response?.error));
+                                                console.log(clc.yellow(clc.bold('Maaf sepertinya terjadi kesalahan pada server, mohon untuk di tunggu sebentar...')));
+                                                process.exit();
                                             }
 
                                         }
@@ -163,77 +173,87 @@ async function getInput() {
                                                                 
                                                                 const response = await signIn(dataRequest);
                     
-                                                                if(response?.body?.status === false) {
-                                                                    console.log(clc.red(String(response?.body?.message).toUpperCase()));
-                                                                    console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
-                                                                    getInfoAccount();
-                                                                } else {
-                                                                    const { name, email, kind } = response?.body?.data;
-                                                                    data.push(`akun=${email};${inputPassword};${name};${kind}`);
-                                                                    
-                                                                    let isHaveFolder = fs.readdirSync(absolutePath);
-                                                                    isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
-
-                                                                    if(isHaveFolder) {
-                                                                        rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
-
-                                                                            if(inputConfirm.trim() === '') {
-                                                                                console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
-                                                                                printFileTree(testFolder);
-                                                                            } else if(inputConfirm.trim() != '') {
-                                                                                
-                                                                                if(inputConfirm.trim().toLowerCase() === 'y') {
-                                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                                    exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                                        if (error) {
-                                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
-                                                                                        }
-
-                                                                                        console.log(stdout);
-                                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-
-                                                                                        process.exit();
-                                                                                    });
-                                                                                } else {
-                                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                                    exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                                        if (error) {
-                                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
-                                                                                        }
-
-                                                                                        console.log(stdout);
-                                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-
-                                                                                        process.exit();
-                                                                                    });
-                                                                                }
-
-                                                                            } else {
-                                                                                console.log(`${clc.red(clc.bold('Input yang anda masukkan tidak valid!'))}`);
-                                                                                printFileTree(testFolder);
-                                                                                getInputFileName();
-                                                                            }
-
-                                                                        })
+                                                                if(response.ok) {
+                                                                    if(response?.body?.status === false) {
+                                                                        console.log(clc.red(String(response?.body?.message).toUpperCase()));
+                                                                        console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
+                                                                        getInfoAccount();
                                                                     } else {
+                                                                        const { name, email, kind } = response?.body?.data;
+                                                                        data.push(`akun=${email};${inputPassword};${name};${kind}`);
                                                                         
-                                                                        console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                        exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                            if (error) {
-                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
-                                                                            }
-
-                                                                            console.log(stdout);
-                                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-
-                                                                            process.exit();
-                                                                        });
-                                                                        
+                                                                        let isHaveFolder = fs.readdirSync(absolutePath);
+                                                                        isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
+    
+                                                                        if(isHaveFolder) {
+                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+    
+                                                                                if(inputConfirm.trim() === '') {
+                                                                                    console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
+                                                                                    printFileTree(testFolder);
+                                                                                } else if(inputConfirm.trim() != '') {
+                                                                                    
+                                                                                    if(inputConfirm.trim().toLowerCase() === 'y') {
+                                                                                        console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                        exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                            if (error) {
+                                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                            }
+    
+                                                                                            console.log(stdout);
+                                                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+    
+                                                                                            process.exit();
+                                                                                        });
+                                                                                    } else {
+                                                                                        console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                        exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                            if (error) {
+                                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                            }
+    
+                                                                                            console.log(stdout);
+                                                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+    
+                                                                                            process.exit();
+                                                                                        });
+                                                                                    }
+    
+                                                                                } else {
+                                                                                    console.log(`${clc.red(clc.bold('Input yang anda masukkan tidak valid!'))}`);
+                                                                                    printFileTree(testFolder);
+                                                                                    getInputFileName();
+                                                                                }
+    
+                                                                            })
+                                                                        } else {
+                                                                            
+                                                                            console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                            exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                if (error) {
+                                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                    console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                }
+    
+                                                                                console.log(stdout);
+                                                                                console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+    
+                                                                                process.exit();
+                                                                            });
+                                                                            
+                                                                        }
+                                                            
                                                                     }
-                                                        
+
+                                                                } else {
+                                                                    console.log(clc.red(response?.error));
+                                                                    console.log(clc.yellow(clc.bold('Maaf sepertinya terjadi kesalahan pada server, mohon untuk di tunggu sebentar...')));
+                                                                    process.exit();
                                                                 }
                     
                                                             }
@@ -267,7 +287,8 @@ async function getInput() {
                                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                         exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
                                                             if (error) {
-                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                             }
                                 
                                                             console.log(stdout);
@@ -280,7 +301,8 @@ async function getInput() {
                                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                         exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                             if (error) {
-                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                             }
                                 
                                                             console.log(stdout);
@@ -302,7 +324,8 @@ async function getInput() {
                                             console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                             exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                 if (error) {
-                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                    console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                 }
                     
                                                 console.log(stdout);
@@ -345,28 +368,34 @@ async function getInput() {
                                                             } else {
                                                                 let dataRequest = { email: inputEmail, password: inputPassword };
                                                             
-                                                                const response = await signIn(dataRequest);
+                                                                const response = await signIn(dataRequest);   
 
-                                                                if(response?.body?.status === false) {
-                                                                    console.log(clc.red(response?.body?.message));
-                                                                    console.log(clc.bgYellow(clc.white('Masukkan akun yang benar dan sesuai!')));
-                                                                    getInfoAccount();
+                                                                if(response.ok) {
+                                                                    if(response?.body?.status === false) {
+                                                                        console.log(clc.red(response?.body?.message));
+                                                                        getInfoAccount();
+                                                                    } else {
+                                                                        const { name, email, kind } = response?.body?.data;
+                                                                        data.push(`akun=${email};${inputPassword};${name};${kind}`);
+                        
+                                                                        console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                        const resultTest = exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                            if (error) {
+                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                            }
+                                                
+                                                                            console.log(stdout);
+                                                                            console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                            console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                
+                                                                            process.exit();
+                                                                        });
+                                                                    }
                                                                 } else {
-                                                                    const { name, email, kind } = response?.body?.data;
-                                                                    data.push(`akun=${email};${inputPassword};${name};${kind}`);
-                    
-                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                    const resultTest = exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                        if (error) {
-                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
-                                                                        }
-                                            
-                                                                        console.log(stdout);
-                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                            
-                                                                        process.exit();
-                                                                    });
+                                                                    console.log(clc.red(response?.error));
+                                                                    console.log(clc.yellow(clc.bold('Maaf sepertinya terjadi kesalahan pada server, mohon untuk di tunggu sebentar...')));
+                                                                    process.exit();
                                                                 }
                                                             }
                                                             
@@ -386,7 +415,8 @@ async function getInput() {
                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                         exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                             if (error) {
-                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                             }
                 
                                             console.log(stdout);

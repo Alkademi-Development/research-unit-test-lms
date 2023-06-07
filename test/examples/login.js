@@ -10,6 +10,7 @@ import { getUserAccount } from '#root/commons/utils/userUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
 import { appHost } from '#root/api/app-token';
+import { takeScreenshot } from '#root/commons/utils/fileUtils';
 
 /**
  * Get the user data for authentication
@@ -18,13 +19,12 @@ import { appHost } from '#root/api/app-token';
 const user = getUserAccount(yargs(process.argv.slice(2)).parse());
 
 let driver;
+let errorsMessages;
 
 describe("Login", () => {
 
     afterEach(async function() {
-        let html = await driver.findElement(By.css("html"));
-        let encodedString = await html.takeScreenshot(true);
-        fs.writeFileSync(path.resolve(`./assets/screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`), encodedString, 'base64');
+        await takeScreenshot(driver, path.resolve(`./assets/screenshoot/test/login/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
         await driver.sleep(3000);
         await driver.quit();
     })
@@ -39,7 +39,7 @@ describe("Login", () => {
                 driver = await goToApp(browser, appHost);
 
                 // login to the application
-                await enterDashboard(driver, user);
+                errorsMessages = await enterDashboard(driver, user);
 
                 let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 

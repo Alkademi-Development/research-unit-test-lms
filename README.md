@@ -36,3 +36,23 @@ npm run start
 - Style the list of file tests
 - Multiple reports 
 - Get the screenshoot at the end of test
+- Get the errros directly from the app, so its not just from selenium
+- Detection server is down or no when make a request to the server
+
+## Guidelines Commands & Flags
+- `npm test` or `npm test <test-name>` ( untuk menjalankan semua test / menjalankan test yg lebih spesifik )
+- `--parellel` ( untuk akan membagi tes ke dalam beberapa proses yang berjalan secara bersamaan untuk meningkatkan kecepatan eksekusi tes. )
+- `--grep <pattern>` ( Menjalankan hanya tes yang cocok dengan pola yang diberikan. Contoh penggunaan: --grep "login". )
+- `--invert` ( Membalikkan pola pencarian saat menggunakan --grep. Ini akan menjalankan semua tes kecuali yang cocok dengan pola yang diberikan. )
+- `--timeout <ms>` ( Menentukan batas waktu dalam milidetik untuk setiap tes. Jika tes melebihi batas waktu, itu akan dianggap sebagai kesalahan. )
+- `--slow <ms>` ( Menentukan batas waktu dalam milidetik untuk menandai tes sebagai lambat. Tes yang melebihi batas waktu ini akan ditandai dalam laporan. )
+- `--retries <count>` ( Mengatur jumlah percobaan ulang yang akan dilakukan untuk setiap tes yang gagal sebelum menyerah. )
+- `--exit` ( Keluar dari proses Mocha setelah selesai menjalankan tes. Berguna jika Anda ingin mengintegrasikan Mocha dengan aliran kerja pengujian otomatis. )
+- `--reporter <name>` ( Menggunakan reporter khusus untuk menghasilkan laporan pengujian. Mocha menyediakan beberapa reporter bawaan seperti spec, dot, nyan, dan lain-lain. Anda juga dapat menggunakan reporter khusus yang dibuat oleh komunitas. )
+- `--no-timeouts` ( Flag ini digunakan untuk menonaktifkan mekanisme timeout di Mocha. Secara default, Mocha memiliki batas waktu untuk setiap tes yang tidak selesai dalam batas waktu tersebut akan dianggap gagal. Dengan menggunakan flag ini, batas waktu akan dinonaktifkan, dan tes akan berjalan tanpa batas waktu. )
+- `--charts` ( Flag ini digunakan untuk menghasilkan laporan grafik yang memberikan gambaran visual tentang hasil eksekusi tes. Grafik tersebut mencakup informasi seperti waktu eksekusi, jumlah tes yang berhasil, gagal, atau dilewatkan, dan lainnya. Laporan grafik ini dapat membantu dalam menganalisis dan memahami hasil tes dengan lebih mudah. )
+- `--code` ( Flag ini digunakan untuk mencetak kode sumber tes di laporan keluaran. Dengan menggunakan flag ini, laporan keluaran akan mencakup informasi tentang kode sumber yang terkait dengan setiap tes, membantu dalam pemahaman dan analisis lebih lanjut. )
+- `--reporter mochawesome` ( Flag ini digunakan untuk menentukan reporter yang akan digunakan oleh Mocha. Dalam contoh ini, reporter yang digunakan adalah mochawesome, yang menghasilkan laporan HTML yang kaya fitur dengan grafik dan informasi detail tentang hasil tes. Reporter mochawesome membutuhkan paket mochawesome yang harus terpasang secara terpisah. )
+- `--require mochawesome/register` ( Flag ini digunakan untuk memuat modul mochawesome/register sebelum menjalankan tes. Modul ini bertanggung jawab untuk mendaftarkan reporter mochawesome dan mengonfigurasi pengaturannya. Dengan menggunakan --require mochawesome/register, Anda memastikan bahwa reporter mochawesome siap digunakan saat Mocha dijalankan. )
+
+- [More informations](https://mochajs.org/#features)
