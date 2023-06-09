@@ -22,7 +22,14 @@ async function captureConsoleErrors(driver) {
     return errorMessages;
 }
 
+async function thrownAnError(message, condition) {
+    if(condition) {
+        throw new Error(message);
+    }
+}
+
 export {
     parseToDomain,
-    captureConsoleErrors
+    captureConsoleErrors,
+    thrownAnError
 }

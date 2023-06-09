@@ -9,7 +9,6 @@ import { printFileTree } from '#root/commons/utils/fileUtils';
 import { rl } from '#root/commons/utils/inputUtils';
 import { ALL_TEXT_INPUT } from '#root/commons/constants/input';
 import { getCustomOptionReportFile } from '#root/commons/utils/inputUtils';
-import { checkStringForKeywords } from '#root/commons/utils/fileUtils';
 
 const { questionInputReportFile } = ALL_TEXT_INPUT;
 
@@ -90,8 +89,7 @@ async function getInput() {
                                                         
                                                         exec(`npm test -- --data=${data} --recursive ${inputReportCommand}`, { stdio: 'inherit' }, (error, stdout, stderr) => {
                                                             if (error) {
-                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                             }
                                         
                                                             console.log(stdout);
@@ -197,8 +195,7 @@ async function getInput() {
                                                                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                                                         exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                             if (error) {
-                                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                             }
     
                                                                                             console.log(stdout);
@@ -211,8 +208,7 @@ async function getInput() {
                                                                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                                                         exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                             if (error) {
-                                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                             }
     
                                                                                             console.log(stdout);
@@ -287,8 +283,7 @@ async function getInput() {
                                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                         exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
                                                             if (error) {
-                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                             }
                                 
                                                             console.log(stdout);
@@ -301,8 +296,7 @@ async function getInput() {
                                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                         exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                             if (error) {
-                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                             }
                                 
                                                             console.log(stdout);
@@ -342,7 +336,13 @@ async function getInput() {
 
 
                                 } else {
-                                    if(checkStringForKeywords(absolutePath, TEST_NEED_AUTHENTICATION)) {
+                                    
+                                    // Mencari file test yang membutuhkan account untuk authentication
+                                    let authenticationFound = TEST_NEED_AUTHENTICATION.some((item) =>
+                                        input.toLowerCase().includes(item)
+                                    );
+
+                                    if(authenticationFound) {
                                         console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
             
                                         function getInfoAccount() {

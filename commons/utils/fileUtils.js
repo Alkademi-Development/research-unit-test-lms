@@ -55,15 +55,6 @@ function printFileTree(folderPath) {
   console.log(tree);
 }
 
-function checkStringForKeywords(string, keywords) {
-  for (const keyword of keywords) {
-    if (string.includes(keyword)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 async function takeScreenshot(driver, path) {
   const bodyElement = await driver.findElement(By.css('body'));
   await driver.executeScript("document.body.style.height = '100%';");
@@ -76,6 +67,5 @@ export {
     getAllFilePaths,
     getTheListOfFileRecursively,
     printFileTree,
-    checkStringForKeywords,
     takeScreenshot
 }

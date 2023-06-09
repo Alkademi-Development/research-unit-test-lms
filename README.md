@@ -12,7 +12,7 @@
 2. Setup Environment Variables, after you downloaded all webdriver. you can put that driver file in folder SysWOW64 or System32 at disk C:\Windows\SysWOW64 or C:\Windows\System32,
 after that you must copy the path of that driver file saved it before and enter it into environment variables so that it can be accessed globally.
 
-3. After you already setup environment variables. You can run this command in the project
+3. After you already setup environment variables, you can run this command in the project. but firstly you must decided where's the environment you want to run the test, is it on production, staging, development, or even local. you can check it at file api/app-token.js for choose where is the test to run. after you already choosed, now you can run this command in the project.
 
     ```
     npm install

@@ -1,12 +1,12 @@
 import clc from 'cli-color';
-import { request, paramsRequest } from './services-api.js';
-// import { paramsRequest } from './app-token.js';
+import { request, apiParamsRequest } from './services-api.js';
 
 const signIn = async (dataRequest) => {
 
     try {
         const res = await request.post('auth/signin')
-          .set(paramsRequest.sApp, paramsRequest.sAppToken)
+          .set('Authorization', apiParamsRequest.Authorization)
+          .set('AppToken', apiParamsRequest.AppToken)
           .send(dataRequest);
     
         return res;

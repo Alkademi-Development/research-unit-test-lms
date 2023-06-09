@@ -1,4 +1,6 @@
-const TEST_NEED_AUTHENTICATION = ['login', 'logout', 'dashboard', 'classroom'];
+const TEST_NEED_AUTHENTICATION = [
+    'login', 'logout', 'dashboard', 'classroom', 'course', 'program', 'user'
+];
 
 const TEST_NEED_ID_OR_SLUG = ['create', 'edit', 'update', 'delete'];
 
