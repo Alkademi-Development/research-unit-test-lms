@@ -2,14 +2,14 @@
   "stats": {
     "suites": 1,
     "tests": 1,
-    "passes": 0,
+    "passes": 1,
     "pending": 0,
-    "failures": 1,
-    "start": "2023-06-09T01:17:14.603Z",
-    "end": "2023-06-09T01:18:14.086Z",
-    "duration": 59483,
+    "failures": 0,
+    "start": "2023-06-09T04:26:51.577Z",
+    "end": "2023-06-09T04:27:54.087Z",
+    "duration": 62510,
     "testsRegistered": 1,
-    "passPercent": 0,
+    "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "b584f499-2967-4a9b-9ee6-3581a6c3c61f",
+      "uuid": "c1dbb366-1194-41b5-9afc-0568c560faf3",
       "title": "",
       "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\dashboard\\classroom\\course\\index.js",
       "file": "\\test\\app\\dashboard\\classroom\\course\\index.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "5f5c0b49-e1eb-437e-8e34-d0f17ef1d2ce",
+          "uuid": "be092930-a758-42df-b8b0-129835e3d294",
           "title": "Course",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\dashboard\\classroom\\course\\index.js",
           "file": "\\test\\app\\dashboard\\classroom\\course\\index.js",
@@ -37,7 +37,7 @@
               "title": "\"after each\" hook in \"Course\"",
               "fullTitle": "Course \"after each\" hook in \"Course\"",
               "timedOut": false,
-              "duration": 3274,
+              "duration": 3238,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,44 +46,40 @@
               "context": null,
               "code": "await takeScreenshot(driver, path.resolve(`./screenshoot/test/app/Dashboard/Classroom/Course/index/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));\nawait driver.sleep(3000);\nawait driver.quit();",
               "err": {},
-              "uuid": "81d8a7a7-e5c1-4c37-9fe3-f3a3433986c3",
-              "parentUUID": "5f5c0b49-e1eb-437e-8e34-d0f17ef1d2ce",
+              "uuid": "9a44f9b3-04a6-49b4-85a7-ca82ed36b365",
+              "parentUUID": "be092930-a758-42df-b8b0-129835e3d294",
               "isHook": true,
               "skipped": false
             }
           ],
           "tests": [
             {
-              "title": "Super Admin - Create Materi from Detail Class from browser chrome",
-              "fullTitle": "Course Super Admin - Create Materi from Detail Class from browser chrome",
+              "title": "Mentor - Create Materi from Detail Class from browser chrome",
+              "fullTitle": "Course Mentor - Create Materi from Detail Class from browser chrome",
               "timedOut": false,
-              "duration": 56183,
-              "state": "failed",
-              "speed": null,
-              "pass": false,
-              "fail": true,
+              "duration": 59269,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
               "pending": false,
               "context": null,
-              "code": "try {\n                        \n                        // Go to application\n                        driver = await goToApp(browser, appHost);\n                        await driver.manage().window().maximize();\n        \n                        // login to the application\n                        errorMessages = await enterDashboard(driver, user);\n        \n                        // Aksi Masuk ke dalam halaman class\n                        await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();\n                        let cardClass = await driver.findElement(By.css(`div.card-class`));\n                        await driver.wait(until.stalenessOf(cardClass));\n                        errorMessages = await captureConsoleErrors(driver);\n        \n                        // Aksi mengecek apakah ada card class atau card classnya lebih dari 1\n                        let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));\n                        await driver.wait(until.stalenessOf(loadingSkeleton))\n                        let itemClass = await driver.findElements(By.css(`div.item-class`));\n                        // Error ketika card classnya kosong\n                        await thrownAnError('Item class is empty', itemClass.length == 0);\n        \n                        // Aksi memilih salah satu card class\n                        await itemClass[faker.helpers.arrayElement([0,1,2])].findElement(By.css('h1.title')).click();\n        \n                        // Aksi mengklik tab materi pada detail class\n                        let itemTabs = await driver.findElements(By.css(\".item-tab\"));\n                        itemTabs[1].findElement(By.css('span')).click();\n        \n                        // Aksi mengklik button tambah materi\n                        await driver.wait(until.elementLocated(By.css(\"i.ri-add-fill\")));\n                        await driver.findElement(By.css(\"i.ri-add-fill\")).click();\n                        await driver.wait(until.elementLocated(By.css(\".dropdown-menu.dropdown-menu-right\")));\n                        let buttonsDropdownItem = await driver.findElements(By.css(\".dropdown-menu.dropdown-menu-right button.dropdown-item\"));\n                        await buttonsDropdownItem[1].click();\n        \n                        // Aksi mengisi form untuk membuat materi baru\n                        const { \n   titleCourse,\n   descriptionCourse,\n   standardPassedCourse,\n   typeCourse \n                        } = await createData(driver);\n        \n                        let dataTitleCourse = await titleCourse.getAttribute(\"value\");\n        \n                        // Periksa apakah semua elemen telah terisi\n                        const isAllFilled = await Promise.all([\n   titleCourse.getAttribute('value'),\n   descriptionCourse.getAttribute('value'),\n   standardPassedCourse.getAttribute('value'),\n   typeCourse.getAttribute('value'),\n                        ]).then(values => values.every(value => value !== ''));\n        \n                        if(isAllFilled) {\n   await driver.findElement(By.css(\"button[type='submit']\")).click();\n   await driver.wait(until.elementLocated(By.css(\".alert.alert-success\")));\n                        }\n\n                        const alertSuccess = await driver.executeScript(\"return document.querySelectorAll('.alert.alert-success')\");\n        \n                        // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya\n                        await driver.wait(until.elementsLocated(By.css('.card-body')));\n                        const courses = await driver.findElements(By.css(\".card-body .header h4.title\"));\n                        let findCourse = [];\n                        \n                        for (let index = 0; index < courses.length; index++) {\n   if(await courses[index].getAttribute('innerText') === dataTitleCourse) {\n       findCourse.push(courses[index]);\n   }\n                        }\n        \n                        expect(isAllFilled, 'Expect all input value is filled').to.equal(true);\n                        expect(alertSuccess.length, 'Expect show alert success after created a new data').to.equal(1);\n                        expect(findCourse.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);\n        \n                        const pageUrl = await driver.getCurrentUrl();\n                        expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');\n                    } catch (error) {\n                        // console.error(error?.stack?.split('\\n')[1]);\n                        expect.fail(error?.stack);\n                    }",
-              "err": {
-                "message": "AssertionError: AssertionError: The data returned should expect one data because it has previously created a new data: expected +0 to equal 1\n    at Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/app/dashboard/classroom/course/index.js:115:143)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
-                "estack": "AssertionError: AssertionError: The data returned should expect one data because it has previously created a new data: expected +0 to equal 1\n    at Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/app/dashboard/classroom/course/index.js:115:143)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/app/dashboard/classroom/course/index.js:121:32)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
-                "diff": null
-              },
-              "uuid": "ddbb9fad-066a-4dda-aa5b-7ac0feb556c3",
-              "parentUUID": "5f5c0b49-e1eb-437e-8e34-d0f17ef1d2ce",
+              "code": "try {\n\n// Go to application\ndriver = await goToApp(browser, appHost);\nawait driver.manage().window().maximize();\n        \n// login to the application\nerrorMessages = await enterDashboard(driver, user);\n        \n// Aksi Masuk ke dalam halaman class\nawait driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();\nlet cardClass = await driver.findElement(By.css(`div.card-class`));\nawait driver.wait(until.stalenessOf(cardClass));\nerrorMessages = await captureConsoleErrors(driver);\n        \n// Aksi mengecek apakah ada card class atau card classnya lebih dari 1\nlet loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));\nawait driver.wait(until.stalenessOf(loadingSkeleton))\nlet itemClass = await driver.findElements(By.css(`div.item-class`));\n// Error ketika card classnya kosong\nawait thrownAnError('Item class is empty', itemClass.length == 0);\n        \n// Aksi memilih salah satu card class\nawait itemClass[faker.helpers.arrayElement([0,1,2])].findElement(By.css('h1.title')).click();\n        \n// Aksi mengklik tab materi pada detail class\nlet itemTabs = await driver.findElements(By.css(\".item-tab\"));\nitemTabs[1].findElement(By.css('span')).click();\n        \n// Aksi mengklik button tambah materi\nawait driver.wait(until.elementLocated(By.css(\"i.ri-add-fill\")));\nawait driver.findElement(By.css(\"i.ri-add-fill\")).click();\nawait driver.wait(until.elementLocated(By.css(\".dropdown-menu.dropdown-menu-right\")));\nlet buttonsDropdownItem = await driver.findElements(By.css(\".dropdown-menu.dropdown-menu-right button.dropdown-item\"));\nawait buttonsDropdownItem[2].click();\n        \n// Aksi mengisi form untuk membuat materi baru\nconst { \n    titleCourse,\n    descriptionCourse,\n    standardPassedCourse,\n    typeCourse \n} = await createData(driver);\n        \nlet dataTitleCourse = await titleCourse.getAttribute(\"value\");\n        \n// Periksa apakah semua elemen telah terisi\nconst isAllFilled = await Promise.all([\n    titleCourse.getAttribute('value'),\n    descriptionCourse.getAttribute('value'),\n    standardPassedCourse.getAttribute('value'),\n    typeCourse.getAttribute('value'),\n]).then(values => values.every(value => value !== ''));\n        \nif(isAllFilled) {\n    await driver.findElement(By.css(\"button[type='submit']\")).click();\n    await driver.wait(until.elementLocated(By.css(\".alert.alert-success\")));\n}\nconst alertSuccess = await driver.executeScript(\"return document.querySelectorAll('.alert.alert-success')\");\n        \n// Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya\nawait driver.wait(until.elementsLocated(By.css('.card-body')));\nconst courses = await driver.findElements(By.css(\".card-body .header h4.title\"));\nlet findCourse = [];\n\nfor (let index = 0; index < courses.length; index++) {\n    if(await courses[index].getAttribute('innerText') === dataTitleCourse) {\n        findCourse.push(courses[index]);\n    }\n}\n        \nexpect(isAllFilled, 'Expect all input value is filled').to.equal(true);\nexpect(alertSuccess.length, 'Expect show alert success after created a new data').to.equal(1);\nexpect(findCourse.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);\n        \nconst pageUrl = await driver.getCurrentUrl();\nexpect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');\n                    } catch (error) {\n// console.error(error?.stack?.split('\\n')[1]);\nexpect.fail(error?.stack);\n                    }",
+              "err": {},
+              "uuid": "12f173fb-0f83-42f9-9cb2-a743d6324cba",
+              "parentUUID": "be092930-a758-42df-b8b0-129835e3d294",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
-          "passes": [],
-          "failures": [
-            "ddbb9fad-066a-4dda-aa5b-7ac0feb556c3"
+          "passes": [
+            "12f173fb-0f83-42f9-9cb2-a743d6324cba"
           ],
+          "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 56183,
+          "duration": 59269,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0

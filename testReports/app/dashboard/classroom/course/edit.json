@@ -2,14 +2,14 @@
   "stats": {
     "suites": 1,
     "tests": 2,
-    "passes": 0,
+    "passes": 1,
     "pending": 1,
-    "failures": 1,
-    "start": "2023-06-09T04:17:18.078Z",
-    "end": "2023-06-09T04:18:53.078Z",
-    "duration": 95000,
+    "failures": 0,
+    "start": "2023-06-09T04:33:04.842Z",
+    "end": "2023-06-09T04:34:06.375Z",
+    "duration": 61533,
     "testsRegistered": 2,
-    "passPercent": 0,
+    "passPercent": 100,
     "pendingPercent": 50,
     "other": 0,
     "hasOther": false,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "ad17175c-c832-4d6f-89c8-b27d55ba08c9",
+      "uuid": "29afc893-0eb1-4b23-8c4a-817e5245a7ff",
       "title": "",
       "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\dashboard\\classroom\\course\\edit.js",
       "file": "\\test\\app\\dashboard\\classroom\\course\\edit.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "31239088-ffa7-424e-aeb9-63e15a4db438",
+          "uuid": "27414dfb-2437-49b6-bbfa-a9156449e278",
           "title": "Course",
           "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\dashboard\\classroom\\course\\edit.js",
           "file": "\\test\\app\\dashboard\\classroom\\course\\edit.js",
@@ -37,7 +37,7 @@
               "title": "\"after each\" hook in \"Course\"",
               "fullTitle": "Course \"after each\" hook in \"Course\"",
               "timedOut": false,
-              "duration": 3335,
+              "duration": 3354,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,16 +46,34 @@
               "context": null,
               "code": "await takeScreenshot(driver, path.resolve(`./screenshoot/test/app/Dashboard/Classroom/Course/edit/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));\nawait driver.sleep(3000);\nawait driver.manage().deleteAllCookies();\nawait driver.quit();",
               "err": {},
-              "uuid": "2fe66c2d-2a6c-48c1-bbf2-6c10f3782f73",
-              "parentUUID": "31239088-ffa7-424e-aeb9-63e15a4db438",
+              "uuid": "a2ef3fb0-359d-429e-a3a6-551b2233dc3e",
+              "parentUUID": "27414dfb-2437-49b6-bbfa-a9156449e278",
               "isHook": true,
               "skipped": false
             }
           ],
           "tests": [
             {
-              "title": "Admin - Create Materi from Detail Class from browser chrome",
-              "fullTitle": "Course Admin - Create Materi from Detail Class from browser chrome",
+              "title": "Mentor - Create Materi from Detail Class from browser chrome",
+              "fullTitle": "Course Mentor - Create Materi from Detail Class from browser chrome",
+              "timedOut": false,
+              "duration": 58171,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "try {\n\n// Go to application\ndriver = await goToApp(browser, appHost);\nawait driver.manage().window().maximize();\n        \n// login to the application\nerrorMessages = await enterDashboard(driver, user);\n        \n// Aksi Masuk ke dalam halaman class\nawait driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();\nlet cardClass = await driver.findElement(By.css(`div.card-class`));\nawait driver.wait(until.stalenessOf(cardClass));\nerrorMessages = await captureConsoleErrors(driver);\n        \n// Aksi mengecek apakah ada card class atau card classnya lebih dari 1\nlet loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));\nawait driver.wait(until.stalenessOf(loadingSkeleton))\nlet itemClass = await driver.findElements(By.css(`div.item-class`));\n// Error ketika card classnya kosong\nawait thrownAnError('Item class is empty', itemClass.length == 0);\n        \n// Aksi memilih salah satu card class\nawait itemClass[faker.helpers.arrayElement([0,1,2])].findElement(By.css('h1.title')).click();\n        \n// Aksi mengklik tab materi pada detail class\nlet itemTabs = await driver.findElements(By.css(\".item-tab\"));\nitemTabs[1].findElement(By.css('span')).click();\n// Aksi menunggu list materi untuk muncul\nawait driver.wait(until.elementsLocated(By.css('.card-body .header h4.title')));\n// Aksi meng-hover icon edit dan mengkliknya\nlet listCourse = await driver.findElements(By.css('.card-body .header h4.title'));\nlet editCourse = await listCourse[faker.helpers.arrayElement([0, 1, 2])];\nawait driver.actions({async: true}).move({origin: editCourse}).perform();\nawait driver.sleep(5000);\nlet actionBtns = await driver.findElements(By.css('.action-container .action'));\nconst statusDisplayCourse = await driver.executeScript(\n    \"return getComputedStyle(arguments[0]).getPropertyValue('display')\",\n    actionBtns[1]\n);\n// Mengecek jika element berhasil di hover, maka akan di klik\nif(statusDisplayCourse == 'flex') await actionBtns[1].click();\nelse throw new Error('Sorry failed to hover the icon edit of course');\nconst { titleCourse, descriptionCourse } = await editData(driver);\n\nlet dataTitleCourse = await titleCourse.getAttribute(\"value\");\n        \n// Periksa apakah semua elemen telah terisi\nconst isAllFilled = await Promise.all([\n    titleCourse.getAttribute('value'),\n    descriptionCourse.getAttribute('value'),\n]).then(values => values.every(value => value !== ''));\n        \nif(isAllFilled) {\n    await driver.findElement(By.css(\"button[type='submit']\")).click();\n    await driver.wait(until.elementLocated(By.css(\".alert.alert-success\")));\n}\nconst alertSuccess = await driver.executeScript(\"return document.querySelectorAll('.alert.alert-success')\");\n        \n// Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya\nawait driver.wait(until.elementsLocated(By.css('.card-body')));\nconst courses = await driver.findElements(By.css(\".card-body .header h4.title\"));\nlet findCourse = [];\n\nfor (let index = 0; index < courses.length; index++) {\n    if(await courses[index].getAttribute('innerText') === dataTitleCourse) {\n        findCourse.push(courses[index]);\n    }\n}\n        \nexpect(isAllFilled, 'Expect all input value is filled').to.equal(true);\nexpect(alertSuccess.length, 'Expect show alert success after created a new data').to.equal(1);\nexpect(findCourse.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);\n        \nconst pageUrl = await driver.getCurrentUrl();\nexpect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');\n                    } catch (error) {\n// console.error(error?.stack?.split('\\n')[1]);\nexpect.fail(error?.stack);\n                    }",
+              "err": {},
+              "uuid": "2d62e7d5-a7ff-4a51-8983-eb95eaaab6c2",
+              "parentUUID": "27414dfb-2437-49b6-bbfa-a9156449e278",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Mentor - Check the icon edit and delete from Detail Class from browser chrome",
+              "fullTitle": "Course Mentor - Check the icon edit and delete from Detail Class from browser chrome",
               "timedOut": false,
               "duration": 0,
               "state": "pending",
@@ -66,44 +84,22 @@
               "context": null,
               "code": "",
               "err": {},
-              "uuid": "7c2f211b-d056-43f2-8669-c988266c49d1",
-              "parentUUID": "31239088-ffa7-424e-aeb9-63e15a4db438",
-              "isHook": false,
-              "skipped": false
-            },
-            {
-              "title": "Admin - Check the icon edit and delete from Detail Class from browser chrome",
-              "fullTitle": "Course Admin - Check the icon edit and delete from Detail Class from browser chrome",
-              "timedOut": false,
-              "duration": 91625,
-              "state": "failed",
-              "speed": null,
-              "pass": false,
-              "fail": true,
-              "pending": false,
-              "context": null,
-              "code": "try {\n\n// Go to application\ndriver = await goToApp(browser, appHost);\nawait driver.manage().window().maximize();\n        \n// login to the application\nerrorMessages = await enterDashboard(driver, user);\n        \n// Aksi Masuk ke dalam halaman class\nawait driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();\nlet cardClass = await driver.findElement(By.css(`div.card-class`));\nawait driver.wait(until.stalenessOf(cardClass));\nerrorMessages = await captureConsoleErrors(driver);\n        \n// Aksi mengecek apakah ada card class atau card classnya lebih dari 1\nlet loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));\nawait driver.wait(until.stalenessOf(loadingSkeleton))\nlet itemClass = await driver.findElements(By.css(`div.item-class`));\n// Error ketika card classnya kosong\nawait thrownAnError('Item class is empty', itemClass.length == 0);\n        \n// Aksi memilih salah satu card class\nawait itemClass[faker.helpers.arrayElement([0,1,2])].findElement(By.css('h1.title')).click();\n        \n// Aksi mengklik tab materi pada detail class\nlet itemTabs = await driver.findElements(By.css(\".item-tab\"));\nitemTabs[1].findElement(By.css('span')).click();\n// Aksi menunggu list materi untuk muncul\nawait driver.wait(until.elementsLocated(By.css('.card-body .header h4.title')));\n// Aksi meng-hover icon edit dan mengkliknya\nlet listCourse = await driver.findElements(By.css('.card-body .header h4.title'));\nlet editCourse = await listCourse[faker.helpers.arrayElement([0, 1, 2])];\nawait driver.actions({async: true}).move({origin: editCourse}).perform();\nawait driver.sleep(5000);\nlet actionBtns = await driver.findElements(By.css('.action-container .action'));\nlet statusDisplayEditCourse = await driver.executeScript(\n    \"return getComputedStyle(arguments[0]).getPropertyValue('display')\",\n    actionBtns[1]\n);\nlet statusDisplayDeleteCourse = await driver.executeScript(\n    \"return getComputedStyle(arguments[0]).getPropertyValue('display')\",\n    actionBtns[2]\n);\n\n// Mengecek jika element berhasil di hover, maka akan di klik\nawait thrownAnError('Sorry failed to hover the icon edit & delete of course, because its not displayed', statusDisplayEditCourse != 'flex' && statusDisplayDeleteCourse != 'flex');\nexpect(statusDisplayEditCourse).to.equal('flex');\nexpect(statusDisplayDeleteCourse).to.equal('flex');\n                    } catch (error) {\n// console.error(error?.stack?.split('\\n')[1]);\nexpect.fail(error?.stack);\n                    }",
-              "err": {
-                "message": "AssertionError: Error: Sorry failed to hover the icon edit & delete of course, because its not displayed\n    at thrownAnError (file:///D:/allbasic/nodejs/selenium/testingapp/commons/utils/generalUtils.js:27:15)\n    at Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/app/dashboard/classroom/course/edit.js:268:31)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
-                "estack": "AssertionError: Error: Sorry failed to hover the icon edit & delete of course, because its not displayed\n    at thrownAnError (file:///D:/allbasic/nodejs/selenium/testingapp/commons/utils/generalUtils.js:27:15)\n    at Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/app/dashboard/classroom/course/edit.js:268:31)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at Context.<anonymous> (file:///D:/allbasic/nodejs/selenium/testingapp/test/app/dashboard/classroom/course/edit.js:274:32)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
-                "diff": null
-              },
-              "uuid": "81e5e23c-e3b6-4e93-ab04-74dfc2218934",
-              "parentUUID": "31239088-ffa7-424e-aeb9-63e15a4db438",
+              "uuid": "3a3cb0d8-11ba-462b-a062-6cc85990c7d2",
+              "parentUUID": "27414dfb-2437-49b6-bbfa-a9156449e278",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
-          "passes": [],
-          "failures": [
-            "81e5e23c-e3b6-4e93-ab04-74dfc2218934"
+          "passes": [
+            "2d62e7d5-a7ff-4a51-8983-eb95eaaab6c2"
           ],
+          "failures": [],
           "pending": [
-            "7c2f211b-d056-43f2-8669-c988266c49d1"
+            "3a3cb0d8-11ba-462b-a062-6cc85990c7d2"
           ],
           "skipped": [],
-          "duration": 91625,
+          "duration": 58171,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0

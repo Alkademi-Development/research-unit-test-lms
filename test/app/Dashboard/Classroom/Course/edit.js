@@ -367,6 +367,68 @@ describe("Course", () => {
                     } 
                     
                 });
+                
+                it.skip(`Mentor - Check the icon edit and delete from Detail Class from browser ${browser}`, async function() {
+                        
+                    try {
+                        
+                        // Go to application
+                        driver = await goToApp(browser, appHost);
+                        await driver.manage().window().maximize();
+        
+                        // login to the application
+                        errorMessages = await enterDashboard(driver, user);
+        
+                        // Aksi Masuk ke dalam halaman class
+                        await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                        let cardClass = await driver.findElement(By.css(`div.card-class`));
+                        await driver.wait(until.stalenessOf(cardClass));
+                        errorMessages = await captureConsoleErrors(driver);
+        
+                        // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
+                        let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));
+                        await driver.wait(until.stalenessOf(loadingSkeleton))
+                        let itemClass = await driver.findElements(By.css(`div.item-class`));
+                        // Error ketika card classnya kosong
+                        await thrownAnError('Item class is empty', itemClass.length == 0);
+        
+                        // Aksi memilih salah satu card class
+                        await itemClass[faker.helpers.arrayElement([0,1,2])].findElement(By.css('h1.title')).click();
+        
+                        // Aksi mengklik tab materi pada detail class
+                        let itemTabs = await driver.findElements(By.css(".item-tab"));
+                        itemTabs[1].findElement(By.css('span')).click();
+
+                        // Aksi menunggu list materi untuk muncul
+                        await driver.wait(until.elementsLocated(By.css('.card-body .header h4.title')));
+
+                        // Aksi meng-hover icon edit dan mengkliknya
+                        let listCourse = await driver.findElements(By.css('.card-body .header h4.title'));
+                        let editCourse = await listCourse[faker.helpers.arrayElement([0, 1, 2])];
+                        await driver.actions({async: true}).move({origin: editCourse}).perform();
+                        await driver.sleep(5000);
+                        let actionBtns = await driver.findElements(By.css('.action-container .action'));
+                        let statusDisplayEditCourse = await driver.executeScript(
+                            "return getComputedStyle(arguments[0]).getPropertyValue('display')",
+                            actionBtns[1]
+                        );
+                        let statusDisplayDeleteCourse = await driver.executeScript(
+                            "return getComputedStyle(arguments[0]).getPropertyValue('display')",
+                            actionBtns[2]
+                        );
+                        
+                        // Mengecek jika element berhasil di hover, maka akan di klik
+                        await thrownAnError('Sorry failed to hover the icon edit & delete of course, because its not displayed', statusDisplayEditCourse != 'flex' && statusDisplayDeleteCourse != 'flex');
+
+                        expect(statusDisplayEditCourse).to.equal('flex');
+                        expect(statusDisplayDeleteCourse).to.equal('flex');
+                    } catch (error) {
+                        // console.error(error?.stack?.split('\n')[1]);
+                        expect.fail(error?.stack);
+                    } 
+                    
+                });
+
                 break;
             default:
                 it(`Other Create Materi from Detail Class from browser ${browser}`, async function() {
