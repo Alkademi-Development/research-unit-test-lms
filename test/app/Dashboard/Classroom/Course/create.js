@@ -15,7 +15,6 @@ import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { captureConsoleErrors, thrownAnError } from '#root/commons/utils/generalUtils';
 import { faker } from '@faker-js/faker';
 import { createData } from '#root/helpers/Dashboard/Classroom/course';
-import { editData } from '#root/helpers/Dashboard/Classroom/course';
 import { fileURLToPath } from 'url';
 
 /**
@@ -30,7 +29,7 @@ let screenshootFilePath = fileURLToPath(import.meta.url);
 screenshootFilePath = path.resolve(`./screenshoot/test/${screenshootFilePath.replaceAll("\\", "\\").split("\\test\\")[1].replaceAll(".js", "")}`);
 
 describe("Course", () => {
-    
+
     after(async function () {
         console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
     });
@@ -61,11 +60,11 @@ describe("Course", () => {
             const kind = parseInt(userAccount[3]);
             
             let user = { name, email, password, kind };
-            
+
             switch (user.kind) {
                 case 0:
-                    it(`Super Admin - Edit Materi from Detail Class from browser ${browser}`, async function() {
-                            
+                    it(`Super Admin - Create Materi from Detail Class from browser ${browser}`, async function() {
+                             
                         try {
                             
                             // Go to application
@@ -94,42 +93,37 @@ describe("Course", () => {
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
                             itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementsLocated(By.css('.card-body .header h4.title')));
-
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.findElements(By.css('.card .card-body .header'));
-                            let editCourse = listCourse[faker.number.int({ min: 0, max: listCourse.length - 1 })];
-                            const actions = driver.actions({async: true});
-                            await actions.move({origin: editCourse}).perform();
-                            await driver.sleep(5000);
-
-                            // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
-                            const statusDisplayCourse = await driver.executeScript(
-                                "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
-                            );
-                            // Mengecek jika element berhasil di hover, maka akan di klik
-                            if(statusDisplayCourse == 'flex') await actionBtns[1].click();
-                            else throw new Error('Sorry failed to hover the icon edit of course');
-
-                            const { titleCourse, descriptionCourse } = await editData(driver);
-                            
+            
+                            // Aksi mengklik button tambah materi
+                            await driver.wait(until.elementLocated(By.css("i.ri-add-fill")));
+                            await driver.findElement(By.css("i.ri-add-fill")).click();
+                            await driver.wait(until.elementLocated(By.css(".dropdown-menu.dropdown-menu-right")));
+                            let buttonsDropdownItem = await driver.findElements(By.css(".dropdown-menu.dropdown-menu-right button.dropdown-item"));
+                            await buttonsDropdownItem[1].click();
+            
+                            // Aksi mengisi form untuk membuat materi baru
+                            const { 
+                                titleCourse,
+                                descriptionCourse,
+                                standardPassedCourse,
+                                typeCourse 
+                            } = await createData(driver);
+            
                             let dataTitleCourse = await titleCourse.getAttribute("value");
             
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleCourse.getAttribute('value'),
                                 descriptionCourse.getAttribute('value'),
+                                standardPassedCourse.getAttribute('value'),
+                                typeCourse.getAttribute('value'),
                             ]).then(values => values.every(value => value !== ''));
             
                             if(isAllFilled) {
                                 await driver.findElement(By.css("button[type='submit']")).click();
                                 await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
                             }
-
+    
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
@@ -152,13 +146,13 @@ describe("Course", () => {
                         } catch (error) {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
-                        } 
+                        }
                         
                     });
                     break;
                 case 1:
-                    it(`Admin - Edit Materi from Detail Class from browser ${browser}`, async function() {
-                            
+                    it(`Admin - Create Materi from Detail Class from browser ${browser}`, async function() {
+                             
                         try {
                             
                             // Go to application
@@ -187,42 +181,37 @@ describe("Course", () => {
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
                             itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementsLocated(By.css('.card-body .header h4.title')));
-
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.findElements(By.css('.card .card-body .header'));
-                            let editCourse = listCourse[faker.number.int({ min: 0, max: listCourse.length - 1 })];
-                            const actions = driver.actions({async: true});
-                            await actions.move({origin: editCourse}).perform();
-                            await driver.sleep(5000);
-
-                            // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
-                            const statusDisplayCourse = await driver.executeScript(
-                                "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
-                            );
-                            // Mengecek jika element berhasil di hover, maka akan di klik
-                            if(statusDisplayCourse == 'flex') await actionBtns[1].click();
-                            else throw new Error('Sorry failed to hover the icon edit of course');
-
-                            const { titleCourse, descriptionCourse } = await editData(driver);
-                            
+            
+                            // Aksi mengklik button tambah materi
+                            await driver.wait(until.elementLocated(By.css("i.ri-add-fill")));
+                            await driver.findElement(By.css("i.ri-add-fill")).click();
+                            await driver.wait(until.elementLocated(By.css(".dropdown-menu.dropdown-menu-right")));
+                            let buttonsDropdownItem = await driver.findElements(By.css(".dropdown-menu.dropdown-menu-right button.dropdown-item"));
+                            await buttonsDropdownItem[1].click();
+            
+                            // Aksi mengisi form untuk membuat materi baru
+                            const { 
+                                titleCourse,
+                                descriptionCourse,
+                                standardPassedCourse,
+                                typeCourse 
+                            } = await createData(driver);
+            
                             let dataTitleCourse = await titleCourse.getAttribute("value");
             
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleCourse.getAttribute('value'),
                                 descriptionCourse.getAttribute('value'),
+                                standardPassedCourse.getAttribute('value'),
+                                typeCourse.getAttribute('value'),
                             ]).then(values => values.every(value => value !== ''));
             
                             if(isAllFilled) {
                                 await driver.findElement(By.css("button[type='submit']")).click();
                                 await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
                             }
-
+    
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
@@ -245,14 +234,12 @@ describe("Course", () => {
                         } catch (error) {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
-                        } 
+                        }
                         
                     });
-
-
                     break;
                 case 2:
-                    it(`Mentor - Edit Materi from Detail Class from browser ${browser}`, async function() {
+                    it(`Mentor - Create Materi from Detail Class from browser ${browser}`, async function() {
                             
                         try {
                             
@@ -282,42 +269,37 @@ describe("Course", () => {
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
                             itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementsLocated(By.css('.card-body .header h4.title')));
-
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.findElements(By.css('.card .card-body .header'));
-                            let editCourse = listCourse[faker.number.int({ min: 0, max: listCourse.length - 1 })];
-                            const actions = driver.actions({async: true});
-                            await actions.move({origin: editCourse}).perform();
-                            await driver.sleep(5000);
-
-                            // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
-                            const statusDisplayCourse = await driver.executeScript(
-                                "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
-                            );
-                            // Mengecek jika element berhasil di hover, maka akan di klik
-                            if(statusDisplayCourse == 'flex') await actionBtns[1].click();
-                            else throw new Error('Sorry failed to hover the icon edit of course');
-
-                            const { titleCourse, descriptionCourse } = await editData(driver);
-                            
+            
+                            // Aksi mengklik button tambah materi
+                            await driver.wait(until.elementLocated(By.css("i.ri-add-fill")));
+                            await driver.findElement(By.css("i.ri-add-fill")).click();
+                            await driver.wait(until.elementLocated(By.css(".dropdown-menu.dropdown-menu-right")));
+                            let buttonsDropdownItem = await driver.findElements(By.css(".dropdown-menu.dropdown-menu-right button.dropdown-item"));
+                            await buttonsDropdownItem[2].click();
+            
+                            // Aksi mengisi form untuk membuat materi baru
+                            const { 
+                                titleCourse,
+                                descriptionCourse,
+                                standardPassedCourse,
+                                typeCourse 
+                            } = await createData(driver);
+            
                             let dataTitleCourse = await titleCourse.getAttribute("value");
             
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleCourse.getAttribute('value'),
                                 descriptionCourse.getAttribute('value'),
+                                standardPassedCourse.getAttribute('value'),
+                                typeCourse.getAttribute('value'),
                             ]).then(values => values.every(value => value !== ''));
             
                             if(isAllFilled) {
                                 await driver.findElement(By.css("button[type='submit']")).click();
                                 await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
                             }
-
+    
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
@@ -340,13 +322,12 @@ describe("Course", () => {
                         } catch (error) {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
-                        } 
+                        }
                         
                     });
-
                     break;
                 default:
-                    it(`Other - Edit Materi from Detail Class from browser ${browser}`, async function() {
+                    it(`Other Create Materi from Detail Class from browser ${browser}`, async function() {
                             
                         try {
                             
@@ -376,42 +357,37 @@ describe("Course", () => {
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
                             itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementsLocated(By.css('.card-body .header h4.title')));
-
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.findElements(By.css('.card .card-body .header'));
-                            let editCourse = listCourse[faker.number.int({ min: 0, max: listCourse.length - 1 })];
-                            const actions = driver.actions({async: true});
-                            await actions.move({origin: editCourse}).perform();
-                            await driver.sleep(5000);
-
-                            // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
-                            const statusDisplayCourse = await driver.executeScript(
-                                "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
-                            );
-                            // Mengecek jika element berhasil di hover, maka akan di klik
-                            if(statusDisplayCourse == 'flex') await actionBtns[1].click();
-                            else throw new Error('Sorry failed to hover the icon edit of course');
-
-                            const { titleCourse, descriptionCourse } = await editData(driver);
-                            
+            
+                            // Aksi mengklik button tambah materi
+                            await driver.wait(until.elementLocated(By.css("i.ri-add-fill")));
+                            await driver.findElement(By.css("i.ri-add-fill")).click();
+                            await driver.wait(until.elementLocated(By.css(".dropdown-menu.dropdown-menu-right")));
+                            let buttonsDropdownItem = await driver.findElements(By.css(".dropdown-menu.dropdown-menu-right button.dropdown-item"));
+                            await buttonsDropdownItem[2].click();
+            
+                            // Aksi mengisi form untuk membuat materi baru
+                            const { 
+                                titleCourse,
+                                descriptionCourse,
+                                standardPassedCourse,
+                                typeCourse 
+                            } = await createData(driver);
+            
                             let dataTitleCourse = await titleCourse.getAttribute("value");
             
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleCourse.getAttribute('value'),
                                 descriptionCourse.getAttribute('value'),
+                                standardPassedCourse.getAttribute('value'),
+                                typeCourse.getAttribute('value'),
                             ]).then(values => values.every(value => value !== ''));
             
                             if(isAllFilled) {
                                 await driver.findElement(By.css("button[type='submit']")).click();
                                 await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
                             }
-
+    
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
@@ -434,13 +410,12 @@ describe("Course", () => {
                         } catch (error) {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
-                        } 
+                        }
                         
                     });
                     break;
             }
-        });
-
+        })
     })
     
 

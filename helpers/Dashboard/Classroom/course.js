@@ -1,6 +1,5 @@
 import pkg from 'selenium-webdriver';
-const { Builder, By, Key, until, elementsLocated, locateWith } = pkg;
-import path from 'path';
+const { By } = pkg;
 import { faker } from '@faker-js/faker';
 
 
