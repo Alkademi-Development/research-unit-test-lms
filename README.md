@@ -31,12 +31,14 @@ after that you must copy the path of that driver file saved it before and enter 
 - Dynamic Webdriver
 - Nested File
 - Can Choose Recursive Tests or No
-- Can use cmd for testing file (all and one)
+- Can use cmd for testing file (all type of tests e.g: app or api and one test)
 - Can use dynamic environment
 - Style the list of file tests
 - Multiple reports 
+- Multiple accounts or roles
+- Can screenshoot of the test at the end
 - Get the screenshoot at the end of test
-- Get the errros directly from the app, so its not just from selenium
+- Get the errros directly from the app, so its not just from selenium (but for firefox still on progress, its still not sure will supported or no)
 - Detection server is down or no when make a request to the server
 
 ## Guidelines Commands & Flags
