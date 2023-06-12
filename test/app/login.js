@@ -74,7 +74,7 @@ describe("Login", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -123,7 +123,7 @@ describe("Login", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -173,7 +173,7 @@ describe("Login", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -223,7 +223,7 @@ describe("Login", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 

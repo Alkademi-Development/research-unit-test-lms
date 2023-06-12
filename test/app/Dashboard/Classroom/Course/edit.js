@@ -77,7 +77,7 @@ describe("Course", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
@@ -170,7 +170,7 @@ describe("Course", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
@@ -265,7 +265,7 @@ describe("Course", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
@@ -359,7 +359,7 @@ describe("Course", () => {
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser);
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
