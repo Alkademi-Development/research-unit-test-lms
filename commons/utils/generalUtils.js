@@ -26,8 +26,8 @@ async function captureConsoleErrors(driver, browser) {
 }
 
 async function captureAlertError(driver, browser) {
-    const alertWarning = await driver.findElement(By.css('.alert.alert-warning'));
-    if (alertWarning != null) {
+    const alertWarning = await driver.executeScript(`return document.querySelector('.alert.alert-warning')`);
+    if (alertWarning != null || alertWarning != undefined) {
         throw new Error(await alertWarning.getAttribute('innerText'));
     }
 }
