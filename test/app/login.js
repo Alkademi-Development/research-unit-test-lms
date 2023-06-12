@@ -13,6 +13,8 @@ import { goToApp } from '#root/commons/utils/appUtils';
 import { appHost } from '#root/api/app-token';
 import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { fileURLToPath } from 'url';
+import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
+import { thrownAnError } from '#root/commons/utils/generalUtils';
 
 /**
  * Get the user data for authentication
@@ -72,9 +74,12 @@ describe("Login", () => {
                             // Go to application
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -97,10 +102,6 @@ describe("Login", () => {
                             let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
                             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
                             userData = await JSON.parse(userData);
-
-                            if (errorMessages.length > 0) {
-                                throw new Error(errorMessages);
-                            }
 
                             assert.strictEqual(textStatus > 1, textStatus > 1);
                             expect(correctUrl.url).to.includes("v1/user/me");
