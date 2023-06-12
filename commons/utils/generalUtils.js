@@ -1,17 +1,17 @@
-import { Capabilities, logging } from "selenium-webdriver";
+import { By, Capabilities, logging } from "selenium-webdriver";
 
 const parseToDomain = (url) => {
 
     // Membuat objek URL dari string URL
     const parsedUrl = new URL(url);
-    
+
     // Mendapatkan domain utama tanpa subdomain
     const hostname = parsedUrl.hostname;
     const domain = hostname.startsWith('www.') ? parsedUrl.protocol + '//' + hostname.substring(4).split('.').slice(-2).join('.') : parsedUrl.protocol + '//' + hostname.split('.').slice(-2).join('.') + '/';
-    
-    
+
+
     return domain
-    
+
 
 }
 
@@ -25,8 +25,15 @@ async function captureConsoleErrors(driver, browser) {
     return errorMessages;
 }
 
+async function captureAlertError(driver, browser) {
+    const alertWarning = await driver.findElement(By.css('.alert.alert-warning'));
+    if (alertWarning != null) {
+        throw new Error(await alertWarning.getAttribute('innerText'));
+    }
+}
+
 async function thrownAnError(message, condition) {
-    if(condition) {
+    if (condition) {
         throw new Error(message);
     }
 }
@@ -34,5 +41,6 @@ async function thrownAnError(message, condition) {
 export {
     parseToDomain,
     captureConsoleErrors,
+    captureAlertError,
     thrownAnError
 }
