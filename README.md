@@ -13,7 +13,6 @@
 after that you must copy the path of that driver file saved it before and enter it into environment variables so that it can be accessed globally.
 
 3. After you already setup environment variables, you can run this command in the project. but firstly you must decided where's the environment you want to run the test, is it on production, staging, development, or even local. you can check it at file api/app-token.js for choose where is the test to run. after you already choosed, now you can run this command in the project.
-
     ```
     npm install
     ```
