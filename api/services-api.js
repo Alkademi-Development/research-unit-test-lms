@@ -8,8 +8,8 @@ const paramsRequest = {
 };
 
 const apiParamsRequest = {
-    Authorization: '2b357562094cb438d21af8f5cec6b22e382e1480b1ae5ec1',
-    AppToken: '692e44db271073fc:2d317a6d0749ba38d118f9fecdc9b27a3d241487b2f656cc230d9e16c44bf0c9cb9dc325c1f96191ac58ff74973e046797424edee48c7d047fbfa97ca91134005e63d89c748af08765cb6fb09cd6',
+    Authorization: '2d3d736d0b4bb733d21cf7ffc7cab22f3c2f1781b5',
+    AppToken: '692e44db271073fc:2d317a6d064eb435d11af6f2ccc9b27a3d241487b2f656cc230d9e16c44bf0c9cb9ec325c6ae6191f65dff74976b046797444edeb8df7d0478e8a97ca91734005e67d89c718ef08765cd6fb09cd6',
 }
 
 export {
