@@ -24,25 +24,26 @@ async function getInput() {
         accounts: [],
     };
 
-    rl.question(clc.bold(questionInputReportFile), inputReportFile => {
+            
+    async function askConfirmation() {
+        rl.question(clc.bold(`1. Apakah anda ingin membuat sample test baru atau menjalankan test ? (Y/t) `), async inputConfirmation => {
 
-        if(inputReportFile.includes(' ')) {
-            console.log(clc.red('Tidak boleh ada spasi!, tolong masukkan nama nya sesuai format yang di berikan'));
-            return getInput();
-        } else if(inputReportFile.includes('.')) {
-            console.log(clc.red('Tidak boleh ada tanda titik!, tolong masukkan nama nya sesuai format yang di berikan'));
-            return getInput();
-        }
-        
-        console.log(`${inputReportFile.trim() === '' ? "Baiklah, data report akan di generate by default" : "Baiklah, data report akan di sesuaikan dari anda dengan report file " + clc.green("'" + inputReportFile.trim() + "'")}`)
-        
-        async function askConfirmation() {
-            rl.question(clc.bold(`2. Apakah anda ingin membuat test baru atau menjalankan test ? (Y/t) `), async inputConfirmation => {
-    
-                if(inputConfirmation.trim().toLowerCase() === 't') {
-    
+            if(inputConfirmation.trim().toLowerCase() === 't') {
+                
+                rl.question(clc.bold(questionInputReportFile), inputReportFile => {
+
+                    if(inputReportFile.includes(' ')) {
+                        console.log(clc.red('Tidak boleh ada spasi!, tolong masukkan nama nya sesuai format yang di berikan'));
+                        return getInput();
+                    } else if(inputReportFile.includes('.')) {
+                        console.log(clc.red('Tidak boleh ada tanda titik!, tolong masukkan nama nya sesuai format yang di berikan'));
+                        return getInput();
+                    }
+                    
+                    console.log(`${inputReportFile.trim() === '' ? "Baiklah, data report akan di generate by default" : "Baiklah, data report akan di sesuaikan dari anda dengan report file " + clc.green("'" + inputReportFile.trim() + "'")}`)
+
                     let inputReportCommand = getCustomOptionReportFile(inputReportFile);
-    
+
                     printFileTree(testFolder);
                     console.log(clc.bold(`Or you can type 'app' if you want to test all files of type tests e.g: app or api, and if you want to test nested file just type like this ${clc.yellow("'test/nametest.js'")}`));
             
@@ -707,101 +708,100 @@ async function getInput() {
                         });
                     }
                     getInputFileName();
-    
-                } else if(inputConfirmation.trim().toLowerCase() === 'y') {
-                    
-                    function askInputTypeTest() {
 
-                        rl.question(clc.bold(`Pilih tipe file test yang ingin di buat, 
+                });
+
+
+            } else if(inputConfirmation.trim().toLowerCase() === 'y') {
+                
+                function askInputTypeTest() {
+
+                    rl.question(clc.bold(`Pilih tipe file test yang ingin di buat, 
 1. ${clc.yellow('Original')}
 2. ${clc.yellow('Authentication')}
 
 Pilih dari nomor yang tersedia: `), inputTypeTest => {
-    
-                            const typeTest = [1, 2];
-                            if(inputTypeTest.trim().toLowerCase() === '' || !typeTest.includes(parseInt(inputTypeTest))) {
-                                console.log(clc.red('Tipe test tidak valid, tolong masukkan sesuai instruksi'));
-                                askInputTypeTest();
-                            } else {
-                                
-                                function askInputPathFolder() {
-    
-    
-                                    rl.question('Tentukan path penyimpanan untuk file test e.g path/path : ', async inputPathFolder => {
-                
-                                        if(inputPathFolder.trim().toLowerCase().includes('.') || inputPathFolder.trim().toLowerCase().includes('\\')) {
-                                            console.log(clc.bold(clc.red('Tidak boleh adan tanda titik atau semacamnya, ikut instruksi! ')));
-                                            askInputPathFolder()
+
+                        const typeTest = [1, 2];
+                        if(inputTypeTest.trim().toLowerCase() === '' || !typeTest.includes(parseInt(inputTypeTest))) {
+                            console.log(clc.red('Tipe test tidak valid, tolong masukkan sesuai instruksi'));
+                            askInputTypeTest();
+                        } else {
+                            
+                            function askInputPathFolder() {
+
+
+                                rl.question('Tentukan path penyimpanan untuk file test e.g path/path : ', async inputPathFolder => {
+            
+                                    if(inputPathFolder.trim().toLowerCase().includes('.') || inputPathFolder.trim().toLowerCase().includes('\\')) {
+                                        console.log(clc.bold(clc.red('Tidak boleh adan tanda titik atau semacamnya, ikut instruksi! ')));
+                                        askInputPathFolder()
+                                    } else {
+                                        // Mencari file test yang membutuhkan account untuk authentication
+                                        let authenticationFound = TEST_NEED_AUTHENTICATION.some((item) =>
+                                            inputPathFolder.toLowerCase().includes(item)
+                                        );
+            
+                                        if(authenticationFound && parseInt(inputTypeTest) != 2) {
+                                            console.log(clc.bold(clc.red('Maaf path yang anda masukkan termasuk ke dalam file test yg membutuhkan autentikasi, jadi harus di sesuaikan.')));
+                                            askInputPathFolder();
+                                        } else if (authenticationFound && parseInt(inputTypeTest) === 2) {
+                                            fs2.ensureDir(inputPathFolder)
+                                                .then(() => {
+                                                    const targetFilePath = path.join('test/' + inputPathFolder, 'testAuthenticate.js');
+                                                    return fs2.copy(path.resolve('./commons/constants/prototypes/testAuthenticate.js'), targetFilePath);
+                                                })
+                                                .then(() => {
+                                                    console.log('Sample file test untuk tipe authentication berhasil dicopy dan disimpan di', inputPathFolder, 'anda hanya perlu mengganti nama file nya yang sesuai dengan keinginan');
+                                                })
+                                                .catch((err) => {
+                                                    console.error('Gagal membuat file:', err);
+                                                })
+                                                .finally(() => {
+                                                    rl.close();
+                                                })
                                         } else {
-                                            // Mencari file test yang membutuhkan account untuk authentication
-                                            let authenticationFound = TEST_NEED_AUTHENTICATION.some((item) =>
-                                                inputPathFolder.toLowerCase().includes(item)
-                                            );
-                
-                                            if(authenticationFound && parseInt(inputTypeTest) != 2) {
-                                                console.log(clc.bold(clc.red('Maaf path yang anda masukkan termasuk ke dalam file test yg membutuhkan autentikasi, jadi harus di sesuaikan.')));
-                                                askInputPathFolder();
-                                            } else if (authenticationFound && parseInt(inputTypeTest) === 2) {
-                                                fs2.ensureDir(inputPathFolder)
-                                                    .then(() => {
-                                                        const targetFilePath = path.join('test/' + inputPathFolder, 'testAuthenticate.js');
-                                                        return fs2.copy(path.resolve('./commons/constants/prototypes/testAuthenticate.js'), targetFilePath);
-                                                    })
-                                                    .then(() => {
-                                                        console.log('File test untuk tipe authentication berhasil dicopy dan disimpan di', inputPathFolder, ' anda hanya perlu mengganti nama file nya yang sesuai dengan keinginan');
-                                                    })
-                                                    .catch((err) => {
-                                                        console.error('Gagal membuat file:', err);
-                                                    })
-                                                    .finally(() => {
-                                                        rl.close();
-                                                    })
-                                            } else {
-                                                fs2.ensureDir(inputPathFolder)
-                                                    .then(() => {
-                                                        const targetFilePath = path.join('test/' + inputPathFolder, 'testOriginal.js');
-                                                        return fs2.copy(path.resolve('./commons/constants/prototypes/testOriginal.js'), targetFilePath);
-                                                    })
-                                                    .then(() => {
-                                                        console.log('File test untuk tipe original berhasil dicopy dan disimpan di', inputPathFolder, ' anda hanya perlu mengganti nama file nya yang sesuai dengan keinginan');
-                                                    })
-                                                    .catch((err) => {
-                                                        console.error('Gagal membuat file:', err);
-                                                    })
-                                                    .finally(() => {
-                                                        rl.close();
-                                                    })
-                                            }
+                                            fs2.ensureDir(inputPathFolder)
+                                                .then(() => {
+                                                    const targetFilePath = path.join('test/' + inputPathFolder, 'testOriginal.js');
+                                                    return fs2.copy(path.resolve('./commons/constants/prototypes/testOriginal.js'), targetFilePath);
+                                                })
+                                                .then(() => {
+                                                    console.log('Sample file test untuk tipe original berhasil dicopy dan disimpan di', inputPathFolder, 'anda hanya perlu mengganti nama file nya yang sesuai dengan keinginan');
+                                                })
+                                                .catch((err) => {
+                                                    console.error('Gagal membuat file:', err);
+                                                })
+                                                .finally(() => {
+                                                    rl.close();
+                                                })
                                         }
-                
-                
-                                    })
-    
-                                }
-    
-                                askInputPathFolder()
-    
+                                    }
+            
+            
+                                })
+
                             }
-    
-                        })
 
-                    }
+                            askInputPathFolder()
 
-                    askInputTypeTest()
-                    
-                } else {
-                    console.log(clc.bold(clc.red('Maaf, inputan yg anda masukkan tidak valid!. Tolong masukkan sesuai instruksi')));
-                    askConfirmation();
+                        }
+
+                    })
+
                 }
-    
-            })
-        }
 
-        askConfirmation()
+                askInputTypeTest()
+                
+            } else {
+                console.log(clc.bold(clc.red('Maaf, inputan yg anda masukkan tidak valid!. Tolong masukkan sesuai instruksi')));
+                askConfirmation();
+            }
 
+        })
+    }
 
-    });
-
+    askConfirmation()
 
     
 
