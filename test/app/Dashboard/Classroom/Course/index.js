@@ -105,6 +105,7 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -176,6 +177,7 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -247,6 +249,7 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -318,6 +321,7 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);

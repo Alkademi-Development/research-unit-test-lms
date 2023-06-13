@@ -154,13 +154,14 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
                             let findCourse = [];
 
                             for (let index = 0; index < courses.length; index++) {
-                                if (await courses[index].getAttribute('innerText') === dataTitleCourse) {
+                                if (await courses[index].getAttribute('innerText') === await dataTitleCourse) {
                                     findCourse.push(courses[index]);
                                 }
                             }
@@ -266,13 +267,14 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
                             let findCourse = [];
 
                             for (let index = 0; index < courses.length; index++) {
-                                if (await courses[index].getAttribute('innerText') === dataTitleCourse) {
+                                if (await courses[index].getAttribute('innerText') === await dataTitleCourse) {
                                     findCourse.push(courses[index]);
                                 }
                             }
@@ -380,13 +382,14 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
                             let findCourse = [];
 
                             for (let index = 0; index < courses.length; index++) {
-                                if (await courses[index].getAttribute('innerText') === dataTitleCourse) {
+                                if (await courses[index].getAttribute('innerText') === await dataTitleCourse) {
                                     findCourse.push(courses[index]);
                                 }
                             }
@@ -492,13 +495,14 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
                             let findCourse = [];
 
                             for (let index = 0; index < courses.length; index++) {
-                                if (await courses[index].getAttribute('innerText') === dataTitleCourse) {
+                                if (await courses[index].getAttribute('innerText') === await dataTitleCourse) {
                                     findCourse.push(courses[index]);
                                 }
                             }
