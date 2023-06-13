@@ -731,7 +731,7 @@ Pilih dari nomor yang tersedia: `), inputTypeTest => {
                             function askInputPathFolder() {
 
 
-                                rl.question('Tentukan path penyimpanan untuk file test e.g path/path : ', async inputPathFolder => {
+                                rl.question('Tentukan folder path penyimpanan untuk file test e.g path/path : ', async inputPathFolder => {
             
                                     if(inputPathFolder.trim().toLowerCase().includes('.') || inputPathFolder.trim().toLowerCase().includes('\\')) {
                                         console.log(clc.bold(clc.red('Tidak boleh adan tanda titik atau semacamnya, ikut instruksi! ')));
