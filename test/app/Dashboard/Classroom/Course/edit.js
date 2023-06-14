@@ -1,6 +1,5 @@
 import { describe, afterEach, before } from 'mocha';
-import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
-import assert from 'assert';
+import { By, until } from 'selenium-webdriver';
 import { expect } from "chai";
 import yargs from 'yargs';
 import fs from 'fs';
@@ -14,8 +13,7 @@ import { appHost } from '#root/api/app-token';
 import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { captureConsoleErrors, thrownAnError } from '#root/commons/utils/generalUtils';
 import { faker } from '@faker-js/faker';
-import { createData } from '#root/helpers/Dashboard/Classroom/course';
-import { editData } from '#root/helpers/Dashboard/Classroom/course';
+import { editData } from '#root/helpers/Dashboard/Classroom/course/index';
 import { fileURLToPath } from 'url';
 
 /**
@@ -107,9 +105,10 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                            let listCourse = await driver.executeScript(`return document.querySelectorAll("#courses .card .card-body .header")`);
                             await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
 
                             let editCourse = await listCourse[0];
@@ -125,11 +124,16 @@ describe("Course", () => {
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             if (statusDisplayCourse == 'flex') await actionBtns[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages.length > 0);
 
                             // Menunggu Element Form Muncul 
                             await driver.wait(until.elementLocated(By.id('Judul Materi *')));
 
-                            const { titleCourse, descriptionCourse } = await editData(driver);
+                            let { titleCourse, descriptionCourse } = await editData(driver);
+
+                            titleCourse = await driver.findElement(By.id('Judul Materi *'));
+                            descriptionCourse = await driver.findElement(By.id('Deskripsi Materi *'));
 
                             let dataTitleCourse = await titleCourse.getAttribute("value");
 
@@ -145,16 +149,6 @@ describe("Course", () => {
                             }
 
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
@@ -219,6 +213,7 @@ describe("Course", () => {
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
+                            await driver.sleep(2000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -238,6 +233,8 @@ describe("Course", () => {
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             if (statusDisplayCourse == 'flex') await actionBtns[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages.join(', '), errorMessages.length > 0);
 
                             // Menunggu Element Form Muncul 
                             await driver.wait(until.elementLocated(By.id('Judul Materi *')));
@@ -258,16 +255,6 @@ describe("Course", () => {
                             }
 
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
@@ -330,7 +317,7 @@ describe("Course", () => {
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
                             await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
+                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
@@ -374,15 +361,6 @@ describe("Course", () => {
 
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
 
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
@@ -444,7 +422,7 @@ describe("Course", () => {
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
                             await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
+                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
                                 const innerText = await emptyCourse?.getAttribute('innerText');
                                 return innerText !== 'Memuat..';
                             });
@@ -487,15 +465,6 @@ describe("Course", () => {
 
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
 
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));

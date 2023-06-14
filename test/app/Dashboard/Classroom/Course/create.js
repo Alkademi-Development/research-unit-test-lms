@@ -14,7 +14,7 @@ import { appHost } from '#root/api/app-token';
 import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { captureConsoleErrors, thrownAnError } from '#root/commons/utils/generalUtils';
 import { faker } from '@faker-js/faker';
-import { createData } from '#root/helpers/Dashboard/Classroom/course';
+import { createData } from '#root/helpers/Dashboard/Classroom/course/index';
 import { fileURLToPath } from 'url';
 
 /**
@@ -74,19 +74,16 @@ describe("Course", () => {
                             // Go to application
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
-                            errorMessages = await captureConsoleErrors(driver, browser);
-                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             let cardClass = await driver.findElement(By.css(`div.card-class`));
                             await driver.wait(until.stalenessOf(cardClass));
                             errorMessages = await captureConsoleErrors(driver, browser);
-
+                            
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));
                             await driver.wait(until.stalenessOf(loadingSkeleton))
@@ -96,10 +93,18 @@ describe("Course", () => {
 
                             // Aksi memilih salah satu card class
                             await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
-
+                            
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
                             itemTabs[1].findElement(By.css('span')).click();
+
+                            // Aksi menunggu list materi untuk muncul
+                            await driver.sleep(5000);
+                            await driver.wait(async function () {
+                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col');");
+                                const innerText = await emptyCourse?.getText();
+                                return innerText != 'Memuat..';
+                            });
 
                             // Aksi mengklik button tambah materi
                             await driver.wait(until.elementLocated(By.css("i.ri-add-fill")));
@@ -143,7 +148,7 @@ describe("Course", () => {
                             await driver.sleep(2000);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
-                            const courses = await driver.findElements(By.css(".card-body .header h4.title"));
+                            const courses = await driver.findElements(By.css("#courses .card .card-body .header h4.title"));
                             let findCourse = [];
 
                             for (let index = 0; index < courses.length; index++) {

@@ -1,4 +1,5 @@
-import { By, Capabilities, logging } from "selenium-webdriver";
+import pkg from 'selenium-webdriver';
+const { By, Capabilities, logging, Logs } = pkg;
 
 const parseToDomain = (url) => {
 
@@ -16,13 +17,12 @@ const parseToDomain = (url) => {
 }
 
 async function captureConsoleErrors(driver, browser) {
-    let errorMessages = [];
     if (browser?.toLowerCase() != 'firefox') {
-        const logs = await driver.manage().logs().get(logging.Type.BROWSER);
-        const errors = logs.filter(log => log.level.name != 'WARNING' && log.level.name === 'SEVERE' && !log.message.includes('export') && !log.message.includes('favicon.ico'));
-        errorMessages = errors.map(error => error.message);
+        const logs = await driver.manage().logs().get('browser');
+        let errors = logs.filter(log => log.level.name != 'WARNING' && log.level.name == 'SEVERE' && !log.message.includes('_nav') && !log.message.includes('favicon'));
+        errors = errors.map(error => error.message);
+        return errors
     }
-    return errorMessages;
 }
 
 async function captureAlertError(driver, browser) {

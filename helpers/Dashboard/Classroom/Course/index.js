@@ -21,13 +21,13 @@ async function createData(driver) {
     await typeCourse.sendKeys(faker.helpers.arrayElement(['module', 'pretest']));
     await driver.sleep(3000);
     
-    const dataProgram = {
+    const dataModule = {
         titleCourse,
         descriptionCourse,
         standardPassedCourse,
         typeCourse
     }
-    return dataProgram
+    return dataModule
 
 }
 
@@ -50,12 +50,12 @@ async function editData(driver) {
     await descriptionCourse.clear()
     await descriptionCourse.sendKeys(faker.lorem.sentences(5))
     
-    const dataProgram = {
+    const dataModule = {
         titleCourse,
         descriptionCourse,
     }
 
-    return dataProgram
+    return dataModule
 
 }
 
