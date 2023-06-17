@@ -24,7 +24,7 @@ after that you must copy the path of that driver file saved it before and enter 
 
 4. Choose the one you want to run of the test or choose 'all', if you want to just run one test than just type the name of file test with extension .js e.g 'index.js' or 'test.js'
 5. Waiting for the test to complete
-6. Check the reports of each test in testReports directory 
+6. Check the reports of each test in testResults directory 
 7. Done
 
 ## The Features
@@ -65,7 +65,7 @@ after that you must copy the path of that driver file saved it before and enter 
 - `commons` ( untuk kebutuhan helpers dan semacamnya )
 - `helpers` ( berbeda dengan commons, folder ini berfungsi untuk kebutuhan helpers feature dr app. misal seperti crud )
 - `test` ( berisi file-file test )
-- `testReports` ( berisi hasil test reports )
+- `testResults` ( berisi hasil test reports )
 - `screenshoot` ( untuk hasil screenshoot-an dari setiap hasil test yg telah selesai di jalankan )
 
 ## NOTES
