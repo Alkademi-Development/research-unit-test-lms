@@ -1,5 +1,5 @@
 import pkg from 'selenium-webdriver';
-const { By } = pkg;
+const { By, until } = pkg;
 import { faker } from '@faker-js/faker';
 
 

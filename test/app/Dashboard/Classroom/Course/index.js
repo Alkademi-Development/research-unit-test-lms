@@ -96,30 +96,25 @@ describe("Course", () => {
                             let cardClass = await driver.findElement(By.css(`div.card-class`));
                             await driver.wait(until.stalenessOf(cardClass));
                             errorMessages = await captureConsoleErrors(driver, browser);
-
+                            
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css(`div.b-skeleton`)));
-                            let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));
-                            await driver.wait(until.stalenessOf(loadingSkeleton))
-                            let itemClass = await driver.findElements(By.css(`div.item-class`));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
 
+                            // Aksi sleep
+                            await driver.sleep(10000);
+                            
                             // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.findElements(By.css(".item-tab"));
-                            itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
+                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                            await itemTabs[1].click();
+                            
+                            // Aksi sleep
+                            await driver.sleep(10000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -142,6 +137,9 @@ describe("Course", () => {
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             await thrownAnError('Sorry failed to hover the icon edit & delete of course, because its not displayed', statusDisplayEditCourse != 'flex' && statusDisplayDeleteCourse != 'flex');
 
+                            customMessages = [
+                                statusDisplayEditCourse === 'flex' && statusDisplayDeleteCourse === 'flex' ? 'Show icon edit and delete when hover the list materi ✅' : 'Show icon edit and delete when hover the list materi ❌'
+                            ];
                             expect(statusDisplayEditCourse).to.equal('flex');
                             expect(statusDisplayDeleteCourse).to.equal('flex');
                         } catch (error) {
@@ -168,30 +166,25 @@ describe("Course", () => {
                             let cardClass = await driver.findElement(By.css(`div.card-class`));
                             await driver.wait(until.stalenessOf(cardClass));
                             errorMessages = await captureConsoleErrors(driver, browser);
-
+                            
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css(`div.b-skeleton`)));
-                            let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));
-                            await driver.wait(until.stalenessOf(loadingSkeleton))
-                            let itemClass = await driver.findElements(By.css(`div.item-class`));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
 
+                            // Aksi sleep
+                            await driver.sleep(10000);
+                            
                             // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.findElements(By.css(".item-tab"));
-                            itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
+                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                            await itemTabs[1].click();
+                            
+                            // Aksi sleep
+                            await driver.sleep(10000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -214,6 +207,9 @@ describe("Course", () => {
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             await thrownAnError('Sorry failed to hover the icon edit & delete of course, because its not displayed', statusDisplayEditCourse != 'flex' && statusDisplayDeleteCourse != 'flex');
 
+                            customMessages = [
+                                statusDisplayEditCourse === 'flex' && statusDisplayDeleteCourse === 'flex' ? 'Show icon edit and delete when hover the list materi ✅' : 'Show icon edit and delete when hover the list materi ❌'
+                            ];
                             expect(statusDisplayEditCourse).to.equal('flex');
                             expect(statusDisplayDeleteCourse).to.equal('flex');
                         } catch (error) {
@@ -240,30 +236,25 @@ describe("Course", () => {
                             let cardClass = await driver.findElement(By.css(`div.card-class`));
                             await driver.wait(until.stalenessOf(cardClass));
                             errorMessages = await captureConsoleErrors(driver, browser);
-
+                            
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css(`div.b-skeleton`)));
-                            let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));
-                            await driver.wait(until.stalenessOf(loadingSkeleton))
-                            let itemClass = await driver.findElements(By.css(`div.item-class`));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
 
+                            // Aksi sleep
+                            await driver.sleep(10000);
+                            
                             // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.findElements(By.css(".item-tab"));
-                            itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
+                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                            await itemTabs[1].click();
+                            
+                            // Aksi sleep
+                            await driver.sleep(10000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -286,6 +277,9 @@ describe("Course", () => {
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             await thrownAnError('Sorry failed to hover the icon edit & delete of course, because its not displayed', statusDisplayEditCourse != 'flex' && statusDisplayDeleteCourse != 'flex');
 
+                            customMessages = [
+                                statusDisplayEditCourse === 'flex' && statusDisplayDeleteCourse === 'flex' ? 'Show icon edit and delete when hover the list materi ✅' : 'Show icon edit and delete when hover the list materi ❌'
+                            ];
                             expect(statusDisplayEditCourse).to.equal('flex');
                             expect(statusDisplayDeleteCourse).to.equal('flex');
                         } catch (error) {
@@ -312,30 +306,25 @@ describe("Course", () => {
                             let cardClass = await driver.findElement(By.css(`div.card-class`));
                             await driver.wait(until.stalenessOf(cardClass));
                             errorMessages = await captureConsoleErrors(driver, browser);
-
+                            
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css(`div.b-skeleton`)));
-                            let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));
-                            await driver.wait(until.stalenessOf(loadingSkeleton))
-                            let itemClass = await driver.findElements(By.css(`div.item-class`));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
 
+                            // Aksi sleep
+                            await driver.sleep(10000);
+                            
                             // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.findElements(By.css(".item-tab"));
-                            itemTabs[1].findElement(By.css('span')).click();
-
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.executeScript("return document.querySelector('#courses .card .card-body .row .col')");
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            await driver.sleep(2000);
+                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                            await itemTabs[1].click();
+                            
+                            // Aksi sleep
+                            await driver.sleep(10000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
@@ -358,6 +347,9 @@ describe("Course", () => {
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             await thrownAnError('Sorry failed to hover the icon edit & delete of course, because its not displayed', statusDisplayEditCourse != 'flex' && statusDisplayDeleteCourse != 'flex');
 
+                            customMessages = [
+                                statusDisplayEditCourse === 'flex' && statusDisplayDeleteCourse === 'flex' ? 'Show icon edit and delete when hover the list materi ✅' : 'Show icon edit and delete when hover the list materi ❌'
+                            ];
                             expect(statusDisplayEditCourse).to.equal('flex');
                             expect(statusDisplayDeleteCourse).to.equal('flex');
                         } catch (error) {

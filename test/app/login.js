@@ -119,7 +119,12 @@ describe("Login", () => {
                             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
                             userData = await JSON.parse(userData);
 
-                            assert.strictEqual(textStatus > 1, textStatus > 1);
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
                             expect(correctUrl.url).to.includes("v1/user/me");
                             expect(userData.id).to.greaterThan(0);
                         } catch (error) {
@@ -168,7 +173,12 @@ describe("Login", () => {
                                 throw new Error(errorMessages);
                             }
 
-                            assert.strictEqual(textStatus > 1, textStatus > 1);
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
                             expect(correctUrl.url).to.includes("v1/user/me");
                             expect(userData.id).to.greaterThan(0);
                         } catch (error) {
@@ -218,7 +228,12 @@ describe("Login", () => {
                                 throw new Error(errorMessages);
                             }
 
-                            assert.strictEqual(textStatus > 1, textStatus > 1);
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
                             expect(correctUrl.url).to.includes("v1/user/me");
                             expect(userData.id).to.greaterThan(0);
                         } catch (error) {
@@ -268,7 +283,12 @@ describe("Login", () => {
                                 throw new Error(errorMessages);
                             }
 
-                            assert.strictEqual(textStatus > 1, textStatus > 1);
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
                             expect(correctUrl.url).to.includes("v1/user/me");
                             expect(userData.id).to.greaterThan(0);
                         } catch (error) {
