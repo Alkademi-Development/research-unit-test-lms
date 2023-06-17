@@ -1,0 +1,144 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-06-17T04:16:36.830Z",
+    "end": "2023-06-17T04:16:57.048Z",
+    "duration": 20218,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "c501b92f-4bb7-49ae-b214-fb2918611e5a",
+      "title": "",
+      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\dashboard\\classroom\\course\\index.js",
+      "file": "\\test\\app\\dashboard\\classroom\\course\\index.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "134b1678-09d7-4984-8f3a-36258b1e68bc",
+          "title": "Course",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\dashboard\\classroom\\course\\index.js",
+          "file": "\\test\\app\\dashboard\\classroom\\course\\index.js",
+          "beforeHooks": [],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Course\"",
+              "fullTitle": "Course \"after all\" hook in \"Course\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);",
+              "err": {},
+              "uuid": "aeb2c129-346e-4fc4-a3bf-33d8b2b0bdb7",
+              "parentUUID": "134b1678-09d7-4984-8f3a-36258b1e68bc",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook in \"Course\"",
+              "fullTitle": "Course \"after each\" hook in \"Course\"",
+              "timedOut": false,
+              "duration": 4324,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "fs.mkdir(screenshootFilePath, { recursive: true }, (error) => {\n    if (error) {\n        console.error(`Terjadi kesalahan dalam membuat folder screenshoot:`, error);\n    }\n});\nlet fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]-' + moment().tz(\"Asia/Jakarta\").format(\"YYYY-MM-DD_HH-mm-ss\") : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]-' + moment().tz(\"Asia/Jakarta\").format(\"YYYY-MM-DD_HH-mm-ss\") }.png`);\nawait takeScreenshot(driver, fileNamePath);\naddContext(this, {\n    title: 'Screenshoot-Test-Results',\n    value: \"..\\\\\" + path.relative(fileURLToPath(import.meta.url), fileNamePath)\n});\nawait driver.sleep(3000);\nawait driver.quit();",
+              "err": {},
+              "uuid": "be8918c3-2436-4327-84b3-ff82358d9776",
+              "parentUUID": "134b1678-09d7-4984-8f3a-36258b1e68bc",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Admin - Check the icon edit and delete from Detail Class from browser firefox",
+              "fullTitle": "Course Admin - Check the icon edit and delete from Detail Class from browser firefox",
+              "timedOut": false,
+              "duration": 15863,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "{\n  \"title\": \"Screenshoot-Test-Results\",\n  \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\index\\\\1-[passed]-2023-06-17_11-16-52.png\"\n}",
+              "code": "try {\n                            // Go to application\n                            driver = await goToApp(browser, appHost);\n                            await driver.manage().window().maximize();\n                            // login to the application\n                            errorMessages = await enterDashboard(driver, user, browser, appHost);\n                            // Aksi Masuk ke dalam halaman class\n                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();\n                            let cardClass = await driver.findElement(By.css(`div.card-class`));\n                            await driver.wait(until.stalenessOf(cardClass));\n                            errorMessages = await captureConsoleErrors(driver, browser);\n                            // Aksi mengecek apakah ada card class atau card classnya lebih dari 1\n                            await driver.wait(until.elementLocated(By.css(`div.b-skeleton`)));\n                            let loadingSkeleton = await driver.findElement(By.css(`div.b-skeleton`));\n                            await driver.wait(until.stalenessOf(loadingSkeleton))\n                            let itemClass = await driver.findElements(By.css(`div.item-class`));\n                            // Error ketika card classnya kosong\n                            await thrownAnError('Item class is empty', await itemClass?.length == 0);\n                            // Aksi memilih salah satu card class\n                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();\n                            // Aksi mengklik tab materi pada detail class\n                            let itemTabs = await driver.findElements(By.css(\".item-tab\"));\n                            itemTabs[1].findElement(By.css('span')).click();\n                            // Aksi menunggu list materi untuk muncul\n                            await driver.wait(until.elementLocated(By.css('#courses .card .card-body .row .col')));\n                            await driver.wait(async function () {\n                                let emptyCourse = await driver.executeScript(\"return document.querySelector('#courses .card .card-body .row .col')\");\n                                const innerText = await emptyCourse?.getAttribute('innerText');\n                                return innerText !== 'Memuat..';\n                            });\n                            await driver.sleep(2000);\n                            \n                            // Aksi meng-hover icon edit dan mengkliknya\n                            let listCourse = await driver.executeScript(`return document.querySelectorAll(\".card .card-body .header\")`);\n                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);\n                            let editCourse = await listCourse[0];\n                            const actions = driver.actions({ async: true });\n                            await actions.move({ origin: editCourse }).perform();\n                            let actionBtns = await driver.findElements(By.css('.action-container .action'));\n                            let statusDisplayEditCourse = await driver.executeScript(\n                                \"return getComputedStyle(arguments[0]).getPropertyValue('display')\",\n                                actionBtns[1]\n                            );\n                            let statusDisplayDeleteCourse = await driver.executeScript(\n                                \"return getComputedStyle(arguments[0]).getPropertyValue('display')\",\n                                actionBtns[2]\n                            );\n                            // Mengecek jika element berhasil di hover, maka akan di klik\n                            await thrownAnError('Sorry failed to hover the icon edit & delete of course, because its not displayed', statusDisplayEditCourse != 'flex' && statusDisplayDeleteCourse != 'flex');\n                            expect(statusDisplayEditCourse).to.equal('flex');\n                            expect(statusDisplayDeleteCourse).to.equal('flex');\n                        } catch (error) {\n                            // console.error(error?.stack?.split('\\n')[1]);\n                            expect.fail(error?.stack);\n                        }",
+              "err": {},
+              "uuid": "1e7a34f4-ceb6-4673-87e2-4175114d97f9",
+              "parentUUID": "134b1678-09d7-4984-8f3a-36258b1e68bc",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1e7a34f4-ceb6-4673-87e2-4175114d97f9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 15863,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 0
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "app/dashboard/classroom/course/index/[status]-[datetime]-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "cdn": "true",
+        "timestamp": "longDate",
+        "overwrite": "false",
+        "reportDir": "testResults/reports",
+        "reportFilename": "app/dashboard/classroom/course/index/[status]-[datetime]-report",
+        "reportPageTitle": "Laporan-Harian-Testing"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

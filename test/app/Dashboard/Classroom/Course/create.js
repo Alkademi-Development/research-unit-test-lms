@@ -142,13 +142,7 @@ describe("Course", () => {
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
                             
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
+                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header h4.title")`);
@@ -238,13 +232,7 @@ describe("Course", () => {
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
                             
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
+                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
 
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header h4.title")`);
@@ -334,13 +322,7 @@ describe("Course", () => {
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
                             
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
+                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
 
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header h4.title")`);
@@ -430,13 +412,7 @@ describe("Course", () => {
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
                             
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
+                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
