@@ -33,7 +33,7 @@ if (process.platform === 'win32') {
 }
 
 describe("Course", () => {
-
+    let customMessages = [];
 
     after(async function () {
         console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
@@ -47,6 +47,17 @@ describe("Course", () => {
         });
         let fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") }.png`);
         await takeScreenshot(driver, fileNamePath);
+        if(this.currentTest.isPassed) {
+            addContext(this, {
+                title: 'Expected Results',
+                value: customMessages?.length > 0 ? "- " + customMessages.map(msg => msg.trim()).join("\n- ") : 'No Results'
+            })
+        } else {
+            addContext(this, {
+                title: 'Expected Results',
+                value: customMessages?.length > 0 ? "- " + customMessages.map(msg => msg.trim()).join("\n- ") : 'No Results'
+            })
+        }
         addContext(this, {
             title: 'Screenshoot-Test-Results',
             value: "..\\" + path.relative(fileURLToPath(import.meta.url), fileNamePath)
