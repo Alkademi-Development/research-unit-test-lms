@@ -16,6 +16,7 @@ import { captureConsoleErrors, thrownAnError } from '#root/commons/utils/general
 import { faker } from '@faker-js/faker';
 import { createData } from '#root/helpers/Dashboard/Classroom/course/index';
 import { fileURLToPath } from 'url';
+import moment from 'moment-timezone';
 
 /**
  * Get the user data for authentication
@@ -34,6 +35,7 @@ if (process.platform === 'win32') {
 
 describe("Course", () => {
 
+
     after(async function () {
         console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
     });
@@ -44,10 +46,11 @@ describe("Course", () => {
                 console.error(`Terjadi kesalahan dalam membuat folder screenshoot:`, error);
             }
         });
-        await takeScreenshot(driver, path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
+        let fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") }.png`);
+        await takeScreenshot(driver, fileNamePath);
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: path.relative(fileURLToPath(import.meta.url), path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`))
+            value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
         });
         await driver.sleep(3000);
         await driver.quit();

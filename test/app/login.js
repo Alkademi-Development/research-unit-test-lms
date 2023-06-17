@@ -15,6 +15,7 @@ import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { fileURLToPath } from 'url';
 import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
+import moment from 'moment-timezone';
 
 /**
  * Get the user data for authentication
@@ -33,6 +34,7 @@ if (process.platform === 'win32') {
 
 describe("Login", () => {
 
+
     after(async function () {
         console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
     });
@@ -43,10 +45,11 @@ describe("Login", () => {
                 console.error(`Terjadi kesalahan dalam membuat folder screenshoot:`, error);
             }
         });
-        await takeScreenshot(driver, path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
+        let fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") }.png`);
+        await takeScreenshot(driver, fileNamePath);
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: path.relative(fileURLToPath(import.meta.url), path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`))
+            value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
         });
         await driver.sleep(3000);
         await driver.quit();
@@ -75,11 +78,11 @@ describe("Login", () => {
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
                             errorMessages = await captureConsoleErrors(driver, browser);
-                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -148,7 +151,7 @@ describe("Login", () => {
                             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
                             userData = await JSON.parse(userData);
 
-                            if (errorMessages.length > 0) {
+                            if (errorMessages?.length > 0) {
                                 throw new Error(errorMessages);
                             }
 
@@ -198,7 +201,7 @@ describe("Login", () => {
                             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
                             userData = await JSON.parse(userData);
 
-                            if (errorMessages.length > 0) {
+                            if (errorMessages?.length > 0) {
                                 throw new Error(errorMessages);
                             }
 
@@ -248,7 +251,7 @@ describe("Login", () => {
                             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
                             userData = await JSON.parse(userData);
 
-                            if (errorMessages.length > 0) {
+                            if (errorMessages?.length > 0) {
                                 throw new Error(errorMessages);
                             }
 

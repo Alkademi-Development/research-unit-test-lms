@@ -15,6 +15,7 @@ import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { captureConsoleErrors, thrownAnError } from '#root/commons/utils/generalUtils';
 import { faker } from '@faker-js/faker';
 import { fileURLToPath } from 'url';
+import moment from 'moment-timezone';
 
 /**
  * Get the user data for authentication
@@ -33,6 +34,7 @@ if (process.platform === 'win32') {
 
 describe("Course", () => {
 
+
     after(async function () {
         console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
     });
@@ -43,10 +45,11 @@ describe("Course", () => {
                 console.error(`Terjadi kesalahan dalam membuat folder screenshoot:`, error);
             }
         });
-        await takeScreenshot(driver, path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
+        let fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") }.png`);
+        await takeScreenshot(driver, fileNamePath);
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: path.relative(fileURLToPath(import.meta.url), path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`))
+            value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
         });
         await driver.sleep(3000);
         await driver.quit();
@@ -89,10 +92,10 @@ describe("Course", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass.length == 0);
+                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
@@ -109,7 +112,7 @@ describe("Course", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             let editCourse = await listCourse[0];
                             const actions = driver.actions({ async: true });
@@ -161,10 +164,10 @@ describe("Course", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass.length == 0);
+                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
@@ -181,7 +184,7 @@ describe("Course", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             let editCourse = await listCourse[0];
                             const actions = driver.actions({ async: true });
@@ -233,10 +236,10 @@ describe("Course", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass.length == 0);
+                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
@@ -253,7 +256,7 @@ describe("Course", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             let editCourse = await listCourse[0];
                             const actions = driver.actions({ async: true });
@@ -305,10 +308,10 @@ describe("Course", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', await itemClass.length == 0);
+                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.number.int({ min: 0, max: itemClass.length - 1 })].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: itemClass?.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi mengklik tab materi pada detail class
                             let itemTabs = await driver.findElements(By.css(".item-tab"));
@@ -325,7 +328,7 @@ describe("Course", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             let editCourse = await listCourse[0];
                             const actions = driver.actions({ async: true });

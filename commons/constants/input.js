@@ -5,7 +5,10 @@ const ALL_TEXT_INPUT = {
     
 };
 
+const TEXT_CONFIRM = ['y', 't'];
+
 export {
-    ALL_TEXT_INPUT
+    ALL_TEXT_INPUT,
+    TEXT_CONFIRM
 }
 

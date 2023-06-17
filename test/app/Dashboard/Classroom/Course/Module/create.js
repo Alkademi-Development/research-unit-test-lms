@@ -16,6 +16,7 @@ import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
 import { createData } from '#root/helpers/Dashboard/Classroom/Course/module';
 import { faker } from '@faker-js/faker';
+import moment from 'moment-timezone';
 
 /**
  * Get the user data for authentication
@@ -34,6 +35,7 @@ if (process.platform === 'win32') {
 
 describe("Module", () => {
 
+
     after(async function () {
         console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
     });
@@ -44,10 +46,11 @@ describe("Module", () => {
                 console.error(`Terjadi kesalahan dalam membuat folder screenshoot:`, error);
             }
         });
-        await takeScreenshot(driver, path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`));
+        let fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]-' + moment().tz("Asia/Jakarta").format("YYYY-MM-DD_HH-mm-ss") }.png`);
+        await takeScreenshot(driver, fileNamePath);
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: path.relative(fileURLToPath(import.meta.url), path.resolve(`${screenshootFilePath}/${(this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1}.png`))
+            value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
         });
         await driver.sleep(3000);
         await driver.quit();
@@ -90,7 +93,7 @@ describe("Module", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
                             await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
@@ -109,7 +112,7 @@ describe("Module", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
                             let course = await listCourse[0];
@@ -133,7 +136,7 @@ describe("Module", () => {
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleModule.getAttribute('value'),
-                                multipleFileItems.length,
+                                multipleFileItems?.length,
                                 typeCourse.getAttribute('innerText')
                             ]).then(values => values.every(value => value != '' || value != 0));
                             
@@ -157,15 +160,15 @@ describe("Module", () => {
                             const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
                             let findModule = [];
 
-                            for (let index = 0; index < modules.length; index++) {
+                            for (let index = 0; index < modules?.length; index++) {
                                 if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
                                     findModule.push(modules[index]);
                                 }
                             }
 
                             expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
                             const pageUrl = await driver.getCurrentUrl();
                             expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
@@ -188,7 +191,7 @@ describe("Module", () => {
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
@@ -201,7 +204,7 @@ describe("Module", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
                             await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
@@ -220,7 +223,7 @@ describe("Module", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
                             let course = await listCourse[0];
@@ -244,7 +247,7 @@ describe("Module", () => {
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleModule.getAttribute('value'),
-                                multipleFileItems.length,
+                                multipleFileItems?.length,
                                 typeCourse.getAttribute('innerText')
                             ]).then(values => values.every(value => value != '' || value != 0));
                             
@@ -268,15 +271,15 @@ describe("Module", () => {
                             const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
                             let findModule = [];
 
-                            for (let index = 0; index < modules.length; index++) {
+                            for (let index = 0; index < modules?.length; index++) {
                                 if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
                                     findModule.push(modules[index]);
                                 }
                             }
 
                             expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
                             const pageUrl = await driver.getCurrentUrl();
                             expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
@@ -299,7 +302,7 @@ describe("Module", () => {
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
@@ -312,7 +315,7 @@ describe("Module", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
                             await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
@@ -331,7 +334,7 @@ describe("Module", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
                             let course = await listCourse[0];
@@ -355,7 +358,7 @@ describe("Module", () => {
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleModule.getAttribute('value'),
-                                multipleFileItems.length,
+                                multipleFileItems?.length,
                                 typeCourse.getAttribute('innerText')
                             ]).then(values => values.every(value => value != '' || value != 0));
                             
@@ -379,15 +382,15 @@ describe("Module", () => {
                             const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
                             let findModule = [];
 
-                            for (let index = 0; index < modules.length; index++) {
+                            for (let index = 0; index < modules?.length; index++) {
                                 if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
                                     findModule.push(modules[index]);
                                 }
                             }
 
                             expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
                             const pageUrl = await driver.getCurrentUrl();
                             expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
@@ -410,7 +413,7 @@ describe("Module", () => {
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages.join(", "), errorMessages.length > 0);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
@@ -423,7 +426,7 @@ describe("Module", () => {
                             await driver.wait(until.stalenessOf(loadingSkeleton))
                             let itemClass = await driver.findElements(By.css(`div.item-class`));
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass.length == 0);
+                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
                             await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
@@ -442,7 +445,7 @@ describe("Module", () => {
                             
                             // Aksi meng-hover icon edit dan mengkliknya
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse.length == 0 || listCourse == null);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
                             let course = await listCourse[0];
@@ -466,7 +469,7 @@ describe("Module", () => {
                             // Periksa apakah semua elemen telah terisi
                             const isAllFilled = await Promise.all([
                                 titleModule.getAttribute('value'),
-                                multipleFileItems.length,
+                                multipleFileItems?.length,
                                 typeCourse.getAttribute('innerText')
                             ]).then(values => values.every(value => value != '' || value != 0));
                             
@@ -490,15 +493,15 @@ describe("Module", () => {
                             const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
                             let findModule = [];
 
-                            for (let index = 0; index < modules.length; index++) {
+                            for (let index = 0; index < modules?.length; index++) {
                                 if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
                                     findModule.push(modules[index]);
                                 }
                             }
 
                             expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
                             const pageUrl = await driver.getCurrentUrl();
                             expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
