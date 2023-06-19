@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2023-06-19T08:57:28.745Z",
-    "end": "2023-06-19T08:57:38.145Z",
-    "duration": 9400,
+    "start": "2023-06-19T10:36:46.206Z",
+    "end": "2023-06-19T10:37:04.029Z",
+    "duration": 17823,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,26 +18,26 @@
   },
   "results": [
     {
-      "uuid": "ab18b803-eea4-469e-902c-1fd1a0956b38",
+      "uuid": "5a619e67-a3fa-4ef7-84ef-47d7b4e1a7a1",
       "title": "",
-      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\landing.js",
-      "file": "\\test\\app\\landing.js",
+      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\login.js",
+      "file": "\\test\\app\\login.js",
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
-          "uuid": "2175df3b-04c3-49fb-93f3-0b1dec086f07",
-          "title": "Test",
-          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\landing.js",
-          "file": "\\test\\app\\landing.js",
+          "uuid": "d6e83dd3-1125-4c2c-b5bd-605feeabbd76",
+          "title": "Login",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\login.js",
+          "file": "\\test\\app\\login.js",
           "beforeHooks": [],
           "afterHooks": [
             {
-              "title": "\"after all\" hook in \"Test\"",
-              "fullTitle": "Test \"after all\" hook in \"Test\"",
+              "title": "\"after all\" hook in \"Login\"",
+              "fullTitle": "Login \"after all\" hook in \"Login\"",
               "timedOut": false,
-              "duration": 1,
+              "duration": 0,
               "state": null,
               "speed": null,
               "pass": false,
@@ -46,16 +46,16 @@
               "context": null,
               "code": "",
               "err": {},
-              "uuid": "c169a8e0-de6e-4777-af95-f25464fced20",
-              "parentUUID": "2175df3b-04c3-49fb-93f3-0b1dec086f07",
+              "uuid": "083ff74b-67b4-4da4-90af-9aaf84157f3c",
+              "parentUUID": "d6e83dd3-1125-4c2c-b5bd-605feeabbd76",
               "isHook": true,
               "skipped": false
             },
             {
-              "title": "\"after each\" hook in \"Test\"",
-              "fullTitle": "Test \"after each\" hook in \"Test\"",
+              "title": "\"after each\" hook in \"Login\"",
+              "fullTitle": "Login \"after each\" hook in \"Login\"",
               "timedOut": false,
-              "duration": 4530,
+              "duration": 3976,
               "state": null,
               "speed": null,
               "pass": false,
@@ -64,40 +64,40 @@
               "context": null,
               "code": "",
               "err": {},
-              "uuid": "3f5dfeb1-08ff-4d14-b82a-f0d5d8d9e7cd",
-              "parentUUID": "2175df3b-04c3-49fb-93f3-0b1dec086f07",
+              "uuid": "56fc55fa-b61c-49a4-b8a4-caff0e36a4b0",
+              "parentUUID": "d6e83dd3-1125-4c2c-b5bd-605feeabbd76",
               "isHook": true,
               "skipped": false
             }
           ],
           "tests": [
             {
-              "title": "Go to app or landing page - from browser firefox",
-              "fullTitle": "Test Go to app or landing page - from browser firefox",
+              "title": "ADMIN - Login to dashboard from browser firefox",
+              "fullTitle": "Login ADMIN - Login to dashboard from browser firefox",
               "timedOut": false,
-              "duration": 4866,
+              "duration": 13843,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
-              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Show the landing page ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\screenshoot\\\\test\\\\app\\\\landing\\\\1-[passed]-2023-06-19_15-57-33.png\"\n  }\n]",
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Enter to dashboard ✅\\n- Get the data user that logged in ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\login\\\\1-[passed]-2023-06-19_17-37-00.png\"\n  }\n]",
               "code": "",
               "err": {},
-              "uuid": "1f2ed84b-d1a4-4f1c-9fab-b34d6c6c4184",
-              "parentUUID": "2175df3b-04c3-49fb-93f3-0b1dec086f07",
+              "uuid": "c8869f6d-de8a-4bcb-ad0a-1479e151f4a1",
+              "parentUUID": "d6e83dd3-1125-4c2c-b5bd-605feeabbd76",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "1f2ed84b-d1a4-4f1c-9fab-b34d6c6c4184"
+            "c8869f6d-de8a-4bcb-ad0a-1479e151f4a1"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 4866,
+          "duration": 13843,
           "root": false,
           "rootEmpty": false,
           "_timeout": 0
@@ -120,7 +120,7 @@
     "mochawesome": {
       "options": {
         "quiet": false,
-        "reportFilename": "app/landing/[status]-[datetime]-report",
+        "reportFilename": "app/login/[status]-[datetime]-report",
         "saveHtml": true,
         "saveJson": true,
         "consoleReporter": "spec",
@@ -136,7 +136,7 @@
         "timestamp": "longDate",
         "overwrite": "false",
         "reportDir": "testResults/reports",
-        "reportFilename": "app/landing/[status]-[datetime]-report",
+        "reportFilename": "app/login/[status]-[datetime]-report",
         "reportPageTitle": "Laporan-Harian-Testing"
       },
       "version": "6.2.0"
