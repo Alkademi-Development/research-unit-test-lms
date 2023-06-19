@@ -52,12 +52,7 @@ describe("Course", () => {
                 title: 'Expected Results',
                 value: customMessages?.length > 0 ? "- " + customMessages.map(msg => msg.trim()).join("\n- ") : 'No Results'
             })
-        } else {
-            addContext(this, {
-                title: 'Expected Results',
-                value: customMessages?.length > 0 ? "- " + customMessages.map(msg => msg.trim()).join("\n- ") : 'No Results'
-            })
-        }
+        } 
         addContext(this, {
             title: 'Screenshoot-Test-Results',
             value: "..\\" + path.relative(fileURLToPath(import.meta.url), fileNamePath)
@@ -93,9 +88,9 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementsLocated(By.css("div.item-class")));
@@ -120,19 +115,22 @@ describe("Course", () => {
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
                             await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
-                            let editCourse = await listCourse[0];
+                            let indexCourse = await listCourse.length - 1;
+                            let editCourse = await listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
+
                             const actions = driver.actions({ async: true });
                             await actions.move({ origin: editCourse }).perform();
 
                             // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
+                            let editBtn = await editCourse.findElements(By.css(".action-container .action"));
                             const statusDisplayCourse = await driver.executeScript(
                                 "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
+                                editBtn[1]
                             );
 
                             // Mengecek jika element berhasil di hover, maka akan di klik
-                            if (statusDisplayCourse == 'flex') await actionBtns[1].click();
+                            if (await statusDisplayCourse == 'flex') await editBtn[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
                             errorMessages = await captureConsoleErrors(driver, browser);
                             await thrownAnError(errorMessages, errorMessages?.length > 0);
@@ -162,6 +160,12 @@ describe("Course", () => {
 
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            
+                            // Aksi scroll to edited data
+                            listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
+                            editCourse = listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
@@ -188,7 +192,6 @@ describe("Course", () => {
                             expect.fail(error?.stack);
                         }
 
-
                     });
                     break;
                 case 1:
@@ -205,9 +208,9 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementsLocated(By.css("div.item-class")));
@@ -232,19 +235,22 @@ describe("Course", () => {
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
                             await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
-                            let editCourse = await listCourse[0];
+                            let indexCourse = await listCourse.length - 1;
+                            let editCourse = await listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
+
                             const actions = driver.actions({ async: true });
                             await actions.move({ origin: editCourse }).perform();
 
                             // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
+                            let editBtn = await editCourse.findElements(By.css(".action-container .action"));
                             const statusDisplayCourse = await driver.executeScript(
                                 "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
+                                editBtn[1]
                             );
 
                             // Mengecek jika element berhasil di hover, maka akan di klik
-                            if (statusDisplayCourse == 'flex') await actionBtns[1].click();
+                            if (await statusDisplayCourse == 'flex') await editBtn[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
                             errorMessages = await captureConsoleErrors(driver, browser);
                             await thrownAnError(errorMessages, errorMessages?.length > 0);
@@ -274,6 +280,12 @@ describe("Course", () => {
 
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            
+                            // Aksi scroll to edited data
+                            listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
+                            editCourse = listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
@@ -345,19 +357,22 @@ describe("Course", () => {
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
                             await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
-                            let editCourse = await listCourse[0];
+                            let indexCourse = await listCourse.length - 1;
+                            let editCourse = await listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
+
                             const actions = driver.actions({ async: true });
                             await actions.move({ origin: editCourse }).perform();
 
                             // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
+                            let editBtn = await editCourse.findElements(By.css(".action-container .action"));
                             const statusDisplayCourse = await driver.executeScript(
                                 "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
+                                editBtn[1]
                             );
 
                             // Mengecek jika element berhasil di hover, maka akan di klik
-                            if (statusDisplayCourse == 'flex') await actionBtns[1].click();
+                            if (await statusDisplayCourse == 'flex') await editBtn[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
                             errorMessages = await captureConsoleErrors(driver, browser);
                             await thrownAnError(errorMessages, errorMessages?.length > 0);
@@ -387,6 +402,12 @@ describe("Course", () => {
 
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            
+                            // Aksi scroll to edited data
+                            listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
+                            editCourse = listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
@@ -431,9 +452,9 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementsLocated(By.css("div.item-class")));
@@ -458,19 +479,22 @@ describe("Course", () => {
                             let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
                             await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
-                            let editCourse = await listCourse[0];
+                            let indexCourse = await listCourse.length - 1;
+                            let editCourse = await listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
+
                             const actions = driver.actions({ async: true });
                             await actions.move({ origin: editCourse }).perform();
 
                             // Aksi mengecek setting icons pada course muncul atau displaynya flex
-                            let actionBtns = await driver.findElements(By.css('.action-container .action'));
+                            let editBtn = await editCourse.findElements(By.css(".action-container .action"));
                             const statusDisplayCourse = await driver.executeScript(
                                 "return getComputedStyle(arguments[0]).getPropertyValue('display')",
-                                actionBtns[1]
+                                editBtn[1]
                             );
 
                             // Mengecek jika element berhasil di hover, maka akan di klik
-                            if (statusDisplayCourse == 'flex') await actionBtns[1].click();
+                            if (await statusDisplayCourse == 'flex') await editBtn[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
                             errorMessages = await captureConsoleErrors(driver, browser);
                             await thrownAnError(errorMessages, errorMessages?.length > 0);
@@ -500,6 +524,12 @@ describe("Course", () => {
 
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            
+                            // Aksi scroll to edited data
+                            listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
+                            editCourse = listCourse[indexCourse];
+                            await driver.executeScript('arguments[0].scrollIntoView()', editCourse);
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
