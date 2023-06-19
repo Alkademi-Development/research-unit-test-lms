@@ -24,7 +24,7 @@ if (process.platform === 'win32') {
     screenshootFilePath = path.resolve(`./screenshoot/test/${screenshootFilePath.split("/test/")[1].replaceAll(".js", "")}`);
 }
 
-describe("Test", () => {
+describe("Landing Page", () => {
     let customMessages = [];
 
     after(async function () {
