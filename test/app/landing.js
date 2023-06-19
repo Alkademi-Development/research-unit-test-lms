@@ -7,21 +7,13 @@ import yargs from 'yargs';
 import fs from 'fs';
 import path from 'path';
 import { BROWSERS } from '#root/commons/constants/browser';
-import { getUserAccount } from '#root/commons/utils/userUtils';
-import { enterDashboard } from '#root/commons/utils/dashboardUtils';
 import { goToApp } from '#root/commons/utils/appUtils';
 import { appHost } from '#root/api/app-token';
 import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { fileURLToPath } from 'url';
-import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
+import { captureConsoleErrors, parseToDomain } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
 import moment from 'moment-timezone';
-
-/**
- * Get the user data for authentication
- */
-
-const users = getUserAccount(yargs(process.argv.slice(2)).parse());
 
 let driver;
 let errorMessages;
@@ -32,7 +24,7 @@ if (process.platform === 'win32') {
     screenshootFilePath = path.resolve(`./screenshoot/test/${screenshootFilePath.split("/test/")[1].replaceAll(".js", "")}`);
 }
 
-describe("Login", () => {
+describe("Test", () => {
     let customMessages = [];
 
     after(async function () {
@@ -63,72 +55,35 @@ describe("Login", () => {
 
     BROWSERS.forEach(browser => {
 
-        users.forEach(userData => {
+        it(`Go to app or landing page - from browser ${browser}`, async () => {
 
-            const data = userData?.split('=');
-            const userAccount = data[1].split(';');
-            const email = userAccount[0];
-            const password = userAccount[1];
-            const name = userAccount[2];
-            const kind = parseInt(userAccount[3]);
+            try {
 
-            let user = { name, email, password, kind };
+                driver = await goToApp(browser, parseToDomain(appHost));
+    
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                driver.wait(async function() {
+                    const networkConditions = await driver.executeScript('return performance.getEntriesByType("resource")');
+                    const pendingRequests = networkConditions.filter(condition => condition.responseEnd === 0);
+                    return pendingRequests.length === 0;
+                });
+                
+                await driver.wait(until.elementsLocated(By.id('home')), 5000);
+    
+                const home = await driver.findElement(By.css('#home')).isDisplayed();
+    
+                customMessages = [
+                    home ? 'Show the landing page ✅' : 'Show the landing page ❌'
+                ];
+                expect(home).to.eq(true);
 
-            switch (user.kind) {
-                case 0:
-                    it(`Test Super Admin - from browser ${browser}`, async () => {
-
-                        try {
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-                    });
-
-                    break;
-                case 1:
-                    it(`Test Admin - from browser ${browser}`, async () => {
-
-                        try {
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-
-                    });
-
-                    break;
-
-                case 2:
-                    it(`Test Mentor - from browser ${browser}`, async () => {
-
-                        try {
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-
-                    });
-
-                    break;
-
-                default:
-                    it(`Test Other - from browser ${browser}`, async () => {
-
-                        try {
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-
-                    });
-
-                    break;
+            } catch (error) {
+                expect.fail(error);
             }
+
+
         });
 
     })
