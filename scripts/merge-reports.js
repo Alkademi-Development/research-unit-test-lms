@@ -2,7 +2,7 @@ import fs from 'fs';
 import { merge } from 'mochawesome-merge';
 import { create } from 'mochawesome-report-generator';
 import { rl } from '#root/commons/utils/inputUtils';
-import { TEXT_CONFIRM } from '#root/commons/constants/input';
+import { TEXT_REPORTS } from '#root/commons/constants/input';
 
 async function mergeReports(directory, outputFile) {
     const files = await getJsonFiles(directory);
@@ -40,13 +40,45 @@ function getJsonFiles(directory) {
     });
 }
 
-const reportData = fs.readFileSync('./output.json', 'utf-8');
+function askMergeReport() {
+  
+  rl.question(clc.bold("Pilih salah satu jenis tipe test yang anda ingin merge : 'app' atau 'api' "), input => {
 
-const options = {
-    reportDir: './custom-report-dir', // Path folder untuk menyimpan report
-    reportFilename: 'custom-report.html', // Nama file report
-};
-create(JSON.parse(reportData), {});
+      if(!TEXT_REPORTS.includes(input)) {
+        console.log(clc.red('Input tidak valid, tolong masukkan sesuai instruksi'));
+        askMergeReport();
+      } else if(input.trim().toLowerCase() === 'app') {
+
+        mergeReports('./testResults/reports/app', `./testResults/output-merged-report-${input}.json`);
+
+        const reportData = fs.readFileSync(`./testResults/output-merged-report-${input}.json`, 'utf-8');
+
+        const options = { 
+            reportDir: './testResults', // Path folder untuk menyimpan report
+            reportFilename: `merged-report-${input}.html`, // Nama file report
+        };
+        create(JSON.parse(reportData), options);
+
+      } else if (input.trim().toLowerCase() === 'api') {
+        mergeReports('./testResults/reports/api', `./testResults/output-merged-report-${input}.json`);
+
+        const reportData = fs.readFileSync(`./testResults/output-merged-report-${input}.json`, 'utf-8');
+
+        const options = { 
+            reportDir: './testResults', // Path folder untuk menyimpan report
+            reportFilename: `merged-report-${input}.html`, // Nama file report
+        };
+        create(JSON.parse(reportData), options);
+      } else {
+        console.log(clc.red('Input tidak valid, tolong masukkan sesuai instruksi'));
+        askMergeReport();
+      }
+
+  })
+
+}
+
+askMergeReport();
 
 
   

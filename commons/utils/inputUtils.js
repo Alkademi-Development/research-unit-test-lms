@@ -1,6 +1,5 @@
 import path from 'path';
 import readline from 'readline';
-import moment from 'moment-timezone';
 
 export const rl = readline.createInterface({
   input: process.stdin,
