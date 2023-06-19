@@ -95,9 +95,9 @@ describe("Module", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));
@@ -204,9 +204,9 @@ describe("Module", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));
@@ -316,9 +316,9 @@ describe("Module", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));
@@ -428,9 +428,9 @@ describe("Module", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));

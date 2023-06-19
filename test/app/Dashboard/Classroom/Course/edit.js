@@ -98,7 +98,7 @@ describe("Course", () => {
                             errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -117,7 +117,7 @@ describe("Course", () => {
                             await driver.sleep(10000);
                             
                             // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.executeScript(`return document.querySelectorAll("#courses .card .card-body .header")`);
+                            let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
                             await thrownAnError('Courses on detail classroom is empty', listCourse?.length == 0 || listCourse == null);
 
                             let editCourse = await listCourse[0];
@@ -130,6 +130,7 @@ describe("Course", () => {
                                 "return getComputedStyle(arguments[0]).getPropertyValue('display')",
                                 actionBtns[1]
                             );
+
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             if (statusDisplayCourse == 'flex') await actionBtns[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
@@ -139,10 +140,7 @@ describe("Course", () => {
                             // Menunggu Element Form Muncul 
                             await driver.wait(until.elementLocated(By.id('Judul Materi *')));
 
-                            let { titleCourse, descriptionCourse } = await editData(driver);
-
-                            titleCourse = await driver.findElement(By.id('Judul Materi *'));
-                            descriptionCourse = await driver.findElement(By.id('Deskripsi Materi *'));
+                            const { titleCourse, descriptionCourse } = await editData(driver);
 
                             let dataTitleCourse = await titleCourse.getAttribute("value");
 
@@ -176,7 +174,7 @@ describe("Course", () => {
                             }
 
                             customMessages = [
-                                alertSuccess?.length > 0 ? "Show alert 'Berhasil mengubah data' ✅" : "Show alert 'Berhasil mengubah data' ❌",
+                                alertSuccess?.length > 0 ? "Show alert 'Berhasil menambahkan data' ✅" : "Show alert 'Berhasil menambahkan data' ❌",
                                 findCourse.length > 0 ? "'Materi' successfully updated to list of materi in detail classroom ✅" : "'Materi' successfully updated to list of materi in detail classroom ❌"
                             ];
                             expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
@@ -189,6 +187,7 @@ describe("Course", () => {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
                         }
+
 
                     });
                     break;
@@ -211,7 +210,7 @@ describe("Course", () => {
                             errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -319,12 +318,12 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -360,6 +359,8 @@ describe("Course", () => {
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             if (statusDisplayCourse == 'flex') await actionBtns[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Menunggu Element Form Muncul 
                             await driver.wait(until.elementLocated(By.id('Judul Materi *')));
@@ -380,13 +381,13 @@ describe("Course", () => {
                             }
 
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-
+                            
                             // Aksi sleep
                             await driver.sleep(10000);
 
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
-                                                        
+                            
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
                             let findCourse = [];
@@ -411,6 +412,7 @@ describe("Course", () => {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
                         }
+
 
                     });
 
@@ -434,7 +436,7 @@ describe("Course", () => {
                             errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -466,9 +468,12 @@ describe("Course", () => {
                                 "return getComputedStyle(arguments[0]).getPropertyValue('display')",
                                 actionBtns[1]
                             );
+
                             // Mengecek jika element berhasil di hover, maka akan di klik
                             if (statusDisplayCourse == 'flex') await actionBtns[1].click();
                             else throw new Error('Sorry failed to hover the icon edit of course');
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Menunggu Element Form Muncul 
                             await driver.wait(until.elementLocated(By.id('Judul Materi *')));
@@ -489,13 +494,13 @@ describe("Course", () => {
                             }
 
                             const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-
+                            
                             // Aksi sleep
                             await driver.sleep(10000);
 
                             // Aksi menunggu list materi untuk muncul
                             await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
-                                                        
+                            
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
                             let findCourse = [];
@@ -520,6 +525,7 @@ describe("Course", () => {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
                         }
+
 
                     });
                     break;

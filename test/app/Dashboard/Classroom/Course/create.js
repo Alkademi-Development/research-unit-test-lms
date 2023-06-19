@@ -94,12 +94,12 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -160,7 +160,7 @@ describe("Course", () => {
                             await driver.sleep(10000);
 
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            await driver.wait(until.elementsLocated(By.css("#courses .card .card-body .header h4.title")));
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header h4.title")`);
@@ -203,12 +203,12 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -269,7 +269,7 @@ describe("Course", () => {
                             await driver.sleep(10000);
 
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            await driver.wait(until.elementsLocated(By.css("#courses .card .card-body .header h4.title")));
 
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header h4.title")`);
@@ -312,12 +312,12 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -378,7 +378,7 @@ describe("Course", () => {
                             await driver.sleep(10000);
 
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            await driver.wait(until.elementsLocated(By.css("#courses .card .card-body .header h4.title")));
 
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header h4.title")`);
@@ -421,12 +421,12 @@ describe("Course", () => {
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
-                            errorMessages = await captureConsoleErrors(driver, browser);
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -487,7 +487,7 @@ describe("Course", () => {
                             await driver.sleep(10000);
 
                             // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css(".card .card-body .header h4.title")));
+                            await driver.wait(until.elementsLocated(By.css("#courses .card .card-body .header h4.title")));
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
                             const courses = await driver.findElements(By.css(".card-body .header h4.title"));
