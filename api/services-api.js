@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 
 const request = supertest(process.env.SERVICES_API + 'v1/');
+const requestDriver = supertest(process.env.BASE_URL_DRIVE + 'v1/');
 
 const paramsRequest = {
     sApp: 'S-App-Authorization',
@@ -14,6 +15,7 @@ const apiParamsRequest = {
 
 export {
     request,
+    requestDriver,
     paramsRequest,
     apiParamsRequest
 }
