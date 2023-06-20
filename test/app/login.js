@@ -1,11 +1,11 @@
-import { describe, afterEach, before } from 'mocha';
-import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
 import addContext from 'mochawesome/addContext.js';
-import assert from 'assert';
-import { expect } from "chai";
 import yargs from 'yargs';
 import fs from 'fs';
 import path from 'path';
+import moment from 'moment-timezone';
+import { expect } from "chai";
+import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
+import { describe, afterEach, before } from 'mocha';
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
 import { enterDashboard } from '#root/commons/utils/dashboardUtils';
@@ -15,7 +15,6 @@ import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { fileURLToPath } from 'url';
 import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
-import moment from 'moment-timezone';
 
 /**
  * Get the user data for authentication
