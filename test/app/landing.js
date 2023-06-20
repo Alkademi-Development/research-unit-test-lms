@@ -19,9 +19,9 @@ let driver;
 let errorMessages;
 let screenshootFilePath = fileURLToPath(import.meta.url);
 if (process.platform === 'win32') {
-    screenshootFilePath = path.resolve(`./screenshoot/test/${screenshootFilePath.replaceAll("\\", "\\").split("\\test\\")[1].replaceAll(".js", "")}`);
+    screenshootFilePath = path.resolve(`./testResults/screenshoots/${screenshootFilePath.replaceAll("\\", "\\").split("\\test\\")[1].replaceAll(".js", "")}/`);
 } else {
-    screenshootFilePath = path.resolve(`./screenshoot/test/${screenshootFilePath.split("/test/")[1].replaceAll(".js", "")}`);
+    screenshootFilePath = path.resolve(`./testResults/screenshoots/${screenshootFilePath.split("/test/")[1].replaceAll(".js", "")}/`);
 }
 
 describe("Landing Page", () => {
@@ -59,8 +59,7 @@ describe("Landing Page", () => {
 
             try {
 
-                driver = await goToApp(browser, parseToDomain(appHost));
-    
+                driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
                 // Tunggu hingga semua permintaan dari server selesai
@@ -69,6 +68,10 @@ describe("Landing Page", () => {
                     const pendingRequests = networkConditions.filter(condition => condition.responseEnd === 0);
                     return pendingRequests.length === 0;
                 });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
                 
                 await driver.wait(until.elementsLocated(By.id('home')), 5000);
     
@@ -85,6 +88,44 @@ describe("Landing Page", () => {
 
 
         });
+
+        it(`Check tab beranda - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                driver.wait(async function() {
+                    const networkConditions = await driver.executeScript('return performance.getEntriesByType("resource")');
+                    const pendingRequests = networkConditions.filter(condition => condition.responseEnd === 0);
+                    return pendingRequests.length === 0;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[0].click();`);
+                
+                // Check the result
+                const currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    currentUrl === appHost ? `Tab beranda is redirected to ${appHost + '/'} ✅` : `Tab beranda is redirected to ${appHost + '/'} ❌`
+                ];
+                expect(currentUrl).to.eq(appHost + '/');
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });        
 
     })
 

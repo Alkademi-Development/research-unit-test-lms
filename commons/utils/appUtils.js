@@ -1,4 +1,5 @@
 import { Builder } from 'selenium-webdriver';
+import { expect } from "chai";
 
 
 const goToApp = async (browser, appHost) => {
@@ -7,7 +8,12 @@ const goToApp = async (browser, appHost) => {
         .forBrowser(browser)
         .build();
     
-    await driver.get(appHost);
+    try {
+        await driver.get(appHost);
+    } catch (error) {
+        await driver.sleep(3000);
+        await driver.quit();
+    }
 
     return driver;
 
