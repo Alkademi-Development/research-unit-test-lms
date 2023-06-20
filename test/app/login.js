@@ -31,8 +31,6 @@ if (process.platform === 'win32') {
     screenshootFilePath = path.resolve(`./testResults/screenshoots/${screenshootFilePath.split("/test/")[1].replaceAll(".js", "")}/`);
 }
 
-console.log(screenshootFilePath)
-
 describe("Login", () => {
     let customMessages = [];
 

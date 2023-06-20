@@ -150,7 +150,199 @@ describe("Landing Page", () => {
             }
 
 
-        });        
+        });  
+        
+        it(`Check tab tentang kami - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[1].click();`);
+                
+                // Check the result
+                const currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    currentUrl === appHost + '/about' ? `Tab beranda is redirected to ${appHost + '/about'} ✅` : `Tab beranda is redirected to ${appHost + '/about'} ❌`
+                ];
+                expect(currentUrl).to.eq(appHost + '/about');
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });      
+        
+        it(`Check tab event - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[2].click();`);
+                
+                // Check the result
+                const currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    currentUrl === appHost + '/event' ? `Tab beranda is redirected to ${appHost + '/event'} ✅` : `Tab beranda is redirected to ${appHost + '/event'} ❌`
+                ];
+                expect(currentUrl).to.eq(appHost + '/event');
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });   
+        
+        it(`Check tab news - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[3].click();`);
+                
+                // Check the result
+                const currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    currentUrl === appHost + '/news' ? `Tab beranda is redirected to ${appHost + '/news'} ✅` : `Tab beranda is redirected to ${appHost + '/news'} ❌`
+                ];
+                expect(currentUrl).to.eq(appHost + '/news');
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });   
+        
+        it(`Check tab gallery - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[4].click();`);
+                
+                // Check the result
+                const currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    currentUrl === appHost + '/gallery' ? `Tab beranda is redirected to ${appHost + '/gallery'} ✅` : `Tab beranda is redirected to ${appHost + '/gallery'} ❌`
+                ];
+                expect(currentUrl).to.eq(appHost + '/gallery');
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });    
 
     })
 
