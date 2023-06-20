@@ -53,10 +53,10 @@ describe("Module", () => {
                 title: 'Expected Results',
                 value: customMessages?.length > 0 ? "- " + customMessages.map(msg => msg.trim()).join("\n- ") : 'No Results'
             })
-        } else {
+        } else if (this.currentTest.isFailed) {
             addContext(this, {
-                title: 'Expected Results',
-                value: customMessages?.length > 0 ? "- " + customMessages.map(msg => msg.trim()).join("\n- ") : 'No Results'
+                title: 'Status Test',
+                value: 'Failed ❌'
             })
         }
         addContext(this, {

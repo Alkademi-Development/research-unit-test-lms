@@ -44,7 +44,12 @@ describe("Landing Page", () => {
                 title: 'Expected Results',
                 value: customMessages?.length > 0 ? "- " + customMessages.map(msg => msg.trim()).join("\n- ") : 'No Results'
             })
-        } 
+        } else if (this.currentTest.isFailed) {
+            addContext(this, {
+                title: 'Status Test',
+                value: 'Failed ❌'
+            })
+        }
         addContext(this, {
             title: 'Screenshoot-Test-Results',
             value: "..\\" + path.relative(fileURLToPath(import.meta.url), fileNamePath)
@@ -63,10 +68,20 @@ describe("Landing Page", () => {
                 await driver.manage().window().maximize();
                 
                 // Tunggu hingga semua permintaan dari server selesai
-                driver.wait(async function() {
-                    const networkConditions = await driver.executeScript('return performance.getEntriesByType("resource")');
-                    const pendingRequests = networkConditions.filter(condition => condition.responseEnd === 0);
-                    return pendingRequests.length === 0;
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
                 });
 
                 // Aksi menghilangkan modal 
@@ -97,10 +112,20 @@ describe("Landing Page", () => {
                 await driver.manage().window().maximize();
                 
                 // Tunggu hingga semua permintaan dari server selesai
-                driver.wait(async function() {
-                    const networkConditions = await driver.executeScript('return performance.getEntriesByType("resource")');
-                    const pendingRequests = networkConditions.filter(condition => condition.responseEnd === 0);
-                    return pendingRequests.length === 0;
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
                 });
 
                 // Aksi menghilangkan modal 
@@ -116,7 +141,7 @@ describe("Landing Page", () => {
                 // Check the result
                 const currentUrl = await driver.getCurrentUrl();
                 customMessages = [
-                    currentUrl === appHost ? `Tab beranda is redirected to ${appHost + '/'} ✅` : `Tab beranda is redirected to ${appHost + '/'} ❌`
+                    currentUrl === appHost + '/' ? `Tab beranda is redirected to ${appHost + '/'} ✅` : `Tab beranda is redirected to ${appHost + '/'} ❌`
                 ];
                 expect(currentUrl).to.eq(appHost + '/');
 
