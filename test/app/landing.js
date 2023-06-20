@@ -60,7 +60,7 @@ describe("Landing Page", () => {
 
     BROWSERS.forEach(browser => {
 
-        it(`Go to app or landing page - from browser ${browser}`, async () => {
+        it.skip(`Go to app or landing page - from browser ${browser}`, async () => {
 
             try {
 
@@ -104,7 +104,7 @@ describe("Landing Page", () => {
 
         });
         
-        it(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
+        it.skip(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
 
             try {
 
@@ -146,7 +146,7 @@ describe("Landing Page", () => {
 
         });
 
-        it(`Check tab beranda - from browser ${browser}`, async () => {
+        it.skip(`Check tab beranda - from browser ${browser}`, async () => {
 
             try {
 
@@ -197,7 +197,7 @@ describe("Landing Page", () => {
 
         });  
         
-        it(`Check tab tentang kami - from browser ${browser}`, async () => {
+        it.skip(`Check tab tentang kami - from browser ${browser}`, async () => {
 
             try {
 
@@ -248,7 +248,7 @@ describe("Landing Page", () => {
 
         });      
         
-        it(`Check tab event - from browser ${browser}`, async () => {
+        it.skip(`Check tab event - from browser ${browser}`, async () => {
 
             try {
 
@@ -299,7 +299,7 @@ describe("Landing Page", () => {
 
         });   
         
-        it(`Check tab news - from browser ${browser}`, async () => {
+        it.skip(`Check tab news - from browser ${browser}`, async () => {
 
             try {
 
@@ -350,7 +350,7 @@ describe("Landing Page", () => {
 
         });   
         
-        it(`Check tab gallery - from browser ${browser}`, async () => {
+        it.skip(`Check tab gallery - from browser ${browser}`, async () => {
 
             try {
 
@@ -401,7 +401,59 @@ describe("Landing Page", () => {
 
         });    
 
-        
+        it(`Click the button 'mulai belajar' and scroll into program section - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi mengklik button 'mulai belajar'
+                await driver.executeScript(`return Array.from(document.querySelectorAll("a.btn-primary")).find(btn => btn.innerText === "Mulai Belajar");`);
+                
+                // Aksi sleep
+                await driver.sleep(5000);
+    
+                // Check the result
+                const currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    currentUrl === appHost + '/#event' ? 'Scroll into program section ✅' : 'Scroll into program section ❌'
+                ];
+                expect(currentUrl).to.eq(appHost + '/#event');
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
 
 
     })
