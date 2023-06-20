@@ -107,9 +107,11 @@ async function getInput() {
                                                                               if (error) {
                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                 console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                              } else {
+                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                               }
                                                                           
-                                                                              console.log(stdout);
+                                                                              
                                                                               console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                               console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                           
@@ -126,9 +128,10 @@ async function getInput() {
                                                                                   if (error) {
                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                  } else {
+                                                                                      console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                   }
                                                                               
-                                                                                  console.log(stdout);
                                                                                   console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                   console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                               
@@ -147,9 +150,10 @@ async function getInput() {
                                                                                   if (error) {
                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                  } else {
+                                                                                      console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                   }
                                                                               
-                                                                                  console.log(stdout);
                                                                                   console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                   console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                               
@@ -254,9 +258,10 @@ async function getInput() {
                                                                                                                     exec(`npm test ${absolutePath} -- --data=${dataJson} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                                                         if (error) {
                                                                                                                             console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                                                                        } else {
+                                                                                                                            console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                         }
                                                                                     
-                                                                                                                        console.log(stdout);
                                                                                                                         console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                         console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -267,9 +272,10 @@ async function getInput() {
                                                                                                                     exec(`npm test ${absolutePath} -- --data=${dataJson} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                                                         if (error) {
                                                                                                                             console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                                                                        } else {
+                                                                                                                            console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                         }
                                                                                     
-                                                                                                                        console.log(stdout);
                                                                                                                         console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                         console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -291,9 +297,11 @@ async function getInput() {
                                                                                                             if (error) {
                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                                 console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                            } else {
+                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                             }
                                                                                     
-                                                                                                            console.log(stdout);
+                                                                                                            
                                                                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -326,9 +334,11 @@ async function getInput() {
                                                                                                                         exec(`npm test ${absolutePath} -- --data=${dataJson} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                                                                            } else {
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
-                                                                                                                            console.log(stdout);
+                                                                                                                            
                                                                                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -339,9 +349,11 @@ async function getInput() {
                                                                                                                         exec(`npm test ${absolutePath} -- --data=${dataJson} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                                                                            } else {
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
-                                                                                                                            console.log(stdout);
+                                                                                                                            
                                                                                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -363,9 +375,11 @@ async function getInput() {
                                                                                                                 if (error) {
                                                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                                } else {
+                                                                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                 }
                                                                                     
-                                                                                                                console.log(stdout);
+                                                                                                                
                                                                                                                 console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                 console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -401,9 +415,11 @@ async function getInput() {
                                                                                                                         exec(`npm test ${absolutePath} -- --data=${dataJson} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                                                                            } else {
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
-                                                                                                                            console.log(stdout);
+                                                                                                                            
                                                                                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -414,9 +430,11 @@ async function getInput() {
                                                                                                                         exec(`npm test ${absolutePath} -- --data=${dataJson} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                                                                            } else {
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
-                                                                                                                            console.log(stdout);
+                                                                                                                            
                                                                                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -438,9 +456,11 @@ async function getInput() {
                                                                                                                 if (error) {
                                                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                                } else {
+                                                                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                 }
                                                                                     
-                                                                                                                console.log(stdout);
+                                                                                                                
                                                                                                                 console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                                 console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                     
@@ -495,9 +515,11 @@ async function getInput() {
                                                                         exec(`npm test ${absolutePath} -- --data=${data} --recursive ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                             if (error) {
                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                            } else {
+                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                             }
                                                 
-                                                                            console.log(stdout);
+                                                                            
                                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                 
@@ -508,9 +530,11 @@ async function getInput() {
                                                                         exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
                                                                             if (error) {
                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
+                                                                            } else {
+                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                             }
                                                 
-                                                                            console.log(stdout);
+                                                                            
                                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                 
@@ -531,9 +555,11 @@ async function getInput() {
                                                                 if (error) {
                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                } else {
+                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                 }
                                     
-                                                                console.log(stdout);
+                                                                
                                                                 console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                 console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                     
@@ -597,9 +623,11 @@ async function getInput() {
                                                                                                   if (error) {
                                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                  } else {
+                                                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                   }
                                                                                               
-                                                                                                  console.log(stdout);
+                                                                                                  
                                                                                                   console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                   console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                               
@@ -616,9 +644,11 @@ async function getInput() {
                                                                                                       if (error) {
                                                                                                         console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                         console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                      } else {
+                                                                                                        console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                       }
                                                                                                   
-                                                                                                      console.log(stdout);
+                                                                                                      
                                                                                                       console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                       console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                                   
@@ -637,9 +667,11 @@ async function getInput() {
                                                                                                       if (error) {
                                                                                                         console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                         console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                                                                      } else {
+                                                                                                        console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                       }
                                                                                                   
-                                                                                                      console.log(stdout);
+                                                                                                      
                                                                                                       console.log(clc.yellow('Eksekusi telah selesai!'));
                                                                                                       console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                                                                                   
@@ -678,9 +710,11 @@ async function getInput() {
                                                             if (error) {
                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                 console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
+                                                            } else {
+                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                             }
                                 
-                                                            console.log(stdout);
+                                                            
                                                             console.log(clc.yellow('Eksekusi telah selesai!'));
                                                             console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
                                 
