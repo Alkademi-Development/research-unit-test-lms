@@ -108,7 +108,7 @@ async function getInput() {
                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                 console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                               } else {
-                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                               }
                                                                           
                                                                               
@@ -129,7 +129,7 @@ async function getInput() {
                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                   } else {
-                                                                                      console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                      console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                   }
                                                                               
                                                                                   console.log(clc.yellow('Eksekusi telah selesai!'));
@@ -151,7 +151,7 @@ async function getInput() {
                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                   } else {
-                                                                                      console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                      console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                   }
                                                                               
                                                                                   console.log(clc.yellow('Eksekusi telah selesai!'));
@@ -259,7 +259,7 @@ async function getInput() {
                                                                                                                         if (error) {
                                                                                                                             console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                                                         } else {
-                                                                                                                            console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                            console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                         }
                                                                                     
                                                                                                                         console.log(clc.yellow('Eksekusi telah selesai!'));
@@ -273,7 +273,7 @@ async function getInput() {
                                                                                                                         if (error) {
                                                                                                                             console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                                                         } else {
-                                                                                                                            console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                            console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                         }
                                                                                     
                                                                                                                         console.log(clc.yellow('Eksekusi telah selesai!'));
@@ -298,7 +298,7 @@ async function getInput() {
                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                                 console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                                             } else {
-                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                             }
                                                                                     
                                                                                                             
@@ -335,7 +335,7 @@ async function getInput() {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                                                             } else {
-                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
                                                                                                                             
@@ -350,7 +350,7 @@ async function getInput() {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                                                             } else {
-                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
                                                                                                                             
@@ -376,7 +376,7 @@ async function getInput() {
                                                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                                                 } else {
-                                                                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                    console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                 }
                                                                                     
                                                                                                                 
@@ -416,7 +416,7 @@ async function getInput() {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                                                             } else {
-                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
                                                                                                                             
@@ -431,7 +431,7 @@ async function getInput() {
                                                                                                                             if (error) {
                                                                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                                                                             } else {
-                                                                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                             }
                                                                                     
                                                                                                                             
@@ -457,7 +457,7 @@ async function getInput() {
                                                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                                                 } else {
-                                                                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                                    console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                                 }
                                                                                     
                                                                                                                 
@@ -516,7 +516,7 @@ async function getInput() {
                                                                             if (error) {
                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                             } else {
-                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                             }
                                                 
                                                                             
@@ -531,7 +531,7 @@ async function getInput() {
                                                                             if (error) {
                                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error);
                                                                             } else {
-                                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                             }
                                                 
                                                                             
@@ -556,7 +556,7 @@ async function getInput() {
                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                 } else {
-                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                    console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                 }
                                     
                                                                 
@@ -624,7 +624,7 @@ async function getInput() {
                                                                                                     console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                     console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                                   } else {
-                                                                                                    console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                    console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                   }
                                                                                               
                                                                                                   
@@ -645,7 +645,7 @@ async function getInput() {
                                                                                                         console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                         console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                                       } else {
-                                                                                                        console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                        console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                       }
                                                                                                   
                                                                                                       
@@ -668,7 +668,7 @@ async function getInput() {
                                                                                                         console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                                                         console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                                                                       } else {
-                                                                                                        console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                                                        console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                                                                       }
                                                                                                   
                                                                                                       
@@ -711,7 +711,7 @@ async function getInput() {
                                                                 console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
                                                                 console.error(clc.red('Pesan kesalahan tambahan:'), stderr);
                                                             } else {
-                                                                console.log(stdout.replaceAll(/✔/g, '✅').replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
+                                                                console.log(stdout.replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')));
                                                             }
                                 
                                                             

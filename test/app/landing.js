@@ -103,6 +103,48 @@ describe("Landing Page", () => {
 
 
         });
+        
+        it(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi menghilangkan modal 
+                const modalDisplayed = await driver.wait(until.elementLocated(By.css('.modal-content'))).isDisplayed();
+    
+                customMessages = [
+                    modalDisplayed ? 'Show modal on the landing page ✅' : 'Show modal on the landing page ❌'
+                ];
+                expect(modalDisplayed).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
 
         it(`Check tab beranda - from browser ${browser}`, async () => {
 
@@ -358,6 +400,9 @@ describe("Landing Page", () => {
 
 
         });    
+
+        
+
 
     })
 
