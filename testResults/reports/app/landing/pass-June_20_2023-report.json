@@ -1,0 +1,240 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-06-20T06:20:22.742Z",
+    "end": "2023-06-20T06:22:06.730Z",
+    "duration": 103988,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "60c5f18b-75b9-4493-9c67-a1d189e80063",
+      "title": "",
+      "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\landing.js",
+      "file": "\\test\\app\\landing.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+          "title": "Landing Page",
+          "fullFile": "D:\\allbasic\\nodejs\\selenium\\testingapp\\test\\app\\landing.js",
+          "file": "\\test\\app\\landing.js",
+          "beforeHooks": [],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Landing Page\"",
+              "fullTitle": "Landing Page \"after all\" hook in \"Landing Page\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "396fdc3a-1fb6-4696-a60e-a2f239620e14",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook in \"Landing Page\"",
+              "fullTitle": "Landing Page \"after each\" hook in \"Landing Page\"",
+              "timedOut": false,
+              "duration": 4067,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "085ac3c3-40d4-4492-887f-359d4205abba",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Go to app or landing page - from browser firefox",
+              "fullTitle": "Landing Page Go to app or landing page - from browser firefox",
+              "timedOut": false,
+              "duration": 4661,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Show the landing page ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\landing\\\\1-[passed]-2023-06-20_13-20-27.png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "4cd5033d-ce80-412d-bc41-dfd20a938be5",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Check tab beranda - from browser firefox",
+              "fullTitle": "Landing Page Check tab beranda - from browser firefox",
+              "timedOut": false,
+              "duration": 15037,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Tab beranda is redirected to https://dev.alkademi.id/ ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\landing\\\\2-[passed]-2023-06-20_13-20-48.png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "1edd0527-c42d-4cb6-b873-aba524b2d551",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Check tab tentang kami - from browser firefox",
+              "fullTitle": "Landing Page Check tab tentang kami - from browser firefox",
+              "timedOut": false,
+              "duration": 14410,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Tab beranda is redirected to https://dev.alkademi.id/about ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\landing\\\\3-[passed]-2023-06-20_13-21-06.png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "26f8e50d-2714-4ce7-99b3-f4ce71455ca8",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Check tab event - from browser firefox",
+              "fullTitle": "Landing Page Check tab event - from browser firefox",
+              "timedOut": false,
+              "duration": 14772,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Tab beranda is redirected to https://dev.alkademi.id/event ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\landing\\\\4-[passed]-2023-06-20_13-21-25.png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "4fdcb062-410b-42ba-a4a1-83f84cec179d",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Check tab news - from browser firefox",
+              "fullTitle": "Landing Page Check tab news - from browser firefox",
+              "timedOut": false,
+              "duration": 14859,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Tab beranda is redirected to https://dev.alkademi.id/news ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\landing\\\\5-[passed]-2023-06-20_13-21-43.png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "e85a23cb-f488-4e21-a050-3d9c1119d27f",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Check tab gallery - from browser firefox",
+              "fullTitle": "Landing Page Check tab gallery - from browser firefox",
+              "timedOut": false,
+              "duration": 15111,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Tab beranda is redirected to https://dev.alkademi.id/gallery ✅\"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\landing\\\\6-[passed]-2023-06-20_13-22-02.png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "97cf997c-15b5-4392-931f-db6870aeedeb",
+              "parentUUID": "91a0de26-24a7-4acc-b7c2-538838b885a4",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4cd5033d-ce80-412d-bc41-dfd20a938be5",
+            "1edd0527-c42d-4cb6-b873-aba524b2d551",
+            "26f8e50d-2714-4ce7-99b3-f4ce71455ca8",
+            "4fdcb062-410b-42ba-a4a1-83f84cec179d",
+            "e85a23cb-f488-4e21-a050-3d9c1119d27f",
+            "97cf997c-15b5-4392-931f-db6870aeedeb"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 78850,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 0
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "app/landing/[status]-[datetime]-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": false
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "code": "false",
+        "cdn": "true",
+        "timestamp": "longDate",
+        "overwrite": "false",
+        "reportDir": "testResults/reports",
+        "reportFilename": "app/landing/[status]-[datetime]-report",
+        "reportPageTitle": "Laporan-Harian-Testing"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

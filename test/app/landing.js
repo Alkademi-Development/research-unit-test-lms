@@ -138,6 +138,9 @@ describe("Landing Page", () => {
                 // Aksi mengklik button tab beranda
                 await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[0].click();`);
                 
+                // Aksi sleep
+                await driver.sleep(5000);
+                
                 // Check the result
                 const currentUrl = await driver.getCurrentUrl();
                 customMessages = [
@@ -185,6 +188,9 @@ describe("Landing Page", () => {
 
                 // Aksi mengklik button tab beranda
                 await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[1].click();`);
+                
+                // Aksi sleep
+                await driver.sleep(5000);
                 
                 // Check the result
                 const currentUrl = await driver.getCurrentUrl();
@@ -234,6 +240,9 @@ describe("Landing Page", () => {
                 // Aksi mengklik button tab beranda
                 await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[2].click();`);
                 
+                // Aksi sleep
+                await driver.sleep(5000);
+                
                 // Check the result
                 const currentUrl = await driver.getCurrentUrl();
                 customMessages = [
@@ -282,6 +291,9 @@ describe("Landing Page", () => {
                 // Aksi mengklik button tab beranda
                 await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[3].click();`);
                 
+                // Aksi sleep
+                await driver.sleep(5000);
+                
                 // Check the result
                 const currentUrl = await driver.getCurrentUrl();
                 customMessages = [
@@ -329,6 +341,9 @@ describe("Landing Page", () => {
 
                 // Aksi mengklik button tab beranda
                 await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[4].click();`);
+                
+                // Aksi sleep
+                await driver.sleep(5000);
                 
                 // Check the result
                 const currentUrl = await driver.getCurrentUrl();
