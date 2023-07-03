@@ -280,6 +280,281 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     break;
 
+                case 4:
+                    it(`STUDENT - Login to dashboard from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+
+                            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan
+                            const networkData = await driver.executeScript(`
+                                const performanceEntries = performance.getEntriesByType('resource');
+                                const requests = performanceEntries.map(entry => {
+                                    return {
+                                        entry,
+                                        url: entry.name,
+                                        method: entry.initiatorType,
+                                        type: entry.entryType,
+                                    };
+                                });
+                                
+                                return requests;
+                            `);
+
+                            // Tampilkan data jaringan
+                            let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            if (errorMessages?.length > 0) {
+                                throw new Error(errorMessages);
+                            }
+
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
+                            expect(correctUrl.url).to.includes("v1/user/me");
+                            expect(userData.id).to.greaterThan(0);
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+
+                    });
+
+                    break;
+
+                case 5:
+                    it(`INDUSTRY - Login to dashboard from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+
+                            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan
+                            const networkData = await driver.executeScript(`
+                                const performanceEntries = performance.getEntriesByType('resource');
+                                const requests = performanceEntries.map(entry => {
+                                    return {
+                                        entry,
+                                        url: entry.name,
+                                        method: entry.initiatorType,
+                                        type: entry.entryType,
+                                    };
+                                });
+                                
+                                return requests;
+                            `);
+
+                            // Tampilkan data jaringan
+                            let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            if (errorMessages?.length > 0) {
+                                throw new Error(errorMessages);
+                            }
+
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
+                            expect(correctUrl.url).to.includes("v1/user/me");
+                            expect(userData.id).to.greaterThan(0);
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+
+                    });
+
+                    break;
+
+                case 6:
+                    it(`CONTENT WRITER - Login to dashboard from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+
+                            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan
+                            const networkData = await driver.executeScript(`
+                                const performanceEntries = performance.getEntriesByType('resource');
+                                const requests = performanceEntries.map(entry => {
+                                    return {
+                                        entry,
+                                        url: entry.name,
+                                        method: entry.initiatorType,
+                                        type: entry.entryType,
+                                    };
+                                });
+                                
+                                return requests;
+                            `);
+
+                            // Tampilkan data jaringan
+                            let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            if (errorMessages?.length > 0) {
+                                throw new Error(errorMessages);
+                            }
+
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
+                            expect(correctUrl.url).to.includes("v1/user/me");
+                            expect(userData.id).to.greaterThan(0);
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+
+                    });
+
+                    break;
+
+                case 7:
+                    it(`LEAD PROGRAM - Login to dashboard from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+
+                            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan
+                            const networkData = await driver.executeScript(`
+                                const performanceEntries = performance.getEntriesByType('resource');
+                                const requests = performanceEntries.map(entry => {
+                                    return {
+                                        entry,
+                                        url: entry.name,
+                                        method: entry.initiatorType,
+                                        type: entry.entryType,
+                                    };
+                                });
+                                
+                                return requests;
+                            `);
+
+                            // Tampilkan data jaringan
+                            let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            if (errorMessages?.length > 0) {
+                                throw new Error(errorMessages);
+                            }
+
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
+                            expect(correctUrl.url).to.includes("v1/user/me");
+                            expect(userData.id).to.greaterThan(0);
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+
+                    });
+
+                    break;
+                
+                case 9:
+                    it(`LEAD REGION - Login to dashboard from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+
+                            // Jalankan skrip JavaScript untuk mengumpulkan data jaringan
+                            const networkData = await driver.executeScript(`
+                                const performanceEntries = performance.getEntriesByType('resource');
+                                const requests = performanceEntries.map(entry => {
+                                    return {
+                                        entry,
+                                        url: entry.name,
+                                        method: entry.initiatorType,
+                                        type: entry.entryType,
+                                    };
+                                });
+                                
+                                return requests;
+                            `);
+
+                            // Tampilkan data jaringan
+                            let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            if (errorMessages?.length > 0) {
+                                throw new Error(errorMessages);
+                            }
+
+                            customMessages = [
+                                textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                            ];
+                            
+                            expect(textStatus).to.greaterThan(0);
+                            expect(correctUrl.url).to.includes("v1/user/me");
+                            expect(userData.id).to.greaterThan(0);
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+
+                    });
+
+                    break;
+
                 default:
                     it(`OTHER - Login to dashboard from browser ${browser}`, async () => {
 

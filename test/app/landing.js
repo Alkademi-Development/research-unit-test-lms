@@ -1,9 +1,7 @@
 import { describe, afterEach, before } from 'mocha';
-import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
+import { By, until } from 'selenium-webdriver';
 import addContext from 'mochawesome/addContext.js';
-import assert from 'assert';
 import { expect } from "chai";
-import yargs from 'yargs';
 import fs from 'fs';
 import path from 'path';
 import { BROWSERS } from '#root/commons/constants/browser';
@@ -11,8 +9,6 @@ import { goToApp } from '#root/commons/utils/appUtils';
 import { appHost } from '#root/api/app-token';
 import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { fileURLToPath } from 'url';
-import { captureConsoleErrors, parseToDomain } from '#root/commons/utils/generalUtils';
-import { thrownAnError } from '#root/commons/utils/generalUtils';
 import moment from 'moment-timezone';
 
 let driver;
@@ -98,7 +94,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
     BROWSERS.forEach(browser => {
 
-        it.skip(`Go to app or landing page - from browser ${browser}`, async () => {
+        it(`Go to app or landing page - from browser ${browser}`, async () => {
 
             try {
 
@@ -142,7 +138,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
+        it(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
 
             try {
 
@@ -184,7 +180,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
 
-        it.skip(`Check tab beranda - from browser ${browser}`, async () => {
+        it(`Check tab beranda - from browser ${browser}`, async () => {
 
             try {
 
@@ -235,7 +231,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check tab tentang kami - from browser ${browser}`, async () => {
+        it(`Check tab tentang kami - from browser ${browser}`, async () => {
 
             try {
 
@@ -286,7 +282,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });      
         
-        it.skip(`Check tab event - from browser ${browser}`, async () => {
+        it(`Check tab event - from browser ${browser}`, async () => {
 
             try {
 
@@ -337,7 +333,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it.skip(`Check tab news - from browser ${browser}`, async () => {
+        it(`Check tab news - from browser ${browser}`, async () => {
 
             try {
 
@@ -388,7 +384,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it.skip(`Check tab gallery - from browser ${browser}`, async () => {
+        it(`Check tab gallery - from browser ${browser}`, async () => {
 
             try {
 
@@ -477,14 +473,18 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.executeScript(`return Array.from(document.querySelectorAll("a.btn-primary")).find(btn => btn.innerText === "Mulai Belajar");`);
                 
                 // Aksi sleep
-                await driver.sleep(5000);
+                await driver.sleep(3000);
+
+                const sectionProgram = await driver.findElement(By.id('event'));
+                
+                // Aksi sleep
+                await driver.sleep(3000);
     
                 // Check the result
-                const currentUrl = await driver.getCurrentUrl();
                 customMessages = [
-                    currentUrl === appHost + '/#event' ? 'Scroll into program section ✅' : 'Scroll into program section ❌'
+                    await sectionProgram.isDisplayed() ? 'Scroll into program section ✅' : 'Scroll into program section ❌'
                 ];
-                expect(currentUrl).to.eq(appHost + '/#event');
+                expect(await sectionProgram.isDisplayed()).to.eq(true);
 
             } catch (error) {
                 expect.fail(error);

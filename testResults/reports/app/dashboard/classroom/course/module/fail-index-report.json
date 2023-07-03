@@ -1,0 +1,309 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 9,
+    "passes": 6,
+    "pending": 0,
+    "failures": 3,
+    "start": "2023-07-03T02:43:04.755Z",
+    "end": "2023-07-03T02:50:06.100Z",
+    "duration": 421345,
+    "testsRegistered": 9,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "38a58b2c-0d81-4ad4-bb73-84476642186c",
+      "title": "",
+      "fullFile": "D:\\allproject\\alkademik\\research-unit-test-lms\\test\\app\\dashboard\\classroom\\course\\module\\index.js",
+      "file": "\\test\\app\\dashboard\\classroom\\course\\module\\index.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+          "title": "Dashboard/Classroom/Course/Module",
+          "fullFile": "D:\\allproject\\alkademik\\research-unit-test-lms\\test\\app\\dashboard\\classroom\\course\\module\\index.js",
+          "file": "\\test\\app\\dashboard\\classroom\\course\\module\\index.js",
+          "beforeHooks": [],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Dashboard/Classroom/Course/Module\"",
+              "fullTitle": "Dashboard/Classroom/Course/Module \"after all\" hook in \"Dashboard/Classroom/Course/Module\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "6a85c576-21f5-4b60-9a44-e23f4c40b35a",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook in \"Dashboard/Classroom/Course/Module\"",
+              "fullTitle": "Dashboard/Classroom/Course/Module \"after each\" hook in \"Dashboard/Classroom/Course/Module\"",
+              "timedOut": false,
+              "duration": 3350,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "a8f2681e-7f15-4a05-8888-34bda6c04a00",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Super Admin - Create Module in detail classroom from browser firefox",
+              "fullTitle": "Dashboard/Classroom/Course/Module Super Admin - Create Module in detail classroom from browser firefox",
+              "timedOut": false,
+              "duration": 39416,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:43:44 AM\\n(Durasi waktu navigasi: 3 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (44) milliseconds ( 0.044 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (44) milliseconds ( 0.044 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (44) milliseconds ( 0.044 seconds )\\nWaktu Permintaan Dimulai (requestStart): (48) milliseconds ( 0.048 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (79) milliseconds ( 0.079 seconds )\\nWaktu Respons Selesai (responseEnd): (81) milliseconds ( 0.081 seconds )\\nWaktu Memuat Dokumen (domLoading): (80) milliseconds ( 0.08 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (80) milliseconds ( 0.08 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (83) milliseconds ( 0.083 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (1352) milliseconds ( 1.352 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (1354) milliseconds ( 1.354 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (1357) milliseconds ( 1.357 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1403) milliseconds ( 1.403 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1403) milliseconds ( 1.403 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352195327)\\nWaktu Event Load Selesai (loadEventEnd): (1404) milliseconds ( 1.404 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\1-[passed].png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "1079cc1f-4cda-4488-a4a7-5f898b3c4b1e",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin - Create Module in detail classroom from browser firefox",
+              "fullTitle": "Dashboard/Classroom/Course/Module Admin - Create Module in detail classroom from browser firefox",
+              "timedOut": false,
+              "duration": 50212,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:44:38 AM\\n(Durasi waktu navigasi: 16 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (39) milliseconds ( 0.039 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (39) milliseconds ( 0.039 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (39) milliseconds ( 0.039 seconds )\\nWaktu Permintaan Dimulai (requestStart): (46) milliseconds ( 0.046 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (83) milliseconds ( 0.083 seconds )\\nWaktu Respons Selesai (responseEnd): (83) milliseconds ( 0.083 seconds )\\nWaktu Memuat Dokumen (domLoading): (85) milliseconds ( 0.085 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (85) milliseconds ( 0.085 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (88) milliseconds ( 0.088 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (1302) milliseconds ( 1.302 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (1303) milliseconds ( 1.303 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (1305) milliseconds ( 1.305 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1376) milliseconds ( 1.376 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1376) milliseconds ( 1.376 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352238393)\\nWaktu Event Load Selesai (loadEventEnd): (1377) milliseconds ( 1.377 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\2-[passed].png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "02a1d3e6-e4d4-4488-bac5-5f66c3c4d59f",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Mentor - Create Module in detail classroom from browser firefox",
+              "fullTitle": "Dashboard/Classroom/Course/Module Mentor - Create Module in detail classroom from browser firefox",
+              "timedOut": false,
+              "duration": 47753,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:45:30 AM\\n(Durasi waktu navigasi: 58 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (45) milliseconds ( 0.045 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (45) milliseconds ( 0.045 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (45) milliseconds ( 0.045 seconds )\\nWaktu Permintaan Dimulai (requestStart): (48) milliseconds ( 0.048 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (82) milliseconds ( 0.082 seconds )\\nWaktu Respons Selesai (responseEnd): (82) milliseconds ( 0.082 seconds )\\nWaktu Memuat Dokumen (domLoading): (83) milliseconds ( 0.083 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (83) milliseconds ( 0.083 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (86) milliseconds ( 0.086 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (1003) milliseconds ( 1.003 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (1004) milliseconds ( 1.004 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (1006) milliseconds ( 1.006 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1060) milliseconds ( 1.06 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1060) milliseconds ( 1.06 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352291219)\\nWaktu Event Load Selesai (loadEventEnd): (1061) milliseconds ( 1.061 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\3-[passed].png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "983e188c-fc34-4f20-93b6-29de93aa323e",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Super Admin - Create Module in detail classroom from browser MicrosoftEdge",
+              "fullTitle": "Dashboard/Classroom/Course/Module Super Admin - Create Module in detail classroom from browser MicrosoftEdge",
+              "timedOut": false,
+              "duration": 22917,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:45:57 AM\\n(Durasi waktu navigasi: 26 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (38) milliseconds ( 0.038 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (38) milliseconds ( 0.038 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (38) milliseconds ( 0.038 seconds )\\nWaktu Permintaan Dimulai (requestStart): (39) milliseconds ( 0.039 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (72) milliseconds ( 0.072 seconds )\\nWaktu Respons Selesai (responseEnd): (73) milliseconds ( 0.073 seconds )\\nWaktu Memuat Dokumen (domLoading): (80) milliseconds ( 0.08 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (79) milliseconds ( 0.079 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (79) milliseconds ( 0.079 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (989) milliseconds ( 0.989 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (989) milliseconds ( 0.989 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (989) milliseconds ( 0.989 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1031) milliseconds ( 1.031 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1031) milliseconds ( 1.031 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352343598)\\nWaktu Event Load Selesai (loadEventEnd): (1032) milliseconds ( 1.032 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\4-[failed].png\"\n  }\n]",
+              "code": "",
+              "err": {
+                "message": "AssertionError: Error: Courses on detail classroom is empty\n    at thrownAnError (file:///D:/allproject/alkademik/research-unit-test-lms/commons/utils/generalUtils.js:37:15)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:158:35)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "estack": "AssertionError: Error: Courses on detail classroom is empty\n    at thrownAnError (file:///D:/allproject/alkademik/research-unit-test-lms/commons/utils/generalUtils.js:37:15)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:158:35)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:224:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "diff": null
+              },
+              "uuid": "c183075c-361e-4c99-9da6-4ecb3833d8ff",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin - Create Module in detail classroom from browser MicrosoftEdge",
+              "fullTitle": "Dashboard/Classroom/Course/Module Admin - Create Module in detail classroom from browser MicrosoftEdge",
+              "timedOut": false,
+              "duration": 47711,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:46:48 AM\\n(Durasi waktu navigasi: 48 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (47) milliseconds ( 0.047 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (47) milliseconds ( 0.047 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (47) milliseconds ( 0.047 seconds )\\nWaktu Permintaan Dimulai (requestStart): (48) milliseconds ( 0.048 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (78) milliseconds ( 0.078 seconds )\\nWaktu Respons Selesai (responseEnd): (79) milliseconds ( 0.079 seconds )\\nWaktu Memuat Dokumen (domLoading): (88) milliseconds ( 0.088 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (87) milliseconds ( 0.087 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (87) milliseconds ( 0.087 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (1563) milliseconds ( 1.563 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (1564) milliseconds ( 1.564 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (1564) milliseconds ( 1.564 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1698) milliseconds ( 1.698 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1698) milliseconds ( 1.698 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352369907)\\nWaktu Event Load Selesai (loadEventEnd): (1699) milliseconds ( 1.699 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\5-[passed].png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "85e82efa-be7c-4919-918e-875f2bb810e5",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Mentor - Create Module in detail classroom from browser MicrosoftEdge",
+              "fullTitle": "Dashboard/Classroom/Course/Module Mentor - Create Module in detail classroom from browser MicrosoftEdge",
+              "timedOut": false,
+              "duration": 32117,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:47:23 AM\\n(Durasi waktu navigasi: 37 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (39) milliseconds ( 0.039 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (39) milliseconds ( 0.039 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (39) milliseconds ( 0.039 seconds )\\nWaktu Permintaan Dimulai (requestStart): (40) milliseconds ( 0.04 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (73) milliseconds ( 0.073 seconds )\\nWaktu Respons Selesai (responseEnd): (76) milliseconds ( 0.076 seconds )\\nWaktu Memuat Dokumen (domLoading): (77) milliseconds ( 0.077 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (76) milliseconds ( 0.076 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (76) milliseconds ( 0.076 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (1640) milliseconds ( 1.64 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (1640) milliseconds ( 1.64 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (1641) milliseconds ( 1.641 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1687) milliseconds ( 1.687 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1687) milliseconds ( 1.687 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352420285)\\nWaktu Event Load Selesai (loadEventEnd): (1688) milliseconds ( 1.688 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\6-[failed].png\"\n  }\n]",
+              "code": "",
+              "err": {
+                "message": "AssertionError: Error: Courses on detail classroom is empty\n    at thrownAnError (file:///D:/allproject/alkademik/research-unit-test-lms/commons/utils/generalUtils.js:37:15)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:382:35)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "estack": "AssertionError: Error: Courses on detail classroom is empty\n    at thrownAnError (file:///D:/allproject/alkademik/research-unit-test-lms/commons/utils/generalUtils.js:37:15)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:382:35)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:448:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "diff": null
+              },
+              "uuid": "7c49385f-b1e7-4e28-9e27-8239c156a39b",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Super Admin - Create Module in detail classroom from browser chrome",
+              "fullTitle": "Dashboard/Classroom/Course/Module Super Admin - Create Module in detail classroom from browser chrome",
+              "timedOut": false,
+              "duration": 22997,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:47:50 AM\\n(Durasi waktu navigasi: 4 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (46) milliseconds ( 0.046 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (46) milliseconds ( 0.046 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (46) milliseconds ( 0.046 seconds )\\nWaktu Permintaan Dimulai (requestStart): (47) milliseconds ( 0.047 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (85) milliseconds ( 0.085 seconds )\\nWaktu Respons Selesai (responseEnd): (85) milliseconds ( 0.085 seconds )\\nWaktu Memuat Dokumen (domLoading): (88) milliseconds ( 0.088 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (87) milliseconds ( 0.087 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (87) milliseconds ( 0.087 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (1390) milliseconds ( 1.39 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (1391) milliseconds ( 1.391 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (1392) milliseconds ( 1.392 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1459) milliseconds ( 1.459 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1459) milliseconds ( 1.459 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352456564)\\nWaktu Event Load Selesai (loadEventEnd): (1460) milliseconds ( 1.46 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\7-[failed].png\"\n  }\n]",
+              "code": "",
+              "err": {
+                "message": "AssertionError: Error: Courses on detail classroom is empty\n    at thrownAnError (file:///D:/allproject/alkademik/research-unit-test-lms/commons/utils/generalUtils.js:37:15)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:158:35)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "estack": "AssertionError: Error: Courses on detail classroom is empty\n    at thrownAnError (file:///D:/allproject/alkademik/research-unit-test-lms/commons/utils/generalUtils.js:37:15)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:158:35)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at Context.<anonymous> (file:///D:/allproject/alkademik/research-unit-test-lms/test/app/dashboard/classroom/course/module/index.js:224:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+                "diff": null
+              },
+              "uuid": "98e923bb-0bef-4c1e-8a04-b5f07751906b",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin - Create Module in detail classroom from browser chrome",
+              "fullTitle": "Dashboard/Classroom/Course/Module Admin - Create Module in detail classroom from browser chrome",
+              "timedOut": false,
+              "duration": 47394,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:48:40 AM\\n(Durasi waktu navigasi: 26 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (34) milliseconds ( 0.034 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (34) milliseconds ( 0.034 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (34) milliseconds ( 0.034 seconds )\\nWaktu Permintaan Dimulai (requestStart): (35) milliseconds ( 0.035 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (65) milliseconds ( 0.065 seconds )\\nWaktu Respons Selesai (responseEnd): (66) milliseconds ( 0.066 seconds )\\nWaktu Memuat Dokumen (domLoading): (69) milliseconds ( 0.069 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (68) milliseconds ( 0.068 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (68) milliseconds ( 0.068 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (968) milliseconds ( 0.968 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (968) milliseconds ( 0.968 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (969) milliseconds ( 0.969 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1008) milliseconds ( 1.008 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1008) milliseconds ( 1.008 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352482235)\\nWaktu Event Load Selesai (loadEventEnd): (1009) milliseconds ( 1.009 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\8-[passed].png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "969eab19-92dc-4af2-a567-20badfd420c7",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Mentor - Create Module in detail classroom from browser chrome",
+              "fullTitle": "Dashboard/Classroom/Course/Module Mentor - Create Module in detail classroom from browser chrome",
+              "timedOut": false,
+              "duration": 78608,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "[\n  {\n    \"title\": \"Expected Results\",\n    \"value\": \"- Data successfully created ✅\\n- 'Module' successfully added to list module ✅\"\n  },\n  {\n    \"title\": \"Performance Results\",\n    \"value\": \"Monday, July 3, 2023 9:50:02 AM\\n(Durasi waktu navigasi: 2 seconds)     \\n=====================================================================\\nWaktu Permintaan Pertama (fetchStart): (44) milliseconds ( 0.044 seconds )\\nWaktu Pencarian Nama Domain Dimulai (domainLookupStart): (44) milliseconds ( 0.044 seconds )\\nWaktu Pencarian Nama Domain Selesai (domainLookupEnd): (44) milliseconds ( 0.044 seconds )\\nWaktu Permintaan Dimulai (requestStart): (45) milliseconds ( 0.045 seconds )\\n=====================================================================\\nWaktu Respons Dimulai (responseStart): (77) milliseconds ( 0.077 seconds )\\nWaktu Respons Selesai (responseEnd): (78) milliseconds ( 0.078 seconds )\\nWaktu Memuat Dokumen (domLoading): (87) milliseconds ( 0.087 seconds )\\n=====================================================================\\nWaktu Event Unload Dimulai (unloadEventStart): (86) milliseconds ( 0.086 seconds )\\nWaktu Event Unload Selesai (unloadEventEnd): (86) milliseconds ( 0.086 seconds )\\n=====================================================================\\nWaktu Interaktif DOM (domInteractive): (1033) milliseconds ( 1.033 seconds )\\nWaktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (1033) milliseconds ( 1.033 seconds )\\nWaktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (1034) milliseconds ( 1.034 seconds )\\n=====================================================================\\nWaktu Dokumen Selesai Dimuat (domComplete): (1074) milliseconds ( 1.074 seconds )\\nWaktu Event Load Dimulai (loadEventStart): (1074) milliseconds ( 1.074 seconds )\\n=====================================================================\\n(timestamp loadEventEnd: 1688352539697)\\nWaktu Event Load Selesai (loadEventEnd): (1075) milliseconds ( 1.075 seconds )\\n            \"\n  },\n  {\n    \"title\": \"Screenshoot-Test-Results\",\n    \"value\": \"..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\..\\\\testResults\\\\screenshoots\\\\app\\\\dashboard\\\\classroom\\\\course\\\\module\\\\index\\\\9-[passed].png\"\n  }\n]",
+              "code": "",
+              "err": {},
+              "uuid": "c7a5ffbe-f616-4150-9a8c-01da75fb9739",
+              "parentUUID": "32eed059-3cba-4e51-aadf-726e200a6aaf",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1079cc1f-4cda-4488-a4a7-5f898b3c4b1e",
+            "02a1d3e6-e4d4-4488-bac5-5f66c3c4d59f",
+            "983e188c-fc34-4f20-93b6-29de93aa323e",
+            "85e82efa-be7c-4919-918e-875f2bb810e5",
+            "969eab19-92dc-4af2-a567-20badfd420c7",
+            "c7a5ffbe-f616-4150-9a8c-01da75fb9739"
+          ],
+          "failures": [
+            "c183075c-361e-4c99-9da6-4ecb3833d8ff",
+            "7c49385f-b1e7-4e28-9e27-8239c156a39b",
+            "98e923bb-0bef-4c1e-8a04-b5f07751906b"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 389125,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 0
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 0
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "app/dashboard/classroom/course/module/[status]-index-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": false
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "code": "false",
+        "cdn": "true",
+        "charts": "true",
+        "reportDir": "testResults/reports",
+        "reportFilename": "app/dashboard/classroom/course/module/[status]-index-report",
+        "reportPageTitle": "Laporan-Harian-Testing"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

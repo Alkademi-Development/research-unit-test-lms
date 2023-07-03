@@ -3,7 +3,7 @@ const { By, until } = pkg;
 import { faker } from '@faker-js/faker';
 
 
-async function createData(driver) {
+async function createDataCourse(driver) {
 
     // Aksi mendapatkan semua element input
     let titleCourse = await driver.findElement(By.id('Judul Materi *'));
@@ -32,7 +32,7 @@ async function createData(driver) {
 }
 
 
-async function editData(driver) {
+async function editDataCourse(driver) {
 
     // Aksi mendapatkan semua element input
     let titleCourse = await driver.findElement(By.id('Judul Materi *'));
@@ -60,6 +60,6 @@ async function editData(driver) {
 }
 
 export {
-    createData,
-    editData
+    createDataCourse,
+    editDataCourse
 }
