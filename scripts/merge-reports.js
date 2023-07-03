@@ -57,16 +57,16 @@ function askMergeReport() {
               } else if(inputConfirm.trim().toLowerCase() === 'y') {
                 const reports = await merge({ files });
                 const outputFile = `./testResults/output-merged-report-${input}.json`;  
-
+                
                 fs.writeFileSync(outputFile, JSON.stringify(reports, null, 2));
                 
                 if(fs.existsSync(outputFile)) {
-                  const reportData = fs.readFileSync(outputFile, 'utf-8');
-          
+                  let reportData = fs.readFileSync(outputFile, 'utf-8');
+
                   const options = { 
                       reportPageTitle: `Report Testing ${input} ${moment().tz('Asia/Jakarta').format('MM-DD-YYYY')}`,
                       reportDir: './testResults', // Path folder untuk menyimpan report
-                      reportFilename: `merged-report-${input}.html`, // Nama file report
+                      reportFilename: `${moment().tz('Asia/Jakarta').format('MM-DD-YYYY')}-merged-report-${input}.html`, // Nama file report
                       assetsDir: './testResults/assets', // Path folder untuk menyimpan assets
                   };
                   await create(JSON.parse(reportData), options);
@@ -87,7 +87,7 @@ function askMergeReport() {
                   const options = { 
                       reportPageTitle: `Report Testing ${input} ${moment().tz('Asia/Jakarta').format('MM-DD-YYYY')}`,
                       reportDir: './testResults', // Path folder untuk menyimpan report
-                      reportFilename: `merged-report-${input}.html`, // Nama file report
+                      reportFilename: `${moment().tz('Asia/Jakarta').format('MM-DD-YYYY')}-merged-report-${input}.html`, // Nama file report
                       assetsDir: './testResults/assets', // Path folder untuk menyimpan assets
                   };
                   await create(JSON.parse(reportData), options);
