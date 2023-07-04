@@ -13,7 +13,7 @@ const enterDashboard = async (driver, user, browser, appHost) => {
     }
 
     // Aksi Sleep
-    await driver.sleep(3000);
+    await driver.sleep(5000);
     
     await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
 
