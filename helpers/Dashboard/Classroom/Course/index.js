@@ -18,7 +18,7 @@ async function createDataCourse(driver) {
     await driver.sleep(3000);
     await standardPassedCourse.sendKeys(faker.number.int({ min: 70, max: 100 }))
     await driver.sleep(3000);
-    await typeCourse.sendKeys(faker.helpers.arrayElement(['module', 'pretest']));
+    await typeCourse.sendKeys(faker.helpers.arrayElement(['module']));
     await driver.sleep(3000);
     
     const dataModule = {

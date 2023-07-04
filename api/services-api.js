@@ -10,7 +10,8 @@ const paramsRequest = {
 
 const apiParamsRequest = {
     Authorization: '2d3d736d0b4bb736d01af7f5ccc3b12d3b241b8eb6',
-    AppToken: '692e44db271073fc:2d317a630049ba36dd11fbf6c6c9b27a3d241487b2f656cc230d9e16c14cf0c9cbc1c325c1f96191ac58ff749731046792444edee48b7d0478eba97ca91634005b3dd89c748ef08765996fb0c6d4',
+    AppToken: '692e44db271073fc:2d317a63074ebb31d11af6f6ccc9b27a3d241487b2f656cc230d9e16c14cf0c9cb9dc325c6ae6191ac5bff74976e046797404edee48b7d0478e9a97ca94c34005e64d89c748bf08765cd6fb0c6d5',
+    dAppToken: 'MjAyMy0wNy0wM1QyMzowMzowMi40NzJafGRldi5hbGthZGVtaS5pZHx2T1ZINnNkbXBOV2pSMjcxQ2M3cmR4czAxbHdIemZyMw=='
 }
 
 export {
