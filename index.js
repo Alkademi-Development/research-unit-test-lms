@@ -37,7 +37,7 @@ async function getInput() {
                         if(inputReportFile.includes(' ')) {
                             console.log(clc.red('Path folder report tidak boleh ada spasi!, tolong masukkan nama nya sesuai format yang di berikan'));
                             return askReportFile();
-                        } else if(inputReportFile.includes('.')) {
+                        } else if(inputReportFile.match(/[.,;:'"!@#$%^&*?=><|}{[()-]/g)) {
                             console.log(clc.red('Path folder report tidak boleh ada tanda titik!, tolong masukkan nama nya sesuai format yang di berikan'));
                             return askReportFile();
                         }
