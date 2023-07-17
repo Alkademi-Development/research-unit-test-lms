@@ -97,7 +97,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
     BROWSERS.forEach(browser => {
 
-        it.skip(`Go to app or landing page - from browser ${browser}`, async () => {
+        it(`Go to app or landing page - from browser ${browser}`, async () => {
 
             try {
 
@@ -141,7 +141,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
+        it(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
 
             try {
 
@@ -183,7 +183,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button 'Lebih Lanjut' on modal content - from browser ${browser}`, async () => {
+        it(`Check button 'Lebih Lanjut' on modal content - from browser ${browser}`, async () => {
 
             try {
 
@@ -217,7 +217,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
 
-        it.skip(`Check tab beranda - from browser ${browser}`, async () => {
+        it(`Check tab beranda - from browser ${browser}`, async () => {
 
             try {
 
@@ -268,7 +268,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check tab tentang kami - from browser ${browser}`, async () => {
+        it(`Check tab tentang kami - from browser ${browser}`, async () => {
 
             try {
 
@@ -319,7 +319,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });      
         
-        it.skip(`Check tab event - from browser ${browser}`, async () => {
+        it(`Check tab event - from browser ${browser}`, async () => {
 
             try {
 
@@ -370,7 +370,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it.skip(`Check tab news - from browser ${browser}`, async () => {
+        it(`Check tab news - from browser ${browser}`, async () => {
 
             try {
 
@@ -421,7 +421,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it.skip(`Check tab gallery - from browser ${browser}`, async () => {
+        it(`Check tab gallery - from browser ${browser}`, async () => {
 
             try {
 
@@ -472,7 +472,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });    
 
-        it.skip(`Click the button 'mulai belajar' and scroll into program section - from browser ${browser}`, async () => {
+        it(`Check the button 'mulai belajar' and scroll into program section - from browser ${browser}`, async () => {
 
             try {
 
@@ -530,7 +530,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click the button 'Gabung Sekarang' for join program - from browser ${browser}`, async () => {
+        it(`Check the button 'Gabung Sekarang' for join program - from browser ${browser}`, async () => {
 
             try {
 
@@ -538,7 +538,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.manage().window().maximize();
                 
                 // Aksi sleep
-                await driver.sleep(3000);
+                await driver.sleep(5000);
                 
                 // Aksi menghapus modal
                 await removeModal(driver);
@@ -556,7 +556,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.executeScript(`return document.querySelectorAll("section.wrapper")[1].querySelector("a.btn-primary").click()`)
                 
                 // Aksi sleep
-                await driver.sleep(3000);
+                await driver.sleep(5000);
     
                 // Check the result
                 let currentUrl = await driver.getCurrentUrl();
@@ -572,7 +572,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click the button 'Gabung Sekarang' for join 'Ujian Masuk Perusahaan Teknologi Nasional' - from browser ${browser}`, async () => {
+        it(`Check the button 'Gabung Sekarang' for join 'Ujian Masuk Perusahaan Teknologi Nasional' - from browser ${browser}`, async () => {
 
             try {
 
@@ -589,7 +589,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.sleep(3000);
                 
                 // Aksi scroll ke section Program
-                await driver.executeScript('arguments[0]()()', await driver.findElement(By.css('section#call-to-action')));
+                await driver.executeScript('arguments[0].scrollIntoView()', await driver.findElement(By.css('section#call-to-action')));
                 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -628,7 +628,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click the button 'Lihat Selengkapnya' on program section - from browser ${browser}`, async () => {
+        it(`Check the button 'Lihat Selengkapnya' on program section - from browser ${browser}`, async () => {
 
             try {
 
@@ -645,7 +645,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.sleep(3000);
                 
                 // Aksi scroll ke section Program
-                await driver.executeScript('arguments[0]()()', await driver.findElement(By.css('section#event')));
+                await driver.executeScript('arguments[0].scrollIntoView()', await driver.findElement(By.css('section#event')));
                 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -670,7 +670,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click the button 'Lihat Selengkapnya' on blog section - from browser ${browser}`, async () => {
+        it(`Check the button 'Lihat Selengkapnya' on blog section - from browser ${browser}`, async () => {
 
             try {
 
@@ -687,7 +687,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.sleep(3000);
                 
                 // Aksi scroll ke section Program
-                await driver.executeScript('arguments[0]()()', await driver.findElement(By.css('section#blog')));
+                await driver.executeScript('arguments[0].scrollIntoView()', await driver.findElement(By.css('section#blog')));
                 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -712,7 +712,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
+        it(`Check the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
 
             try {
 
@@ -755,7 +755,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click the one button of partners in section partner - from browser ${browser}`, async () => {
+        it(`Check the one button of partners in section partner - from browser ${browser}`, async () => {
 
             try {
 
@@ -816,7 +816,52 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click button media social instagram in footer section - from browser ${browser}`, async () => {
+        it(`Check the one accordion in faq section - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi menghapus modal
+                await removeModal(driver);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelectorAll('section.wrapper')[7].scrollIntoView()`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi memilih salah satu accordion di faq section untuk di click
+                let accordions = await driver.executeScript(`return document.querySelectorAll('section.wrapper')[7].querySelectorAll('.accordion-item')`)
+                await thrownAnError('Faq is empty', await accordions.length === 0);
+                let randomIndexAccordion = faker.number.int({ min: 0, max: accordions.length - 1 });
+                await driver.executeScript(`arguments[0].querySelector('button').click()`, await accordions[randomIndexAccordion])
+                
+                // Aksi Sleep
+                await driver.sleep(3000);
+    
+                // Check the result
+                let isAccordionOpen = await driver.executeScript(`return document.querySelectorAll('section.wrapper')[7].querySelectorAll('.accordion-item .card-header')[${randomIndexAccordion}].nextElementSibling.classList.contains('show')`)
+                customMessages = [
+                    await isAccordionOpen === true ? 'Successfully opened accordion ✅' : 'Failed to open accordion ❌'
+                ]
+                expect(await isAccordionOpen).to.equal(true)
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
+        
+        it(`Check button media social instagram in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -872,7 +917,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Click button media social youtube in footer section - from browser ${browser}`, async () => {
+        it(`Check button media social youtube in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -927,6 +972,631 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
         });
+        
+        it(`Check button menu 'Tentang Kami' in footer section - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi menghapus modal
+                await removeModal(driver);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelector('footer').scrollIntoView()`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button media sosial instagram
+                let hrefRegistration = await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[0].href`)
+                await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[0].click()`)
+                
+                // Aksi Sleep
+                await driver.sleep(3000);
+    
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefRegistration) ? `Successfuly directed to ${hrefRegistration} ✅` : `Failed to direct ${hrefRegistration} ❌`
+                ];
+                expect(await currentUrl.includes(hrefRegistration)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
+        
+        it(`Check button menu 'Program' in footer section - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi menghapus modal
+                await removeModal(driver);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelector('footer').scrollIntoView()`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button media sosial instagram
+                let hrefRegistration = await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[1].href`)
+                await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[1].click()`)
+                
+                // Aksi Sleep
+                await driver.sleep(3000);
+    
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefRegistration) ? `Successfuly directed to ${hrefRegistration} ✅` : `Failed to direct ${hrefRegistration} ❌`
+                ];
+                expect(await currentUrl.includes(hrefRegistration)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
+        
+        it(`Check button menu 'Berita' in footer section - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi menghapus modal
+                await removeModal(driver);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelector('footer').scrollIntoView()`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button media sosial instagram
+                let hrefRegistration = await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[2].href`)
+                await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[2].click()`)
+                
+                // Aksi Sleep
+                await driver.sleep(3000);
+    
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefRegistration) ? `Successfuly directed to ${hrefRegistration} ✅` : `Failed to direct ${hrefRegistration} ❌`
+                ];
+                expect(await currentUrl.includes(hrefRegistration)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
+        
+        it(`Check button menu 'Galeri' in footer section - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi menghapus modal
+                await removeModal(driver);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelector('footer').scrollIntoView()`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button media sosial instagram
+                let hrefRegistration = await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[3].href`)
+                await driver.executeScript(`return document.querySelectorAll('footer .widget ul.list-unstyled li a')[3].click()`)
+                
+                // Aksi Sleep
+                await driver.sleep(3000);
+    
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefRegistration) ? `Successfuly directed to ${hrefRegistration} ✅` : `Failed to direct ${hrefRegistration} ❌`
+                ];
+                expect(await currentUrl.includes(hrefRegistration)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
+        
+        it(`Check button menu 'Gabung Sekarang' in footer section - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi menghapus modal
+                await removeModal(driver);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelector('footer').scrollIntoView()`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button media sosial instagram
+                let hrefRegistration = await driver.executeScript(`return document.querySelector("footer .newsletter-wrapper a.btn-primary").href`)
+                await driver.executeScript(`return document.querySelector("footer .newsletter-wrapper a.btn-primary").click()`)
+                
+                // Aksi Sleep
+                await driver.sleep(3000);
+    
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefRegistration) ? `Successfuly directed to ${hrefRegistration} ✅` : `Failed to direct ${hrefRegistration} ❌`
+                ];
+                expect(await currentUrl.includes(hrefRegistration)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });
+        
+        it(`Check button 'Gabung Sekarang' in about page - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[1].click();`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button 'Gabung Sekarang'
+                let hrefUrl = await driver.executeScript(`return document.querySelectorAll("section.wrapper")[0].querySelector("a.btn-primary").href`);
+                await driver.executeScript(`return document.querySelectorAll("section.wrapper")[0].querySelector("a.btn-primary").click()`)
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefUrl) ? `Successfuly directed to ${hrefUrl} ✅` : `Failed to direct ${hrefUrl} ❌`
+                ];
+                expect(await currentUrl.includes(hrefUrl)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });  
+        
+        it(`Check media social from one of team in about page - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[1].click();`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelectorAll('section.wrapper')[document.querySelectorAll('section.wrapper').length - 1].scrollIntoView()`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button salah satu media sosial dari salah satu team
+                let teams = await driver.executeScript(`return document.querySelectorAll('section.wrapper')[document.querySelectorAll('section.wrapper').length - 1].querySelectorAll(".swiper-wrapper > div")`)
+                await thrownAnError("Team is empty", await teams.length === 0);
+                let randomIndexTeam = faker.number.int({ min: 0, max: await teams.length - 1 });
+                await driver.sleep(1000);
+                let teamMediaLength = await driver.executeScript(`arguments[0].querySelectorAll("nav.social a").length - 1`, await teams[randomIndexTeam]);
+                let hrefMedia = await driver.executeScript(`return document.querySelectorAll('section.wrapper')[document.querySelectorAll('section.wrapper').length - 1].querySelectorAll(".swiper-wrapper > div")[${randomIndexTeam}].querySelectorAll("nav.social a")[${faker.number.int({ min: 0, max: await teamMediaLength })}].href`)
+                await driver.sleep(1000);
+                await driver.executeScript(`arguments[0].querySelectorAll("nav.social a")[${faker.number.int({ min: 0, max: await teamMediaLength })}].click()`, await teams[randomIndexTeam]);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefMedia) ? `Successfuly directed to ${hrefMedia} ✅` : `Failed to direct ${hrefMedia} ❌`
+                ];
+                expect(await currentUrl.includes(hrefMedia)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });  
+        
+        it(`Check details program in program page - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[2].click();`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelector('section#event').scrollIntoView()`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button salah satu media sosial dari salah satu team
+                let programs = await driver.executeScript(`return document.querySelectorAll("section#event article")`)
+                await thrownAnError("Program is empty", await programs.length === 0);
+                let randomIndexProgram = faker.number.int({ min: 0, max: await programs.length - 1 });
+                let hrefProgram = await driver.executeScript(`return document.querySelectorAll("section#event article")[${randomIndexProgram}].querySelector("figure a").href`)
+                await driver.executeScript(`arguments[0].querySelector("figure a").click()`, await programs[randomIndexProgram])
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefProgram) ? `Successfuly directed to ${hrefProgram} ✅` : `Failed to direct ${hrefProgram} ❌`
+                ];
+                expect(await currentUrl.includes(hrefProgram)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });  
+        
+        it(`Check the load more of program in program page - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi mengklik button tab beranda
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[2].click();`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi scroll ke section Program
+                await driver.executeScript(`return document.querySelector('section#event').scrollIntoView()`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button salah satu media sosial dari salah satu team
+                let programs = await driver.executeScript(`return document.querySelectorAll("section#event article")`)
+                await thrownAnError("Program is empty", await programs.length === 0);
+                let previousProgramLength = await programs.length;
+                await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight)`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button load more
+                await driver.executeScript(`return document.querySelector("section#event button.btn-primary").click()`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi menangkap jumlah data terbaru setelah mengklik button load more
+                programs = await driver.executeScript(`return document.querySelectorAll("section#event article")`)
+                await thrownAnError("Program is empty", await programs.length === 0);
+                let newProgramLength = await programs.length;
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Check the result
+                customMessages = [
+                    await newProgramLength > await previousProgramLength ? `Load more is active ✅` : `Load more is inactive ❌`
+                ];
+                expect(await newProgramLength > await previousProgramLength).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });  
+        
+        it(`Check details of article in news page - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi mengklik button tab news / berita
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[3].click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button salah satu media sosial dari salah satu team
+                let articles = await driver.executeScript(`return document.querySelectorAll("article a.link-dark")`)
+                await thrownAnError("Article is empty", await articles.length === 0);
+                let randomIndexArticle = faker.number.int({ min: 0, max: await articles.length - 1 });
+                let hrefArticle = await driver.executeScript(`return document.querySelectorAll("article a.link-dark")[${randomIndexArticle}].href`)
+                await driver.executeScript(`return document.querySelectorAll("article a.link-dark")[${randomIndexArticle}].click()`)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefArticle) ? `Successfuly directed to ${hrefArticle} ✅` : `Failed to direct ${hrefArticle} ❌`
+                ];
+                expect(await currentUrl.includes(hrefArticle)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });  
+        
+        it(`Check the galleries in gallery page - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                
+                // Tunggu hingga semua permintaan dari server selesai
+                await driver.wait(async function() {
+                    const pageLoaded = await driver.executeScript(function() {
+                        var body = document.getElementsByTagName('body')[0];
+                        if(body && body.readyState == 'loading') {
+                            console.log('Loading...');
+                        } else {
+                            if(window.addEventListener) {
+                                return true
+                            } else {
+                                window.attachEvent('onload', () => console.log('Loaded'))
+                            }
+                        }
+                    })
+                    return pageLoaded === true;
+                });
+
+                // Aksi menghilangkan modal 
+                await driver.wait(until.elementLocated(By.css('#modal-center')));
+                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi mengklik button tab news / berita
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[4].click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button salah satu media sosial dari salah satu team
+                let galleries = await driver.executeScript(`return document.querySelectorAll(".project.item")`)
+                await thrownAnError("Gallery is empty", await galleries.length === 0);
+                let randomIndexGallery = faker.number.int({ min: 0, max: await galleries.length - 1 });
+                let hrefGallery = await driver.executeScript(`return document.querySelectorAll(".project.item")[${randomIndexGallery}].querySelector("figure a").href`);
+                await driver.executeScript(`return document.querySelectorAll(".project.item")[${randomIndexGallery}].querySelector("figure a").click()`);
+
+                // Aksi Sleep
+                await driver.sleep(3000);
+
+                // Aksi pindah halaman ke umptn
+                let originalWindow = await driver.getWindowHandle();
+                let windows = await driver.getAllWindowHandles();
+                windows.forEach(async handle => {
+                    if (handle !== originalWindow) {
+                        await driver.switchTo().window(handle);
+                    }
+                });
+                await driver.wait(async () => (await driver.getAllWindowHandles()).length === 2);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+                
+                // Check the result
+                let currentUrl = await driver.getCurrentUrl();
+                customMessages = [
+                    await currentUrl.includes(hrefGallery) ? `Successfuly directed to ${hrefGallery} ✅` : `Failed to direct ${hrefGallery} ❌`
+                ];
+                expect(await currentUrl.includes(hrefGallery)).to.eq(true);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
+        });  
+
 
     })
 
