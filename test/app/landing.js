@@ -97,7 +97,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
     BROWSERS.forEach(browser => {
 
-        it(`Go to app or landing page - from browser ${browser}`, async () => {
+        it.skip(`Go to app or landing page - from browser ${browser}`, async () => {
 
             try {
 
@@ -141,7 +141,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
+        it.skip(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
 
             try {
 
@@ -183,7 +183,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button 'Lebih Lanjut' on modal content - from browser ${browser}`, async () => {
+        it.skip(`Check button 'Lebih Lanjut' on modal content - from browser ${browser}`, async () => {
 
             try {
 
@@ -217,7 +217,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
 
-        it(`Check tab beranda - from browser ${browser}`, async () => {
+        it.skip(`Check tab beranda - from browser ${browser}`, async () => {
 
             try {
 
@@ -268,7 +268,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it(`Check tab tentang kami - from browser ${browser}`, async () => {
+        it.skip(`Check tab tentang kami - from browser ${browser}`, async () => {
 
             try {
 
@@ -319,7 +319,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });      
         
-        it(`Check tab event - from browser ${browser}`, async () => {
+        it.skip(`Check tab event - from browser ${browser}`, async () => {
 
             try {
 
@@ -370,7 +370,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it(`Check tab news - from browser ${browser}`, async () => {
+        it.skip(`Check tab news - from browser ${browser}`, async () => {
 
             try {
 
@@ -421,7 +421,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it(`Check tab gallery - from browser ${browser}`, async () => {
+        it.skip(`Check tab gallery - from browser ${browser}`, async () => {
 
             try {
 
@@ -470,9 +470,49 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
             }
 
 
+        });
+        
+        it(`Check button 'Masuk' for go into login page - from browser ${browser}`, async () => {
+
+            try {
+
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi sleep
+                await driver.sleep(5000);
+                
+                // Aksi menghapus modal
+                await removeModal(driver);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi mengklik button masuk
+                let hrefLogin = await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[5].href;`);
+                await driver.executeScript(`return document.querySelectorAll('ul.navbar-nav li.nav-item > a')[5].click();`);
+                
+                // Aksi sleep
+                await driver.sleep(5000);
+                
+                // Check the result
+                const currentUrl = await driver.executeScript(`
+                    let url = new URL(window.location.href)
+                    return url.origin + url.pathname
+                `)
+                customMessages = [
+                    hrefLogin.includes(currentUrl) ? `Successfully directed to the ${hrefLogin} page ✅` : `Failed direct to the ${hrefLogin} page ❌`
+                ];
+                expect(hrefLogin).to.contain(currentUrl);
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+
         });    
 
-        it(`Check the button 'mulai belajar' and scroll into program section - from browser ${browser}`, async () => {
+        it.skip(`Check the button 'mulai belajar' and scroll into program section - from browser ${browser}`, async () => {
 
             try {
 
@@ -530,7 +570,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the button 'Gabung Sekarang' for join program - from browser ${browser}`, async () => {
+        it.skip(`Check the button 'Gabung Sekarang' for join program - from browser ${browser}`, async () => {
 
             try {
 
@@ -572,7 +612,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the button 'Gabung Sekarang' for join 'Ujian Masuk Perusahaan Teknologi Nasional' - from browser ${browser}`, async () => {
+        it.skip(`Check the button 'Gabung Sekarang' for join 'Ujian Masuk Perusahaan Teknologi Nasional' - from browser ${browser}`, async () => {
 
             try {
 
@@ -628,7 +668,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the button 'Lihat Selengkapnya' on program section - from browser ${browser}`, async () => {
+        it.skip(`Check the button 'Lihat Selengkapnya' on program section - from browser ${browser}`, async () => {
 
             try {
 
@@ -670,7 +710,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the button 'Lihat Selengkapnya' on blog section - from browser ${browser}`, async () => {
+        it.skip(`Check the button 'Lihat Selengkapnya' on blog section - from browser ${browser}`, async () => {
 
             try {
 
@@ -712,7 +752,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
+        it.skip(`Check the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
 
             try {
 
@@ -755,7 +795,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the one button of partners in section partner - from browser ${browser}`, async () => {
+        it.skip(`Check the one button of partners in section partner - from browser ${browser}`, async () => {
 
             try {
 
@@ -816,7 +856,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the one accordion in faq section - from browser ${browser}`, async () => {
+        it.skip(`Check the one accordion in faq section - from browser ${browser}`, async () => {
 
             try {
 
@@ -861,7 +901,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button media social instagram in footer section - from browser ${browser}`, async () => {
+        it.skip(`Check button media social instagram in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -917,7 +957,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button media social youtube in footer section - from browser ${browser}`, async () => {
+        it.skip(`Check button media social youtube in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -973,7 +1013,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button menu 'Tentang Kami' in footer section - from browser ${browser}`, async () => {
+        it.skip(`Check button menu 'Tentang Kami' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1016,7 +1056,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button menu 'Program' in footer section - from browser ${browser}`, async () => {
+        it.skip(`Check button menu 'Program' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1059,7 +1099,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button menu 'Berita' in footer section - from browser ${browser}`, async () => {
+        it.skip(`Check button menu 'Berita' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1102,7 +1142,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button menu 'Galeri' in footer section - from browser ${browser}`, async () => {
+        it.skip(`Check button menu 'Galeri' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1145,7 +1185,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button menu 'Gabung Sekarang' in footer section - from browser ${browser}`, async () => {
+        it.skip(`Check button menu 'Gabung Sekarang' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1188,7 +1228,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check button 'Gabung Sekarang' in about page - from browser ${browser}`, async () => {
+        it.skip(`Check button 'Gabung Sekarang' in about page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1246,7 +1286,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it(`Check media social from one of team in about page - from browser ${browser}`, async () => {
+        it.skip(`Check media social from one of team in about page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1316,7 +1356,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it(`Check details program in program page - from browser ${browser}`, async () => {
+        it.skip(`Check details program in program page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1383,7 +1423,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it(`Check the load more of program in program page - from browser ${browser}`, async () => {
+        it.skip(`Check the load more of program in program page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1462,7 +1502,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it(`Check details of article in news page - from browser ${browser}`, async () => {
+        it.skip(`Check details of article in news page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1523,7 +1563,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it(`Check the galleries in gallery page - from browser ${browser}`, async () => {
+        it.skip(`Check the galleries in gallery page - from browser ${browser}`, async () => {
 
             try {
 

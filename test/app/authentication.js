@@ -20,7 +20,7 @@ import { thrownAnError } from '#root/commons/utils/generalUtils';
  * Get the user data for authentication
  */
 
-const users = getUserAccount(yargs(process.argv.slice(2)).parse());
+const users = getUserAccount(yargs(process?.argv?.slice(2))?.parse()) ?? null;
 
 let driver;
 let errorMessages;
@@ -92,7 +92,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
+            value: path.relative(fileURLToPath(import.meta.url).replace(/\.js$/, '').replace(/test/g, 'testResult\\reports'), fileNamePath).replace(/research-unit-test-lms/g, '')
         });
         await driver.sleep(3000);
         try {
@@ -105,7 +105,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
     BROWSERS.forEach(browser => {
 
-        users.forEach(userData => {
+        // Need Login or authenticated
+        users?.forEach(userData => {
 
             const data = userData?.split('=');
             const userAccount = data[1].split(';');
@@ -610,6 +611,24 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     break;
             }
+        });
+
+        // No need some authentication user
+        it(`Checking button hide password in login page from ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+                errorMessages = await captureConsoleErrors(driver, browser);
+                await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
         });
 
     })
