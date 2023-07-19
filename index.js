@@ -549,7 +549,7 @@ async function getInput() {
                                                     if(authenticationFound) {
 
                                                         function getConfirmTest() {
-                                                            rl.question(`Apakah anda hanya ingin menjalankan test yang tanpa autentikasi saja atau dua-dua nya ? (Y/t) `, (inputConfirmTest) => {
+                                                            rl.question(clc.bold(`Apakah anda hanya ingin menjalankan test yang tanpa autentikasi saja atau dua-dua nya ? (Y/t) `), (inputConfirmTest) => {
                                                         
                                                                 if(inputConfirmTest.trim().toLowerCase() === 'y') {
                                                                     console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);

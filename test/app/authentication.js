@@ -15,6 +15,7 @@ import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { fileURLToPath } from 'url';
 import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
+import { removeModal } from '#root/helpers/global';
 
 /**
  * Get the user data for authentication
@@ -614,6 +615,50 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
         });
 
         // No need some authentication user
+        it(`Checking button show password in login page from ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button eye untuk mengaktifkan show password
+                await driver.executeScript(`return document.querySelector("form .input-group-prepend .fa-eye-slash").click()`);
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").value = 'test123';`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Check the result
+                let typeInputPassword = await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").type`)
+                customMessages = [
+                    typeInputPassword === "text" ? "Successfully show the password field ✅" : "Failed to show the password field ❌"
+                ]
+                expect(typeInputPassword).to.equal("text")
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+        
         it(`Checking button hide password in login page from ${browser}`, async () => {
 
             try {
@@ -621,9 +666,38 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 // Go to application
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
-                errorMessages = await captureConsoleErrors(driver, browser);
-                await thrownAnError(errorMessages, errorMessages?.length > 0);
 
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button eye untuk mengaktifkan show password
+                await driver.executeScript(`return document.querySelector("form .input-group-prepend .fa-eye-slash").click()`);
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelector("form .input-group-prepend .fa-eye").click()`);
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").value = 'test123';`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Check the result
+                let typeInputPassword = await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").type`)
+                customMessages = [
+                    typeInputPassword === "password" ? "Successfully hide the password field ✅" : "Failed to hide the password field ❌"
+                ]
+                expect(typeInputPassword).to.equal("password")
 
             } catch (error) {
                 expect.fail(error);
