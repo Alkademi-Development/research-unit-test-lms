@@ -97,7 +97,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
     BROWSERS.forEach(browser => {
 
-        it.skip(`Go to app or landing page - from browser ${browser}`, async () => {
+        it(`Go to app or landing page - from browser ${browser}`, async () => {
 
             try {
 
@@ -141,7 +141,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
+        it(`Check modal is show up on landing page or home - from browser ${browser}`, async () => {
 
             try {
 
@@ -183,7 +183,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button 'Lebih Lanjut' on modal content - from browser ${browser}`, async () => {
+        it(`Check button 'Lebih Lanjut' on modal content - from browser ${browser}`, async () => {
 
             try {
 
@@ -217,7 +217,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
 
-        it.skip(`Check tab beranda - from browser ${browser}`, async () => {
+        it(`Check tab beranda - from browser ${browser}`, async () => {
 
             try {
 
@@ -268,7 +268,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check tab tentang kami - from browser ${browser}`, async () => {
+        it(`Check tab tentang kami - from browser ${browser}`, async () => {
 
             try {
 
@@ -319,7 +319,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });      
         
-        it.skip(`Check tab event - from browser ${browser}`, async () => {
+        it(`Check tab event - from browser ${browser}`, async () => {
 
             try {
 
@@ -370,7 +370,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it.skip(`Check tab news - from browser ${browser}`, async () => {
+        it(`Check tab news - from browser ${browser}`, async () => {
 
             try {
 
@@ -421,7 +421,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });   
         
-        it.skip(`Check tab gallery - from browser ${browser}`, async () => {
+        it(`Check tab gallery - from browser ${browser}`, async () => {
 
             try {
 
@@ -512,7 +512,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });    
 
-        it.skip(`Check the button 'mulai belajar' and scroll into program section - from browser ${browser}`, async () => {
+        it(`Check the button 'mulai belajar' and scroll into program section - from browser ${browser}`, async () => {
 
             try {
 
@@ -570,7 +570,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check the button 'Gabung Sekarang' for join program - from browser ${browser}`, async () => {
+        it(`Check the button 'Gabung Sekarang' for join program - from browser ${browser}`, async () => {
 
             try {
 
@@ -612,7 +612,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check the button 'Gabung Sekarang' for join 'Ujian Masuk Perusahaan Teknologi Nasional' - from browser ${browser}`, async () => {
+        it(`Check the button 'Gabung Sekarang' for join 'Ujian Masuk Perusahaan Teknologi Nasional' - from browser ${browser}`, async () => {
 
             try {
 
@@ -668,7 +668,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check the button 'Lihat Selengkapnya' on program section - from browser ${browser}`, async () => {
+        it(`Check the button 'Lihat Selengkapnya' on program section - from browser ${browser}`, async () => {
 
             try {
 
@@ -710,7 +710,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check the button 'Lihat Selengkapnya' on blog section - from browser ${browser}`, async () => {
+        it(`Check the button 'Lihat Selengkapnya' on blog section - from browser ${browser}`, async () => {
 
             try {
 
@@ -752,7 +752,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
+        it(`Check the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
 
             try {
 
@@ -795,7 +795,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check the one button of partners in section partner - from browser ${browser}`, async () => {
+        it(`Check the one button of partners in section partner - from browser ${browser}`, async () => {
 
             try {
 
@@ -821,9 +821,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 let cardPartner = await driver.executeScript(`return document.querySelectorAll("section.wrapper")[6].querySelectorAll(".card")`)
                 await thrownAnError('Card partner is empty', await cardPartner.length === 0);
                 let randomIndexPartner = faker.number.int({ min: 0, max: await cardPartner.length - 1 });
-                await driver.sleep(1000);
+                await driver.sleep(2000);
                 let hrefPartner = await driver.executeScript(`return document.querySelectorAll("section.wrapper")[6].querySelectorAll(".card figure img")[${randomIndexPartner}].src.split('/').pop().split('.')[0];`)
-                await driver.sleep(1000);
+                await driver.sleep(2000);
                 await cardPartner[randomIndexPartner].click();
                 
                 // Aksi Sleep
@@ -856,7 +856,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check the one accordion in faq section - from browser ${browser}`, async () => {
+        it(`Check the one accordion in faq section - from browser ${browser}`, async () => {
 
             try {
 
@@ -901,7 +901,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button media social instagram in footer section - from browser ${browser}`, async () => {
+        it(`Check button media social instagram in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -957,7 +957,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button media social youtube in footer section - from browser ${browser}`, async () => {
+        it(`Check button media social youtube in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1013,7 +1013,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button menu 'Tentang Kami' in footer section - from browser ${browser}`, async () => {
+        it(`Check button menu 'Tentang Kami' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1056,7 +1056,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button menu 'Program' in footer section - from browser ${browser}`, async () => {
+        it(`Check button menu 'Program' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1099,7 +1099,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button menu 'Berita' in footer section - from browser ${browser}`, async () => {
+        it(`Check button menu 'Berita' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1142,7 +1142,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button menu 'Galeri' in footer section - from browser ${browser}`, async () => {
+        it(`Check button menu 'Galeri' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1185,7 +1185,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button menu 'Gabung Sekarang' in footer section - from browser ${browser}`, async () => {
+        it(`Check button menu 'Gabung Sekarang' in footer section - from browser ${browser}`, async () => {
 
             try {
 
@@ -1228,7 +1228,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Check button 'Gabung Sekarang' in about page - from browser ${browser}`, async () => {
+        it(`Check button 'Gabung Sekarang' in about page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1286,7 +1286,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check media social from one of team in about page - from browser ${browser}`, async () => {
+        it(`Check media social from one of team in about page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1333,21 +1333,25 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 let teams = await driver.executeScript(`return document.querySelectorAll('section.wrapper')[document.querySelectorAll('section.wrapper').length - 1].querySelectorAll(".swiper-wrapper > div")`)
                 await thrownAnError("Team is empty", await teams.length === 0);
                 let randomIndexTeam = faker.number.int({ min: 0, max: await teams.length - 1 });
-                await driver.sleep(1000);
+                await driver.sleep(2000);
                 let teamMediaLength = await driver.executeScript(`arguments[0].querySelectorAll("nav.social a").length - 1`, await teams[randomIndexTeam]);
                 let hrefMedia = await driver.executeScript(`return document.querySelectorAll('section.wrapper')[document.querySelectorAll('section.wrapper').length - 1].querySelectorAll(".swiper-wrapper > div")[${randomIndexTeam}].querySelectorAll("nav.social a")[${faker.number.int({ min: 0, max: await teamMediaLength })}].href`)
-                await driver.sleep(1000);
+                let mediaUrl = await driver.executeScript(`
+                    let url = new URL("${hrefMedia}")
+                    return url.origin + url.pathname
+                `)
+                await driver.sleep(2000);
                 await driver.executeScript(`arguments[0].querySelectorAll("nav.social a")[${faker.number.int({ min: 0, max: await teamMediaLength })}].click()`, await teams[randomIndexTeam]);
                 
                 // Aksi sleep
-                await driver.sleep(3000);
+                await driver.sleep(12000);
                 
                 // Check the result
                 let currentUrl = await driver.getCurrentUrl();
                 customMessages = [
-                    await currentUrl.includes(hrefMedia) ? `Successfuly directed to ${hrefMedia} ✅` : `Failed to direct ${hrefMedia} ❌`
+                    await currentUrl.includes(hrefMedia) || currentUrl.includes(mediaUrl) ? `Successfuly directed to ${hrefMedia} ✅` : `Failed to direct ${hrefMedia} ❌`
                 ];
-                expect(await currentUrl.includes(hrefMedia)).to.eq(true);
+                expect(await currentUrl.includes(hrefMedia) || currentUrl.includes(mediaUrl)).to.eq(true);
 
             } catch (error) {
                 expect.fail(error);
@@ -1356,7 +1360,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check details program in program page - from browser ${browser}`, async () => {
+        it(`Check details program in program page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1423,7 +1427,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check the load more of program in program page - from browser ${browser}`, async () => {
+        it(`Check the load more of program in program page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1502,7 +1506,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check details of article in news page - from browser ${browser}`, async () => {
+        it(`Check details of article in news page - from browser ${browser}`, async () => {
 
             try {
 
@@ -1563,7 +1567,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });  
         
-        it.skip(`Check the galleries in gallery page - from browser ${browser}`, async () => {
+        it(`Check the galleries in gallery page - from browser ${browser}`, async () => {
 
             try {
 
