@@ -549,22 +549,9 @@ async function getInput() {
                                                     if(authenticationFound) {
 
                                                         function getConfirmTest() {
-                                                            rl.question(clc.bold(`Apakah anda hanya ingin menjalankan test yang tanpa autentikasi saja atau dua-dua nya ? (Y/t) `), (inputConfirmTest) => {
+                                                            rl.question(clc.bold(`Apakah anda hanya ingin menjalankan test yang autentikasi saja atau dengan tanpa autentikasinya juga ? (Y/t) `), (inputConfirmTest) => {
                                                         
                                                                 if(inputConfirmTest.trim().toLowerCase() === 'y') {
-                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                    exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                        if (error) {
-                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                        } 
-                                            
-                                                                        console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
-                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                            
-                                                                        process.exit();
-                                                                    });
-                                                                } else if(inputConfirmTest.trim().toLowerCase() === 't') {
                                                                     console.log(clc.yellowBright('=== Silahkann masukkan akun terlebih dahulu untuk mengetes file ini ==='));
                                                                     function getInfoAccount() {
                                                                         
@@ -675,6 +662,19 @@ async function getInput() {
                                         
                                                                     }
                                                                     getInfoAccount();
+                                                                } else if(inputConfirmTest.trim().toLowerCase() === 't') {
+                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                    exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                        if (error) {
+                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                        } 
+                                            
+                                                                        console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                            
+                                                                        process.exit();
+                                                                    });
                                                                 } else {
                                                                     console.log(clc.red("Maaf input yang anda masukkan tidak dapat di mengerti, tolong masukkan sesuai instruksi"))
                                                                     getConfirmTest();

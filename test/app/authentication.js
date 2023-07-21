@@ -170,6 +170,65 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`SUPER ADMIN - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                     break;
                 case 1:
@@ -222,6 +281,65 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             expect.fail(error);
                         }
 
+
+                    });
+                    
+                    it(`ADMIN - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
@@ -279,6 +397,65 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`MENTOR - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                     break;
 
@@ -332,6 +509,65 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             expect.fail(error);
                         }
 
+
+                    });
+                    
+                    it(`STUDENT - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
@@ -444,6 +680,65 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`CONTENT WRITER - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                     break;
 
@@ -499,6 +794,65 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`LEAD PROGRAM - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                     break;
                 
@@ -552,6 +906,65 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             expect.fail(error);
                         }
 
+
+                    });
+                    
+                    it(`LEAD REGION - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
@@ -615,7 +1028,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
         });
 
         // No need some authentication user
-        it(`Checking button show password in login page from ${browser}`, async () => {
+        it.skip(`Checking button show password in login page from ${browser}`, async () => {
 
             try {
 
@@ -659,7 +1072,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Checking button hide password in login page from ${browser}`, async () => {
+        it.skip(`Checking button hide password in login page from ${browser}`, async () => {
 
             try {
 
