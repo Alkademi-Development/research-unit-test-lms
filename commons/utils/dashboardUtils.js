@@ -1,6 +1,7 @@
 import { By, Key, until } from 'selenium-webdriver';
 import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { captureAlertError } from '#root/commons/utils/generalUtils';
+import { thrownAnError } from '#root/commons/utils/generalUtils';
 
 let errors;
 const enterDashboard = async (driver, user, browser, appHost) => {
@@ -16,14 +17,20 @@ const enterDashboard = async (driver, user, browser, appHost) => {
     await driver.sleep(5000);
     
     await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+    
+    // Aksi Sleep
+    await driver.sleep(5000);
 
     // Aksi Input Data Akun 
-    await driver.wait(until.elementLocated(By.css(`.input-group.input-group-merge > input[type="email"]`)));
-    await driver.findElement(By.css(`.input-group.input-group-merge > input[type="email"]`)).sendKeys(user.email, Key.RETURN);
-    await driver.findElement(By.css(`.input-group.input-group-merge > input[type="password"]`)).sendKeys(user.password, Key.RETURN);
-    await captureAlertError(driver);
-    errors = await captureConsoleErrors(driver, browser);
-
+    let inputEmail = await driver.executeScript(`return document.querySelector('.input-group.input-group-merge > input[type="email"]')`);
+    if(await inputEmail?.isDisplayed()) {
+        await driver.wait(until.elementLocated(By.css(`.input-group.input-group-merge > input[type="email"]`)));
+        await driver.findElement(By.css(`.input-group.input-group-merge > input[type="email"]`)).sendKeys(user.email, Key.RETURN);
+        await driver.findElement(By.css(`.input-group.input-group-merge > input[type="password"]`)).sendKeys(user.password, Key.RETURN);
+        await captureAlertError(driver);
+        errors = await captureConsoleErrors(driver, browser);
+    } else await thrownAnError("There was no process fill the input field for enter the account data", !inputEmail.isDisplayed());
+    
     // Aksi menunggu element h1 tampil setelah melakukan authentikasi
     await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
     errors = await captureConsoleErrors(driver, browser);
