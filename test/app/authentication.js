@@ -16,6 +16,8 @@ import { fileURLToPath } from 'url';
 import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
 import { removeModal } from '#root/helpers/global';
+import { faker } from '@faker-js/faker';
+import Tesseract from "tesseract.js"
 
 /**
  * Get the user data for authentication
@@ -204,11 +206,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -263,11 +270,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -299,7 +311,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             userData = await JSON.parse(userData);
 
                             customMessages = [
-                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
                             ];
                             
                             expect(correctUrl.url).to.includes("v1/user/me");
@@ -398,11 +410,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -457,11 +474,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -493,7 +515,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             userData = await JSON.parse(userData);
 
                             customMessages = [
-                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
                             ];
                             
                             expect(correctUrl.url).to.includes("v1/user/me");
@@ -593,11 +615,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -652,11 +679,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -688,7 +720,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             userData = await JSON.parse(userData);
 
                             customMessages = [
-                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
                             ];
                             
                             expect(correctUrl.url).to.includes("v1/user/me");
@@ -788,11 +820,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -847,11 +884,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -883,7 +925,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             userData = await JSON.parse(userData);
 
                             customMessages = [
-                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
                             ];
                             
                             expect(correctUrl.url).to.includes("v1/user/me");
@@ -894,6 +936,72 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                         }
 
                     });
+                    
+                    it(`STUDENT - Reset Password from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi menunggu modal content
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                await driver.findElement(By.css(".modal-content header button.close")).click();
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+                            
+                            await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+                            
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi klik button 'Lupa Kata Sandi?'
+                            await driver.executeScript(`return document.querySelector("form .form-group a.color-primary").click()`)
+                            
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengisi input field email
+                            let fullName = faker.name.fullName();
+                            let emailData = `${fullName.toLowerCase().replace(/ /g, '')}@gmail.com`;
+                            await driver.findElement(By.css("form .form-group input[type=email]")).sendKeys(user.email)
+                            await driver.sleep(2000);
+                            await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click();`);
+                            await driver.sleep(2000);
+                            let alertError = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null;`);
+                            await thrownAnError(await alertError?.getAttribute("innerText"), await alertError != null && await alertError?.getAttribute("innerText") != 'mohon tunggu hingga jangka waktu yang telah ditentukan')
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            if(await alertError?.getAttribute("innerText") == 'mohon tunggu hingga jangka waktu yang telah ditentukan') {
+                                // Expect results and add custom message for addtional description
+                                customMessages = [
+                                    await alertError?.getAttribute("innerText") == 'mohon tunggu hingga jangka waktu yang telah ditentukan' ? 'The reset link password was already sent ✅' : 'Failed to send link reset password ❌'
+                                ]
+                                expect(await alertError?.getAttribute("innerText") == 'mohon tunggu hingga jangka waktu yang telah ditentukan').to.equal(true)
+                            } else {
+                                // Expect results and add custom message for addtional description
+                                const messageResetPassword = await driver.findElement(By.css('#auth .card.card-profile'));
+                                customMessages = [
+                                    await messageResetPassword.isDisplayed() ? 'Displayed page the reset link password ✅' : 'Failed to send link reset password ❌'
+                                ]
+                                expect(await messageResetPassword.isDisplayed()).to.equal(true)
+                            }
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
 
                     break;
 
@@ -1038,11 +1146,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -1097,11 +1210,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -1133,7 +1251,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             userData = await JSON.parse(userData);
 
                             customMessages = [
-                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
                             ];
                             
                             expect(correctUrl.url).to.includes("v1/user/me");
@@ -1233,11 +1351,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content'))); 
+                                await driver.sleep(2000);             
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -1292,11 +1414,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -1328,7 +1455,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             userData = await JSON.parse(userData);
 
                             customMessages = [
-                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
                             ];
                             
                             expect(correctUrl.url).to.includes("v1/user/me");
@@ -1428,11 +1555,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -1487,11 +1619,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi klik button logout
                             await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
 
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
                             // Aksi mengkonfirmasi signout di modal
                             let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            await driver.sleep(3000) 
                             if(await modalContent?.isDisplayed()) {
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                await driver.executeScript(`return document.querySelector(".modal-content .box-action .btn.btn-danger").click()`);
+                                await driver.wait(until.elementLocated(By.css('.modal-content')));
+                                await driver.sleep(3000)              
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             }
 
                             // Aksi Sleep
@@ -1523,7 +1660,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             userData = await JSON.parse(userData);
 
                             customMessages = [
-                                userData.id > 0 ? "Get the data user that logged in ✅" : "Get the data user that logged in ❌"
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
                             ];
                             
                             expect(correctUrl.url).to.includes("v1/user/me");
@@ -1678,6 +1815,474 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                     typeInputPassword === "password" ? "Successfully hide the password field ✅" : "Failed to hide the password field ❌"
                 ]
                 expect(typeInputPassword).to.equal("password")
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+        
+        it(`Register as student from ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button 'Daftar Sekarang'
+                await driver.executeScript(`return document.querySelector(".card-body div.text-center a.color-primary").click();`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi fill form register
+                // Dummy data registration
+                let fullName = faker.name.fullName();
+                let emailData = `${fullName.toLowerCase().replace(/ /g, '')}@gmail.com`;
+                let passwordData = 'semuasama';
+                let phoneNumber = faker.phone.number('08##########');
+
+                // Fill data registration
+                await driver.wait(until.elementLocated(By.css(`input[type="email"]`)));
+                await driver.findElement(By.css(`input[type="email"]`)).sendKeys(emailData);
+                await driver.findElement(By.css(`input#inputName`)).sendKeys(fullName);
+                await driver.findElement(By.css(`input#inputPhone`)).sendKeys(phoneNumber);
+                await driver.sleep(2000);
+                await driver.wait(until.elementLocated(By.css("#inputGender.v-select")))
+                // Select gender
+                let inputSearch = await driver.findElement(By.css("#inputGender .vs__selected-options input[type=search]"));
+                let action = await driver.actions({async: true});
+                await action.move({origin: await inputSearch}).press().perform();
+                await driver.sleep(2000);
+                // Aksi mengecek pilihan gender
+                let genders = await driver.executeScript(`return document.querySelectorAll('#inputGender.v-select ul li')`)
+                let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+                await driver.sleep(1000);
+                await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+                await driver.sleep(2000);
+                let actions = driver.actions({async: true});
+                await actions.doubleClick(await genders[randomIndexGender]).perform();
+                await driver.sleep(3000);
+                await driver.wait(until.elementLocated(By.css("#inputProvince.v-select")))
+                // Select province
+                inputSearch = await driver.findElement(By.css("#inputProvince .vs__selected-options input[type=search]"));
+                action = await driver.actions({async: true});
+                await action.move({origin: await inputSearch}).press().perform();
+                await driver.sleep(2000);
+                // Aksi mengecek pilihan province
+                let provinces = await driver.executeScript(`return document.querySelectorAll('#inputProvince.v-select ul li')`)
+                let randomIndexProvince = faker.number.int({ min: 0, max: await provinces.length - 1 });
+                await driver.sleep(1000);
+                await driver.executeScript('arguments[0].scrollIntoView()', await provinces[randomIndexProvince]);
+                await driver.sleep(2000);
+                actions = driver.actions({async: true});
+                await actions.doubleClick(await provinces[randomIndexProvince]).perform();
+                await driver.sleep(3000);
+                await driver.wait(until.elementLocated(By.css("#inputCity.v-select")))
+                // Select city
+                inputSearch = await driver.findElement(By.css("#inputCity .vs__selected-options input[type=search]"));
+                action = await driver.actions({async: true});
+                await action.move({origin: await inputSearch}).press().perform();
+                await driver.sleep(2000);
+                // Aksi mengecek pilihan province
+                let cities = await driver.executeScript(`return document.querySelectorAll('#inputCity.v-select ul li')`)
+                let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+                await driver.sleep(1000);
+                await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+                await driver.sleep(2000);
+                actions = driver.actions({async: true});
+                await actions.doubleClick(await cities[randomIndexCity]).perform();
+                await driver.sleep(2000);
+                await driver.findElement(By.css(`input#inputPassword`)).sendKeys(passwordData);
+                await driver.findElement(By.css(`input#inputRepeat`)).sendKeys(passwordData);
+                const isAllFilled = await Promise.all([
+                    await driver.findElement(By.css("input[type='email']")).getAttribute('value'),
+                    await driver.findElement(By.css("input#inputName")).getAttribute('value'),
+                    await driver.findElement(By.css(`input#inputPhone`)).getAttribute('value'),
+                    // await driver.findElement(By.css("#inputGender.v-select input")).getAttribute('value'),
+                    // await driver.findElement(By.css("#inputProvince.v-select input")).getAttribute('value'),
+                    // await driver.findElement(By.css("#inputCity.v-select input")).getAttribute('value'),
+                    await driver.findElement(By.css("input#inputPassword")).getAttribute('value'),
+                    await driver.findElement(By.css("input#inputRepeat")).getAttribute('value'),
+                ]).then(results => results.every(value => value != ''));
+                
+                await driver.sleep(2000)
+                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+                await driver.sleep(2000)
+
+                if(isAllFilled) {
+                    await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                } else await thrownAnError('There are still empty input fields on form register', !isAllFilled)
+
+                // Aksi Sleep
+                await driver.sleep(3000);
+                
+                // Expect results and add custom message for addtional description
+                const messageConfirmEmail = await driver.findElement(By.css('#auth .card.card-profile'));
+                customMessages = [
+                    await messageConfirmEmail.isDisplayed() ? 'Displayed page to resend password confirmation ✅' : 'Failed to resend password confirmation ❌'
+                ]
+                expect(await messageConfirmEmail.isDisplayed()).to.equal(true)
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+        
+        // it(`Register using google account from ${browser}`, async () => {
+
+        //     try {
+
+        //         // Go to application
+        //         driver = await goToApp(browser, appHost);
+        //         await driver.manage().window().maximize();
+
+        //         // Aksi Sleep
+        //         await driver.sleep(5000);
+
+        //         // Aksi remove modal
+        //         await removeModal(driver)
+
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
+
+        //         // Aksi klik button Masuk/Login
+        //         await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+        //         // Aksi sleep
+        //         await driver.sleep(5000);
+
+        //         // Aksi klik button Icon Google
+        //         await driver.executeScript(`return document.querySelector(".card-body .btn-inner--icon").click()`);
+
+        //         // Aksi Sleep
+        //         await driver.sleep(5000);
+
+        //         // Aksi fill form input email
+        //         await driver.findElement(By.css("input[type=email]")).sendKeys('adnanerlansyah505@gmail.com');
+        //         await driver.sleep(2000);
+        //         const captchaImage = await driver.executeScript(`return document.querySelector("img#captchaimg")`)
+        //         await driver.sleep(2000);
+        //         await driver.executeScript(`return document.querySelector("#identifierNext button").click();`);
+        //         await driver.sleep(2000);
+        //         let messageError = await driver.executeScript(`return document.querySelector('.LXRPh') ? document.querySelector('.LXRPh') : null`);
+        //         await thrownAnError('An error occurred while fill the input field', await messageError != null && await messageError?.isDisplayed());
+                
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
+                
+        //         // Aksi fill form input password
+        //         await driver.findElement(By.css("input[type=password]")).sendKeys('45Adnan45');
+        //         await driver.sleep(2000);
+        //         await driver.executeScript(`return document.querySelector("#passwordNext button").click();`);
+        //         messageError = await driver.executeScript(`return document.querySelector('.LXRPh') ? document.querySelector('.LXRPh') : null`);
+        //         await thrownAnError('An error occurred while fill the input field', await messageError != null && await messageError?.isDisplayed());
+                
+        //         // Aksi sleep
+        //         await driver.sleep(12000);
+
+        //         let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
+        //         if(await modalContent != null && await modalContent.isDisplayed()) {
+                    
+        //             await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
+        //             // Select gender
+        //             let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
+        //             let action = await driver.actions({async: true});
+        //             await action.move({origin: await inputSearch}).press().perform();
+        //             await driver.sleep(2000);
+        //             // Aksi mengecek pilihan gender
+        //             let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
+        //             let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+        //             await driver.sleep(1000);
+        //             await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+        //             await driver.sleep(2000);
+        //             let actions = driver.actions({async: true});
+        //             await actions.doubleClick(await genders[randomIndexGender]).perform();
+        //             await driver.sleep(3000);
+        //             await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
+        //             // Select province
+        //             inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
+        //             action = await driver.actions({async: true});
+        //             await action.move({origin: await inputSearch}).press().perform();
+        //             await driver.sleep(2000);
+        //             // Aksi mengecek pilihan province
+        //             let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
+        //             let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+        //             await driver.sleep(1000);
+        //             await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+        //             await driver.sleep(2000);
+        //             actions = driver.actions({async: true});
+        //             await actions.doubleClick(await cities[randomIndexCity]).perform();
+
+        //             // Aksi Sleep
+        //             await driver.sleep(3000);
+
+        //             // Aksi klik button 'Simpan'
+        //             await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                    
+        //             // Aksi Sleep
+        //             await driver.sleep(3000);
+
+        //             // Aksi klik button konfirmasi
+        //             await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
+
+        //         }
+                
+        //         // Aksi Sleep
+        //         await driver.sleep(3000);
+
+        //         // Expect results and add custom message for addtional description
+        //         let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+        //         userData = await JSON.parse(userData);
+
+        //         customMessages = [
+        //             userData ? "Successfully register with account google ✅" : "Failed to register with account google ❌"
+        //         ]
+        //         expect(userData).to.be.not.null;
+
+
+        //     } catch (error) {
+        //         expect.fail(error);
+        //     }
+
+        // });
+        
+        it(`Register using github account from ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button Icon Google
+                await driver.executeScript(`return document.querySelectorAll(".card-body .btn-inner--icon")[1].click()`);
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi fill form input email
+                await driver.findElement(By.css("input[name=login]")).sendKeys('adnanerlansyah403@gmail.com');
+                await driver.sleep(1000);
+                await driver.findElement(By.css("input[type=password]")).sendKeys('ufojelek12345');
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelector("input[type=submit]").click();`);
+                await driver.sleep(2000);
+                let flashError = await driver.executeScript(`return document.querySelector(".flash.flash-error") ? document.querySelector(".flash.flash-error") : null`);
+                await thrownAnError(await flashError?.getAttribute('innerText'),  await flashError != null && await flashError?.isDisplayed())
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button konfirmasi authroization
+                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+                // await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
+                
+                // Aksi sleep
+                await driver.sleep(12000);
+                
+                let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
+                if(await modalContent != null && await modalContent?.isDisplayed()) {
+                    
+                    await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
+                    // Select gender
+                    let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
+                    let action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan gender
+                    let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
+                    let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+                    await driver.sleep(2000);
+                    let actions = driver.actions({async: true});
+                    await actions.doubleClick(await genders[randomIndexGender]).perform();
+                    await driver.sleep(3000);
+                    await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
+                    // Select province
+                    inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
+                    action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan province
+                    let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
+                    let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+                    await driver.sleep(2000);
+                    actions = driver.actions({async: true});
+                    await actions.doubleClick(await cities[randomIndexCity]).perform();
+
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button 'Simpan'
+                    await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                    
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button konfirmasi
+                    await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
+                    
+                }
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Expect results and add custom message for addtional description
+                let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                userData = await JSON.parse(userData);
+
+                customMessages = [
+                    userData ? "Successfully register with account github ✅" : "Failed to register with account github ❌"
+                ]
+                expect(userData).to.be.not.null;
+
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+        
+        it(`Register using linkedin account from ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button Icon Linkedin
+                await driver.executeScript(`return document.querySelectorAll(".card-body .btn-inner--icon")[2].click()`);
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi fill form input email
+                await driver.findElement(By.css("input#username")).sendKeys('adnanerlansyah403@gmail.com');
+                await driver.sleep(1000);
+                await driver.findElement(By.css("input[type=password]")).sendKeys('45adnan45');
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelector(".login__form_action_container button[type=submit]").click();`);
+                await driver.sleep(2000);
+                // let errorForm = await driver.executeScript(`return document.querySelector(".form__label--error") ? document.querySelector(".form__label--error") : null`);
+                // await thrownAnError("An occured while fill form login",  await errorForm != null)
+
+                // Aksi klik button konfirmasi authroization
+                // await driver.executeScript(`return document.querySelector("form#oauth__auth-form button[type=submit]").click();`);
+                
+                // Aksi sleep
+                await driver.sleep(15000);
+                
+                let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
+                if(await modalContent != null && await modalContent?.isDisplayed()) {
+                    
+                    await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
+                    // Select gender
+                    let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
+                    let action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan gender
+                    let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
+                    let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+                    await driver.sleep(2000);
+                    let actions = driver.actions({async: true});
+                    await actions.doubleClick(await genders[randomIndexGender]).perform();
+                    await driver.sleep(3000);
+                    await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
+                    // Select province
+                    inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
+                    action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan province
+                    let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
+                    let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+                    await driver.sleep(2000);
+                    actions = driver.actions({async: true});
+                    await actions.doubleClick(await cities[randomIndexCity]).perform();
+
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button 'Simpan'
+                    await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                    
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button konfirmasi
+                    await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
+                    
+                }
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Expect results and add custom message for addtional description
+                let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                userData = await JSON.parse(userData);
+
+                customMessages = [
+                    userData ? "Successfully register with account github ✅" : "Failed to register with account github ❌"
+                ]
+                expect(userData).to.be.not.null;
+
 
             } catch (error) {
                 expect.fail(error);

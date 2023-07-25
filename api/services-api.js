@@ -28,6 +28,7 @@ const generateAppToken = async () => {
         AppToken = `${data?.code}` + ':' + generate(data?.code, `${new Date().getTime()}:${generate(data?.code, data?.token)}`)
       } catch (err) {
         console.error(err);
+        process.exit(1);
     }
 }
 const generate = (code, token) => {
