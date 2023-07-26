@@ -95,7 +95,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: path.relative(fileURLToPath(import.meta.url).replace(/\.js$/, '').replace(/test/g, 'testResult\\reports'), fileNamePath).replace(/research-unit-test-lms/g, '')
+            value: "..\\" + path.relative(fileURLToPath(import.meta.url), fileNamePath),
         });
         await driver.sleep(3000);
         try {
