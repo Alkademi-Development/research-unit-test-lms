@@ -7,7 +7,7 @@ let errors;
 const enterDashboard = async (driver, user, browser, appHost) => {
 
     // Aksi menunggu modal content
-    let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+    let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
     if(await modalContent?.isDisplayed()) {
         await driver.wait(until.elementLocated(By.css('.modal-content')));              
         await driver.findElement(By.css(".modal-content header button.close")).click();

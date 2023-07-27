@@ -196,20 +196,31 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                 // Aksi klik button 'Lebih Lanjut'
                 let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                let href;
                 if(await modalContent?.isDisplayed()) {
                     await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    href = await driver.executeScript(`return document.querySelector('.modal-content a.btn-primary').href`);
                     await driver.executeScript(`return document.querySelector('.modal-content a.btn-primary').click();`);
                 } else await thrownAnError('Modal is not displayed', !modalContent.isDisplayed());
+
+                let originalWindow = await driver.getWindowHandle();
+                let windows = await driver.getAllWindowHandles();
+                windows.forEach(async handle => {
+                    if (handle !== originalWindow) {
+                        await driver.switchTo().window(handle);
+                        // await driver.wait(async () => (await driver.getAllWindowHandles()).length === 2);
+                    }
+                });
     
                 // Aksi sleep
                 await driver.sleep(5000);
                 
                 // Expect results and add custom message for addtional description
-                let sectionGameCompetition = await driver.findElement(By.css("section#game-competition"))
+                let currentUrl = await driver.getCurrentUrl();
                 customMessages = [
-                    await sectionGameCompetition.isDisplayed() ? 'Successfully scroll into section game competition ✅' : 'Failed to scroll into section game ❌'
+                    await currentUrl.includes(await href) ? 'Successfully go into details event ✅' : 'Failed go into details event ❌'
                 ];
-                expect(await sectionGameCompetition.isDisplayed()).to.eq(true);
+                expect(await currentUrl.includes(await href)).to.eq(true);
 
             } catch (error) {
                 expect.fail(error);
@@ -1349,7 +1360,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                 // Aksi fill form input email
                 let form = await driver.executeScript(`return document.querySelector("form") ? document.querySelector("form") : null`);
-                if(await form) {
+                if(await form && await browser != 'MicrosoftEdge') {
                     await driver.executeScript(`return document.querySelector(".join-form button.form-toggle").click()`);
                     await driver.sleep(2000);
                     await driver.findElement(By.css("input#session_key")).sendKeys('adnanerlansyah403@gmail.com');
