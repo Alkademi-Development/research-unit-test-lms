@@ -1360,7 +1360,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                 // Aksi fill form input email
                 let form = await driver.executeScript(`return document.querySelector("form") ? document.querySelector("form") : null`);
-                if(await form && await browser != 'MicrosoftEdge') {
+                let modalMain = await driver.executeScript(`return document.querySelector(".modal__main") ? document.querySelector(".modal__main") : null`);
+                if(await form && await modalMain == null) {
                     await driver.executeScript(`return document.querySelector(".join-form button.form-toggle").click()`);
                     await driver.sleep(2000);
                     await driver.findElement(By.css("input#session_key")).sendKeys('adnanerlansyah403@gmail.com');
