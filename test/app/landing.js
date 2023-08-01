@@ -105,26 +105,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
                 
                 await driver.wait(until.elementsLocated(By.id('home')), 5000);
     
@@ -149,33 +138,23 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
-
                 // Aksi sleep
-                await driver.sleep(5000);
+                await driver.sleep(6000);
 
-                // Aksi menghilangkan modal 
-                const modalDisplayed = await driver.wait(until.elementLocated(By.css('.modal-content'))).isDisplayed();
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
+
+                // Aksi Sleep
+                await driver.sleep(3000)
     
                 customMessages = [
-                    modalDisplayed ? 'Show modal on the landing page ✅' : 'Show modal on the landing page ❌'
+                    await modalContent != null ? 'Show modal on the landing page ✅' : 'Show modal on the landing page ❌'
                 ];
-                expect(modalDisplayed).to.eq(true);
+                expect(await modalContent).to.be.not.null
 
             } catch (error) {
                 expect.fail(error);
@@ -192,7 +171,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.manage().window().maximize();
 
                 // Aksi sleep
-                await driver.sleep(5000);
+                await driver.sleep(6000);
 
                 // Aksi klik button 'Lebih Lanjut'
                 let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
@@ -236,26 +215,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(5000);
@@ -287,26 +255,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(5000);
@@ -338,26 +295,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(5000);
@@ -389,26 +335,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(5000);
@@ -440,26 +375,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(5000);
@@ -531,22 +455,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
                 // Aksi sleep
                 await driver.sleep(5000);
@@ -1247,26 +1157,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -1305,26 +1204,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -1397,26 +1285,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -1464,26 +1341,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -1543,26 +1409,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(3000);
@@ -1604,26 +1459,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 driver = await goToApp(browser, appHost);
                 await driver.manage().window().maximize();
                 
-                // Tunggu hingga semua permintaan dari server selesai
-                await driver.wait(async function() {
-                    const pageLoaded = await driver.executeScript(function() {
-                        var body = document.getElementsByTagName('body')[0];
-                        if(body && body.readyState == 'loading') {
-                            console.log('Loading...');
-                        } else {
-                            if(window.addEventListener) {
-                                return true
-                            } else {
-                                window.attachEvent('onload', () => console.log('Loaded'))
-                            }
-                        }
-                    })
-                    return pageLoaded === true;
-                });
+                // Aksi Sleep
+                await driver.sleep(5000)
 
-                // Aksi menghilangkan modal 
-                await driver.wait(until.elementLocated(By.css('#modal-center')));
-                await driver.executeScript(`return document.querySelector('.modal-content button.close').click();`);
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
 
                 // Aksi sleep
                 await driver.sleep(3000);

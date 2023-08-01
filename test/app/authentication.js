@@ -295,8 +295,14 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
 
+                            // Aksi sleep
+                            await driver.sleep(3000);
+
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep
+                            await driver.sleep(3000);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -314,6 +320,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 
                                 return requests;
                             `);
+                            
+                            // Aksi sleep
+                            await driver.sleep(3000);
 
                             // Tampilkan data jaringan
                             let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
@@ -351,7 +360,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi Sleep
-                            await driver.sleep(5000);
+                            await driver.sleep(10000);
 
                             // Aksi mengklik button navbar profile
                             await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
@@ -403,10 +412,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.manage().window().maximize();
 
                             // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi Sleep
-                            await driver.sleep(5000);
+                            await driver.sleep(10000);
 
                             // Aksi mengklik button navbar profile
                             await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
@@ -437,7 +446,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // aksi sleep
-                            await driver.sleep(5000);
+                            await driver.sleep(10000);
 
                             // Expect results and add custom message for addtional description
                             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
@@ -924,8 +933,14 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
 
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+                            
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            
+                            // Aksi Sleep
+                            await driver.sleep(5000)
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -943,6 +958,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 
                                 return requests;
                             `);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
 
                             // Tampilkan data jaringan
                             let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));

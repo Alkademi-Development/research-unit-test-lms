@@ -23,7 +23,7 @@ const enterDashboard = async (driver, user, browser, appHost) => {
 
     // Aksi Input Data Akun 
     let inputEmail = await driver.executeScript(`return document.querySelector('.input-group.input-group-merge > input[type="email"]') ? document.querySelector('.input-group.input-group-merge > input[type="email"]') : null`);
-    if(await inputEmail?.isDisplayed()) {
+    if(await inputEmail?.isDisplayed() && await inputEmail != null) {
         await driver.wait(until.elementLocated(By.css(`.input-group.input-group-merge > input[type="email"]`)));
         await driver.findElement(By.css(`.input-group.input-group-merge > input[type="email"]`)).sendKeys(user.email, Key.RETURN);
         await driver.findElement(By.css(`.input-group.input-group-merge > input[type="password"]`)).sendKeys(user.password, Key.RETURN);
