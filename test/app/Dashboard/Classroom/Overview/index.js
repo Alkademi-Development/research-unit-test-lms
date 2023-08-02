@@ -3712,7 +3712,7 @@ describe("Classroom", () => {
 
                     });
                     
-                    it.skip(`STUDENT - Register the classroom whose type is pretest from browser ${browser}`, async () => {
+                    it.skip(`STUDENT - Register the classroom pretest from browser ${browser}`, async () => {
 
                         try {
 

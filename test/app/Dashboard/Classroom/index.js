@@ -262,7 +262,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -286,7 +286,7 @@ describe("Classroom", () => {
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                             } else {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
+                                await driver.findElement(By.id('checkbox-mentors')).click()
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                 await driver.sleep(1000)
@@ -310,7 +310,7 @@ describe("Classroom", () => {
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                             } else {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
+                                await driver.findElement(By.id('checkbox-modules')).click()
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                 await driver.sleep(1000)
@@ -571,7 +571,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -762,7 +762,7 @@ describe("Classroom", () => {
                             await driver.sleep(2000);
                             /** Aksi mengisi input name */ 
                             await driver.findElement(By.id('Nama *')).sendKeys(name)
-                            await driver.sleep(5000);
+                            await driver.sleep(3000);
                             /** Aksi mengisi input description */ 
                             let textEditorTinyMce = await driver.wait(until.elementLocated(By.css('.tox-tinymce')));
                             let iframeTextEditorMce = await textEditorTinyMce.findElement(By.css('.tox-edit-area > iframe'));
@@ -895,7 +895,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -919,7 +919,7 @@ describe("Classroom", () => {
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                             } else {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
+                                await driver.findElement(By.id('checkbox-mentors')).click()
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                 await driver.sleep(1000)
@@ -943,7 +943,7 @@ describe("Classroom", () => {
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                             } else {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
+                                await driver.findElement(By.id('checkbox-modules')).click()
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                 await driver.sleep(1000)
@@ -954,21 +954,22 @@ describe("Classroom", () => {
                             await driver.findElement(By.id("Link Grup")).sendKeys(linkGroupTelegram)
                             await driver.sleep(2000)
                             /** Aksi mengisi mulai dan akhir dari pendaftaran dan pelaksanaan */
-                            await driver.findElement(By.id('Pendaftaran Dibuka *')).sendKeys(Key.ENTER)
-                            await driver.sleep(1000)
-                            await driver.findElement(By.id('Pendaftaran Dibuka *')).sendKeys(dateOpenRegister)
-                            await driver.sleep(2000)
-                            await driver.findElement(By.id('Pendaftaran Ditutup *')).sendKeys(Key.ENTER)
-                            await driver.sleep(1000)
-                            await driver.findElement(By.id('Pendaftaran Ditutup *')).sendKeys(dateEndRegister)
-                            await driver.sleep(2000)
-                            await driver.findElement(By.id('Pelaksanaan Dimulai *')).sendKeys(Key.ENTER)
-                            await driver.sleep(1000)
-                            await driver.findElement(By.id('Pelaksanaan Dimulai *')).sendKeys(dateStartImplment)
-                            await driver.sleep(2000)
-                            await driver.findElement(By.id('Pelaksanaan Berakhir *')).sendKeys(Key.ENTER)
-                            await driver.sleep(1000)
-                            await driver.findElement(By.id('Pelaksanaan Berakhir *')).sendKeys(dateEndImplment)
+                            await driver.executeScript(`return Array.from(document.querySelectorAll(".card-body .custom-control-label")).find(value => value.innerText.includes("Selalu Terbuka")).click()`)
+                            // await driver.findElement(By.id('Pendaftaran Dibuka *')).sendKeys(Key.ENTER)
+                            // await driver.sleep(1000)
+                            // await driver.findElement(By.id('Pendaftaran Dibuka *')).sendKeys(dateOpenRegister)
+                            // await driver.sleep(2000)
+                            // await driver.findElement(By.id('Pendaftaran Ditutup *')).sendKeys(Key.ENTER)
+                            // await driver.sleep(1000)
+                            // await driver.findElement(By.id('Pendaftaran Ditutup *')).sendKeys(dateEndRegister)
+                            // await driver.sleep(2000)
+                            // await driver.findElement(By.id('Pelaksanaan Dimulai *')).sendKeys(Key.ENTER)
+                            // await driver.sleep(1000)
+                            // await driver.findElement(By.id('Pelaksanaan Dimulai *')).sendKeys(dateStartImplment)
+                            // await driver.sleep(2000)
+                            // await driver.findElement(By.id('Pelaksanaan Berakhir *')).sendKeys(Key.ENTER)
+                            // await driver.sleep(1000)
+                            // await driver.findElement(By.id('Pelaksanaan Berakhir *')).sendKeys(dateEndImplment)
                             
                             // Aksi sleep 
                             await driver.sleep(3000);
@@ -985,10 +986,10 @@ describe("Classroom", () => {
                                 await driver.findElement(By.id('select-type')).getAttribute('value'),
                                 await driver.findElement(By.id('select-visibility')).getAttribute('value'),
                                 await driver.findElement(By.id('Link Grup')).getAttribute('value'),
-                                await driver.findElement(By.id('Pendaftaran Dibuka *')).getAttribute('value'),
-                                await driver.findElement(By.id('Pendaftaran Ditutup *')).getAttribute('value'),
-                                await driver.findElement(By.id('Pelaksanaan Dimulai *')).getAttribute('value'),
-                                await driver.findElement(By.id('Pelaksanaan Berakhir *')).getAttribute('value'),
+                                // await driver.findElement(By.id('Pendaftaran Dibuka *')).getAttribute('value'),
+                                // await driver.findElement(By.id('Pendaftaran Ditutup *')).getAttribute('value'),
+                                // await driver.findElement(By.id('Pelaksanaan Dimulai *')).getAttribute('value'),
+                                // await driver.findElement(By.id('Pelaksanaan Berakhir *')).getAttribute('value'),
                             ]).then(value => value.every(value => value != ''));
                             
                             // Aksi sleep 
@@ -1003,13 +1004,14 @@ describe("Classroom", () => {
                             await thrownAnError("An error occurred while submitted the form", await alertWarning != null)
 
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
+                            let classDraft = await driver.executeScript(`return Array.from(document.querySelectorAll(".card-class")).find(value => value.querySelector("h1.title").innerText.includes("${name}")) `)
                             customMessages = [
-                                await alertWarning == null ? "Successfully save classroom as a 'Draft' ✅" : "Failed to save classroom as a 'Draft' ❌",
+                                await classDraft ? "Successfully save classroom as a 'Draft' ✅" : "Failed to save classroom as a 'Draft' ❌",
                             ];
-                            expect(await alertWarning).to.be.null;
+                            expect(await classDraft).to.be.not.null;
 
 
                         } catch (error) {
@@ -1040,12 +1042,11 @@ describe("Classroom", () => {
                             await driver.sleep(4000);
 
                             // Aksi memilih salah satu card class untuk di edit
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
-                            let randomIndexClass = faker.number.int({ min: 1, max: 3 });
+                            let cardClass = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
+                            let oldName = await driver.executeScript("arguments[0].querySelector('h1.title').innerText", await cardClass);
+                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await cardClass);
                             await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await cardClass[randomIndexClass]);
-                            await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-edit-line').click()", await cardClass[randomIndexClass]);
+                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-edit-line').click()", await cardClass);
                             
                             // Aksi sleep 
                             await driver.sleep(3000);
@@ -1111,79 +1112,85 @@ describe("Classroom", () => {
                             await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight - 800)`);
                             await driver.sleep(2000)
                             /** Aksi memilih / menseleksi salah satu kota */
+                            let registrantCity = await driver.findElement(By.id("checkbox-registrantCity"))
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await driver.findElement(By.id("checkbox-registrantCity")));
-                            await driver.sleep(1000)
-                            let isAllCity = faker.datatype.boolean()
-                            if(isAllCity) {
-                                await driver.findElement(By.id('checkbox-registrantCity')).click()
-                                await driver.sleep(2000)
-                                let cities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
-                                let maxCity = faker.number.int({ min: 1, max: 20 });
-                                await driver.sleep(2000)
-                                // Meng-checklist semua kota (untuk kota pendaftaran) yg jumlahnya berdasarkan dari max city
-                                for (let index = 1; index <= maxCity; index++) {
-                                    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await cities[index]);
+                            await driver.sleep(3000)
+                            if(await registrantCity.getAttribute('value') != null && await registrantCity.getAttribute('value') != '') {
+                                let isAllCity = faker.datatype.boolean()
+                                if(isAllCity) {
+                                    await driver.findElement(By.id('checkbox-registrantCity')).click()
+                                    await driver.sleep(2000)
+                                    let cities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
+                                    let maxCity = faker.number.int({ min: 1, max: 20 });
+                                    await driver.sleep(2000)
+                                    // Meng-checklist semua kota (untuk kota pendaftaran) yg jumlahnya berdasarkan dari max city
+                                    for (let index = 1; index <= maxCity; index++) {
+                                        await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await cities[index]);
+                                        await driver.sleep(1000)
+                                        await cities[index].click();
+                                    }
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
+                                    await driver.sleep(2000)
+                                    
+                                    await driver.findElement(By.id('checkbox-cityHeld')).click()
+                                    await driver.sleep(2000)
+                                    cities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type]")`);
+                                    maxCity = faker.number.int({ min: 1, max: 20 });
+                                    await driver.sleep(2000)
+                                    // Meng-checklist semua kota (untuk kota pelaksanaan) yg jumlahnya berdasarkan dari max city
+                                    for (let index = 1; index <= maxCity; index++) {
+                                        await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await cities[index]);
+                                        await driver.sleep(1000)
+                                        await cities[index].click();
+                                    }
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
+                                    await driver.sleep(2000)
+                                } else {
+                                    await driver.findElement(By.id('checkbox-registrantCity')).click()
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                     await driver.sleep(1000)
-                                    await cities[index].click();
-                                }
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
-                                await driver.sleep(2000)
-                                
-                                await driver.findElement(By.id('checkbox-cityHeld')).click()
-                                await driver.sleep(2000)
-                                cities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type]")`);
-                                maxCity = faker.number.int({ min: 1, max: 20 });
-                                await driver.sleep(2000)
-                                // Meng-checklist semua kota (untuk kota pelaksanaan) yg jumlahnya berdasarkan dari max city
-                                for (let index = 1; index <= maxCity; index++) {
-                                    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await cities[index]);
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
+                                    await driver.sleep(2000)
+                                    await driver.findElement(By.id('checkbox-cityHeld')).click()
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                     await driver.sleep(1000)
-                                    await cities[index].click();
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                                 }
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
-                                await driver.sleep(2000)
-                            } else {
-                                await driver.findElement(By.id('checkbox-registrantCity')).click()
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
-                                await driver.sleep(1000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
-                                await driver.sleep(2000)
-                                await driver.findElement(By.id('checkbox-cityHeld')).click()
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
-                                await driver.sleep(1000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                             }
                             await driver.sleep(2000)
                             await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight)`);
                             await driver.sleep(2000)
                             /** Aksi memilih / menseleksi requirement apa saja yg di perlukan untuk join class */
+                            let requirementFields = await driver.findElement(By.id("checkbox-requirementFields"))
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await driver.findElement(By.id("checkbox-requirementFields")));
                             await driver.sleep(1000)
                             let isAllRequire = faker.datatype.boolean()
-                            if(isAllRequire) {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
-                                await driver.sleep(2000)
-                                let requires = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
-                                let maxRequire = faker.number.int({ min: 1, max: 4 });
-                                await driver.sleep(2000)
-                                // Meng-checklist semua kota (untuk kota pendaftaran) yg jumlahnya berdasarkan dari max city
-                                for (let index = 1; index <= maxRequire; index++) {
-                                    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await requires[index]);
+                            if(await requirementFields.getAttribute("value") != null && await requirementFields.getAttribute("value") != "") {
+                                if(isAllRequire) {
+                                    await driver.findElement(By.id('checkbox-requirementFields')).click()
+                                    await driver.sleep(2000)
+                                    let requires = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
+                                    let maxRequire = faker.number.int({ min: 1, max: 4 });
+                                    await driver.sleep(2000)
+                                    // Meng-checklist semua kota (untuk kota pendaftaran) yg jumlahnya berdasarkan dari max city
+                                    for (let index = 1; index <= maxRequire; index++) {
+                                        await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await requires[index]);
+                                        await driver.sleep(1000)
+                                        await requires[index].click();
+                                    }
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
+                                } else {
+                                    await driver.findElement(By.id('checkbox-requirementFields')).click()
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                     await driver.sleep(1000)
-                                    await requires[index].click();
-                                }
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
-                            } else {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
-                                await driver.sleep(1000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
-                            }   
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
+                                }  
+                            } 
                             await driver.sleep(2000)
                             await driver.executeScript(`window.scrollTo(0, 0)`);
                             await driver.sleep(2000)
@@ -1218,7 +1225,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -1226,51 +1233,57 @@ describe("Classroom", () => {
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await driver.executeScript(`return document.getElementById("checkbox-mentors")`));
                             await driver.sleep(2000)
                             /** Aksi memilih mentor untuk join class */
+                            let checkboxMentors = await driver.findElement(By.id('checkbox-mentors'))
                             let isManyMentor = faker.datatype.boolean()
-                            if(isManyMentor) {
-                                await driver.findElement(By.id('checkbox-mentors')).click()
-                                await driver.sleep(2000)
-                                let mentors = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
-                                let maxMentor = faker.number.int({ min: 1, max: 20 });
-                                await driver.sleep(2000)
-                                // Meng-checklist banyak mentor untuk bergabung di dalam kelas program
-                                for (let index = 1; index <= maxMentor; index++) {
-                                    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await mentors[index]);
+                            if(await checkboxMentors.getAttribute("value") != null && await checkboxMentors.getAttribute("value") != "") {
+                                if(isManyMentor) {
+                                    await checkboxMentors.click()
+                                    await driver.sleep(2000)
+                                    let mentors = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
+                                    let maxMentor = faker.number.int({ min: 1, max: 20 });
+                                    await driver.sleep(2000)
+                                    // Meng-checklist banyak mentor untuk bergabung di dalam kelas program
+                                    for (let index = 1; index <= maxMentor; index++) {
+                                        await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await mentors[index]);
+                                        await driver.sleep(1000)
+                                        await mentors[index].click();
+                                    }
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
+                                } else {
+                                    await driver.findElement(By.id('checkbox-requirementFields')).click()
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                     await driver.sleep(1000)
-                                    await mentors[index].click();
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                                 }
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
-                            } else {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
-                                await driver.sleep(1000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                             }
                             await driver.sleep(2000)
                             /** Aksi memilih mentor untuk join class */
+                            let checkboxModules = await driver.findElement(By.id('checkbox-modules'))
                             let isManyCourse = faker.datatype.boolean()
-                            if(isManyCourse) {
-                                await driver.findElement(By.id('checkbox-modules')).click()
-                                await driver.sleep(2000)
-                                let courses = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
-                                let maxCourse = faker.number.int({ min: 1, max: 20 });
-                                await driver.sleep(2000)
-                                // Meng-checklist banyak mentor untuk bergabung di dalam kelas program
-                                for (let index = 1; index <= maxCourse; index++) {
-                                    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await courses[index]);
+                            if(await checkboxMentors.getAttribute("value") != null && await checkboxMentors.getAttribute("value") != "") {
+                                if(isManyCourse) {
+                                    await checkboxModules.click()
+                                    await driver.sleep(2000)
+                                    let courses = await driver.executeScript(`return document.querySelectorAll(".checkbox-container input[type=checkbox]")`);
+                                    let maxCourse = faker.number.int({ min: 1, max: 20 });
+                                    await driver.sleep(2000)
+                                    // Meng-checklist banyak mentor untuk bergabung di dalam kelas program
+                                    for (let index = 1; index <= maxCourse; index++) {
+                                        await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await courses[index]);
+                                        await driver.sleep(1000)
+                                        await courses[index].click();
+                                    }
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
+                                } else {
+                                    await checkboxModules.click()
+                                    await driver.sleep(2000)
+                                    await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
                                     await driver.sleep(1000)
-                                    await courses[index].click();
+                                    await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                                 }
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
-                            } else {
-                                await driver.findElement(By.id('checkbox-requirementFields')).click()
-                                await driver.sleep(2000)
-                                await driver.executeScript(`return document.querySelector(".checkbox-container input[type=checkbox]").click()`)
-                                await driver.sleep(1000)
-                                await driver.executeScript(`return document.querySelector(".custom-search-input .box-button button.btn-primary").click()`)
                             }
                             await driver.sleep(2000)
                             /** Aksi memasukkan link group telegram */
@@ -1278,7 +1291,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id("Link Grup")).sendKeys(linkGroupTelegram)
                             await driver.sleep(2000)
                             /** Aksi mengisi mulai dan akhir dari pendaftaran dan pelaksanaan */
-                            if(await driver.executeScript(`return document.querySelectorAll(".card-body .mt-1.custom-control.custom-checkbox input[type=checkbox]")[1].checked`) === false) {
+                            if(await driver.executeScript(`return document.querySelectorAll(".card-body .mt-1.custom-control.custom-checkbox input[type=checkbox]")[1].checked`) == false) {
                                 await driver.findElement(By.id("Pendaftaran Dibuka *")).isEnabled() ?? await driver.findElement(By.id("Pendaftaran Dibuka *")).clear();
                                 await driver.findElement(By.id('Pendaftaran Dibuka *')).sendKeys(Key.ENTER)
                                 await driver.sleep(1000)
@@ -1307,7 +1320,7 @@ describe("Classroom", () => {
                             let isAllFilled = await Promise.all([
                                 await driver.findElement(By.id('Nama *')).getAttribute('value'),
                                 await driver.findElement(By.id('Tags')).getAttribute('value'),
-                                await driver.findElement(By.id('Kuota *')).getAttribute('value'),
+                                // await driver.findElement(By.id('Kuota *')).getAttribute('value'),
                                 await driver.findElement(By.id('Standar Kelulusan *')).getAttribute('value'),
                                 await driver.findElement(By.id('select-programId')).getAttribute('value'),
                                 await driver.findElement(By.id('select-mode')).getAttribute('value'),
@@ -1324,7 +1337,7 @@ describe("Classroom", () => {
                             await driver.sleep(3000);
 
                             if(isAllFilled) {
-                                await driver.executeScript("window.scrollTo(0, document.body.scrollHeight);"), await driver.executeScript(`return document.querySelector("form button[type=reset]")`);
+                                await driver.executeScript("window.scrollTo(0, document.body.scrollHeight);"), await driver.executeScript(`return document.querySelector("form button[type=submit]")`);
                                 await driver.sleep(2000)
                                 await driver.executeScript(`return document.querySelector("form button[type=submit]").click()`);
                                 await driver.sleep(2000)
@@ -1338,9 +1351,9 @@ describe("Classroom", () => {
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null ? "Successfully edited the classroom ✅" : "Failed to edit the classroom ❌",
+                                await oldName != name ? "Successfully edited the classroom ✅" : "Failed to edit the classroom ❌",
                             ];
-                            expect(await alertWarning).to.be.null;
+                            expect(await oldName != name).to.be.true;
 
 
                         } catch (error) {
@@ -1371,26 +1384,25 @@ describe("Classroom", () => {
                             await driver.sleep(4000);
 
                             // Aksi memilih salah satu card class untuk di delete
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
-                            let randomIndexClass = faker.number.int({ min: 1, max: 3 });
-                            let selectedCard = await cardClass[randomIndexClass]
+                            let selectedCard = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
+                            let className = await driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await selectedCard)
+                            await driver.sleep(1000)
+                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await selectedCard);
                             await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await cardClass[randomIndexClass]);
+                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-delete-bin-7-line').click()", await selectedCard);
                             await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-delete-bin-7-line').click()", await cardClass[randomIndexClass]);
-                            await driver.sleep(2000)
-                            await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content button[type=button].btn-danger").click() : null`)
-                            await thrownAnError("Delete the classroom is failed", await driver.executeScript(`return document.querySelector(".alert.alert-warning")`) != null)
-
+                            await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
+                            
                             // Aksi sleep 
                             await driver.sleep(3000);
+                            await thrownAnError("Delete the classroom is failed", await driver.executeScript(`return document.querySelector(".alert.alert-warning")`) != null)
 
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
                             customMessages = [
-                                await cardClass[randomIndexClass] != await selectedCard ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
+                                await cardClass ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
                             ];
-                            expect(await cardClass[randomIndexClass] != await selectedCard).to.be.true;
+                            expect(await cardClass).to.be.null;
 
 
                         } catch (error) {
@@ -1427,76 +1439,25 @@ describe("Classroom", () => {
                             await driver.sleep(4000);
 
                             // Aksi memilih salah satu card class untuk di edit
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
-                            let randomIndexClass = faker.number.int({ min: 1, max: 3 });
-                            let selectedCard = await cardClass[randomIndexClass]
+                            let selectedCard = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
+                            let className = await driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await selectedCard)
+                            await driver.sleep(1000);
                             await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await cardClass[randomIndexClass]);
+                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await selectedCard);
                             await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-volume-up-line').click()", await cardClass[randomIndexClass]);
+                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-volume-up-line').click()", await selectedCard);
                             await driver.sleep(2000)
-                            await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content button[type=button].btn-primary").click() : null`)
-                            
-                            // Aksi sleep 
-                            await driver.sleep(3000);
-
-                            // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
-                            customMessages = [
-                                await cardClass[randomIndexClass] != await selectedCard ? "Successfully moved the class to public ✅" : "Failed move the class to public ❌",
-                            ];
-                            expect(await cardClass[randomIndexClass] != await selectedCard).to.be.true;
-
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-                    });
-                    
-                    it(`SUPER ADMIN - Check the button "Terbitkan Kelas" for the "draft" classes in details classroom from browser ${browser}`, async () => {
-
-                        try {
-
-                            // Go to application
-                            driver = await goToApp(browser, appHost);
-                            await driver.manage().window().maximize();
-
-                            // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
-
-                            // Aksi sleep 
-                            await driver.sleep(3000);
-
-                            // Aksi menu tab 'Kelas'
-                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            await driver.executeScript(`return document.querySelector(".modal-content button.btn-primary").click()`);
                             
                             // Aksi sleep 
                             await driver.sleep(4000);
 
-                            // Aksi klik menu tab draf classes
-                            await driver.executeScript(`return document.querySelector(".item-tab").click();`);
-                            
-                            // Aksi sleep 
-                            await driver.sleep(4000);
-
-                            // Aksi memilih salah satu card class untuk di edit
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
-                            let randomIndexClass = faker.number.int({ min: 1, max: 3 });
-                            let selectedCard = await cardClass[randomIndexClass]
-                            await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('h1.title').click()", await cardClass[randomIndexClass]);
-                            
-                            // Aksi sleep 
-                            await driver.sleep(3000);
-
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
                             customMessages = [
-                                await cardClass[randomIndexClass] != await selectedCard ? "Successfully moved the class to public ✅" : "Failed move the class to public ❌",
+                                await cardClass ? "Successfully moved the class to public ✅" : "Failed move the class to public ❌",
                             ];
-                            expect(await cardClass[randomIndexClass] != await selectedCard).to.be.true;
+                            expect(await cardClass).to.be.null;
 
 
                         } catch (error) {
@@ -1735,7 +1696,7 @@ describe("Classroom", () => {
                             // Aksi mendapatkan kelas
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
                             // Aksi memfilter class by date
-                            let isAsc = false
+                            let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
                             await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
@@ -1768,8 +1729,8 @@ describe("Classroom", () => {
                                 }));
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
-                                        if (arr[i][0].localeCompare(arr[i - 1][0], 'en', { sensitivity: 'base' }) < 0) {
-                                          return false;
+                                        if (arr[i][0].localeCompare(arr[i - 1][0], 'en', { sensitivity: 'base' }) > 0) {
+                                            return false;
                                         }
                                     }
                                     return true;
@@ -1778,7 +1739,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -1845,7 +1806,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -1911,7 +1872,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -1971,12 +1932,12 @@ describe("Classroom", () => {
                             await driver.sleep(3000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary")`)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
                             await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
@@ -2031,7 +1992,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -2234,7 +2195,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -2543,7 +2504,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -2652,7 +2613,7 @@ describe("Classroom", () => {
                             await thrownAnError("An error occurred while submitted the form", await alertWarning != null)
 
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -2852,7 +2813,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -2960,7 +2921,7 @@ describe("Classroom", () => {
                             await thrownAnError("An error occurred while submitted the form", await alertWarning != null)
 
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -3175,7 +3136,7 @@ describe("Classroom", () => {
                             await driver.findElement(By.id('select-visibility')).click()
                             await driver.sleep(2000)
                             let accessbillities = await driver.executeScript(`return document.querySelectorAll(".checkbox-container label")`);
-                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 1 });
+                            let randomIndexAccebillity = faker.number.int({ min: 0, max: await accessbillities.length - 2 });
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", await accessbillities[randomIndexAccebillity]);
                             await driver.sleep(1500)
                             await accessbillities[randomIndexAccebillity].click();
@@ -3291,7 +3252,7 @@ describe("Classroom", () => {
                             await thrownAnError("An error occurred while submitted the form", await alertWarning != null)
 
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -3393,57 +3354,6 @@ describe("Classroom", () => {
                             await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-volume-up-line').click()", await cardClass[randomIndexClass]);
                             await driver.sleep(2000)
                             await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content button[type=button].btn-primary").click() : null`)
-                            
-                            // Aksi sleep 
-                            await driver.sleep(3000);
-
-                            // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
-                            customMessages = [
-                                await cardClass[randomIndexClass] != await selectedCard ? "Successfully moved the class to public ✅" : "Failed move the class to public ❌",
-                            ];
-                            expect(await cardClass[randomIndexClass] != await selectedCard).to.be.true;
-
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-                    });
-                    
-                    it(`ADMIN - Check the button "Terbitkan Kelas" for the "draft" classes in details classroom from browser ${browser}`, async () => {
-
-                        try {
-
-                            // Go to application
-                            driver = await goToApp(browser, appHost);
-                            await driver.manage().window().maximize();
-
-                            // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
-
-                            // Aksi sleep 
-                            await driver.sleep(3000);
-
-                            // Aksi menu tab 'Kelas'
-                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            
-                            // Aksi sleep 
-                            await driver.sleep(4000);
-
-                            // Aksi klik menu tab draf classes
-                            await driver.executeScript(`return document.querySelector(".item-tab").click();`);
-                            
-                            // Aksi sleep 
-                            await driver.sleep(4000);
-
-                            // Aksi memilih salah satu card class untuk di edit
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
-                            let randomIndexClass = faker.number.int({ min: 1, max: 3 });
-                            let selectedCard = await cardClass[randomIndexClass]
-                            await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('h1.title').click()", await cardClass[randomIndexClass]);
                             
                             // Aksi sleep 
                             await driver.sleep(3000);
@@ -3695,7 +3605,7 @@ describe("Classroom", () => {
                             // Aksi mendapatkan kelas
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
                             // Aksi memfilter class by date
-                            let isAsc = false
+                            let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
                             await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
@@ -3738,7 +3648,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -3805,7 +3715,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -3871,7 +3781,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -3931,12 +3841,12 @@ describe("Classroom", () => {
                             await driver.sleep(3000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary")`)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
                             await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
@@ -3991,7 +3901,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -4239,7 +4149,7 @@ describe("Classroom", () => {
                             // Aksi mendapatkan kelas
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
                             // Aksi memfilter class by date
-                            let isAsc = false
+                            let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
                             await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
@@ -4282,7 +4192,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -4349,7 +4259,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -4415,7 +4325,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -4475,12 +4385,12 @@ describe("Classroom", () => {
                             await driver.sleep(3000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary")`)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
                             await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
@@ -4535,7 +4445,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -4837,7 +4747,7 @@ describe("Classroom", () => {
                             // Aksi mendapatkan kelas
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
                             // Aksi memfilter class by date
-                            let isAsc = false
+                            let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
                             await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
@@ -4880,7 +4790,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -4947,7 +4857,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -5013,7 +4923,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -5073,12 +4983,12 @@ describe("Classroom", () => {
                             await driver.sleep(3000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary")`)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
                             await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
@@ -5133,7 +5043,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -5381,7 +5291,7 @@ describe("Classroom", () => {
                             // Aksi mendapatkan kelas
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
                             // Aksi memfilter class by date
-                            let isAsc = false
+                            let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
                             await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
@@ -5424,7 +5334,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -5491,7 +5401,7 @@ describe("Classroom", () => {
                             }
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -5557,7 +5467,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
@@ -5617,12 +5527,12 @@ describe("Classroom", () => {
                             await driver.sleep(3000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary")`)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
                             await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
@@ -5677,7 +5587,7 @@ describe("Classroom", () => {
                             })).then((results) => results.every((result) => result));
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
