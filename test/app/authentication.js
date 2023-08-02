@@ -1088,7 +1088,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let userData = await driver.executeScript("return window.localStorage.getItem('user')")
-                            userData = await JSON.parse(userData);
+                            userData = await JSON.parse(userData)
 
                             customMessages = [
                                 userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
