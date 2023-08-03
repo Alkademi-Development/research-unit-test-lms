@@ -699,7 +699,7 @@ describe("Classroom", () => {
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                isAllFilled == false ? "Successfully reset the form create classroom ✅" : "Failed to the form create classroom ❌",
+                                isAllFilled == false ? "Successfully reset the form create classroom ✅" : "Failed to reset the form create classroom ❌",
                             ];
                             expect(isAllFilled).to.be.false;
 
@@ -1852,6 +1852,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             let programName = await driver.executeScript("return arguments[0].innerText", await programs[randomIndexProgram]);
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
@@ -1920,6 +1921,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
                             await driver.sleep(2000);
@@ -2617,7 +2619,7 @@ describe("Classroom", () => {
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                isAllFilled == false ? "Successfully reset the form create classroom ✅" : "Failed to the form create classroom ❌",
+                                isAllFilled == false ? "Successfully reset the form create classroom ✅" : "Failed to reset the form create classroom ❌",
                             ];
                             expect(isAllFilled).to.be.false;
 
@@ -3371,6 +3373,549 @@ describe("Classroom", () => {
                         }
 
                     });
+                    
+                    it(`ADMIN - Filter class by "Draft" type from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi klik menu tab draf classes
+                            await driver.executeScript(`return document.querySelector(".item-tab").click();`);
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Selesai"));`);
+                            customMessages = [
+                                await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Draft' ✅" : "Failed to filter class by menu tab 'Draft' ❌",
+                            ];
+                            expect(await cardClass.length > 0).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Filter class by "Semua" type from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
+                            customMessages = [
+                                await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Semua' ✅" : "Failed filter class by menu tab 'Semua' ❌",
+                            ];
+                            expect(await cardClass.length > 0).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Filter class by "Pendaftaran" type from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi klik menu tab draf classes
+                            await driver.executeScript(`return document.querySelectorAll(".item-tab")[2].click();`);
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Berlangsung" || value.innerText === "Pendaftaran" && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            customMessages = [
+                                await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Pendaftaran' ✅" : "Failed filter class by menu tab 'Pendaftaran' ❌",
+                            ];
+                            expect(await cardClass.length > 0).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Filter class by "Berlangsung" type from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi klik menu tab draf classes
+                            await driver.executeScript(`return document.querySelectorAll(".item-tab")[3].click();`);
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Berlangsung" || value.innerText === "Pendaftaran" && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            customMessages = [
+                                await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Berlangsung' ✅" : "Failed filter class by menu tab 'Berlangsung' ❌",
+                            ];
+                            expect(await cardClass.length > 0).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                    it(`ADMIN - Filter class by "Selesai" type from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi klik menu tab draf classes
+                            await driver.executeScript(`return document.querySelectorAll(".item-tab")[4].click();`);
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Selesai" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Draft"));`);
+                            customMessages = [
+                                await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Selesai' ✅" : "Failed to filter class by menu tab 'Selesai' ❌",
+                            ];
+                            expect(await cardClass.length > 0).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Filter sort classroom by alphabet from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi klik menu tab 'Pendaftaran' atau 'Berlangsung'
+                            let isRegister = faker.datatype.boolean()
+                            isRegister ? await driver.executeScript(`return document.querySelectorAll(".item-tab")[2].click()`) : await driver.executeScript(`return document.querySelectorAll(".item-tab")[3].click()`)
+                            
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi mendapatkan kelas
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                            // Aksi memfilter class by date
+                            let isAsc = faker.datatype.boolean()
+                            let isOrdered, titles;
+                            await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
+                            await driver.sleep(2000)
+                            if(isAsc) {
+                                await driver.executeScript(`return document.querySelector(".filter-container .dropdown-menu .dropdown-item").click()`)
+                                await driver.sleep(2000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                                await driver.sleep(2000)
+                                titles = await Promise.all(cardClass.map(async (card) => {
+                                    const h1Element = await card.findElement(By.css('h1'));
+                                    return h1Element.getText();
+                                }));
+                                function isSorted(arr) {
+                                    for (let i = 1; i < arr.length; i++) {
+                                      if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
+                                        return false;
+                                      }
+                                    }
+                                    return true;
+                                }
+                                isOrdered = isSorted(titles);
+                            } else {
+                                await driver.executeScript(`return document.querySelectorAll(".filter-container .dropdown-menu .dropdown-item")[1].click()`)
+                                await driver.sleep(2000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                                await driver.sleep()
+                                titles = await Promise.all(cardClass.map(async (card) => {
+                                    const h1Element = await card.findElement(By.css('h1'));
+                                    return h1Element.getText();
+                                }));
+                                function isSorted(arr) {
+                                    for (let i = 1; i < arr.length; i++) {
+                                        if (arr[i][0].localeCompare(arr[i - 1][0], 'en', { sensitivity: 'base' }) > 0) {
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                }
+                                isOrdered = isSorted(titles);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                isOrdered ? "Successfully sorted by alphabet ✅" : "Failed to sort by alphabet ❌",
+                            ];
+                            expect(isOrdered).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Filter sort classroom by date from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi klik menu tab 'Pendaftaran' atau 'Berlangsung'
+                            let isRegister = faker.datatype.boolean()
+                            isRegister ? await driver.executeScript(`return document.querySelectorAll(".item-tab")[2].click()`) : await driver.executeScript(`return document.querySelectorAll(".item-tab")[3].click()`)
+                            
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi memfilter class by date
+                            let isAsc = faker.datatype.boolean()
+                            let isOrdered, newCardClass;
+                            // Aksi mendapatkan kelas
+                            let originalCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1].innerHTML`)
+                            await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
+                            await driver.sleep(2000)
+                            if(isAsc) {
+                                // Tanggal Terdekat
+                                await driver.executeScript(`return document.querySelectorAll(".filter-container .dropdown-menu .dropdown-item")[3].click()`)
+                                await driver.sleep(2000)
+                                newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`)
+                                await driver.sleep(2000)
+                                isOrdered = await originalCardClass != await newCardClass.getAttribute("innerHTML")
+                            } else {
+                                // Tanggal Terjauh
+                                await driver.executeScript(`return document.querySelectorAll(".filter-container .dropdown-menu .dropdown-item")[2].click()`)
+                                await driver.sleep(2000)
+                                newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1].innerHTML`)
+                                await driver.sleep(2000)
+                                isOrdered = await originalCardClass != await newCardClass
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                isOrdered ? "Successfully sorted by date ✅" : "Failed to sort by date ❌",
+                            ];
+                            expect(isOrdered).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Filter classes by program ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi memfilter class by program
+                            await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
+                            await driver.sleep(2000)
+                            let dropdownMenuFilter = await driver.executeScript(`return document.querySelector("ul.dropdown-menu")`)
+                            await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
+                            let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
+                            let action = await driver.actions({async: true});
+                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await driver.sleep(2000)
+                            let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
+                            let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
+                            let programName = await driver.executeScript("return arguments[0].innerText", await programs[randomIndexProgram]);
+                            await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
+                            await driver.sleep(2000);
+                            const actions = driver.actions({async: true});
+                            await actions.doubleClick(await programs[randomIndexProgram]).perform();
+                            await driver.sleep(2000);
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu .btn-muted-primary").click()`)
+
+                            // Aksi Sleep
+                            await driver.sleep(3000)
+
+                            // Aksi mengecek class yang telah di cari sebelumnya
+                            let badgeProgramClasses = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-program"))`);
+                            let isFound = await Promise.all(badgeProgramClasses.map(async (card) => {
+                                const h1Element = await card.getText();
+                                return h1Element.includes(await programName);
+                            })).then((results) => results.every((result) => result));
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                await isFound ? "Successfully sorted by class program ✅" : "Failed to sort by class program ❌",
+                            ];
+                            expect(await isFound).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Remove the applied filter from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi mendapatkan original list class
+                            let originalCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
+                            // Aksi memfilter class by program
+                            await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
+                            await driver.sleep(2000)
+                            let dropdownMenuFilter = await driver.executeScript(`return document.querySelector("ul.dropdown-menu")`)
+                            await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
+                            let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
+                            let action = await driver.actions({async: true});
+                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await driver.sleep(2000)
+                            let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
+                            let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
+                            await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
+                            await driver.sleep(2000);
+                            const actions = driver.actions({async: true});
+                            await actions.doubleClick(await programs[randomIndexProgram]).perform();
+                            await driver.sleep(2000);
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu .btn-muted-primary").click()`)
+
+                            // Aksi Sleep
+                            await driver.sleep(3000)
+
+                            // Aksi remove filter applied
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
+                            await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
+                            await buttonRemoveFilter.click();
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
+                            customMessages = [
+                                await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
+                            ];
+                            expect(await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Search by name class from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.sleep(3000);
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(4000);
+
+                            // Aksi mencari nama class yang sesuai
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            let randomIndexClass = Math.floor(Math.random() * cardClass.length);
+                            let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
+                            await driver.sleep(1000);
+                            await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName, Key.RETURN);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000)
+
+                            // Aksi mengecek class yang telah di cari sebelumnya
+                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class"))`);
+                            let isFound = await Promise.all(cardClass.map(async (card) => {
+                                const h1Element = await card.getText();
+                                return h1Element.includes(searchClassByName);
+                            })).then((results) => results.every((result) => result));
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                await isFound ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
+                            ];
+                            expect(await isFound).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                 break;
 
@@ -3761,6 +4306,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             let programName = await driver.executeScript("return arguments[0].innerText", await programs[randomIndexProgram]);
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
@@ -3829,6 +4375,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
                             await driver.sleep(2000);
@@ -4305,6 +4852,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             let programName = await driver.executeScript("return arguments[0].innerText", await programs[randomIndexProgram]);
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
@@ -4373,6 +4921,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
                             await driver.sleep(2000);
@@ -4903,6 +5452,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             let programName = await driver.executeScript("return arguments[0].innerText", await programs[randomIndexProgram]);
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
@@ -4971,6 +5521,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
                             await driver.sleep(2000);
@@ -5447,6 +5998,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             let programName = await driver.executeScript("return arguments[0].innerText", await programs[randomIndexProgram]);
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
@@ -5515,6 +6067,7 @@ describe("Classroom", () => {
                             await action.move({origin: await inputSearchProgram}).press().perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
+                            await thrownAnError("Program is empty", await programs.length == 0)
                             let randomIndexProgram = faker.number.int({ min: 0, max: 4 })
                             await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
                             await driver.sleep(2000);
