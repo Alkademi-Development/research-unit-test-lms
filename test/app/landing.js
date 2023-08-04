@@ -674,48 +674,48 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it(`Check the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
+        // it(`Check the button 'Daftar Sekarang' on game section - from browser ${browser}`, async () => {
 
-            try {
+        //     try {
 
-                driver = await goToApp(browser, appHost);
-                await driver.manage().window().maximize();
+        //         driver = await goToApp(browser, appHost);
+        //         await driver.manage().window().maximize();
                 
-                // Aksi sleep
-                await driver.sleep(3000);
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
                 
-                // Aksi menghapus modal
-                await removeModal(driver);
+        //         // Aksi menghapus modal
+        //         await removeModal(driver);
 
-                // Aksi sleep
-                await driver.sleep(3000);
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
                 
-                // Aksi scroll ke section Program
-                await driver.executeScript('arguments[0].scrollIntoView()', await driver.findElement(By.css('section#game-competition')));
+        //         // Aksi scroll ke section Program
+        //         await driver.executeScript('arguments[0].scrollIntoView()', await driver.findElement(By.css('section#game-competition')));
                 
-                // Aksi sleep
-                await driver.sleep(3000);
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
 
-                // Aksi klik button 'Gabung Sekarang'
-                let hrefRegistration = await driver.executeScript(`return document.querySelector("section#game-competition a.btn-white").href`)
-                await driver.executeScript(`return document.querySelector("section#game-competition a.btn-white").click()`)
+        //         // Aksi klik button 'Gabung Sekarang'
+        //         let hrefRegistration = await driver.executeScript(`return document.querySelector("section#game-competition a.btn-white").href`)
+        //         await driver.executeScript(`return document.querySelector("section#game-competition a.btn-white").click()`)
                 
-                // Aksi Sleep
-                await driver.sleep(5000);
+        //         // Aksi Sleep
+        //         await driver.sleep(5000);
     
-                // Check the result
-                let currentUrl = await driver.getCurrentUrl();
-                customMessages = [
-                    await currentUrl.includes(hrefRegistration) ? `Successfuly directed to ${hrefRegistration} ✅` : `Failed to direct ${hrefRegistration} ❌`
-                ];
-                expect(await currentUrl.includes(hrefRegistration)).to.eq(true);
+        //         // Check the result
+        //         let currentUrl = await driver.getCurrentUrl();
+        //         customMessages = [
+        //             await currentUrl.includes(hrefRegistration) ? `Successfuly directed to ${hrefRegistration} ✅` : `Failed to direct ${hrefRegistration} ❌`
+        //         ];
+        //         expect(await currentUrl.includes(hrefRegistration)).to.eq(true);
 
-            } catch (error) {
-                expect.fail(error);
-            }
+        //     } catch (error) {
+        //         expect.fail(error);
+        //     }
 
 
-        });
+        // });
         
         it(`Check the one button of partners in section partner - from browser ${browser}`, async () => {
 

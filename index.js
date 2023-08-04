@@ -239,7 +239,7 @@ async function getInput() {
                                                                                                     isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                                                     
                                                                                                     if(isHaveFolder) {
-                                                                                                        rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                                                                        rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                                                                                     
                                                                                                             if(inputConfirm.trim() === '') {
                                                                                                                 console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
@@ -310,7 +310,7 @@ async function getInput() {
                                                                                                         isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                                                     
                                                                                                         if(isHaveFolder) {
-                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                                                                                     
                                                                                                                 if(inputConfirm.trim() === '') {
                                                                                                                     console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
@@ -384,7 +384,7 @@ async function getInput() {
                                                                                                         isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                                                     
                                                                                                         if(isHaveFolder) {
-                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                                                                                     
                                                                                                                 if(inputConfirm.trim() === '') {
                                                                                                                     console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
@@ -477,7 +477,7 @@ async function getInput() {
                                                         isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                         
                                                         if(isHaveFolder) {
-                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                 
                                                                 if(inputConfirm.trim() === '') {
                                                                     console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
