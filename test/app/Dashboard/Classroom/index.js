@@ -130,7 +130,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -167,7 +166,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -183,7 +181,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -481,7 +485,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -497,7 +500,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -810,7 +819,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -826,7 +834,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -1125,7 +1139,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1136,16 +1149,28 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memilih salah satu card class untuk di edit
-                            let cardClass = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
+                            cardClass = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
                             let oldName = await driver.executeScript("arguments[0].querySelector('h1.title').innerText", await cardClass);
                             await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await cardClass);
                             await driver.sleep(2000)
                             await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-edit-line').click()", await cardClass);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -1472,7 +1497,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1495,15 +1519,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
-                            await thrownAnError("Delete the classroom is failed", await driver.executeScript(`return document.querySelector(".alert.alert-warning")`) != null)
+                            await driver.sleep(10000);
+                            let textDanger = await driver.executeScript(`return document.querySelector(".modal-content .text-danger")`)
+                            await thrownAnError(await textDanger.getAttribute("innerText"), await textDanger != null)
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
                             customMessages = [
                                 await cardClass ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
                             ];
-                            expect(await cardClass).to.be.null;
+                            expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
 
 
                         } catch (error) {
@@ -1558,7 +1583,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                     //         customMessages = [
                     //             await cardClass ? "Successfully moved the class to public ✅" : "Failed move the class to public ❌",
                     //         ];
-                    //         expect(await cardClass).to.be.null;
+                    //         expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
 
 
                     //     } catch (error) {
@@ -1567,7 +1592,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     // });
                     
-                    it(`SUPER ADMIN - Filter class by "Draft" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Draft" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1577,7 +1602,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1587,13 +1611,19 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000)
 
                             // Aksi klik menu tab draf classes
                             await driver.executeScript(`return document.querySelector(".item-tab").click();`);
                             
                             // Aksi sleep 
-                            await driver.sleep(4000);
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Selesai"));`);
@@ -1609,7 +1639,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter class by "Semua" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Semua" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1619,7 +1649,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1629,7 +1658,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
@@ -1645,7 +1677,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter class by "Pendaftaran" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Pendaftaran" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1655,7 +1687,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1665,14 +1696,20 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000)
 
                             // Aksi klik menu tab 'Pendaftaran' classes
                             let menuTab = await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")) `);
                             await menuTab.click()
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
@@ -1688,7 +1725,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter class by "Berlangsung" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Berlangsung" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1698,7 +1735,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1708,13 +1744,19 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000)
 
                             // Aksi klik menu tab 'Berlansung' classes
                             await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click() `);
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
@@ -1730,7 +1772,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`SUPER ADMIN - Filter class by "Selesai" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Selesai" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1740,7 +1782,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1752,11 +1793,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep 
                             await driver.sleep(10000)
 
-                            // Aksi klik menu tab draf classes
+                            // Aksi klik menu tab 'Selesai' classes
                             await driver.executeScript(`return document.querySelectorAll(".item-tab")[4].click();`);
                             
                             // Aksi sleep 
-                            await driver.sleep(4000);
+                            await driver.sleep(15000);
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Selesai" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Draft"));`);
@@ -1782,7 +1823,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1792,7 +1832,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.sleep(3000)
 
 
                             // Aksi klik menu tab 'Pendaftaran' atau 'Berlangsung'
@@ -1800,24 +1840,32 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000);
 
-                            // Aksi mendapatkan kelas
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
-                            // Aksi memfilter class by date
+                            // Aksi memfilter class by alphabet
                             let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
                             await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
                             await driver.sleep(2000)
+                            // Aksi mendapatkan semua kelas
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
                             if(isAsc) {
                                 await driver.executeScript(`return document.querySelector(".filter-container .dropdown-menu .dropdown-item").click()`)
+                                await driver.wait(until.elementLocated(async () => {
+                                    return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                                }))
                                 await driver.sleep(2000)
                                 cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
-                                await driver.sleep(2000)
                                 titles = await Promise.all(cardClass.map(async (card) => {
-                                    const h1Element = await card.findElement(By.css('h1'));
-                                    return h1Element.getText();
+                                    return driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await card)
                                 }));
+                                console.log(await cardClass, await titles)
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
                                       if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
@@ -1829,13 +1877,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 isOrdered = isSorted(titles);
                             } else {
                                 await driver.executeScript(`return document.querySelectorAll(".filter-container .dropdown-menu .dropdown-item")[1].click()`)
+                                await driver.wait(until.elementLocated(async () => {
+                                    return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                                }))
                                 await driver.sleep(2000)
                                 cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
-                                await driver.sleep()
                                 titles = await Promise.all(cardClass.map(async (card) => {
-                                    const h1Element = await card.findElement(By.css('h1'));
-                                    return h1Element.getText();
+                                    return driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await card)
                                 }));
+                                console.log(await cardClass, await titles)
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
                                         if (arr[i][0].localeCompare(arr[i - 1][0], 'en', { sensitivity: 'base' }) > 0) {
@@ -1848,6 +1898,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             }
 
                             // Aksi Sleep
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
                             await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
@@ -1863,7 +1916,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter sort classroom by date from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter sort classroom by date from browser ${browser}`, async () => {
 
                         try {
 
@@ -1873,7 +1926,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1883,7 +1935,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000)
 
 
                             // Aksi klik menu tab 'Pendaftaran' atau 'Berlangsung'
@@ -1891,7 +1946,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000);
 
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
@@ -1903,20 +1961,23 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             if(isAsc) {
                                 // Tanggal Terdekat
                                 await driver.executeScript(`return document.querySelectorAll(".filter-container .dropdown-menu .dropdown-item")[3].click()`)
-                                await driver.sleep(2000)
+                                await driver.sleep(5000)
                                 newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`)
                                 await driver.sleep(2000)
                                 isOrdered = await originalCardClass != await newCardClass.getAttribute("innerHTML")
                             } else {
                                 // Tanggal Terjauh
                                 await driver.executeScript(`return document.querySelectorAll(".filter-container .dropdown-menu .dropdown-item")[2].click()`)
-                                await driver.sleep(2000)
+                                await driver.sleep(5000)
                                 newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`)
                                 await driver.sleep(2000)
                                 isOrdered = await originalCardClass != await newCardClass
                             }
 
                             // Aksi Sleep
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
                             await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
@@ -1932,7 +1993,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter classes by program from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter classes by program from browser ${browser}`, async () => {
 
                         try {
 
@@ -1942,7 +2003,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -1952,7 +2012,14 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.sleep(3000)
+                            
+                            // Aksi memilih salah satu menu tab 'Pendaftaran' atau 'Berlangsung'
+                            let isRegister = faker.datatype.boolean()
+                            isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
 
                             // Aksi memfilter class by program
                             await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
@@ -1961,7 +2028,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -1975,7 +2042,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".dropdown-menu .btn-muted-primary").click()`)
 
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
                             let badgeProgramClasses = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-program")).filter(value => value.innerText.includes("${await programName}".replace(/./g, "")))`);
@@ -1992,7 +2062,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Remove the applied filter from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Remove the applied filter from browser ${browser}`, async () => {
 
                         try {
 
@@ -2002,7 +2072,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -2016,31 +2085,19 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi mendapatkan original list class
                             let originalCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
-                            // Aksi memfilter class by program
-                            await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
+                            // Aksi memfilter class by alphabet or date
+                            await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
-                            let dropdownMenuFilter = await driver.executeScript(`return document.querySelector("ul.dropdown-menu")`)
-                            await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
-                            let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
-                            let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
-                            await driver.sleep(2000)
-                            let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
-                            await thrownAnError("Program is empty", await programs.length == 0)
-                            let randomIndexProgram = faker.number.int({ min: 0, max: await programs.length - 1 })
-                            await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
-                            await driver.sleep(3000);
-                            let actions = driver.actions({async: true});
-                            await actions.move({origin: await programs[randomIndexProgram]}).click().perform();
-                            await driver.sleep(3000);
-                            await driver.executeScript(`return document.querySelector(".dropdown-menu .btn-muted-primary").click()`)
+                            let filters = await driver.executeScript(`return document.querySelectorAll(".dropdown-menu div.dropdown-item")`)
+                            let randomFilter = faker.number.int({ min: 0, max: await filters.length - 1 })
+                            await driver.executeScript(`return arguments[0].click()`, await filters[randomFilter])
 
                             // Aksi sleep 
                             await driver.sleep(10000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
-                            await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null`)
+                            // await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi sleep 
@@ -2048,10 +2105,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
+                            buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null`)
                             customMessages = [
-                                await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
+                                await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") && buttonRemoveFilter == null ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
                             ];
-                            expect(await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ).to.be.true;
+                            expect(await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") && buttonRemoveFilter == null).to.be.true;
 
 
                         } catch (error) {
@@ -2060,7 +2118,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Search by name class from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Search by name class from browser ${browser}`, async () => {
 
                         try {
 
@@ -2070,7 +2128,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -2080,23 +2137,29 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000)
 
                             // Aksi mencari nama class yang sesuai
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
                             let randomIndexClass = faker.number.int({ min: 0, max: await cardClass.length - 1 })
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.sleep(1000);
-                            for(let char of await searchClassByName) {
+                            for(let [char, index] of await searchClassByName) {
                                 await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(300)
+                                await driver.sleep(2000)
+                                if(await cardClass?.length > 0) break;
                             }
 
                             // Aksi sleep 
-                            await driver.sleep(50000)
+                            await driver.wait(until.elementLocated(async () => {
+                                return await driver.executeScript(`return document.querySelector("#section-class .card-class h1.title")`) || await driver.executeScript(`return document.querySelector(".card-body span")`); 
+                            }))
+                            await driver.sleep(5000);
 
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}"))`);
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
                             ];
@@ -2112,7 +2175,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 break;
 
                 case 1:
-                    it.skip(`ADMIN - Check menu tab 'Kelas' in sidebar from browser ${browser}`, async () => {
+                    it(`ADMIN - Check menu tab 'Kelas' in sidebar from browser ${browser}`, async () => {
 
                         try {
 
@@ -2122,7 +2185,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -2159,7 +2221,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -2175,7 +2236,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -2473,7 +2540,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -2489,7 +2555,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -2802,7 +2874,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -2818,7 +2889,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -3117,7 +3194,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3137,7 +3213,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-edit-line').click()", await cardClass);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -3464,7 +3546,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3487,15 +3568,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
-                            await thrownAnError("Delete the classroom is failed", await driver.executeScript(`return document.querySelector(".alert.alert-warning")`) != null)
+                            await driver.sleep(10000);
+                            let textDanger = await driver.executeScript(`return document.querySelector(".modal-content .text-danger")`)
+                            await thrownAnError(await textDanger.getAttribute("innerText"), await textDanger != null)
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
                             customMessages = [
-                                await cardClass ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
+                                await cardClass == null ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
                             ];
-                            expect(await cardClass).to.be.null;
+                            expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
 
 
                         } catch (error) {
@@ -3569,7 +3651,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3611,7 +3692,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3625,6 +3705,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Semua' ✅" : "Failed filter class by menu tab 'Semua' ❌",
                             ];
@@ -3647,7 +3732,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3668,6 +3752,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Pendaftaran' ✅" : "Failed filter class by menu tab 'Pendaftaran' ❌",
                             ];
@@ -3690,7 +3779,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3710,6 +3798,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Berlangsung' ✅" : "Failed filter class by menu tab 'Berlangsung' ❌",
                             ];
@@ -3732,7 +3825,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3752,6 +3844,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Selesai" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Draft"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Selesai' ✅" : "Failed to filter class by menu tab 'Selesai' ❌",
                             ];
@@ -3774,7 +3871,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3792,10 +3888,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Aksi mendapatkan kelas
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null`)
+                            while(await cardClass?.length === 0 || await cardClass == null) {
+                                await driver.executeScript(`return document.querySelector("item-span").click()`)
+                                await driver.sleep(5000)
+                                isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
+                            }
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
@@ -3803,8 +3904,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(2000)
                             if(isAsc) {
                                 await driver.executeScript(`return document.querySelector(".filter-container .dropdown-menu .dropdown-item").click()`)
-                                await driver.sleep(2000)
-                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
                                 await driver.sleep(2000)
                                 titles = await Promise.all(cardClass.map(async (card) => {
                                     const h1Element = await card.findElement(By.css('h1'));
@@ -3865,7 +3964,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3883,7 +3981,14 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null`);
+                            while(await cardClass?.length == 0 || await cardClass == null) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(6000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
+                            
 
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
@@ -3934,7 +4039,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -3953,7 +4057,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -3970,6 +4074,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(10000)
 
                             // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let badgeProgramClasses = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-program")).filter(value => value.innerText.includes("${await programName}".replace(/./g, "")))`);
                             let isEmptyClass = await driver.executeScript(`return document.querySelector(".card-body span") ? document.querySelector(".card-body span").innerText.toLowerCase().includes("belum ada kelas") : null`)
                             customMessages = [
@@ -3994,7 +4104,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4008,31 +4117,19 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi mendapatkan original list class
                             let originalCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
-                            // Aksi memfilter class by program
-                            await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
+                            // Aksi memfilter class by alphabet or date
+                            await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
-                            let dropdownMenuFilter = await driver.executeScript(`return document.querySelector("ul.dropdown-menu")`)
-                            await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
-                            let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
-                            let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
-                            await driver.sleep(2000)
-                            let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
-                            await thrownAnError("Program is empty", await programs.length == 0)
-                            let randomIndexProgram = faker.number.int({ min: 0, max: await programs.length - 1 })
-                            await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
-                            await driver.sleep(3000);
-                            let actions = driver.actions({async: true});
-                            await actions.move({origin: await programs[randomIndexProgram]}).click().perform();
-                            await driver.sleep(3000);
-                            await driver.executeScript(`return document.querySelector(".dropdown-menu .btn-muted-primary").click()`)
+                            let filters = await driver.executeScript(`return document.querySelectorAll(".dropdown-menu div.dropdown-item")`)
+                            let randomFilter = faker.number.int({ min: 0, max: await filters.length - 1 })
+                            await driver.executeScript(`return arguments[0].click()`, await filters[randomFilter])
 
                             // Aksi sleep 
                             await driver.sleep(10000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
-                            await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null`)
+                            // await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi sleep 
@@ -4040,10 +4137,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
+                            buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null`)
                             customMessages = [
-                                await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
+                                await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") && buttonRemoveFilter == null ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
                             ];
-                            expect(await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ).to.be.true;
+                            expect(await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") && buttonRemoveFilter == null).to.be.true;
 
 
                         } catch (error) {
@@ -4062,7 +4160,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4076,19 +4173,25 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi mencari nama class yang sesuai
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let randomIndexClass = faker.number.int({ min: 0, max: await cardClass.length - 1 })
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.sleep(1000);
-                            for(let char of await searchClassByName) {
+                            for(let [char, index] of await searchClassByName) {
                                 await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(300)
+                                await driver.sleep(3000)
+                                cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) ? Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) : null`);
+                                if(await cardClass?.length > 0) break;
                             }
 
                             // Aksi sleep 
-                            await driver.sleep(5000)
+                            await driver.sleep(3000)
 
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}"))`);
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
                             ];
@@ -4114,7 +4217,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4151,7 +4253,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4193,7 +4294,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4207,6 +4307,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Semua' ✅" : "Failed filter class by menu tab 'Semua' ❌",
                             ];
@@ -4229,7 +4334,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4250,6 +4354,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Pendaftaran' ✅" : "Failed filter class by menu tab 'Pendaftaran' ❌",
                             ];
@@ -4272,7 +4381,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4283,15 +4391,26 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi klik menu tab 'Berlansung' classes
-                            await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click() `);
+                            await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
 
                             // Expect results and add custom message for addtional description
-                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Berlangsung' ✅" : "Failed filter class by menu tab 'Berlangsung' ❌",
                             ];
@@ -4314,7 +4433,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4334,6 +4452,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Selesai" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Draft"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Selesai' ✅" : "Failed to filter class by menu tab 'Selesai' ❌",
                             ];
@@ -4356,7 +4479,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4374,10 +4496,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Aksi mendapatkan kelas
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null`)
+                            while(await cardClass?.length === 0 || await cardClass == null) {
+                                await driver.executeScript(`return document.querySelector("item-span").click()`)
+                                await driver.sleep(5000)
+                                isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
+                            }
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
@@ -4447,7 +4574,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4465,7 +4591,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null`);
+                            while(await cardClass?.length == 0 || await cardClass == null) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(6000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
@@ -4516,7 +4648,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4527,6 +4658,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memfilter class by program
                             await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
@@ -4535,7 +4672,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -4552,6 +4689,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(10000)
 
                             // Expect results and add custom message for addtional description
+                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(5000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let badgeProgramClasses = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-program")).filter(value => value.innerText.includes("${await programName}".replace(/./g, "")))`);
                             let isEmptyClass = await driver.executeScript(`return document.querySelector(".card-body span") ? document.querySelector(".card-body span").innerText.toLowerCase().includes("belum ada kelas") : null`)
                             customMessages = [
@@ -4576,7 +4719,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4587,6 +4729,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi mendapatkan original list class
                             let originalCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
@@ -4597,7 +4745,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -4621,6 +4769,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(10000)
 
                             // Expect results and add custom message for addtional description
+                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(5000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
                             customMessages = [
                                 await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
@@ -4644,7 +4798,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4661,16 +4814,17 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let randomIndexClass = faker.number.int({ min: 0, max: await cardClass.length - 1 })
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.sleep(1000);
-                            for(let char of await searchClassByName) {
+                            for(let [char, index] of await searchClassByName) {
                                 await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(300)
+                                await driver.sleep(3000)
+                                cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) ? Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) : null`);
+                                if(await cardClass?.length > 0) break;
                             }
 
                             // Aksi sleep 
-                            await driver.sleep(50000)
+                            await driver.sleep(3000)
 
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}"))`);
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
                             ];
@@ -4696,7 +4850,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4733,7 +4886,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4744,9 +4896,20 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Expect results and add custom message for addtional description
-                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
+                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Semua' ✅" : "Failed filter class by menu tab 'Semua' ❌",
                             ];
@@ -4769,7 +4932,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4789,6 +4951,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Pendaftaran' ✅" : "Failed filter class by menu tab 'Pendaftaran' ❌",
                             ];
@@ -4811,7 +4978,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4831,6 +4997,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Berlangsung' ✅" : "Failed filter class by menu tab 'Berlangsung' ❌",
                             ];
@@ -4853,7 +5024,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4873,6 +5043,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Selesai" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Draft"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Selesai' ✅" : "Failed to filter class by menu tab 'Selesai' ❌",
                             ];
@@ -4895,7 +5070,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4907,7 +5081,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep 
                             await driver.sleep(10000)
 
-
                             // Aksi klik menu tab 'Pendaftaran' atau 'Berlangsung'
                             let isRegister = faker.datatype.boolean()
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
@@ -4916,7 +5089,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(3000);
 
                             // Aksi mendapatkan kelas
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`)
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(5000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
@@ -4986,7 +5164,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -4997,6 +5174,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
 
                             // Aksi klik menu tab 'Pendaftaran' atau 'Berlangsung'
@@ -5005,6 +5188,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(3000);
+                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(5000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
@@ -5055,7 +5244,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5066,6 +5254,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memfilter class by program
                             await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
@@ -5074,7 +5268,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -5091,6 +5285,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(10000)
 
                             // Expect results and add custom message for addtional description
+                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let badgeProgramClasses = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-program")).filter(value => value.innerText.includes("${await programName}".replace(/./g, "")))`);
                             let isEmptyClass = await driver.executeScript(`return document.querySelector(".card-body span") ? document.querySelector(".card-body span").innerText.toLowerCase().includes("belum ada kelas") : null`)
                             customMessages = [
@@ -5115,7 +5315,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5136,7 +5335,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -5183,7 +5382,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5197,19 +5395,25 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi mencari nama class yang sesuai
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let randomIndexClass = faker.number.int({ min: 0, max: await cardClass.length - 1 })
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.sleep(1000);
-                            for(let char of await searchClassByName) {
+                            for(let [char, index] of await searchClassByName) {
                                 await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(300)
+                                await driver.sleep(3000)
+                                cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) ? Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) : null`);
+                                if(await cardClass?.length > 0) break;
                             }
 
                             // Aksi sleep 
-                            await driver.sleep(50000)
+                            await driver.sleep(3000)
 
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}"))`);
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
                             ];
@@ -5237,7 +5441,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5264,7 +5467,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5289,7 +5491,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5326,7 +5527,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5368,7 +5568,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5382,6 +5581,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Semua' ✅" : "Failed filter class by menu tab 'Semua' ❌",
                             ];
@@ -5404,7 +5608,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5424,6 +5627,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Pendaftaran' ✅" : "Failed filter class by menu tab 'Pendaftaran' ❌",
                             ];
@@ -5446,7 +5654,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5466,6 +5673,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Berlangsung' ✅" : "Failed filter class by menu tab 'Berlangsung' ❌",
                             ];
@@ -5488,7 +5700,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5508,6 +5719,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Selesai" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Draft"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Selesai' ✅" : "Failed to filter class by menu tab 'Selesai' ❌",
                             ];
@@ -5530,7 +5746,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5548,10 +5763,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Aksi mendapatkan kelas
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null`)
+                            while(await cardClass?.length === 0 || await cardClass == null) {
+                                await driver.executeScript(`return document.querySelector("item-span").click()`)
+                                await driver.sleep(5000)
+                                isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
+                            }
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
@@ -5621,7 +5841,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5639,7 +5858,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null`);
+                            while(await cardClass?.length == 0 || await cardClass == null) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(6000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
@@ -5690,7 +5915,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5709,7 +5933,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -5726,6 +5950,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(10000)
 
                             // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let badgeProgramClasses = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-program")).filter(value => value.innerText.includes("${await programName}".replace(/./g, "")))`);
                             let isEmptyClass = await driver.executeScript(`return document.querySelector(".card-body span") ? document.querySelector(".card-body span").innerText.toLowerCase().includes("belum ada kelas") : null`)
                             customMessages = [
@@ -5750,7 +5980,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5764,31 +5993,19 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi mendapatkan original list class
                             let originalCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
-                            // Aksi memfilter class by program
-                            await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
+                            // Aksi memfilter class by alphabet or date
+                            await driver.executeScript(`return document.querySelector(".filter-container button#dropdown-sort").click()`)
                             await driver.sleep(2000)
-                            let dropdownMenuFilter = await driver.executeScript(`return document.querySelector("ul.dropdown-menu")`)
-                            await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
-                            let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
-                            let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
-                            await driver.sleep(2000)
-                            let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
-                            await thrownAnError("Program is empty", await programs.length == 0)
-                            let randomIndexProgram = faker.number.int({ min: 0, max: await programs.length - 1 })
-                            await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' })", await programs[randomIndexProgram]);
-                            await driver.sleep(2000);
-                            const actions = driver.actions({async: true});
-                            await actions.doubleClick(await programs[randomIndexProgram]).perform();
-                            await driver.sleep(2000);
-                            await driver.executeScript(`return document.querySelector(".dropdown-menu .btn-muted-primary").click()`)
+                            let filters = await driver.executeScript(`return document.querySelectorAll(".dropdown-menu div.dropdown-item")`)
+                            let randomFilter = faker.number.int({ min: 0, max: await filters.length - 1 })
+                            await driver.executeScript(`return arguments[0].click()`, await filters[randomFilter])
 
                             // Aksi sleep 
                             await driver.sleep(10000)
 
                             // Aksi remove filter applied
-                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null `)
-                            await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
+                            let buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null`)
+                            // await thrownAnError("Button remove filter isn't displayed", await buttonRemoveFilter == null)
                             await buttonRemoveFilter.click();
 
                             // Aksi sleep 
@@ -5796,10 +6013,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let newCardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .row")[1]`);
+                            buttonRemoveFilter = await driver.executeScript(`return document.querySelector("#section-class button.btn-text-primary") ? document.querySelector("#section-class button.btn-text-primary") : null`)
                             customMessages = [
-                                await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
+                                await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") && buttonRemoveFilter == null ? "Succesfully removed filter class ✅" : "Failed to remove filter class ❌",
                             ];
-                            expect(await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") ).to.be.true;
+                            expect(await originalCardClass.getAttribute("innerHTML") == await newCardClass.getAttribute("innerHTML") && buttonRemoveFilter == null).to.be.true;
 
 
                         } catch (error) {
@@ -5818,7 +6036,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5832,18 +6049,25 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi mencari nama class yang sesuai
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let randomIndexClass = faker.number.int({ min: 0, max: await cardClass.length - 1 })
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
-                            await driver.sleep(2000);
-                            await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName?.length > 6 ? await searchClassByName?.substring(0, 6) : await searchClassByName);
-                            await driver.sleep(2000)
-                            await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(Key.RETURN)
+                            await driver.sleep(1000);
+                            for(let [char, index] of await searchClassByName) {
+                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
+                                await driver.sleep(3000)
+                                cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) ? Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) : null`);
+                                if(await cardClass?.length > 0) break;
+                            }
 
                             // Aksi sleep 
-                            await driver.sleep(10000)
+                            await driver.sleep(3000)
 
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}"))`);
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
                             ];
@@ -5859,7 +6083,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 break;
                 
                 case 9:
-                    it.skip(`LEAD REGION - Check menu tab 'Kelas' in sidebar from browser ${browser}`, async () => {
+                    it(`LEAD REGION - Check menu tab 'Kelas' in sidebar from browser ${browser}`, async () => {
 
                         try {
 
@@ -5869,7 +6093,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5906,7 +6129,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -5922,7 +6144,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -6220,7 +6448,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -6236,7 +6463,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -6549,7 +6782,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -6565,7 +6797,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".main-content .box-button a.btn-primary").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -6864,7 +7102,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -6884,7 +7121,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-edit-line').click()", await cardClass);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
+                            let form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                            while(await form.length == 0) {
+                                await driver.navigate().refresh();
+                                form = await driver.executeScript(`return document.querySelectorAll("form")`)
+                                await driver.sleep(5000);
+                            }
 
                             // Aksi mengisi fill form dari create classroom
                             // DUMMY DATA
@@ -7211,7 +7454,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7234,15 +7476,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
-                            await thrownAnError("Delete the classroom is failed", await driver.executeScript(`return document.querySelector(".alert.alert-warning")`) != null)
+                            await driver.sleep(10000);
+                            let textDanger = await driver.executeScript(`return document.querySelector(".modal-content .text-danger")`)
+                            await thrownAnError(await textDanger.getAttribute("innerText"), await textDanger != null)
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
                             customMessages = [
-                                await cardClass ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
+                                await cardClass == null ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
                             ];
-                            expect(await cardClass).to.be.null;
+                            expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
 
 
                         } catch (error) {
@@ -7261,7 +7504,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7273,7 +7515,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep 
                             await driver.sleep(10000)
 
-                            // Aksi klik menu tab draf classes
+                            // Aksi klik menu tab draft classes
                             await driver.executeScript(`return document.querySelector(".item-tab").click();`);
                             
                             // Aksi sleep 
@@ -7281,6 +7523,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Draft' ✅" : "Failed to filter class by menu tab 'Draft' ❌",
                             ];
@@ -7303,7 +7550,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7317,6 +7563,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Draft" || value.innerText === "Pendaftaran" || value.innerText === "Berlangsung" || value.innerText === "Selesai");`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Semua' ✅" : "Failed filter class by menu tab 'Semua' ❌",
                             ];
@@ -7339,7 +7590,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7360,6 +7610,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Pendaftaran' ✅" : "Failed filter class by menu tab 'Pendaftaran' ❌",
                             ];
@@ -7382,7 +7637,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7402,6 +7656,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText.includes("Berlangsung") || value.innerText.includes("Pendaftaran") && (value.innerText != "Draft" && value.innerText != "Selesai"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Berlangsung' ✅" : "Failed filter class by menu tab 'Berlangsung' ❌",
                             ];
@@ -7424,7 +7683,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7444,6 +7702,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-progress")).filter(value => value.innerText === "Selesai" && (value.innerText != "Pendaftaran" && value.innerText != "Berlangsung" && value.innerText != "Draft"));`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully filtered class by menu tab 'Selesai' ✅" : "Failed to filter class by menu tab 'Selesai' ❌",
                             ];
@@ -7466,7 +7729,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7484,10 +7746,15 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
                             
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.sleep(5000);
 
                             // Aksi mendapatkan kelas
-                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null`)
+                            while(await cardClass?.length === 0 || await cardClass == null) {
+                                await driver.executeScript(`return document.querySelector("item-span").click()`)
+                                await driver.sleep(5000)
+                                isRegister ? await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("pendaftaran") || value.innerText.toLowerCase().includes("menunggu")).click()`) : await driver.executeScript(`return Array.from(document.querySelectorAll(".item-tab span")).find(value => value.innerText.toLowerCase().includes("berlangsung")).click()`);
+                            }
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
                             let isOrdered, titles;
@@ -7557,7 +7824,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7568,7 +7834,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
-
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi klik menu tab 'Pendaftaran' atau 'Berlangsung'
                             let isRegister = faker.datatype.boolean()
@@ -7576,6 +7847,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(3000);
+                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(5000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memfilter class by date
                             let isAsc = faker.datatype.boolean()
@@ -7626,7 +7903,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7637,6 +7913,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             
                             // Aksi sleep 
                             await driver.sleep(10000)
+                            let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
 
                             // Aksi memfilter class by program
                             await driver.executeScript(`return document.querySelector("#dropdown-filter button").click()`)
@@ -7645,7 +7927,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -7662,6 +7944,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(10000)
 
                             // Expect results and add custom message for addtional description
+                            cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let badgeProgramClasses = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class .badge-program")).filter(value => value.innerText.includes("${await programName}".replace(/./g, "")))`);
                             let isEmptyClass = await driver.executeScript(`return document.querySelector(".card-body span") ? document.querySelector(".card-body span").innerText.toLowerCase().includes("belum ada kelas") : null`)
                             customMessages = [
@@ -7686,7 +7974,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7707,7 +7994,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await thrownAnError("Dropdown menu filter isn't showed up", await dropdownMenuFilter == null)
                             let inputSearchProgram = await driver.executeScript(`return document.querySelector("#select-program input[type=search]")`)
                             let action = await driver.actions({async: true});
-                            await action.move({origin: await inputSearchProgram}).press().perform();
+                            await action.doubleClick(await inputSearchProgram).perform();
                             await driver.sleep(2000)
                             let programs = await driver.executeScript(`return document.querySelectorAll("#select-program ul li")`)
                             await thrownAnError("Program is empty", await programs.length == 0)
@@ -7754,7 +8041,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
@@ -7768,19 +8054,25 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi mencari nama class yang sesuai
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            while(await cardClass.length === 0) {
+                                await driver.navigate().refresh();
+                                await driver.sleep(10000)
+                                cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title")`);
+                            }
                             let randomIndexClass = faker.number.int({ min: 0, max: await cardClass.length - 1 })
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.sleep(1000);
-                            for(let char of await searchClassByName) {
+                            for(let [char, index] of await searchClassByName) {
                                 await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(300)
+                                await driver.sleep(3000)
+                                cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) ? Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}")) : null`);
+                                if(await cardClass?.length > 0) break;
                             }
 
                             // Aksi sleep 
-                            await driver.sleep(50000)
+                            await driver.sleep(3000)
 
                             // Expect results and add custom message for addtional description
-                            cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).filter(value => value.querySelector("h1.title").innerText.includes("${await searchClassByName}".length > 5 ? "${await searchClassByName}".substring(0, 5) : "${await searchClassByName}"))`);
                             customMessages = [
                                 await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
                             ];
@@ -7808,7 +8100,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi sleep 
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")));

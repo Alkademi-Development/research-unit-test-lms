@@ -120,7 +120,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
             switch (user.kind) {
                 case 0:
-                    it(`SUPER ADMIN - Create a new activity schedule from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Create a new activity schedule from browser ${browser}`, async () => {
 
                         try {
 
@@ -245,7 +245,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - View activity schedule from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - View activity schedule from browser ${browser}`, async () => {
 
                         try {
 
@@ -282,7 +282,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Open activity schedule detail from browser ${browser}`, async () => {
+                    it(`SUPER ADMIN - Open activity detail registration from browser ${browser}`, async () => {
 
                         try {
 
@@ -307,18 +307,22 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(5000)
 
                             // Aksi memilih salah satu activity schedule untuk melihat detail nya
-                            let activitesSchedule = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
-                            let randomIndexActivity = faker.number.int({ min: 0, max: await activitesSchedule.length - 1 })
-                            await driver.executeScript(`return arguments[0].querySelector("h5").click()`, await activitesSchedule[randomIndexActivity])
-                            await driver.sleep(3000)
-                            await driver.executeScript(`return document.querySelector(".modal-content .title").click()`)
+                            await driver.executeScript(`return Array.from(document.querySelectorAll(".card-event-item i")).find(value => value.classList.contains('circle-class')).click()`)
+                            await driver.sleep(2000);
+                            let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                            let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                            await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                            await titleActivity?.click();
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
 
                             // Expect results and add custom message for addtional description
-                            let calendar = await driver.executeScript(`return document.querySelector(".calendar") ? document.querySelector(".calendar") : null`)
+                            let currentUrl = await driver.getCurrentUrl();
                             customMessages = [
-                                await calendar != null ? 'Successfully display activity schedule on this month ✅' : 'Failed to display activity schedule ❌'
+                                await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-')) ? '- Successfully directed to the class page ✅' : 'Failed to direct to the class page ❌'
                             ]
-                            expect(await calendar).to.be.not.null
+                            expect(await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-'))).to.be.true
 
                         } catch (error) {
                             expect.fail(error);

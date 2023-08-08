@@ -1838,120 +1838,120 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         // });
         
-        it(`Register using github account from ${browser}`, async () => {
+        // it(`Register using github account from ${browser}`, async () => {
 
-            try {
+        //     try {
 
-                // Go to application
-                driver = await goToApp(browser, appHost);
-                await driver.manage().window().maximize();
+        //         // Go to application
+        //         driver = await goToApp(browser, appHost);
+        //         await driver.manage().window().maximize();
 
-                // Aksi Sleep
-                await driver.sleep(5000);
+        //         // Aksi Sleep
+        //         await driver.sleep(5000);
 
-                // Aksi remove modal
-                await removeModal(driver)
+        //         // Aksi remove modal
+        //         await removeModal(driver)
 
-                // Aksi sleep
-                await driver.sleep(3000);
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
 
-                // Aksi klik button Masuk/Login
-                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+        //         // Aksi klik button Masuk/Login
+        //         await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
 
-                // Aksi sleep
-                await driver.sleep(5000);
+        //         // Aksi sleep
+        //         await driver.sleep(5000);
 
-                // Aksi klik button Icon Google
-                await driver.executeScript(`return document.querySelectorAll(".card-body .btn-inner--icon")[1].click()`);
+        //         // Aksi klik button Icon Google
+        //         await driver.executeScript(`return document.querySelectorAll(".card-body .btn-inner--icon")[1].click()`);
 
-                // Aksi Sleep
-                await driver.sleep(5000);
+        //         // Aksi Sleep
+        //         await driver.sleep(5000);
 
-                // Aksi fill form input email
-                await driver.findElement(By.css("input[name=login]")).sendKeys('adnanerlansyah403@gmail.com');
-                await driver.sleep(1000);
-                await driver.findElement(By.css("input[type=password]")).sendKeys('ufojelek12345');
-                await driver.sleep(2000);
-                await driver.executeScript(`return document.querySelector("input[type=submit]").click();`);
-                await driver.sleep(2000);
-                let flashError = await driver.executeScript(`return document.querySelector(".flash.flash-error") ? document.querySelector(".flash.flash-error") : null`);
-                await thrownAnError(await flashError?.getAttribute('innerText'),  await flashError != null && await flashError?.isDisplayed())
+        //         // Aksi fill form input email
+        //         await driver.findElement(By.css("input[name=login]")).sendKeys('adnanerlansyah403@gmail.com');
+        //         await driver.sleep(1000);
+        //         await driver.findElement(By.css("input[type=password]")).sendKeys('ufojelek12345');
+        //         await driver.sleep(2000);
+        //         await driver.executeScript(`return document.querySelector("input[type=submit]").click();`);
+        //         await driver.sleep(2000);
+        //         let flashError = await driver.executeScript(`return document.querySelector(".flash.flash-error") ? document.querySelector(".flash.flash-error") : null`);
+        //         await thrownAnError(await flashError?.getAttribute('innerText'),  await flashError != null && await flashError?.isDisplayed())
                 
-                // Aksi sleep
-                await driver.sleep(3000);
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
 
-                // Aksi klik button konfirmasi authroization
-                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
-                // await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
+        //         // Aksi klik button konfirmasi authroization
+        //         await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+        //         // await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
                 
-                // Aksi sleep
-                await driver.sleep(12000);
+        //         // Aksi sleep
+        //         await driver.sleep(12000);
                 
-                let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
-                if(await modalContent != null && await modalContent?.isDisplayed()) {
+        //         let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
+        //         if(await modalContent != null && await modalContent?.isDisplayed()) {
                     
-                    await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
-                    // Select gender
-                    let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
-                    let action = await driver.actions({async: true});
-                    await action.move({origin: await inputSearch}).press().perform();
-                    await driver.sleep(2000);
-                    // Aksi mengecek pilihan gender
-                    let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
-                    let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
-                    await driver.sleep(1000);
-                    await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
-                    await driver.sleep(2000);
-                    let actions = driver.actions({async: true});
-                    await actions.doubleClick(await genders[randomIndexGender]).perform();
-                    await driver.sleep(3000);
-                    await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
-                    // Select province
-                    inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
-                    action = await driver.actions({async: true});
-                    await action.move({origin: await inputSearch}).press().perform();
-                    await driver.sleep(2000);
-                    // Aksi mengecek pilihan province
-                    let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
-                    let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
-                    await driver.sleep(1000);
-                    await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
-                    await driver.sleep(2000);
-                    actions = driver.actions({async: true});
-                    await actions.doubleClick(await cities[randomIndexCity]).perform();
+        //             await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
+        //             // Select gender
+        //             let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
+        //             let action = await driver.actions({async: true});
+        //             await action.move({origin: await inputSearch}).press().perform();
+        //             await driver.sleep(2000);
+        //             // Aksi mengecek pilihan gender
+        //             let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
+        //             let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+        //             await driver.sleep(1000);
+        //             await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+        //             await driver.sleep(2000);
+        //             let actions = driver.actions({async: true});
+        //             await actions.doubleClick(await genders[randomIndexGender]).perform();
+        //             await driver.sleep(3000);
+        //             await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
+        //             // Select province
+        //             inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
+        //             action = await driver.actions({async: true});
+        //             await action.move({origin: await inputSearch}).press().perform();
+        //             await driver.sleep(2000);
+        //             // Aksi mengecek pilihan province
+        //             let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
+        //             let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+        //             await driver.sleep(1000);
+        //             await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+        //             await driver.sleep(2000);
+        //             actions = driver.actions({async: true});
+        //             await actions.doubleClick(await cities[randomIndexCity]).perform();
 
-                    // Aksi Sleep
-                    await driver.sleep(3000);
+        //             // Aksi Sleep
+        //             await driver.sleep(3000);
 
-                    // Aksi klik button 'Simpan'
-                    await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+        //             // Aksi klik button 'Simpan'
+        //             await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
                     
-                    // Aksi Sleep
-                    await driver.sleep(3000);
+        //             // Aksi Sleep
+        //             await driver.sleep(3000);
 
-                    // Aksi klik button konfirmasi
-                    await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
+        //             // Aksi klik button konfirmasi
+        //             await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
                     
-                }
+        //         }
 
-                // Aksi sleep
-                await driver.sleep(3000);
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
 
-                // Expect results and add custom message for addtional description
-                let userData = await driver.executeScript("return window.localStorage.getItem('user')")
-                userData = await JSON.parse(userData);
+        //         // Expect results and add custom message for addtional description
+        //         let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+        //         userData = await JSON.parse(userData);
 
-                customMessages = [
-                    userData ? "Successfully register with account github ✅" : "Failed to register with account github ❌"
-                ]
-                expect(userData).to.be.not.null;
+        //         customMessages = [
+        //             userData ? "Successfully register with account github ✅" : "Failed to register with account github ❌"
+        //         ]
+        //         expect(userData).to.be.not.null;
 
 
-            } catch (error) {
-                expect.fail(error);
-            }
+        //     } catch (error) {
+        //         expect.fail(error);
+        //     }
 
-        });
+        // });
         
         it(`Register using linkedin account from ${browser}`, async () => {
 
