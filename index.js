@@ -11,6 +11,7 @@ import { ALL_TEXT_INPUT } from '#root/commons/constants/input';
 import { getCustomOptionReportFile } from '#root/commons/utils/inputUtils';
 import { ROLES } from "#root/commons/constants/role"
 import { TEST_NEED_AUTHENTICATION } from '#root/commons/constants/file';
+import readline from "readline"
 
 const { questionInputReportFile } = ALL_TEXT_INPUT;
 
@@ -66,6 +67,21 @@ async function getInput() {
                                     function getInfoAccount() {
                                         const testFolderPath = path.join(testFolder, input);
                                         let absolutePath = path.join(testFolderPath);
+                                        let isPasswordInput = false;
+                                        rl.input.on("keypress", function (c, k) {
+                                            if (isPasswordInput) {
+                                              // get the number of characters entered so far:
+                                              var len = rl.line.length;
+                                              // move cursor back to the beginning of the input:
+                                              readline.moveCursor(rl.output, -len, 0);
+                                              // clear everything to the right of the cursor:
+                                              readline.clearLine(rl.output, 1);
+                                              // replace the original input with asterisks:
+                                              for (var i = 0; i < len; i++) {
+                                                rl.output.write("*");
+                                              }
+                                            }
+                                          });
                                         
                                         rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
                                             if(inputEmail.trim() === '') {
@@ -76,7 +92,7 @@ async function getInput() {
                                                 rl.close();
                                             } else {
                                                 function getPassword() {
-                                                    
+                                                    isPasswordInput = true
                                                     rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
                         
                                                         if(inputPassword.trim() === '') {
@@ -93,6 +109,7 @@ async function getInput() {
                                                             if(response.ok) {
                                                                 if(response?.body?.status === false) {
                                                                     console.log(clc.red(response?.body?.message));
+                                                                    isPasswordInput = false
                                                                     getInfoAccount();
                                                                 } else {
                                                                     const { name, email, kind } = response?.body?.data;
@@ -100,6 +117,7 @@ async function getInput() {
                                                                     const dataJson = JSON.stringify(data);
                                                                     
                                                                       function askAccount() {
+                                                                        isPasswordInput = false
                                                                         rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
                                                                           if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
                                                                             console.log(`\n${clc.bgYellow(clc.whiteBright(`Program is running in test all ${input} test`))}`);
@@ -116,6 +134,7 @@ async function getInput() {
                                                                             });
                                                                           } else if (inputAddAccount.trim().toLowerCase() === 'y') {
                                                                               if (data.accounts.length < ROLES.length) {
+                                                                                isPasswordInput = false
                                                                                 getInfoAccount();
                                                                                 askAccount() 
                                                                             } else {
@@ -137,6 +156,7 @@ async function getInput() {
                                                                           } else {
                                                                             console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
                                                                             if (data.accounts.length < ROLES.length) {
+                                                                                isPasswordInput = false
                                                                                 askAccount() 
                                                                             } else {
                                                                                 console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
@@ -198,17 +218,33 @@ async function getInput() {
                                                         console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
                 
                                                         function getInfoAccount() {
+                                                            let isPasswordInput = false;
+                                                            rl.input.on("keypress", function (c, k) {
+                                                                if (isPasswordInput) {
+                                                                  // get the number of characters entered so far:
+                                                                  var len = rl.line.length;
+                                                                  // move cursor back to the beginning of the input:
+                                                                  readline.moveCursor(rl.output, -len, 0);
+                                                                  // clear everything to the right of the cursor:
+                                                                  readline.clearLine(rl.output, 1);
+                                                                  // replace the original input with asterisks:
+                                                                  for (var i = 0; i < len; i++) {
+                                                                    rl.output.write("*");
+                                                                  }
+                                                                }
+                                                            });
                                         
                                                             rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
                                                                 if(inputEmail.trim() === '') {
                                                                     console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                                                    isPasswordInput = false
                                                                     getInfoAccount();
                                                                 } else if (inputEmail.trim() === "x") {
                                                                     console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
                                                                     rl.close();
                                                                 } else {
                                                                     function getPassword() {
-                                                                        
+                                                                        isPasswordInput = true
                                                                         rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
                                             
                                                                             if(inputPassword.trim() === '') {
@@ -224,6 +260,7 @@ async function getInput() {
                                                                                 if(response.ok) {
                                                                                     if(response?.body?.status === false) {
                                                                                         console.log(clc.red(response?.body?.message));
+                                                                                        isPasswordInput = false
                                                                                         getInfoAccount();
                                                                                     } else {
                                                                                         const { name, email, kind } = response?.body?.data;
@@ -231,6 +268,7 @@ async function getInput() {
                                                                                         const dataJson = JSON.stringify(data);
                                                                                         
                                                                                         function askAccount() {
+                                                                                            isPasswordInput = false;
                                                                                             rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
                                                                                                 if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
                                                                                 
@@ -301,6 +339,7 @@ async function getInput() {
                                                                                 
                                                                                                 } else if (inputAddAccount.trim().toLowerCase() === 'y') {
                                                                                                     if (data.accounts.length < ROLES.length) {
+                                                                                                        isPasswordInput = false;
                                                                                                         getInfoAccount();
                                                                                                         askAccount() 
                                                                                                     } else {
@@ -375,6 +414,7 @@ async function getInput() {
                                                                                                 } else {
                                                                                                     console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
                                                                                                     if (data.accounts.length < ROLES.length) {
+                                                                                                        isPasswordInput = false
                                                                                                         askAccount() 
                                                                                                     } else {
                                                                                                         console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
@@ -554,17 +594,33 @@ async function getInput() {
                                                                 if(inputConfirmTest.trim().toLowerCase() === 'y') {
                                                                     console.log(clc.yellowBright('=== Silahkann masukkan akun terlebih dahulu untuk mengetes file ini ==='));
                                                                     function getInfoAccount() {
+                                                                        let isPasswordInput = false;
+                                                                        rl.input.on("keypress", function (c, k) {
+                                                                            if (isPasswordInput) {
+                                                                              // get the number of characters entered so far:
+                                                                              var len = rl.line.length;
+                                                                              // move cursor back to the beginning of the input:
+                                                                              readline.moveCursor(rl.output, -len, 0);
+                                                                              // clear everything to the right of the cursor:
+                                                                              readline.clearLine(rl.output, 1);
+                                                                              // replace the original input with asterisks:
+                                                                              for (var i = 0; i < len; i++) {
+                                                                                rl.output.write("*");
+                                                                              }
+                                                                            }
+                                                                        });
                                                                         
                                                                         rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), async (inputEmail) => {
                                                                             if(inputEmail.trim() === '') {
                                                                                 console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                                                                isPasswordInput = false
                                                                                 getInfoAccount();
                                                                             } else if (inputEmail.trim() === "x") {
                                                                                 console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
                                                                                 rl.close();
                                                                             } else {
                                                                                 function getPassword() {
-                                                                                    
+                                                                                    isPasswordInput = true
                                                                                     rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
                                         
                                                                                         if(inputPassword.trim() === '') {
@@ -580,6 +636,7 @@ async function getInput() {
                                                                                             if(response.ok) {
                                                                                                 if(response?.body?.status === false) {
                                                                                                     console.log(clc.red(response?.body?.message));
+                                                                                                    isPasswordInput = false
                                                                                                     getInfoAccount();
                                                                                                 } else {
                                                                                                     const { name, email, kind } = response?.body?.data;
@@ -587,6 +644,7 @@ async function getInput() {
                                                                                                     const dataJson = JSON.stringify(data);
                                                                                                     
                                                                                                       function askAccount() {
+                                                                                                        isPasswordInput = false
                                                                                                         rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
                                                                                                           if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
                                                                                                             console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
@@ -603,6 +661,7 @@ async function getInput() {
                                                                                                             });
                                                                                                           } else if (inputAddAccount.trim().toLowerCase() === 'y') {
                                                                                                               if (data.accounts.length < ROLES.length) {
+                                                                                                                isPasswordInput = false
                                                                                                                 getInfoAccount();
                                                                                                                 askAccount() 
                                                                                                             } else {
@@ -624,6 +683,7 @@ async function getInput() {
                                                                                                           } else {
                                                                                                             console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
                                                                                                             if (data.accounts.length < ROLES.length) {
+                                                                                                                isPasswordInput = false
                                                                                                                 askAccount() 
                                                                                                             } else {
                                                                                                                 console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));

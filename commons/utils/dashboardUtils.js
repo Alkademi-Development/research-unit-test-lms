@@ -15,11 +15,13 @@ const enterDashboard = async (driver, user, browser, appHost) => {
 
     // Aksi Sleep
     await driver.sleep(5000);
+    await driver.wait(until.elementLocated(By.id('home')));
     
     await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
     
     // Aksi Sleep
     await driver.sleep(5000);
+    await driver.wait(until.elementLocated(By.css("form")))
 
     // Aksi Input Data Akun 
     let inputEmail = await driver.executeScript(`return document.querySelector('.input-group.input-group-merge > input[type="email"]') ? document.querySelector('.input-group.input-group-merge > input[type="email"]') : null`);
@@ -33,7 +35,7 @@ const enterDashboard = async (driver, user, browser, appHost) => {
     await thrownAnError("There was no process fill the input field for enter the account data", !inputEmail.isDisplayed());
     
     // Aksi menunggu element h1 tampil setelah melakukan authentikasi
-    await driver.wait(until.elementsLocated(By.css(`h1.text-welcome`)));
+    await driver.wait(until.elementLocated(By.css(`h1.text-welcome`)));
     errors = await captureConsoleErrors(driver, browser);
 
     return errors;

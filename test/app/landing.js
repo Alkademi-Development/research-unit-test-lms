@@ -107,6 +107,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 
                 // Aksi Sleep
                 await driver.sleep(5000)
+                await driver.wait(until.elementLocated(By.id('home')));
 
                 // Aksi menunggu modal content
                 let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);

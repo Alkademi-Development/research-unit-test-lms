@@ -1,7 +1,7 @@
 /**
  * chrome, firefox, MicrosoftEdge, internet explorer, safari
  */
-const BROWSERS = ['firefox', 'chrome'];
+const BROWSERS = ['chrome'];
 
 export {
     BROWSERS
