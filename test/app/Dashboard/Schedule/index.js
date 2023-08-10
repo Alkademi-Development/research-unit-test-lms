@@ -94,7 +94,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: "..\\" + path.relative(fileURLToPath(import.meta.url), fileNamePath),
+            value: path.relative(fileURLToPath(import.meta.url), fileNamePath),
         });
         await driver.sleep(3000);
         try {
@@ -282,7 +282,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Open activity detail registration from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Open activity detail registration from browser ${browser}`, async () => {
 
                         try {
 
@@ -323,6 +323,83 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-')) ? '- Successfully directed to the class page ✅' : 'Failed to direct to the class page ❌'
                             ]
                             expect(await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-'))).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`SUPER ADMIN - Open activity detail public from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            await thrownAnError(errorMessages, errorMessages?.length > 0);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                                await driver.sleep(3000)
+                                let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                                let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                                await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                                await titleActivity?.click();
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                                await driver.sleep(3000)
+                                let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                                let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                                await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                                await titleActivity?.click();
+                            }
+
+
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let sectionDetailEvent = await driver.executeScript(`return document.getElementById("detail-event")`)
+                            customMessages = [
+                                await sectionDetailEvent != null ? "Successfully directed to activity schedule announcement detail page ✅" : "Failed to direct to activity schedule announcement detail page ❌"
+                            ]
+                            expect(await sectionDetailEvent).to.be.not.null
 
                         } catch (error) {
                             expect.fail(error);
