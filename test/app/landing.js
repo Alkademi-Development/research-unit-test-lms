@@ -1437,7 +1437,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.executeScript(`return document.querySelectorAll("article a.link-dark")[${randomIndexArticle}].click()`)
 
                 // Aksi sleep
-                await driver.sleep(3000);
+                await driver.sleep(5000);
                 
                 // Check the result
                 let currentUrl = await driver.getCurrentUrl();
@@ -1500,7 +1500,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 await driver.wait(async () => (await driver.getAllWindowHandles()).length === 2);
 
                 // Aksi sleep
-                await driver.sleep(3000);
+                await driver.sleep(5000);
                 
                 // Check the result
                 let currentUrl = await driver.getCurrentUrl();
