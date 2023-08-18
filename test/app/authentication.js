@@ -1506,7 +1506,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
         });
 
         // No need some authentication user
-        it.skip(`Checking button show password in login page from ${browser}`, async () => {
+        it(`Checking button show password in login page from ${browser}`, async () => {
 
             try {
 
@@ -1550,7 +1550,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Checking button hide password in login page from ${browser}`, async () => {
+        it(`Checking button hide password in login page from ${browser}`, async () => {
 
             try {
 
@@ -1596,7 +1596,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Register or Create a new account from ${browser}`, async () => {
+        it(`Register or Create a new account from ${browser}`, async () => {
 
             try {
 
@@ -1838,7 +1838,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         // });
         
-        it(`Register & Login using github account from ${browser}`, async () => {
+        it.skip(`Register & Login using github account from ${browser}`, async () => {
 
             try {
 
@@ -1961,7 +1961,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         });
         
-        it.skip(`Register & Login using linkedin account from ${browser}`, async () => {
+        it(`Register & Login using linkedin account from ${browser}`, async () => {
 
             try {
 
