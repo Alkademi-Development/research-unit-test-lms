@@ -120,7 +120,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
             switch (user.kind) {
                 case 0:
-                    it(`SUPER ADMIN - Create a new public activity schedule from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Create a new public activity schedule from browser ${browser}`, async () => {
 
                         try {
 
@@ -156,8 +156,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let address = faker.location.streetAddress(true)
                             let linkMap = 'https://goo.gl/maps/8mrd5ha6yZ47jQvn7'
                             let today = new Date();
-                            let dateOpenActivity = browser == 'firefox' ? `${String(today.getMonth()).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}-${today.getFullYear()}` : `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth()).padStart(2, '0')}-${today.getFullYear()}`
-                            let dateEndActivity = browser == 'firefox' ? `${String(today.getMonth()).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}-${today.getFullYear()}` : `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth()).padStart(2, '0')}-${today.getFullYear()}`
+                            let dayOpenActivity = faker.number.int({ min: 1, max: 19 })
+                            let dateOpenActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
+                            let dateEndActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
                             let platformName = 'Youtube'
                             let linkConference = 'https://www.youtube.com/channel/UClrtoaPaIHDY2liEh_RJcOg'
 
@@ -176,12 +177,25 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(3000)
                             let valueSelect = await driver.executeScript(`return document.querySelector("select.custom-select").value.toLowerCase();`)
                             let cardConference, randomIndexConference, typeConference;
-                            if(await valueSelect.includes("online")) {
+                            if(await valueSelect?.includes("online")) {
                                 cardConference = await driver.executeScript(`return Array.from(document.querySelectorAll("#select-video-conference .card")).filter(value => !value.querySelector(".card-body small"));`)
                                 randomIndexConference = faker.number.int({ min: 0, max: await cardConference.length - 1 })
                                 typeConference = await driver.executeScript(`return arguments[0].querySelector("h6").innerText.toLowerCase()`, await cardConference[randomIndexConference])
                                 await driver.executeScript(`return arguments[0].querySelector("i").click()`, await cardConference[randomIndexConference])
                                 await driver.sleep(2000)
+                                if(await typeConference.includes('manual')) {
+                                    // Aksi menunggu modal content
+                                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                    /** Aksi mengisi input platform name */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-platform").value = "${platformName}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi mengisi input value link conference */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-link").value = "${linkConference}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi submit */
+                                    await driver.executeScript(`return document.querySelector(".modal-content button[type=submit]").click()`)
+                                    await driver.sleep(2000)
+                                }
                             } else {
                                 /** Aksi mengisi input value lokasi kegiatan */
                                 await driver.findElement(By.id("Lokasi Kegiatan *")).sendKeys(address)
@@ -190,38 +204,33 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 await driver.findElement(By.css(".form-group input[placeholder='Link Maps']")).sendKeys(linkMap)
                                 await driver.sleep(2000)
                             }
-                            if(await typeConference.includes('manual')) {
-                                // Aksi menunggu modal content
-                                await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                                /** Aksi mengisi input platform name */
-                                await driver.executeScript(`return document.querySelector(".modal-content #input-platform").value = "${platformName}"`)
-                                await driver.sleep(2000)
-                                /** Aksi mengisi input value link conference */
-                                await driver.executeScript(`return document.querySelector(".modal-content #input-link").value = "${linkConference}"`)
-                                await driver.sleep(2000)
-                                /** Aksi submit */
-                                await driver.executeScript(`return document.querySelector(".modal-content button[type=submit]").click()`)
-                                await driver.sleep(2000)
-                            }
                             /** Scroll down */
                             await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight);`)
                             await driver.sleep(2000)
                             /** Aksi memasukkan input date pelaksanaan kegiatan & kegiatan berakhir */
                             await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.ENTER)
                             await driver.sleep(1000)
-                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[0])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[1])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[2])
                             await driver.sleep(2000)
                             await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.TAB)
                             await driver.sleep(1000)
-                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys("08:00:00")
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys("08:00")
                             await driver.sleep(2000)
                             await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.ENTER)
                             await driver.sleep(1000)
-                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity)
-                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[0])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[1])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[2])
+                            await driver.sleep(1000)
                             await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.TAB)
                             await driver.sleep(1000)
-                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys("16:00:00")
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys("16:00")
 
                             // Aksi Sleep
                             await driver.sleep(3000)
@@ -244,7 +253,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning != null ? 'Successfully create new Activity Schedule ✅' : 'Failed to create Activity Schedule ❌'
+                                await alertWarning == null ? 'Successfully create new Activity Schedule ✅' : 'Failed to create Activity Schedule ❌'
                             ]
                             expect(await alertWarning).to.be.null
 
@@ -254,171 +263,183 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    // it(`SUPER ADMIN - Edit public activity schedule from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Edit public activity schedule from browser ${browser}`, async () => {
 
-                    //     try {
+                        try {
 
-                    //         // Go to application
-                    //         driver = await goToApp(browser, appHost);
-                    //         await driver.manage().window().maximize();
-                    //         errorMessages = await captureConsoleErrors(driver, browser);
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
 
-                    //         // login to the application
-                    //         errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
 
-                    //         // Aksi sleep 
-                    //         await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
-                    //         await driver.sleep(5000)
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
 
-                    //         // Aksi klik menu 'Jadwal Kegiatan'
-                    //         await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
 
-                    //         // Aksi sleep
-                    //         await driver.sleep(3000)
+                            // Aksi sleep
+                            await driver.sleep(3000)
 
-                    //         // Aksi memilih salah satu activity schedule untuk melihat detail nya
-                    //         let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
-                    //         if(await activityAnnouncement == null) {
-                    //             async function searchActivityAnnouncement() {
-                    //                 await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
 
-                    //                 // Aksi Sleep
-                    //                 await driver.sleep(3000)
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
 
-                    //                 // Aksi mencari kembali activity schedule announce
-                    //                 activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
-                    //                 if(await activityAnnouncement) return
-                    //                 else await searchActivityAnnouncement()
-                    //             }
-                    //             await searchActivityAnnouncement()
-                    //             await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
 
-                    //             // Aksi mengklik card activity announcement
-                    //             await activityAnnouncement?.click()
-                    //             await driver.sleep(3000)
-                    //             let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
-                    //             let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
-                    //             await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
-                    //             await titleActivity?.click();
+                                // Aksi mengklik card activity announcement
+                                let actions = driver.actions({async: true});
+                                await actions.move({origin: activityAnnouncement}).perform()
+                                await driver.sleep(2000)
+                                let btnEdit = await driver.executeScript(`return document.querySelector("button.btn i.ri-edit-2-line")`)
+                                if(await btnEdit.isDisplayed()) await btnEdit?.click()
                                 
-                    //         } else {
-                    //             // Aksi mengklik card activity announcement
-                    //         }
+                            } else {
+                                // Aksi mengklik card activity announcement
+                            }
 
-                    //         // Aksi mengklik button edit pada salah satu event item pada list activity
-                    //         let activities = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
-                    //         let randomIndexActivity = faker.number.int({ min: 0, max: await activities.length - 1 }) 
+                            // Aksi mengklik button edit pada salah satu event item pada list activity
+                            // let activities = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
+                            // let randomIndexActivity = faker.number.int({ min: 0, max: await activities.length - 1 }) 
                             
-                    //         // Aksi sleep
-                    //         await driver.sleep(4000)
+                            // Aksi sleep
+                            await driver.sleep(4000)
 
-                    //         // Aksi mengisi form create kegiatan
-                    //         let isAllFilled;
-                    //         // DUMMY DATA
-                    //         let title = "Seminar " + faker.company.name();
-                    //         let description = faker.lorem.paragraphs()
-                    //         let address = faker.location.streetAddress(true)
-                    //         let linkMap = 'https://goo.gl/maps/8mrd5ha6yZ47jQvn7'
-                    //         let today = new Date();
-                    //         let dateOpenActivity = browser == 'firefox' ? `${String(today.getMonth()).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}-${today.getFullYear()}` : `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth()).padStart(2, '0')}-${today.getFullYear()}`
-                    //         let dateEndActivity = browser == 'firefox' ? `${String(today.getMonth()).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}-${today.getFullYear()}` : `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth()).padStart(2, '0')}-${today.getFullYear()}`
-                    //         let platformName = 'Youtube'
-                    //         let linkConference = 'https://www.youtube.com/channel/UClrtoaPaIHDY2liEh_RJcOg'
+                            // Aksi mengisi form create kegiatan
+                            let isAllFilled;
+                            // DUMMY DATA
+                            let title = "Seminar " + faker.company.name();
+                            let description = faker.lorem.paragraphs()
+                            let address = faker.location.streetAddress(true)
+                            let linkMap = 'https://goo.gl/maps/8mrd5ha6yZ47jQvn7'
+                            let today = new Date();
+                            let dayOpenActivity = faker.number.int({ min: 1, max: 19 })
+                            let dateOpenActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
+                            let dateEndActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
+                            let platformName = 'Youtube'
+                            let linkConference = 'https://www.youtube.com/channel/UClrtoaPaIHDY2liEh_RJcOg'
 
-                    //         /** Aksi mengisi input value title */
-                    //         await driver.findElement(By.id("Judul Kegiatan *")).sendKeys(title)
-                    //         await driver.sleep(2000)
-                    //         /** Aksi mengisi input value description */
-                    //         await driver.findElement(By.id("Deskripsi Kegiatan *")).sendKeys(description)
-                    //         await driver.sleep(2000)
-                    //         /** Aksi mengisi input value tipe kegiatan */
-                    //         let selectElement = await driver.findElement(By.id('Tipe Kegiatan *'))
-                    //         let selectType = new Select(selectElement)
-                    //         let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
-                    //         let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1 })
-                    //         await selectType.selectByIndex(randomIndexType)
-                    //         await driver.sleep(3000)
-                    //         let valueSelect = await driver.executeScript(`return document.querySelector("select.custom-select").value.toLowerCase();`)
-                    //         let cardConference, randomIndexConference, typeConference;
-                    //         if(await valueSelect.includes("online")) {
-                    //             cardConference = await driver.executeScript(`return Array.from(document.querySelectorAll("#select-video-conference .card")).filter(value => !value.querySelector(".card-body small"));`)
-                    //             randomIndexConference = faker.number.int({ min: 0, max: await cardConference.length - 1 })
-                    //             typeConference = await driver.executeScript(`return arguments[0].querySelector("h6").innerText.toLowerCase()`, await cardConference[randomIndexConference])
-                    //             await driver.executeScript(`return arguments[0].querySelector("i").click()`, await cardConference[randomIndexConference])
-                    //             await driver.sleep(2000)
-                    //         } else {
-                    //             /** Aksi mengisi input value lokasi kegiatan */
-                    //             await driver.findElement(By.id("Lokasi Kegiatan *")).sendKeys(address)
-                    //             await driver.sleep(2000)
-                    //             /** Aksi mengisi input value link map */
-                    //             await driver.findElement(By.css(".form-group input[placeholder='Link Maps']")).sendKeys(linkMap)
-                    //             await driver.sleep(2000)
-                    //         }
-                    //         if(await typeConference.includes('manual')) {
-                    //             // Aksi menunggu modal content
-                    //             await driver.wait(until.elementLocated(By.css('.modal-content')));              
-                    //             /** Aksi mengisi input platform name */
-                    //             await driver.executeScript(`return document.querySelector(".modal-content #input-platform").value = "${platformName}"`)
-                    //             await driver.sleep(2000)
-                    //             /** Aksi mengisi input value link conference */
-                    //             await driver.executeScript(`return document.querySelector(".modal-content #input-link").value = "${linkConference}"`)
-                    //             await driver.sleep(2000)
-                    //             /** Aksi submit */
-                    //             await driver.executeScript(`return document.querySelector(".modal-content button[type=submit]").click()`)
-                    //             await driver.sleep(2000)
-                    //         }
-                    //         /** Scroll down */
-                    //         await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight);`)
-                    //         await driver.sleep(2000)
-                    //         /** Aksi memasukkan input date pelaksanaan kegiatan & kegiatan berakhir */
-                    //         await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.ENTER)
-                    //         await driver.sleep(1000)
-                    //         await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity)
-                    //         await driver.sleep(2000)
-                    //         await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.TAB)
-                    //         await driver.sleep(1000)
-                    //         await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys("08:00:00")
-                    //         await driver.sleep(2000)
-                    //         await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.ENTER)
-                    //         await driver.sleep(1000)
-                    //         await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity)
-                    //         await driver.sleep(2000)
-                    //         await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.TAB)
-                    //         await driver.sleep(1000)
-                    //         await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys("16:00:00")
+                            /** Aksi mengisi input value title */
+                            await driver.findElement(By.id("Judul Kegiatan *")).clear()
+                            await driver.findElement(By.id("Judul Kegiatan *")).sendKeys(title)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input value description */
+                            await driver.findElement(By.id("Deskripsi Kegiatan *")).clear()
+                            await driver.findElement(By.id("Deskripsi Kegiatan *")).sendKeys(description)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input value tipe kegiatan */
+                            let selectElement = await driver.findElement(By.id('Tipe Kegiatan *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1 })
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(3000)
+                            let valueSelect = await driver.executeScript(`return document.querySelector("select.custom-select").value.toLowerCase();`)
+                            let cardConference, randomIndexConference, typeConference;
+                            if(await valueSelect.includes("online")) {
+                                cardConference = await driver.executeScript(`return Array.from(document.querySelectorAll("#select-video-conference .card")).filter(value => !value.querySelector(".card-body small"));`)
+                                randomIndexConference = faker.number.int({ min: 0, max: await cardConference.length - 1 })
+                                typeConference = await driver.executeScript(`return arguments[0].querySelector("h6").innerText.toLowerCase()`, await cardConference[randomIndexConference])
+                                await driver.executeScript(`return arguments[0].querySelector("i").click()`, await cardConference[randomIndexConference])
+                                await driver.sleep(2000)
+                                if(await typeConference.includes('manual')) {
+                                    // Aksi menunggu modal content
+                                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                    /** Aksi mengisi input platform name */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-platform").value = "${platformName}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi mengisi input value link conference */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-link").value = "${linkConference}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi submit */
+                                    await driver.executeScript(`return document.querySelector(".modal-content button[type=submit]").click()`)
+                                    await driver.sleep(2000)
+                                }
+                            } else {
+                                /** Aksi mengisi input value lokasi kegiatan */
+                                await driver.findElement(By.id("Lokasi Kegiatan *")).sendKeys(address)
+                                await driver.sleep(2000)
+                                /** Aksi mengisi input value link map */
+                                await driver.findElement(By.css(".form-group input[placeholder='Link Maps']")).sendKeys(linkMap)
+                                await driver.sleep(2000)
+                            }
+                            /** Scroll down */
+                            await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight);`)
+                            await driver.sleep(2000)
+                            /** Aksi memasukkan input date pelaksanaan kegiatan & kegiatan berakhir */
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).clear()
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.ENTER)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[0])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[1])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[2])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.TAB)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys("08:00")
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).clear()
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.ENTER)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[0])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[1])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[2])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.TAB)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys("16:00")
 
-                    //         // Aksi Sleep
-                    //         await driver.sleep(3000)
+                            // Aksi Sleep
+                            await driver.sleep(3000)
 
-                    //         /** Aksi mengecek semua fill terlah terisi & submit form */
-                    //         isAllFilled = await Promise.all([
-                    //             await driver.findElement(By.id("Judul Kegiatan *")).getAttribute("value"),
-                    //             await driver.findElement(By.id("Deskripsi Kegiatan *")).getAttribute("value"),
-                    //             await driver.findElement(By.id("Tipe Kegiatan *")).getAttribute("value"),
-                    //             await driver.findElement(By.id("Pelaksanaan Kegiatan *")).getAttribute("value"),
-                    //             await driver.findElement(By.id("Kegiatan Berakhir *")).getAttribute("value"),
-                    //         ]).then(results => results.every(value => value != ''))
-                    //         if(isAllFilled) {
-                    //             await driver.executeScript(`return document.querySelector("form button[type=submit]").click();`)
-                    //             await driver.sleep(10000)
-                    //         }
-                    //         await thrownAnError("There are input that still not filled", !isAllFilled)
-                    //         let alertWarning = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null`)
-                    //         if(await alertWarning != null) await thrownAnError(await driver.executeScript(`return arguments[0].innerText`, await alertWarning), await alertWarning != null)
+                            /** Aksi mengecek semua fill terlah terisi & submit form */
+                            isAllFilled = await Promise.all([
+                                await driver.findElement(By.id("Judul Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Deskripsi Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Pelaksanaan Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Kegiatan Berakhir *")).getAttribute("value"),
+                            ]).then(results => results.every(value => value != ''))
+                            if(isAllFilled) {
+                                await driver.executeScript(`return document.querySelector("form button[type=submit]").click();`)
+                                await driver.sleep(10000)
+                            }
+                            await thrownAnError("There are input that still not filled", !isAllFilled)
+                            let alertWarning = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null`)
+                            if(await alertWarning != null) await thrownAnError(await driver.executeScript(`return arguments[0].innerText`, await alertWarning), await alertWarning != null)
 
-                    //         // Expect results and add custom message for addtional description
-                    //         customMessages = [
-                    //             await alertWarning != null ? 'Successfully create new Activity Schedule ✅' : 'Failed to create Activity Schedule ❌'
-                    //         ]
-                    //         expect(await alertWarning).to.be.null
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                await alertWarning == null ? 'Successfully create new Activity Schedule ✅' : 'Failed to create Activity Schedule ❌'
+                            ]
+                            expect(await alertWarning).to.be.null
 
-                    //     } catch (error) {
-                    //         expect.fail(error);
-                    //     }
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
-                    // });
+                    });
                     
-                    it(`SUPER ADMIN - View activity schedule from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - View activity schedule from browser ${browser}`, async () => {
 
                         try {
 
@@ -453,7 +474,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Open activity detail registration from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Open activity detail registration from browser ${browser}`, async () => {
 
                         try {
 
@@ -501,7 +522,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Open activity detail public from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Open activity detail public from browser ${browser}`, async () => {
 
                         try {
 
@@ -576,7 +597,207 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Select day range from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Open modal popup activity registration from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityClass = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-class")`)
+                            if(await activityClass == null) {
+                                async function searchActivityClass() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityClass = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-class")`)
+                                    if(await activityClass) return
+                                    else await searchActivityClass()
+                                }
+                                await searchActivityClass()
+                                await thrownAnError("Activity class was not found", await activityClass == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityClass?.click()
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                                await activityClass?.click()
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                            customMessages = [
+                                await modalContent.isDisplayed() ? '- Popup modal activity registration successfully showed up ✅' : '- Popup modal activity registration does not showed up ❌'
+                            ]
+                            expect(await modalContent.isDisplayed()).to.be.equal(true)
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`SUPER ADMIN - Open modal popup activity public from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                            }
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                            customMessages = [
+                                await modalContent.isDisplayed() ? '- Popup modal activity public successfully showed up ✅' : '- Popup modal activity public does not showed up ❌'
+                            ]
+                            expect(await modalContent.isDisplayed()).to.be.equal(true)
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`SUPER ADMIN - Open platform video conference of public activity schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(3000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            let platformUrl;
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click();
+
+                                // Aksi Sleep
+                                await driver.sleep(3000);
+
+                                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                                if(await modalContent?.isDisplayed()) {
+                                    let btnPlatform = await driver.executeScript(`return document.querySelectorAll(".box-information a")[document.querySelectorAll(".modal-content .box-information a").length - 1]`);
+                                    platformUrl = await btnPlatform?.getAttribute('href');
+                                    await driver.executeScript(`return window.location.href = "${platformUrl}";`);
+                                }
+
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let currentUrl = await driver.getCurrentUrl()
+                            customMessages = [
+                                platformUrl != null ? "- Successfully redirected to the appropriate platform ✅" : "Failed redirect to the appropriate platform ❌"
+                            ]
+                            expect(platformUrl).to.be.not.null
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                    it.skip(`SUPER ADMIN - Select day range from browser ${browser}`, async () => {
 
                         try {
 
@@ -640,7 +861,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - View Activity Schedule on prevent month from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - View Activity Schedule on prevent month from browser ${browser}`, async () => {
 
                         try {
 
@@ -685,7 +906,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`SUPER ADMIN - View Activity Schedule on next month from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - View Activity Schedule on next month from browser ${browser}`, async () => {
 
                         try {
 
@@ -730,7 +951,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Check the navigation button next of list activities schedule from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check the navigation button next of list activities schedule from browser ${browser}`, async () => {
 
                         try {
 
@@ -775,7 +996,806 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Check the navigation button prev of list activities schedule from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check the navigation button prev of list activities schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik button navigation next pada list activities schedule
+                            let activities = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
+                            let currentActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            if(await activities.length < 5) {
+                                await driver.executeScript(`return Array.from(document.querySelectorAll("button.btn-paginate i")).find(value => value.className.includes("arrow-right")).click()`)
+                                await driver.sleep(2000)
+                                await driver.executeScript(`return Array.from(document.querySelectorAll("button.btn-paginate i")).find(value => value.className.includes("arrow-left")).click()`)
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let newActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            customMessages = [
+                                await newActivities.getAttribute("innerHTML") == await currentActivities.getAttribute("innerHTML") ? "Successfully displays the prev activity list ✅" : "Failed to display the prev activity list ❌"
+                            ]
+                            expect(await newActivities.getAttribute("innerHTML") == await currentActivities.getAttribute("innerHTML") || await activities.length == 0).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`SUPER ADMIN - Delete the public activity from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(3000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                let actions = driver.actions({async: true});
+                                await actions.move({origin: activityAnnouncement}).perform()
+                                await driver.sleep(2000)
+                                let btnDelete = await driver.executeScript(`return document.querySelector("button.btn i.ri-delete-bin-7-line")`)
+                                if(await btnDelete.isDisplayed()) await btnDelete?.click()
+
+                                // Aksi Sleep
+                                await driver.sleep(3000);
+
+                                // Confirmation Delete
+                                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                                if(await modalContent.isDisplayed()) await driver.executeScript(`return document.querySelector("button.btn.btn-danger").click()`)
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let alertWarning = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null`)
+                            customMessages = [
+                                await alertWarning == null ? '- Successfully deleted the public activity ✅' : '- Failed to delete public activity ❌'
+                            ]
+                            expect(await alertWarning).to.be.null
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                break;
+
+                case 1:
+                    it.skip(`ADMIN - Create a new public activity schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(3000)
+
+                            // Aksi mengklik button '+' kegiatan
+                            await driver.executeScript(`return document.querySelector(".content-header button i.ri-add-line").click()`)
+                            
+                            // Aksi sleep
+                            await driver.sleep(4000)
+
+                            // Aksi mengisi form create kegiatan
+                            let isAllFilled;
+                            // DUMMY DATA
+                            let title = "Seminar " + faker.company.name();
+                            let description = faker.lorem.paragraphs()
+                            let address = faker.location.streetAddress(true)
+                            let linkMap = 'https://goo.gl/maps/8mrd5ha6yZ47jQvn7'
+                            let today = new Date();
+                            let dayOpenActivity = faker.number.int({ min: 1, max: 19 })
+                            let dateOpenActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
+                            let dateEndActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
+                            let platformName = 'Youtube'
+                            let linkConference = 'https://www.youtube.com/channel/UClrtoaPaIHDY2liEh_RJcOg'
+
+                            /** Aksi mengisi input value title */
+                            await driver.findElement(By.id("Judul Kegiatan *")).sendKeys(title)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input value description */
+                            await driver.findElement(By.id("Deskripsi Kegiatan *")).sendKeys(description)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input value tipe kegiatan */
+                            let selectElement = await driver.findElement(By.id('Tipe Kegiatan *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1})
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(3000)
+                            let valueSelect = await driver.executeScript(`return document.querySelector("select.custom-select").value.toLowerCase();`)
+                            let cardConference, randomIndexConference, typeConference;
+                            if(await valueSelect?.includes("online")) {
+                                cardConference = await driver.executeScript(`return Array.from(document.querySelectorAll("#select-video-conference .card")).filter(value => !value.querySelector(".card-body small"));`)
+                                randomIndexConference = faker.number.int({ min: 0, max: await cardConference.length - 1 })
+                                typeConference = await driver.executeScript(`return arguments[0].querySelector("h6").innerText.toLowerCase()`, await cardConference[randomIndexConference])
+                                await driver.executeScript(`return arguments[0].querySelector("i").click()`, await cardConference[randomIndexConference])
+                                await driver.sleep(2000)
+                                if(await typeConference.includes('manual')) {
+                                    // Aksi menunggu modal content
+                                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                    /** Aksi mengisi input platform name */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-platform").value = "${platformName}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi mengisi input value link conference */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-link").value = "${linkConference}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi submit */
+                                    await driver.executeScript(`return document.querySelector(".modal-content button[type=submit]").click()`)
+                                    await driver.sleep(2000)
+                                }
+                            } else {
+                                /** Aksi mengisi input value lokasi kegiatan */
+                                await driver.findElement(By.id("Lokasi Kegiatan *")).sendKeys(address)
+                                await driver.sleep(2000)
+                                /** Aksi mengisi input value link map */
+                                await driver.findElement(By.css(".form-group input[placeholder='Link Maps']")).sendKeys(linkMap)
+                                await driver.sleep(2000)
+                            }
+                            /** Scroll down */
+                            await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight);`)
+                            await driver.sleep(2000)
+                            /** Aksi memasukkan input date pelaksanaan kegiatan & kegiatan berakhir */
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.ENTER)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[0])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[1])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[2])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.TAB)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys("08:00")
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.ENTER)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[0])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[1])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[2])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.TAB)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys("16:00")
+
+                            // Aksi Sleep
+                            await driver.sleep(3000)
+
+                            /** Aksi mengecek semua fill terlah terisi & submit form */
+                            isAllFilled = await Promise.all([
+                                await driver.findElement(By.id("Judul Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Deskripsi Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Pelaksanaan Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Kegiatan Berakhir *")).getAttribute("value"),
+                            ]).then(results => results.every(value => value != ''))
+                            if(isAllFilled) {
+                                await driver.executeScript(`return document.querySelector("form button[type=submit]").click();`)
+                                await driver.sleep(10000)
+                            }
+                            await thrownAnError("There are input that still not filled", !isAllFilled)
+                            let alertWarning = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null`)
+                            if(await alertWarning != null) await thrownAnError(await driver.executeScript(`return arguments[0].innerText`, await alertWarning), await alertWarning != null)
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                await alertWarning == null ? 'Successfully create new Activity Schedule ✅' : 'Failed to create Activity Schedule ❌'
+                            ]
+                            expect(await alertWarning).to.be.null
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                    it(`ADMIN - Edit public activity schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(3000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                let actions = driver.actions({async: true});
+                                await actions.move({origin: activityAnnouncement}).perform()
+                                await driver.sleep(2000)
+                                let btnEdit = await driver.executeScript(`return document.querySelector("button.btn i.ri-edit-2-line")`)
+                                if(await btnEdit.isDisplayed()) await btnEdit?.click()
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                            }
+
+                            // Aksi mengklik button edit pada salah satu event item pada list activity
+                            // let activities = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
+                            // let randomIndexActivity = faker.number.int({ min: 0, max: await activities.length - 1 }) 
+                            
+                            // Aksi sleep
+                            await driver.sleep(4000)
+
+                            // Aksi mengisi form create kegiatan
+                            let isAllFilled;
+                            // DUMMY DATA
+                            let title = "Seminar " + faker.company.name();
+                            let description = faker.lorem.paragraphs()
+                            let address = faker.location.streetAddress(true)
+                            let linkMap = 'https://goo.gl/maps/8mrd5ha6yZ47jQvn7'
+                            let today = new Date();
+                            let dayOpenActivity = faker.number.int({ min: 1, max: 19 })
+                            let dateOpenActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
+                            let dateEndActivity = browser == 'firefox' ? `${String(today.getMonth() + 1).padStart(2, '0')}-${String(dayOpenActivity).padStart(2, '0')}-${today.getFullYear()}` : `${String(dayOpenActivity).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`
+                            let platformName = 'Youtube'
+                            let linkConference = 'https://www.youtube.com/channel/UClrtoaPaIHDY2liEh_RJcOg'
+
+                            /** Aksi mengisi input value title */
+                            await driver.findElement(By.id("Judul Kegiatan *")).clear()
+                            await driver.findElement(By.id("Judul Kegiatan *")).sendKeys(title)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input value description */
+                            await driver.findElement(By.id("Deskripsi Kegiatan *")).clear()
+                            await driver.findElement(By.id("Deskripsi Kegiatan *")).sendKeys(description)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input value tipe kegiatan */
+                            let selectElement = await driver.findElement(By.id('Tipe Kegiatan *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1 })
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(3000)
+                            let valueSelect = await driver.executeScript(`return document.querySelector("select.custom-select").value.toLowerCase();`)
+                            let cardConference, randomIndexConference, typeConference;
+                            if(await valueSelect.includes("online")) {
+                                cardConference = await driver.executeScript(`return Array.from(document.querySelectorAll("#select-video-conference .card")).filter(value => !value.querySelector(".card-body small"));`)
+                                randomIndexConference = faker.number.int({ min: 0, max: await cardConference.length - 1 })
+                                typeConference = await driver.executeScript(`return arguments[0].querySelector("h6").innerText.toLowerCase()`, await cardConference[randomIndexConference])
+                                await driver.executeScript(`return arguments[0].querySelector("i").click()`, await cardConference[randomIndexConference])
+                                await driver.sleep(2000)
+                                if(await typeConference.includes('manual')) {
+                                    // Aksi menunggu modal content
+                                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                                    /** Aksi mengisi input platform name */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-platform").value = "${platformName}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi mengisi input value link conference */
+                                    await driver.executeScript(`return document.querySelector(".modal-content #input-link").value = "${linkConference}"`)
+                                    await driver.sleep(2000)
+                                    /** Aksi submit */
+                                    await driver.executeScript(`return document.querySelector(".modal-content button[type=submit]").click()`)
+                                    await driver.sleep(2000)
+                                }
+                            } else {
+                                /** Aksi mengisi input value lokasi kegiatan */
+                                await driver.findElement(By.id("Lokasi Kegiatan *")).sendKeys(address)
+                                await driver.sleep(2000)
+                                /** Aksi mengisi input value link map */
+                                await driver.findElement(By.css(".form-group input[placeholder='Link Maps']")).sendKeys(linkMap)
+                                await driver.sleep(2000)
+                            }
+                            /** Scroll down */
+                            await driver.executeScript(`window.scrollTo(0, document.body.scrollHeight);`)
+                            await driver.sleep(2000)
+                            /** Aksi memasukkan input date pelaksanaan kegiatan & kegiatan berakhir */
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).clear()
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.ENTER)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[0])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[1])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(dateOpenActivity?.split('-')[2])
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys(Key.TAB)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Pelaksanaan Kegiatan *')).sendKeys("08:00")
+                            await driver.sleep(2000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).clear()
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.ENTER)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[0])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[1])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(dateEndActivity?.split('-')[2])
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys(Key.TAB)
+                            await driver.sleep(1000)
+                            await driver.findElement(By.id('Kegiatan Berakhir *')).sendKeys("16:00")
+
+                            // Aksi Sleep
+                            await driver.sleep(3000)
+
+                            /** Aksi mengecek semua fill terlah terisi & submit form */
+                            isAllFilled = await Promise.all([
+                                await driver.findElement(By.id("Judul Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Deskripsi Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Pelaksanaan Kegiatan *")).getAttribute("value"),
+                                await driver.findElement(By.id("Kegiatan Berakhir *")).getAttribute("value"),
+                            ]).then(results => results.every(value => value != ''))
+                            if(isAllFilled) {
+                                await driver.executeScript(`return document.querySelector("form button[type=submit]").click();`)
+                                await driver.sleep(10000)
+                            }
+                            await thrownAnError("There are input that still not filled", !isAllFilled)
+                            let alertWarning = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null`)
+                            if(await alertWarning != null) await thrownAnError(await driver.executeScript(`return arguments[0].innerText`, await alertWarning), await alertWarning != null)
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                await alertWarning == null ? 'Successfully create new Activity Schedule ✅' : 'Failed to create Activity Schedule ❌'
+                            ]
+                            expect(await alertWarning).to.be.null
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`ADMIN - View activity schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let calendar = await driver.executeScript(`return document.querySelector(".calendar") ? document.querySelector(".calendar") : null`)
+                            customMessages = [
+                                await calendar != null ? 'Successfully display activity schedule on this month ✅' : 'Failed to display activity schedule ❌'
+                            ]
+                            expect(await calendar).to.be.not.null
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`ADMIN - Open activity detail registration from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activitiesRegistration = await driver.executeScript(`return Array.from(document.querySelectorAll(".card-event-item i")).filter(value => value.classList.contains('circle-class'))`) 
+                            await thrownAnError("Activities registration was empty", await activitiesRegistration?.length == 0)
+                            await driver.executeScript(`return Array.from(document.querySelectorAll(".card-event-item i")).find(value => value.classList.contains('circle-class')).click()`)
+                            await driver.sleep(2000);
+                            let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                            let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                            await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                            await titleActivity?.click();
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let currentUrl = await driver.getCurrentUrl();
+                            customMessages = [
+                                await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-')) ? '- Successfully directed to the class page ✅' : 'Failed to direct to the class page ❌'
+                            ]
+                            expect(await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-'))).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`ADMIN - Open activity detail public from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                                await driver.sleep(3000)
+                                let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                                let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                                await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                                await titleActivity?.click();
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                                await driver.sleep(3000)
+                                let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                                let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                                await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                                await titleActivity?.click();
+                            }
+
+
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let sectionDetailEvent = await driver.executeScript(`return document.getElementById("detail-event")`)
+                            customMessages = [
+                                await sectionDetailEvent != null ? "Successfully directed to activity schedule announcement detail page ✅" : "Failed to direct to activity schedule announcement detail page ❌"
+                            ]
+                            expect(await sectionDetailEvent).to.be.not.null
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`ADMIN - Select day range from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi menseleksi salah satu day untuk melihat actvities nya
+                            let daysActivty = await driver.executeScript(`return Array.from(document.querySelectorAll(".calendar tbody td"))`)
+                            let randomIndexDay = faker.number.int({ min: 1, max: await daysActivty.length - 1 })
+                            const actions = driver.actions({async: true});
+                            await actions.move({origin: await driver.executeScript(`return document.querySelectorAll(".calendar tbody td")[${randomIndexDay}].querySelector("a")`)}).click().perform();
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let selectedDate = await driver.executeScript(`return document.querySelectorAll("#schedules-event .content-header")[1].querySelector(".fc-active-month").innerText`)
+                            await thrownAnError("Failed to filtered by date", await selectedDate == null || await selectedDate == "")
+                            selectedDate = await selectedDate.match(/(\d+)\s([A-Za-z]+)/)[0]
+                            let datesRange = await driver.executeScript(`return Array.from(document.querySelectorAll(".card-event-item span")).map(value => value.innerText)`)
+                            // Aksi filter date berdasarkan dari targetDate atau tanggal yg telah di pilih sebelumnya, apakah sudah dalam rentang waktu nya atau belum. Jadi semisal target nya '19 Agt' maka dateRange nya harus kurang dari tanggal date segitu juga tidak boleh lebih. berarti harus seperti ini rentang nya '01 Jan - 21 Oct 2023"
+                            function parseDate(dateString) {
+                                const [day, month] = dateString.split(' ');
+                                const monthMap = {
+                                    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "Mei": 5, "Jun": 6,
+                                    "Jul": 7, "Agt": 8, "Sep": 9, "Okt": 10, "Nov": 11, "Des": 12
+                                };
+                                
+                                return new Date(2023, monthMap[month], parseInt(day));
+                            }
+                            function isDateInRange(targetDate, dateRange) {
+                                const [start, end] = dateRange.split(' - ').map(parseDate);
+                                const target = parseDate(targetDate);
+                                
+                                return target >= start && target <= end;
+                            }
+                            const allInRange = datesRange.every(dateRange => isDateInRange(selectedDate, dateRange));
+                            customMessages = [
+                                await allInRange || datesRange.length == 0 ? "Successfully display the existing activities schedule of selected day ✅" : "Failed to display the existing activities schedule of selected day ❌"
+                            ]
+                            expect(await allInRange || datesRange.length == 0).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`ADMIN - View Activity Schedule on prevent month from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik prev month pada calendar
+                            let currentMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let currentCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            await driver.executeScript(`return document.querySelector(".fc-navigation i").click()`)
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let prevMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let prevCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            customMessages = [
+                                await prevMonth != await currentMonth && await prevCalendar != await currentCalendar ? "Successfully display schedule on prevent month ✅" : "Failed to display schedule on previous month ❌"
+                            ]
+                            expect(await prevMonth).to.be.not.equal(await currentMonth)
+                            expect(await prevCalendar).to.be.not.equal(await currentCalendar)
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                    it.skip(`ADMIN - View Activity Schedule on next month from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik prev month pada calendar
+                            let currentMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let currentCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            await driver.executeScript(`return Array.from(document.querySelectorAll(".fc-navigation i")).find(value => value.className.includes("arrow-right")).click()`)
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let nextMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let nextCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            customMessages = [
+                                await nextMonth != await currentMonth && await nextCalendar != await currentCalendar ? "Successfully display schedule on prevent month ✅" : "Failed to display schedule on previous month ❌"
+                            ]
+                            expect(await nextMonth).to.be.not.equal(await currentMonth)
+                            expect(await nextCalendar).to.be.not.equal(await currentCalendar)
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`ADMIN - Check the navigation button next of list activities schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik button navigation next pada list activities schedule
+                            let activities = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
+                            let currentActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            if(await activities.length < 5) {
+                                await driver.executeScript(`return Array.from(document.querySelectorAll("button.btn-paginate i")).find(value => value.className.includes("arrow-right")).click()`)
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let newActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            customMessages = [
+                                await newActivities != await currentActivities ? "Successfully displays the next activity list ✅" : "Failed to display the next activity list ❌"
+                            ]
+                            expect(await newActivities != await currentActivities || await activities.length == 0).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`ADMIN - Check the navigation button prev of list activities schedule from browser ${browser}`, async () => {
 
                         try {
 
@@ -824,8 +1844,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                 break;
 
-                case 1:
-                    it.skip(`ADMIN - from browser ${browser}`, async () => {
+                case 2:
+                    it.skip(`MENTOR - View activity schedule from browser ${browser}`, async () => {
 
                         try {
 
@@ -838,22 +1858,289 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let calendar = await driver.executeScript(`return document.querySelector(".calendar") ? document.querySelector(".calendar") : null`)
+                            customMessages = [
+                                await calendar != null ? 'Successfully display activity schedule on this month ✅' : 'Failed to display activity schedule ❌'
+                            ]
+                            expect(await calendar).to.be.not.null
 
                         } catch (error) {
                             expect.fail(error);
                         }
 
+                    });
+                    
+                    it.skip(`MENTOR - Open activity detail registration from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activitiesRegistration = await driver.executeScript(`return Array.from(document.querySelectorAll(".card-event-item i")).filter(value => value.classList.contains('circle-class'))`) 
+                            await thrownAnError("Activities registration was empty", await activitiesRegistration?.length == 0)
+                            await driver.executeScript(`return Array.from(document.querySelectorAll(".card-event-item i")).find(value => value.classList.contains('circle-class')).click()`)
+                            await driver.sleep(2000);
+                            let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                            let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                            await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                            await titleActivity?.click();
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let currentUrl = await driver.getCurrentUrl();
+                            customMessages = [
+                                await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-')) ? '- Successfully directed to the class page ✅' : 'Failed to direct to the class page ❌'
+                            ]
+                            expect(await currentUrl.includes(await textActivity.toLowerCase().replace(/ /g, '-'))).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`MENTOR - Open activity detail public from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                                await driver.sleep(3000)
+                                let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                                let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                                await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                                await titleActivity?.click();
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click()
+                                await driver.sleep(3000)
+                                let titleActivity = await driver.executeScript(`return document.querySelector(".modal-content .title")`)
+                                let textActivity = await driver.executeScript(`return arguments[0].innerText;`, await titleActivity);
+                                await thrownAnError("There was no title activity in the modal", await textActivity == null || await textActivity == '')
+                                await titleActivity?.click();
+                            }
+
+
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let sectionDetailEvent = await driver.executeScript(`return document.getElementById("detail-event")`)
+                            customMessages = [
+                                await sectionDetailEvent != null ? "Successfully directed to activity schedule announcement detail page ✅" : "Failed to direct to activity schedule announcement detail page ❌"
+                            ]
+                            expect(await sectionDetailEvent).to.be.not.null
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`MENTOR - Select day range from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi menseleksi salah satu day untuk melihat actvities nya
+                            let daysActivty = await driver.executeScript(`return Array.from(document.querySelectorAll(".calendar tbody td"))`)
+                            let randomIndexDay = faker.number.int({ min: 1, max: await daysActivty.length - 1 })
+                            const actions = driver.actions({async: true});
+                            await actions.move({origin: await driver.executeScript(`return document.querySelectorAll(".calendar tbody td")[${randomIndexDay}].querySelector("a")`)}).click().perform();
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let selectedDate = await driver.executeScript(`return document.querySelectorAll("#schedules-event .content-header")[1].querySelector(".fc-active-month").innerText`)
+                            await thrownAnError("Failed to filtered by date", await selectedDate == null || await selectedDate == "")
+                            selectedDate = await selectedDate.match(/(\d+)\s([A-Za-z]+)/)[0]
+                            let datesRange = await driver.executeScript(`return Array.from(document.querySelectorAll(".card-event-item span")).map(value => value.innerText)`)
+                            // Aksi filter date berdasarkan dari targetDate atau tanggal yg telah di pilih sebelumnya, apakah sudah dalam rentang waktu nya atau belum. Jadi semisal target nya '19 Agt' maka dateRange nya harus kurang dari tanggal date segitu juga tidak boleh lebih. berarti harus seperti ini rentang nya '01 Jan - 21 Oct 2023"
+                            function parseDate(dateString) {
+                                const [day, month] = dateString.split(' ');
+                                const monthMap = {
+                                    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "Mei": 5, "Jun": 6,
+                                    "Jul": 7, "Agt": 8, "Sep": 9, "Okt": 10, "Nov": 11, "Des": 12
+                                };
+                                
+                                return new Date(2023, monthMap[month], parseInt(day));
+                            }
+                            function isDateInRange(targetDate, dateRange) {
+                                const [start, end] = dateRange.split(' - ').map(parseDate);
+                                const target = parseDate(targetDate);
+                                
+                                return target >= start && target <= end;
+                            }
+                            const allInRange = datesRange.every(dateRange => isDateInRange(selectedDate, dateRange));
+                            customMessages = [
+                                await allInRange || datesRange.length == 0 ? "Successfully display the existing activities schedule of selected day ✅" : "Failed to display the existing activities schedule of selected day ❌"
+                            ]
+                            expect(await allInRange || datesRange.length == 0).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`MENTOR - Open platform video conference of class activity schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(3000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityClass = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-class")`)
+                            let platformUrl;
+                            if(await activityClass == null) {
+                                async function searchActivityClass() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityClass = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-class")`)
+                                    if(await activityClass) return
+                                    else await searchActivityClass()
+                                }
+                                await searchActivityClass()
+                                await thrownAnError("Activity classroom was not found", await activityClass == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityClass?.click();
+                                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                                if(await modalContent?.isDisplayed()) {
+                                    let btnPlatform = await driver.executeScript(`return document.querySelectorAll(".box-information a")[document.querySelectorAll(".modal-content .box-information a").length - 1]`);
+                                    platformUrl = await btnPlatform?.getAttribute('href');
+                                    await driver.executeScript(`return window.location.href = "${platformUrl}";`);
+                                }
+
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let currentUrl = await driver.getCurrentUrl()
+                            customMessages = [
+                                await currentUrl?.includes(platformUrl) ? "- Successfully redirected to the appropriate platform ✅" : "Failed redirect to the appropriate platform ❌"
+                            ]
+                            expect(await currentUrl).to.be.include(platformUrl)
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
-                break;
-
-                case 2:
-                    it.skip(`MENTOR - from browser ${browser}`, async () => {
+                    it(`MENTOR - Open platform video conference of public activity schedule from browser ${browser}`, async () => {
 
                         try {
-                            
+
                             // Go to application
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
@@ -863,12 +2150,242 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
 
                             // Aksi sleep 
-                            await driver.sleep(3000);
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(3000)
+
+                            // Aksi memilih salah satu activity schedule untuk melihat detail nya
+                            let activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                            let platformUrl;
+                            if(await activityAnnouncement == null) {
+                                async function searchActivityAnnouncement() {
+                                    await driver.executeScript(`return document.querySelectorAll("button.btn-paginate")[1].click()`)
+
+                                    // Aksi Sleep
+                                    await driver.sleep(3000)
+
+                                    // Aksi mencari kembali activity schedule announce
+                                    activityAnnouncement = await driver.executeScript(`return document.querySelector(".card-event-item i.circle-announcement")`)
+                                    if(await activityAnnouncement) return
+                                    else await searchActivityAnnouncement()
+                                }
+                                await searchActivityAnnouncement()
+                                await thrownAnError("Activity announcement was not found", await activityAnnouncement == null)
+
+                                // Aksi mengklik card activity announcement
+                                await activityAnnouncement?.click();
+                                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content') ? document.querySelector('.modal-content') : null`);
+                                if(await modalContent?.isDisplayed()) {
+                                    let btnPlatform = await driver.executeScript(`return document.querySelectorAll(".box-information a")[document.querySelectorAll(".modal-content .box-information a").length - 1]`);
+                                    platformUrl = await btnPlatform?.getAttribute('href');
+                                    await driver.executeScript(`return window.location.href = "${platformUrl}";`);
+                                }
+
+                                
+                            } else {
+                                // Aksi mengklik card activity announcement
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let currentUrl = await driver.getCurrentUrl()
+                            customMessages = [
+                                await currentUrl?.includes(platformUrl) ? "- Successfully redirected to the appropriate platform ✅" : "Failed redirect to the appropriate platform ❌"
+                            ]
+                            expect(await currentUrl).to.be.include(platformUrl)
 
                         } catch (error) {
                             expect.fail(error);
                         }
 
+                    });
+                    
+                    it.skip(`MENTOR - View Activity Schedule on prevent month from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik prev month pada calendar
+                            let currentMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let currentCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            await driver.executeScript(`return document.querySelector(".fc-navigation i").click()`)
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let prevMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let prevCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            customMessages = [
+                                await prevMonth != await currentMonth && await prevCalendar != await currentCalendar ? "Successfully display schedule on prevent month ✅" : "Failed to display schedule on previous month ❌"
+                            ]
+                            expect(await prevMonth).to.be.not.equal(await currentMonth)
+                            expect(await prevCalendar).to.be.not.equal(await currentCalendar)
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                    it.skip(`MENTOR - View Activity Schedule on next month from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik prev month pada calendar
+                            let currentMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let currentCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            await driver.executeScript(`return Array.from(document.querySelectorAll(".fc-navigation i")).find(value => value.className.includes("arrow-right")).click()`)
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let nextMonth = await driver.executeScript(`return document.querySelector(".content-header .fc-active-month").innerText`)
+                            let nextCalendar = await driver.executeScript(`return document.querySelector(".calendar")`)
+                            customMessages = [
+                                await nextMonth != await currentMonth && await nextCalendar != await currentCalendar ? "Successfully display schedule on prevent month ✅" : "Failed to display schedule on previous month ❌"
+                            ]
+                            expect(await nextMonth).to.be.not.equal(await currentMonth)
+                            expect(await nextCalendar).to.be.not.equal(await currentCalendar)
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`MENTOR - Check the navigation button next of list activities schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik button navigation next pada list activities schedule
+                            let activities = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
+                            let currentActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            if(await activities.length < 5) {
+                                await driver.executeScript(`return Array.from(document.querySelectorAll("button.btn-paginate i")).find(value => value.className.includes("arrow-right")).click()`)
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let newActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            customMessages = [
+                                await newActivities != await currentActivities ? "Successfully displays the next activity list ✅" : "Failed to display the next activity list ❌"
+                            ]
+                            expect(await newActivities != await currentActivities || await activities.length == 0).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`MENTOR - Check the navigation button prev of list activities schedule from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'Jadwal Kegiatan'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-calendar-event-fill").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Aksi mengklik button navigation next pada list activities schedule
+                            let activities = await driver.executeScript(`return document.querySelectorAll(".card-event-item")`)
+                            let currentActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            if(await activities.length < 5) {
+                                await driver.executeScript(`return Array.from(document.querySelectorAll("button.btn-paginate i")).find(value => value.className.includes("arrow-right")).click()`)
+                                await driver.sleep(2000)
+                                await driver.executeScript(`return Array.from(document.querySelectorAll("button.btn-paginate i")).find(value => value.className.includes("arrow-left")).click()`)
+                            }
+                            
+                            // Aksi sleep
+                            await driver.sleep(5000)
+
+                            // Expect results and add custom message for addtional description
+                            let newActivities = await driver.executeScript(`return document.querySelector(".card-event-item").parentElement`)
+                            customMessages = [
+                                await newActivities.getAttribute("innerHTML") == await currentActivities.getAttribute("innerHTML") ? "Successfully displays the prev activity list ✅" : "Failed to display the prev activity list ❌"
+                            ]
+                            expect(await newActivities.getAttribute("innerHTML") == await currentActivities.getAttribute("innerHTML") || await activities.length == 0).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
