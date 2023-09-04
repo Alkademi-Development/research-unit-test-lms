@@ -1519,75 +1519,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                         }
 
                     });
-
-                    it(`SUPER ADMIN - Delete the classroom from browser ${browser}`, async () => {
-
-                        try {
-
-                            // Go to application
-                            driver = await goToApp(browser, appHost);
-                            await driver.manage().window().maximize();
-
-                            // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser, appHost);
-
-                            // Aksi sleep 
-                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
-                            await driver.sleep(5000)
-
-                            // Aksi menu tab 'Kelas'
-                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            
-                            // Aksi sleep 
-                            await driver.sleep(5000);
-                            let cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                            let emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                            if(await emptyClass == null) {
-                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
-                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                                    // emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                                    await driver.sleep(5000)
-                                }
-                            }
-
-                            // Aksi memilih salah satu card class untuk di delete
-                            let selectedCard = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
-                            let className = await driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await selectedCard)
-                            await driver.sleep(1000)
-                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await selectedCard);
-                            await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-delete-bin-7-line').click()", await selectedCard);
-                            await driver.sleep(2000)
-                            await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
-                            await driver.sleep(2000)
-                            let textDanger = await driver.executeScript(`return document.querySelector(".modal-content .text-danger") ? document.querySelector(".modal-content .text-danger") : null`)
-                            if(textDanger != null) await thrownAnError(await textDanger?.getAttribute("innerText"), await textDanger != null)
-                            
-                            // Aksi sleep 
-                            await driver.sleep(5000);
-                            cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                            emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                            if(await emptyClass == null) {
-                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
-                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                                    // emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                                    await driver.sleep(5000)
-                                }
-                            }
-
-                            // Expect results and add custom message for addtional description
-                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
-                            customMessages = [
-                                await cardClass == null ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
-                            ];
-                            expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
-
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-                    });
                     
                     // it(`SUPER ADMIN - Check the button "Terbitkan Kelas" for the "draft" classes in draft menu tab from browser ${browser}`, async () => {
 
@@ -2272,15 +2203,82 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi mencari nama class yang sesuai
                             let cardClass = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class")`);
                             let randomIndexClass = faker.number.int({ min: 0, max: await cardClass.length - 1 })
-                            let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
+                            let searchClassByName = await driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await cardClass[randomIndexClass]);
                             await driver.wait(until.elementLocated(By.css("form.filter-container input#filter-input")))
                             await driver.sleep(1000);
-                            for(let [char, index] of await searchClassByName) {
-                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(2000)
-                                if(await cardClass?.length > 0) break;
+                            for(let index in await searchClassByName) {
+                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName[index], Key.RETURN);
+                                await driver.sleep(700)
+                                if(await cardClass?.length && searchClassByName.length - 1 == index) break;
                             }
 
+                            // Aksi sleep 
+                            await driver.sleep(5000);
+                            cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                            emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
+                            if(await emptyClass == null) {
+                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
+                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                                    await driver.sleep(5000)
+                                }
+                            }
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
+                            ];
+                            expect(await cardClass.length > 0).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                    it(`SUPER ADMIN - Delete the classroom from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
+                            await driver.sleep(5000)
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(5000);
+                            let cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                            let emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
+                            if(await emptyClass == null) {
+                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
+                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                                    // emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
+                                    await driver.sleep(5000)
+                                }
+                            }
+
+                            // Aksi memilih salah satu card class untuk di delete
+                            let selectedCard = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
+                            let className = await driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await selectedCard)
+                            await driver.sleep(1000)
+                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await selectedCard);
+                            await driver.sleep(2000)
+                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-delete-bin-7-line').click()", await selectedCard);
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
+                            await driver.sleep(2000)
+                            let textDanger = await driver.executeScript(`return document.querySelector(".modal-content .text-danger") ? document.querySelector(".modal-content .text-danger") : null`)
+                            if(textDanger != null) await thrownAnError(await textDanger?.getAttribute("innerText"), await textDanger != null)
+                            
                             // Aksi sleep 
                             await driver.sleep(5000);
                             cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
@@ -2294,10 +2292,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             }
 
                             // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
                             customMessages = [
-                                await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
+                                await cardClass == null ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
                             ];
-                            expect(await cardClass.length > 0).to.be.true;
+                            expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
 
 
                         } catch (error) {
@@ -3708,75 +3707,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                         }
 
                     });
-
-                    it(`ADMIN - Delete the classroom from browser ${browser}`, async () => {
-
-                        try {
-
-                            // Go to application
-                            driver = await goToApp(browser, appHost);
-                            await driver.manage().window().maximize();
-
-                            // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser, appHost);
-
-                            // Aksi sleep 
-                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
-                            await driver.sleep(5000)
-
-                            // Aksi menu tab 'Kelas'
-                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            
-                            // Aksi sleep 
-                            await driver.sleep(5000);
-                            let cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                            let emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                            if(await emptyClass == null) {
-                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
-                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                                    // emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                                    await driver.sleep(5000)
-                                }
-                            }
-
-                            // Aksi memilih salah satu card class untuk di delete
-                            let selectedCard = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
-                            let className = await driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await selectedCard)
-                            await driver.sleep(1000)
-                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await selectedCard);
-                            await driver.sleep(2000)
-                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-delete-bin-7-line').click()", await selectedCard);
-                            await driver.sleep(2000)
-                            await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
-                            await driver.sleep(2000)
-                            let textDanger = await driver.executeScript(`return document.querySelector(".modal-content .text-danger") ? document.querySelector(".modal-content .text-danger") : null`)
-                            if(textDanger != null) await thrownAnError(await textDanger?.getAttribute("innerText"), await textDanger != null)
-                            
-                            // Aksi sleep 
-                            await driver.sleep(5000);
-                            cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                            emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                            if(await emptyClass == null) {
-                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
-                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
-                                    // emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
-                                    await driver.sleep(5000)
-                                }
-                            }
-
-                            // Expect results and add custom message for addtional description
-                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
-                            customMessages = [
-                                await cardClass == null ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
-                            ];
-                            expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
-
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-                    });
                     
                     // it(`ADMIN - Check the button "Terbitkan Kelas" for the "draft" classes in draft menu tab from browser ${browser}`, async () => {
 
@@ -4463,10 +4393,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.wait(until.elementLocated(By.css("form.filter-container input#filter-input")))
                             await driver.sleep(1000);
-                            for(let [char, index] of await searchClassByName) {
-                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(2000)
-                                if(await cardClass?.length > 0) break;
+                            for(let index in await searchClassByName) {
+                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName[index], Key.RETURN);
+                                await driver.sleep(700)
+                                if(await cardClass?.length && searchClassByName.length - 1 == index) break;
                             }
 
                             // Aksi sleep 
@@ -4486,6 +4416,75 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 await cardClass.length > 0 ? "Successfully display the classes by search input field ✅" : "Failed to display the classes by search input field ❌",
                             ];
                             expect(await cardClass.length > 0).to.be.true;
+
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+
+                    it(`ADMIN - Delete the classroom from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")));
+                            await driver.sleep(5000)
+
+                            // Aksi menu tab 'Kelas'
+                            await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
+                            
+                            // Aksi sleep 
+                            await driver.sleep(5000);
+                            let cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                            let emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
+                            if(await emptyClass == null) {
+                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
+                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                                    // emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
+                                    await driver.sleep(5000)
+                                }
+                            }
+
+                            // Aksi memilih salah satu card class untuk di delete
+                            let selectedCard = await driver.executeScript(`return document.querySelector("#section-class .card-class")`);
+                            let className = await driver.executeScript(`return arguments[0].querySelector("h1.title").innerText`, await selectedCard)
+                            await driver.sleep(1000)
+                            await driver.executeScript("arguments[0].querySelector('.ri-more-line').click()", await selectedCard);
+                            await driver.sleep(2000)
+                            await driver.executeScript("arguments[0].querySelector('.dropdown-menu a i.ri-delete-bin-7-line').click()", await selectedCard);
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
+                            await driver.sleep(2000)
+                            let textDanger = await driver.executeScript(`return document.querySelector(".modal-content .text-danger") ? document.querySelector(".modal-content .text-danger") : null`)
+                            if(textDanger != null) await thrownAnError(await textDanger?.getAttribute("innerText"), await textDanger != null)
+                            
+                            // Aksi sleep 
+                            await driver.sleep(5000);
+                            cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                            emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
+                            if(await emptyClass == null) {
+                                while(await cardClassTitle == null || await cardClassTitle?.length == 0) {
+                                    cardClassTitle = await driver.executeScript(`return document.querySelectorAll("#section-class .card-class h1.title") ? document.querySelectorAll("#section-class .card-class h1.title") : null;`);
+                                    // emptyClass = await driver.executeScript(`return document.querySelector("#section-class .card .card-body span") ? document.querySelector("#section-class .card .card-body span") : null`)
+                                    await driver.sleep(5000)
+                                }
+                            }
+
+                            // Expect results and add custom message for addtional description
+                            let cardClass = await driver.executeScript(`return Array.from(document.querySelectorAll("#section-class .card-class")).find(value => value.querySelector("h1.title").innerText.includes("${await className}"))`);
+                            customMessages = [
+                                await cardClass == null ? "Successfully deleted the classroom ✅" : "Failed to delete the classroom ❌",
+                            ];
+                            expect(await cardClass, "Expected classroom is deleted but it's still exist").to.be.null;
 
 
                         } catch (error) {
@@ -5164,10 +5163,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.wait(until.elementLocated(By.css("form.filter-container input#filter-input")))
                             await driver.sleep(1000);
-                            for(let [char, index] of await searchClassByName) {
-                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(2000)
-                                if(await cardClass?.length > 0) break;
+                            for(let index in await searchClassByName) {
+                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName[index], Key.RETURN);
+                                await driver.sleep(700)
+                                if(await cardClass?.length && searchClassByName.length - 1 == index) break;
                             }
 
                             // Aksi sleep 
@@ -5815,10 +5814,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.wait(until.elementLocated(By.css("form.filter-container input#filter-input")))
                             await driver.sleep(1000);
-                            for(let [char, index] of await searchClassByName) {
-                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(2000)
-                                if(await cardClass?.length > 0) break;
+                            for(let index in await searchClassByName) {
+                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName[index], Key.RETURN);
+                                await driver.sleep(700)
+                                if(await cardClass?.length && searchClassByName.length - 1 == index) break;
                             }
 
                             // Aksi sleep 
@@ -6568,10 +6567,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.wait(until.elementLocated(By.css("form.filter-container input#filter-input")))
                             await driver.sleep(1000);
-                            for(let [char, index] of await searchClassByName) {
-                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(2000)
-                                if(await cardClass?.length > 0) break;
+                            for(let index in await searchClassByName) {
+                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName[index], Key.RETURN);
+                                await driver.sleep(700)
+                                if(await cardClass?.length && searchClassByName.length - 1 == index) break;
                             }
 
                             // Aksi sleep 
@@ -8702,10 +8701,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let searchClassByName = await driver.executeScript("return arguments[0].innerText", await cardClass[randomIndexClass]);
                             await driver.wait(until.elementLocated(By.css("form.filter-container input#filter-input")))
                             await driver.sleep(1000);
-                            for(let [char, index] of await searchClassByName) {
-                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await char, Key.RETURN);
-                                await driver.sleep(2000)
-                                if(await cardClass?.length > 0) break;
+                            for(let index in await searchClassByName) {
+                                await driver.findElement(By.css("form.filter-container input#filter-input")).sendKeys(await searchClassByName[index], Key.RETURN);
+                                await driver.sleep(700)
+                                if(await cardClass?.length && searchClassByName.length - 1 == index) break;
                             }
 
                             // Aksi sleep 
