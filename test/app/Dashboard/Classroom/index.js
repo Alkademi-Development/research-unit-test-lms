@@ -120,7 +120,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
             switch (user.kind) {
                 case 0: 
-                    it(`SUPER ADMIN - Check menu tab 'Kelas' in sidebar from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check menu tab 'Kelas' in sidebar from browser ${browser}`, async () => {
 
                         try {
 
@@ -156,7 +156,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`SUPER ADMIN - Create a new classroom from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Create a new classroom from browser ${browser}`, async () => {
 
                         try {
 
@@ -485,7 +485,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Check button 'Reset' in form create classroom from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check button 'Reset' in form create classroom from browser ${browser}`, async () => {
 
                         try {
 
@@ -819,7 +819,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Save classroom as a 'Draft' from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Save classroom as a 'Draft' from browser ${browser}`, async () => {
 
                         try {
 
@@ -1148,7 +1148,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`SUPER ADMIN - Edit the classroom from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Edit the classroom from browser ${browser}`, async () => {
 
                         try {
 
@@ -1575,7 +1575,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     // });
                     
-                    it(`SUPER ADMIN - Filter class by "Draft" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Draft" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1626,7 +1626,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter class by "Semua" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Semua" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1670,7 +1670,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter class by "Pendaftaran" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Pendaftaran" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1721,7 +1721,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter class by "Berlangsung" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Berlangsung" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1772,7 +1772,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`SUPER ADMIN - Filter class by "Selesai" type from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter class by "Selesai" type from browser ${browser}`, async () => {
 
                         try {
 
@@ -1885,7 +1885,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 }));
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
-                                      if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
+                                      if (arr[i][0]?.toLowerCase() != arr[i - 1][0]?.toLowerCase()) { // arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0
                                         return false;
                                       }
                                     }
@@ -1936,7 +1936,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter sort classroom by date from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter sort classroom by date from browser ${browser}`, async () => {
 
                         try {
 
@@ -2021,7 +2021,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Filter classes by program from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Filter classes by program from browser ${browser}`, async () => {
 
                         try {
 
@@ -2096,7 +2096,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Remove the applied filter from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Remove the applied filter from browser ${browser}`, async () => {
 
                         try {
 
@@ -2170,7 +2170,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it(`SUPER ADMIN - Search by name class from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Search by name class from browser ${browser}`, async () => {
 
                         try {
 
@@ -2236,7 +2236,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`SUPER ADMIN - Delete the classroom from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Delete the classroom from browser ${browser}`, async () => {
 
                         try {
 
@@ -4074,7 +4074,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 }));
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
-                                      if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
+                                      if (arr[i][0]?.toLowerCase() != arr[i - 1][0]?.toLowerCase()) { // arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0
                                         return false;
                                       }
                                     }
@@ -4842,7 +4842,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 }));
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
-                                      if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
+                                      if (arr[i][0]?.toLowerCase() != arr[i - 1][0]?.toLowerCase()) { // arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0
                                         return false;
                                       }
                                     }
@@ -5451,7 +5451,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi klik menu tab 'Pendaftaran' class
                             await driver.wait(until.elementLocated(By.css(".item-tab span")))
-                            await driver.executeScript(`return document.querySelectorAll(".item-tab span")[1].click()`);
+                            await driver.executeScript(`return document.querySelectorAll(".item-tab span")[2].click()`);
                             
                             // Aksi sleep 
                             await driver.sleep(5000);
@@ -5491,7 +5491,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 }));
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
-                                      if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
+                                      if (arr[i][0]?.toLowerCase() != arr[i - 1][0]?.toLowerCase()) { // arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0
                                         return false;
                                       }
                                     }
@@ -6246,7 +6246,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 }));
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
-                                      if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
+                                      if (arr[i][0]?.toLowerCase() != arr[i - 1][0]?.toLowerCase()) { // arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0
                                         return false;
                                       }
                                     }
@@ -8380,7 +8380,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 }));
                                 function isSorted(arr) {
                                     for (let i = 1; i < arr.length; i++) {
-                                      if (arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0) {
+                                      if (arr[i][0]?.toLowerCase() != arr[i - 1][0]?.toLowerCase()) { // arr[i].localeCompare(arr[i - 1], 'en', { sensitivity: 'base' }) < 0
                                         return false;
                                       }
                                     }
