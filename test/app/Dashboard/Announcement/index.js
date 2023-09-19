@@ -120,7 +120,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
             switch (user.kind) {
                 case 0:
-                    it(`SUPER ADMIN - Create a Form from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Create a Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -136,222 +136,68 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
                             await driver.sleep(5000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
+                            // Aksi klik menu 'User'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(5000)
-
-                            // Aksi menekan tombol '+ Formulir'
-                            await driver.findElement(By.css(".main-content .btn-primary")).click();
+                            // Aksi menekan tombol '+ Announcement'
+                            await driver.executeScript(`return document.querySelector(".main-content a.btn-primary .ri-add-line").click()`)
 
                             // Aksi Sleep
-                            await driver.sleep(7000)
+                            await driver.sleep(10000)
 
-                            // Aksi berpindah ke halaman new tab baru
-                            let windows = await driver.getAllWindowHandles();
-                            await driver.switchTo().window(windows[windows.length - 1]);
-                            await driver.sleep(3000);
-
-                            // console.log(await driver.getCurrentUrl())
-
-                            // Aksi mengisi form formulir
-                            /** Dummy Data **/
-                            let limitTime = faker.number.int({ min: 3, max: 10 });
-                            let formStats = faker.datatype.boolean()
-                            let title = faker.lorem.words()
-                            let description = faker.lorem.sentence()
-                            let formType = 'basic'
-                            let isNotifEmail = faker.datatype.boolean()
-                            let emailNotif = 'adnanerlansyah505@gmail.com'
-                            let questions = [];
-                            let maxQuestion = faker.number.int({ min: 3, max: 5 });
-                            /** Input mengisi waktu menit di form */
-                            let labelMinute = await driver.findElement(By.css("label[for='input-minute']"));
-                            let actions = driver.actions({async: true});
-                            await actions.move({origin: labelMinute}).perform();
-                            await driver.sleep(2000);
-                            let inputMinute = await driver.findElement(By.css("input#input-minute"));
-                            await inputMinute.sendKeys(limitTime);
-                            await driver.sleep(2000);
-                            /** Aksi mengisi status formulir apakah tertutup atau terbuka */
-                            await driver.executeScript(`return document.querySelector("#create button.btn-secondary").click()`);
-                            await driver.sleep(2000);
-                            if(formStats) await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("terbuka")).click();`)
-                            else await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("tertutup")).click()`)
-                            await driver.sleep(2000);
-                            /** Aksi mengisi title */
-                            for (let index = 0; index < 30; index++) {
-                                await driver.findElement(By.css("input.input-title")).sendKeys(Key.BACK_SPACE)
-                                await driver.sleep(400);
-                            }
-                            await driver.sleep(3000);
-                            await driver.findElement(By.css("input.input-title")).sendKeys(title)
-                            await driver.sleep(2000);
-                            /** Aksi mengisi description */
-                            await driver.findElement(By.css("textarea.input-description")).sendKeys(description);
-                            await driver.sleep(2000);
-                            /** Aksi memilih salah satu tipe form apakah basic atau quiz */
-                            if(formType == 'quiz') {
-                                await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("basic")).click()`)
-                                await driver.sleep(2000);
-                                await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("quiz")).click();`)
-                                await driver.sleep(2000);
-                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
-                                await driver.sleep(2000);
-                            }
-                            /** Aksi konfirmasi notifikasi email soal */
-                            if(isNotifEmail) {
-                                await driver.executeScript(`return document.querySelector(".send-email").click()`)
-                                await driver.findElement(By.id("emailTo")).sendKeys(emailNotif)
-                                await driver.sleep(2000);
-                            }
-                            /** Aksi mengisi question */
-                            if(formType == 'basic') {
-                                for (let index = 0; index < maxQuestion - 1; index++) {
-                                    questions.push({
-                                        question: faker.lorem.words(),
-                                        required: faker.datatype.boolean()
-                                    })
-                                    /** Aksi mengisi input question */
-                                    let inputQuestions = await driver.findElements(By.id("input-question"));
-                                    await inputQuestions[index].sendKeys(questions[index].question);
-                                    await driver.sleep(2000);
-                                    /** Aksi mengonfirmasi apakah pertanyaan nya wajib di isi atau tidak */
-                                    let btnRequires = await driver.executeScript(`return Array.from(document.querySelectorAll(".action .btn-light")).filter(v => v.innerText.toLowerCase().includes("wajib"))`);
-                                    if(questions[index].required) await driver.executeScript(`return arguments[0].click()`, await btnRequires[index]);
-                                    await driver.sleep(2000);
-                                    /** Aksi tambah pertanyaaan */
-                                    console.log(index, maxQuestion - 2, index != maxQuestion - 2);
-                                    if(index != maxQuestion - 2) await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("tambah")).click()`)
-                                    await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`)
-                                    await driver.sleep(2000);
-                                }
-                            }
-                            
-
-
-                            // Aksi Sleep
-                            await driver.sleep(5000);
-
-                            // Cek semua input telah terisi
-                            let isAllFilled = await Promise.all([
-                                await driver.findElement(By.css("input.input-title")).getAttribute('value'),
-                                await driver.findElement(By.css("textarea.input-description")).getAttribute('value'),
-                                await driver.findElement(By.id("input-question")).getAttribute('value'),
-                            ]).then(results => results.every(value => value != ''));
-
-                            if(isAllFilled) {
-                                await driver.executeScript(`return document.querySelector(".next-button .btn-primary").click()`)
-                                await driver.sleep(2000);
-                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
-                                await driver.sleep(2000);
-                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
-                            }
-
-                            // Aksi Sleep
-                            await driver.sleep(5000)
-
-                            // Thrown an Error when there are validation errors
-                            let alertWarning = await driver.executeScript(`return document.querySelector(".alert-warning") ? document.querySelector(".alert-warning") : null`)
-                            if(await alertWarning) await thrownAnError(await alertWarning.getAttribute('innerText'), await alertWarning != null)
-
-                            // Expect results and add custom message for addtional description
-                            customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form ✅' : 'Failed to create a new form ❌'
-                            ]
-                            expect(await alertWarning).to.be.null
-                            expect(isAllFilled).to.be.true
-
-                        } catch (error) {
-                            expect.fail(error);
-                        }
-
-                    });
-                    
-                    it.skip(`SUPER ADMIN - Edit the Form from browser ${browser}`, async () => {
-
-                        try {
-
-                            // Go to application
-                            driver = await goToApp(browser, appHost);
-                            await driver.manage().window().maximize();
-                            errorMessages = await captureConsoleErrors(driver, browser);
-
-                            // login to the application
-                            errorMessages = await enterDashboard(driver, user, browser, appHost);
-
-                            // Aksi sleep 
-                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
-                            await driver.sleep(5000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi memilih salah satu blog untuk di edit
-                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)  
-
-                            // Aksi Sleep
-                            await driver.sleep(5000)
-
-                            // Aksi mengisi form formulir
+                            // Aksi mengisi form announcement
                             /** Dummy Data **/
                             let title = faker.lorem.sentence(5);
                             let description = faker.lorem.paragraph();
-                            let summary = description.slice(0, 100);
-                            /** Input title */
-                            await driver.findElement(By.id("Judul *")).clear()
-                            await driver.findElement(By.id("Judul *")).sendKeys(title);
-                            await driver.sleep(2000);
-                            /** Input summary */
-                            await driver.findElement(By.id("Rangkuman *")).clear();
-                            await driver.findElement(By.id("Rangkuman *")).sendKeys(summary);
-                            await driver.sleep(2000);
+                            let statusAnnouncement = faker.datatype.boolean();
+                            let link = 'https://www.youtube.com'
                             /** Aksi upload file thumbnail */
                             let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
                             await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
                             await driver.sleep(2000);
-                            /** Input article */
-                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '';`);
+                            /** Input title */
+                            await driver.findElement(By.id("Judul Announcement *")).sendKeys(title);
                             await driver.sleep(2000);
+                            /** Input description */
                             await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
                             await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                            await driver.sleep(2000);
+                            /** Aksi mengisi input status announcement */
+                            await driver.executeScript(`return document.querySelector("input#active").checked = ${statusAnnouncement}`)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi / memilih inpu tipe announcement */
+                            let selectElement = await driver.findElement(By.id('Tipe Annoucement *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1})
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input link announcement */
+                            await driver.findElement(By.id("Link Announcement*")).sendKeys(link)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input date di mulai & berakhir program */
+                            await driver.executeScript(`return document.getElementById("Dimulai *").click()`)
+                            await driver.sleep(2000)
+                            let days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            let randomIndexDay = faker.number.int({ min: 0, max: 24 })
+                            await days[randomIndexDay].click();
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.getElementById("Berakhir *").click()`)
+                            await driver.sleep(2000)
+                            days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            await days[randomIndexDay + 1].click();
 
                             // Aksi Sleep
                             await driver.sleep(5000);
 
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
-                                await driver.findElement(By.id("Judul *")).getAttribute("value"),
-                                await driver.findElement(By.id("Rangkuman *")).getAttribute("value"),
-                                // await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML`),
+                                await driver.findElement(By.id("Judul Announcement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Annoucement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Link Announcement*")).getAttribute("value"),
                             ]).then(results => results.every(value => value != ''));
 
                             if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
@@ -365,7 +211,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form Admin ✅' : 'Failed to create a new form ❌'
+                                await alertWarning == null && isAllFilled ? '- Successfully created a new announcement ✅' : '- Failed to create a new announcement ❌'
                             ]
                             expect(await alertWarning).to.be.null
                             expect(isAllFilled).to.be.true
@@ -376,7 +222,114 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`SUPER ADMIN - Check the pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Edit the Announcement from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+                            errorMessages = await captureConsoleErrors(driver, browser);
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep 
+                            await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
+                            await driver.sleep(5000)
+
+                            // Aksi klik menu 'User'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
+
+                            // Aksi sleep
+                            await driver.sleep(3000)
+
+                            // Aksi memilih salah satu announcement untuk di edit
+                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
+                            await driver.sleep(2000);    
+
+                            // Aksi Sleep
+                            await driver.sleep(10000)
+
+                            // Aksi mengisi form announcement
+                            /** Dummy Data **/
+                            let title = faker.lorem.sentence(5);
+                            let description = faker.lorem.paragraph();
+                            let statusAnnouncement = faker.datatype.boolean();
+                            let link = 'https://www.youtube.com'
+                            /** Aksi upload file thumbnail */
+                            let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
+                            await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
+                            await driver.sleep(2000);
+                            /** Input title */
+                            await driver.findElement(By.id("Judul Announcement *")).clear()
+                            await driver.findElement(By.id("Judul Announcement *")).sendKeys(title);
+                            await driver.sleep(2000);
+                            /** Input description */
+                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p></p>';`);
+                            await driver.sleep(1000)
+                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
+                            await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                            await driver.sleep(2000);
+                            /** Aksi mengisi input status announcement */
+                            await driver.executeScript(`return document.querySelector("input#active").checked = ${statusAnnouncement}`)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi / memilih inpu tipe announcement */
+                            let selectElement = await driver.findElement(By.id('Tipe Annoucement *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1})
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input link announcement */
+                            await driver.findElement(By.id("Link Announcement*")).clear()
+                            await driver.findElement(By.id("Link Announcement*")).sendKeys(link)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input date di mulai & berakhir program */
+                            await driver.executeScript(`return document.getElementById("Dimulai *").click()`)
+                            await driver.sleep(2000)
+                            let days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            let randomIndexDay = faker.number.int({ min: 0, max: 24 })
+                            await days[randomIndexDay].click();
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.getElementById("Berakhir *").click()`)
+                            await driver.sleep(2000)
+                            days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            await days[randomIndexDay + 1].click();
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Cek semua input telah terisi
+                            let isAllFilled = await Promise.all([
+                                await driver.findElement(By.id("Judul Announcement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Annoucement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Link Announcement*")).getAttribute("value"),
+                            ]).then(results => results.every(value => value != ''));
+
+                            if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+
+                            // Thrown an Error when there are validation errors
+                            let alertWarning = await driver.executeScript(`return document.querySelector(".alert-warning") ? document.querySelector(".alert-warning") : null`)
+                            if(await alertWarning) await thrownAnError(await alertWarning.getAttribute('innerText'), await alertWarning != null)
+
+                            // Expect results and add custom message for addtional description
+                            customMessages = [
+                                await alertWarning == null && isAllFilled ? '- Successfully created a new announcement ✅' : '- Failed to create a new announcement ❌'
+                            ]
+                            expect(await alertWarning).to.be.null
+                            expect(isAllFilled).to.be.true
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it.skip(`SUPER ADMIN - Check the pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -396,20 +349,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -420,9 +361,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await pages.length > 1 || (await rows.length < 10 && await pages.length == 1) ? `- Successfully pagination displayed ✅` : `Pagination wasn't displayed ❌`
+                                await pages.length > 0 || (await rows.length < 10 && await pages.length == 1) ? `- Successfully pagination displayed ✅` : `Pagination wasn't displayed ❌`
                             ]
-                            expect(await pages.length > 1 || (await rows.length < 10 && await pages.length == 1)).to.be.true
+                            expect(await pages.length > 0 || (await rows.length < 10 && await pages.length == 1)).to.be.true
 
                         } catch (error) {
                             expect.fail(error);
@@ -430,7 +371,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`SUPER ADMIN - Check the next page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check the next page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -450,20 +391,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -472,7 +401,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let isNextPage = true;
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 let numbersOne = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
@@ -504,7 +433,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`SUPER ADMIN - Check the last page number of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check the last page number of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -524,20 +453,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000);
@@ -547,7 +464,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let pagePrevious = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                             await driver.executeScript
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).find(page => page.innerText.includes("»")).click()`)
                                 
@@ -573,7 +490,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`SUPER ADMIN - Choose a page number of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Choose a page number of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -593,20 +510,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -616,7 +521,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let randomIndexPage = faker.number.int({ min: 0, max: await pages.length - 1 });
                             let selectedPage = await pages[randomIndexPage];
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return arguments[0].click()`, await pages[randomIndexPage])
                                 
@@ -639,7 +544,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`SUPER ADMIN - Check the previous page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check the previous page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -659,20 +564,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -681,7 +574,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                             await driver.executeScript
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
                                 
@@ -711,7 +604,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`SUPER ADMIN - Check the first page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`SUPER ADMIN - Check the first page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -731,20 +624,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -752,7 +633,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi mengecek pagination
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`);
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
 
@@ -783,7 +664,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it.skip(`SUPER ADMIN - Delete the Form from browser ${browser}`, async () => {
+                    it(`SUPER ADMIN - Delete the Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -803,25 +684,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
+                            // Aksi klik menu 'Announcement'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi memilih salah satu program untuk di hapus
+                            // Aksi memilih salah satu announcement untuk di hapus
                             let tableBody = await driver.executeScript(`return document.querySelector("table tbody").innerHTML`)
                             await driver.executeScript(`return document.querySelector("table tbody tr .btn-danger").click()`)
                             await driver.sleep(2000);
@@ -836,7 +705,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Expect results and add custom message for addtional description
                             let newTableBody = await driver.executeScript(`return document.querySelector("table tbody").innerHTML`)
                             customMessages = [
-                                await tableBody != await newTableBody ? '- Successfully deleted the blog ✅' : '- Failed to delete the blog ❌'
+                                await tableBody != await newTableBody ? '- Successfully deleted the announcement ✅' : '- Failed to delete the announcement ❌'
                             ];
                             expect(await tableBody != await newTableBody).to.be.true;
                             
@@ -850,7 +719,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 break;
 
                 case 1:
-                    it.skip(`ADMIN - Create a Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Create a Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -866,65 +735,69 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
                             await driver.sleep(5000)
 
-                            // Aksi klik menu 'Event'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
-                            }).click()`)
+                            // Aksi klik menu 'User'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Event'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
-                            }).querySelector("#Event ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi menekan tombol '+ Formulir'
+                            // Aksi menekan tombol '+ Announcement'
                             await driver.executeScript(`return document.querySelector(".main-content a.btn-primary .ri-add-line").click()`)
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(10000)
 
-                            // Aksi mengisi form formulir
+                            // Aksi mengisi form announcement
                             /** Dummy Data **/
                             let title = faker.lorem.sentence(5);
                             let description = faker.lorem.paragraph();
-                            let summary = description.slice(0, 100);
-                            /** Input title */
-                            await driver.findElement(By.id("Judul *")).sendKeys(title);
-                            await driver.sleep(2000);
-                            /** Input summary */
-                            await driver.findElement(By.id("Rangkuman *")).sendKeys(summary);
-                            await driver.sleep(2000);
+                            let statusAnnouncement = faker.datatype.boolean();
+                            let link = 'https://www.youtube.com'
                             /** Aksi upload file thumbnail */
                             let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
                             await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
                             await driver.sleep(2000);
-                            /** Input article */
+                            /** Input title */
+                            await driver.findElement(By.id("Judul Announcement *")).sendKeys(title);
+                            await driver.sleep(2000);
+                            /** Input description */
                             await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
                             await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                            await driver.sleep(2000);
+                            /** Aksi mengisi input status announcement */
+                            await driver.executeScript(`return document.querySelector("input#active").checked = ${statusAnnouncement}`)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi / memilih inpu tipe announcement */
+                            let selectElement = await driver.findElement(By.id('Tipe Annoucement *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1})
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input link announcement */
+                            await driver.findElement(By.id("Link Announcement*")).sendKeys(link)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input date di mulai & berakhir program */
+                            await driver.executeScript(`return document.getElementById("Dimulai *").click()`)
+                            await driver.sleep(2000)
+                            let days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            let randomIndexDay = faker.number.int({ min: 0, max: 24 })
+                            await days[randomIndexDay].click();
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.getElementById("Berakhir *").click()`)
+                            await driver.sleep(2000)
+                            days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            await days[randomIndexDay + 1].click();
 
                             // Aksi Sleep
                             await driver.sleep(5000);
 
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
-                                await driver.findElement(By.id("Judul *")).getAttribute("value"),
-                                await driver.findElement(By.id("Rangkuman *")).getAttribute("value"),
+                                await driver.findElement(By.id("Judul Announcement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Annoucement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Link Announcement*")).getAttribute("value"),
                             ]).then(results => results.every(value => value != ''));
-
-                            if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
-
-                            // Aksi Sleep
-                            await driver.sleep(5000)
 
                             if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
 
@@ -937,7 +810,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form ✅' : 'Failed to create a new form ❌'
+                                await alertWarning == null && isAllFilled ? '- Successfully created a new announcement ✅' : '- Failed to create a new announcement ❌'
                             ]
                             expect(await alertWarning).to.be.null
                             expect(isAllFilled).to.be.true
@@ -948,7 +821,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`ADMIN - Edit the Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Edit the Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -964,61 +837,73 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
                             await driver.sleep(5000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
+                            // Aksi klik menu 'User'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi memilih salah satu blog untuk di edit
-                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)  
+                            // Aksi memilih salah satu announcement untuk di edit
+                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
+                            await driver.sleep(2000);    
 
                             // Aksi Sleep
-                            await driver.sleep(5000)
+                            await driver.sleep(10000)
 
-                            // Aksi mengisi form formulir
+                            // Aksi mengisi form announcement
                             /** Dummy Data **/
                             let title = faker.lorem.sentence(5);
                             let description = faker.lorem.paragraph();
-                            let summary = description.slice(0, 100);
-                            /** Input title */
-                            await driver.findElement(By.id("Judul *")).clear()
-                            await driver.findElement(By.id("Judul *")).sendKeys(title);
-                            await driver.sleep(2000);
-                            /** Input summary */
-                            await driver.findElement(By.id("Rangkuman *")).clear();
-                            await driver.findElement(By.id("Rangkuman *")).sendKeys(summary);
-                            await driver.sleep(2000);
+                            let statusAnnouncement = faker.datatype.boolean();
+                            let link = 'https://www.youtube.com'
                             /** Aksi upload file thumbnail */
                             let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
                             await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
                             await driver.sleep(2000);
-                            /** Input article */
-                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '';`);
+                            /** Input title */
+                            await driver.findElement(By.id("Judul Announcement *")).clear()
+                            await driver.findElement(By.id("Judul Announcement *")).sendKeys(title);
                             await driver.sleep(2000);
+                            /** Input description */
+                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p></p>';`);
+                            await driver.sleep(1000)
                             await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
                             await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                            await driver.sleep(2000);
+                            /** Aksi mengisi input status announcement */
+                            await driver.executeScript(`return document.querySelector("input#active").checked = ${statusAnnouncement}`)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi / memilih inpu tipe announcement */
+                            let selectElement = await driver.findElement(By.id('Tipe Annoucement *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1})
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input link announcement */
+                            await driver.findElement(By.id("Link Announcement*")).clear()
+                            await driver.findElement(By.id("Link Announcement*")).sendKeys(link)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input date di mulai & berakhir program */
+                            await driver.executeScript(`return document.getElementById("Dimulai *").click()`)
+                            await driver.sleep(2000)
+                            let days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            let randomIndexDay = faker.number.int({ min: 0, max: 24 })
+                            await days[randomIndexDay].click();
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.getElementById("Berakhir *").click()`)
+                            await driver.sleep(2000)
+                            days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            await days[randomIndexDay + 1].click();
 
                             // Aksi Sleep
                             await driver.sleep(5000);
 
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
-                                await driver.findElement(By.id("Judul *")).getAttribute("value"),
-                                await driver.findElement(By.id("Rangkuman *")).getAttribute("value"),
-                                // await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML`),
+                                await driver.findElement(By.id("Judul Announcement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Annoucement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Link Announcement*")).getAttribute("value"),
                             ]).then(results => results.every(value => value != ''));
 
                             if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
@@ -1032,7 +917,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form Admin ✅' : 'Failed to create a new form ❌'
+                                await alertWarning == null && isAllFilled ? '- Successfully created a new announcement ✅' : '- Failed to create a new announcement ❌'
                             ]
                             expect(await alertWarning).to.be.null
                             expect(isAllFilled).to.be.true
@@ -1043,7 +928,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`ADMIN - Check the pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Check the pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1063,20 +948,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1087,9 +960,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await pages.length > 1 || (await rows.length < 10 && await pages.length == 1) ? `- Successfully pagination displayed ✅` : `Pagination wasn't displayed ❌`
+                                await pages.length > 0 || (await rows.length < 10 && await pages.length == 1) ? `- Successfully pagination displayed ✅` : `Pagination wasn't displayed ❌`
                             ]
-                            expect(await pages.length > 1 || (await rows.length < 10 && await pages.length == 1)).to.be.true
+                            expect(await pages.length > 0 || (await rows.length < 10 && await pages.length == 1)).to.be.true
 
                         } catch (error) {
                             expect.fail(error);
@@ -1097,7 +970,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`ADMIN - Check the next page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Check the next page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1117,20 +990,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1139,7 +1000,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let isNextPage = true;
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 let numbersOne = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
@@ -1171,7 +1032,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`ADMIN - Check the last page number of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Check the last page number of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1191,20 +1052,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000);
@@ -1214,7 +1063,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let pagePrevious = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                             await driver.executeScript
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).find(page => page.innerText.includes("»")).click()`)
                                 
@@ -1240,7 +1089,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`ADMIN - Choose a page number of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Choose a page number of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1260,20 +1109,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1283,7 +1120,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let randomIndexPage = faker.number.int({ min: 0, max: await pages.length - 1 });
                             let selectedPage = await pages[randomIndexPage];
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return arguments[0].click()`, await pages[randomIndexPage])
                                 
@@ -1306,7 +1143,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`ADMIN - Check the previous page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Check the previous page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1326,20 +1163,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1348,7 +1173,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                             await driver.executeScript
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
                                 
@@ -1378,7 +1203,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`ADMIN - Check the first page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`ADMIN - Check the first page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1398,20 +1223,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1419,7 +1232,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi mengecek pagination
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`);
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
 
@@ -1450,7 +1263,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it.skip(`ADMIN - Delete the Form from browser ${browser}`, async () => {
+                    it(`ADMIN - Delete the Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1470,25 +1283,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
+                            // Aksi klik menu 'Announcement'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi memilih salah satu program untuk di hapus
+                            // Aksi memilih salah satu announcement untuk di hapus
                             let tableBody = await driver.executeScript(`return document.querySelector("table tbody").innerHTML`)
                             await driver.executeScript(`return document.querySelector("table tbody tr .btn-danger").click()`)
                             await driver.sleep(2000);
@@ -1503,7 +1304,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Expect results and add custom message for addtional description
                             let newTableBody = await driver.executeScript(`return document.querySelector("table tbody").innerHTML`)
                             customMessages = [
-                                await tableBody != await newTableBody ? '- Successfully deleted the blog ✅' : '- Failed to delete the blog ❌'
+                                await tableBody != await newTableBody ? '- Successfully deleted the announcement ✅' : '- Failed to delete the announcement ❌'
                             ];
                             expect(await tableBody != await newTableBody).to.be.true;
                             
@@ -1528,7 +1329,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 break;
 
                 case 5:
-                    it(`INDUSTRY - from browser ${browser}`, async () => {
+                    it.skip(`INDUSTRY - from browser ${browser}`, async () => {
 
                         try {
 
@@ -1553,7 +1354,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 break;
                 
                 case 6:
-                    it.skip(`CONTENT WRITER - Create a Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Create a Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1569,65 +1370,69 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
                             await driver.sleep(5000)
 
-                            // Aksi klik menu 'Event'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
-                            }).click()`)
+                            // Aksi klik menu 'User'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Event'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
-                            }).querySelector("#Event ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi menekan tombol '+ Formulir'
+                            // Aksi menekan tombol '+ Announcement'
                             await driver.executeScript(`return document.querySelector(".main-content a.btn-primary .ri-add-line").click()`)
 
                             // Aksi Sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(10000)
 
-                            // Aksi mengisi form formulir
+                            // Aksi mengisi form announcement
                             /** Dummy Data **/
                             let title = faker.lorem.sentence(5);
                             let description = faker.lorem.paragraph();
-                            let summary = description.slice(0, 100);
-                            /** Input title */
-                            await driver.findElement(By.id("Judul *")).sendKeys(title);
-                            await driver.sleep(2000);
-                            /** Input summary */
-                            await driver.findElement(By.id("Rangkuman *")).sendKeys(summary);
-                            await driver.sleep(2000);
+                            let statusAnnouncement = faker.datatype.boolean();
+                            let link = 'https://www.youtube.com'
                             /** Aksi upload file thumbnail */
                             let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
                             await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
                             await driver.sleep(2000);
-                            /** Input article */
+                            /** Input title */
+                            await driver.findElement(By.id("Judul Announcement *")).sendKeys(title);
+                            await driver.sleep(2000);
+                            /** Input description */
                             await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
                             await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                            await driver.sleep(2000);
+                            /** Aksi mengisi input status announcement */
+                            await driver.executeScript(`return document.querySelector("input#active").checked = ${statusAnnouncement}`)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi / memilih inpu tipe announcement */
+                            let selectElement = await driver.findElement(By.id('Tipe Annoucement *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1})
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input link announcement */
+                            await driver.findElement(By.id("Link Announcement*")).sendKeys(link)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input date di mulai & berakhir program */
+                            await driver.executeScript(`return document.getElementById("Dimulai *").click()`)
+                            await driver.sleep(2000)
+                            let days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            let randomIndexDay = faker.number.int({ min: 0, max: 24 })
+                            await days[randomIndexDay].click();
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.getElementById("Berakhir *").click()`)
+                            await driver.sleep(2000)
+                            days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            await days[randomIndexDay + 1].click();
 
                             // Aksi Sleep
                             await driver.sleep(5000);
 
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
-                                await driver.findElement(By.id("Judul *")).getAttribute("value"),
-                                await driver.findElement(By.id("Rangkuman *")).getAttribute("value"),
+                                await driver.findElement(By.id("Judul Announcement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Annoucement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Link Announcement*")).getAttribute("value"),
                             ]).then(results => results.every(value => value != ''));
-
-                            if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
-
-                            // Aksi Sleep
-                            await driver.sleep(5000)
 
                             if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
 
@@ -1640,7 +1445,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form ✅' : 'Failed to create a new form ❌'
+                                await alertWarning == null && isAllFilled ? '- Successfully created a new announcement ✅' : '- Failed to create a new announcement ❌'
                             ]
                             expect(await alertWarning).to.be.null
                             expect(isAllFilled).to.be.true
@@ -1651,7 +1456,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`CONTENT WRITER - Edit the Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Edit the Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1667,61 +1472,73 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
                             await driver.sleep(5000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
+                            // Aksi klik menu 'User'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi memilih salah satu blog untuk di edit
-                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)  
+                            // Aksi memilih salah satu announcement untuk di edit
+                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
+                            await driver.sleep(2000);    
 
                             // Aksi Sleep
-                            await driver.sleep(5000)
+                            await driver.sleep(10000)
 
-                            // Aksi mengisi form formulir
+                            // Aksi mengisi form announcement
                             /** Dummy Data **/
                             let title = faker.lorem.sentence(5);
                             let description = faker.lorem.paragraph();
-                            let summary = description.slice(0, 100);
-                            /** Input title */
-                            await driver.findElement(By.id("Judul *")).clear()
-                            await driver.findElement(By.id("Judul *")).sendKeys(title);
-                            await driver.sleep(2000);
-                            /** Input summary */
-                            await driver.findElement(By.id("Rangkuman *")).clear();
-                            await driver.findElement(By.id("Rangkuman *")).sendKeys(summary);
-                            await driver.sleep(2000);
+                            let statusAnnouncement = faker.datatype.boolean();
+                            let link = 'https://www.youtube.com'
                             /** Aksi upload file thumbnail */
                             let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
                             await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
                             await driver.sleep(2000);
-                            /** Input article */
-                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '';`);
+                            /** Input title */
+                            await driver.findElement(By.id("Judul Announcement *")).clear()
+                            await driver.findElement(By.id("Judul Announcement *")).sendKeys(title);
                             await driver.sleep(2000);
+                            /** Input description */
+                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p></p>';`);
+                            await driver.sleep(1000)
                             await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
                             await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                            await driver.sleep(2000);
+                            /** Aksi mengisi input status announcement */
+                            await driver.executeScript(`return document.querySelector("input#active").checked = ${statusAnnouncement}`)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi / memilih inpu tipe announcement */
+                            let selectElement = await driver.findElement(By.id('Tipe Annoucement *'))
+                            let selectType = new Select(selectElement)
+                            let optionsType = await driver.executeScript(`return document.querySelectorAll("form select.custom-select option")`)
+                            let randomIndexType = faker.number.int({ min: 1, max: await optionsType.length - 1})
+                            await selectType.selectByIndex(randomIndexType)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input link announcement */
+                            await driver.findElement(By.id("Link Announcement*")).clear()
+                            await driver.findElement(By.id("Link Announcement*")).sendKeys(link)
+                            await driver.sleep(2000)
+                            /** Aksi mengisi input date di mulai & berakhir program */
+                            await driver.executeScript(`return document.getElementById("Dimulai *").click()`)
+                            await driver.sleep(2000)
+                            let days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            let randomIndexDay = faker.number.int({ min: 0, max: 24 })
+                            await days[randomIndexDay].click();
+                            await driver.sleep(2000)
+                            await driver.executeScript(`return document.getElementById("Berakhir *").click()`)
+                            await driver.sleep(2000)
+                            days = await driver.executeScript(`return document.querySelectorAll(".b-calendar-grid-body div:is([data-date]) span.text-dark")`);
+                            await days[randomIndexDay + 1].click();
 
                             // Aksi Sleep
                             await driver.sleep(5000);
 
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
-                                await driver.findElement(By.id("Judul *")).getAttribute("value"),
-                                await driver.findElement(By.id("Rangkuman *")).getAttribute("value"),
-                                // await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML`),
+                                await driver.findElement(By.id("Judul Announcement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Tipe Annoucement *")).getAttribute("value"),
+                                await driver.findElement(By.id("Link Announcement*")).getAttribute("value"),
                             ]).then(results => results.every(value => value != ''));
 
                             if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
@@ -1735,7 +1552,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form Admin ✅' : 'Failed to create a new form ❌'
+                                await alertWarning == null && isAllFilled ? '- Successfully created a new announcement ✅' : '- Failed to create a new announcement ❌'
                             ]
                             expect(await alertWarning).to.be.null
                             expect(isAllFilled).to.be.true
@@ -1746,7 +1563,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`CONTENT WRITER - Check the pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Check the pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1766,20 +1583,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1790,9 +1595,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await pages.length > 1 || (await rows.length < 10 && await pages.length == 1) ? `- Successfully pagination displayed ✅` : `Pagination wasn't displayed ❌`
+                                await pages.length > 0 || (await rows.length < 10 && await pages.length == 1) ? `- Successfully pagination displayed ✅` : `Pagination wasn't displayed ❌`
                             ]
-                            expect(await pages.length > 1 || (await rows.length < 10 && await pages.length == 1)).to.be.true
+                            expect(await pages.length > 0 || (await rows.length < 10 && await pages.length == 1)).to.be.true
 
                         } catch (error) {
                             expect.fail(error);
@@ -1800,7 +1605,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`CONTENT WRITER - Check the next page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Check the next page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1820,20 +1625,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1842,7 +1635,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let isNextPage = true;
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 let numbersOne = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
@@ -1874,7 +1667,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`CONTENT WRITER - Check the last page number of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Check the last page number of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1894,20 +1687,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000);
@@ -1917,7 +1698,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let pagePrevious = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                             await driver.executeScript
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).find(page => page.innerText.includes("»")).click()`)
                                 
@@ -1943,7 +1724,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`CONTENT WRITER - Choose a page number of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Choose a page number of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -1963,20 +1744,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -1986,7 +1755,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let rows = await driver.executeScript(`return document.querySelectorAll("table tbody tr")`);
                             let randomIndexPage = faker.number.int({ min: 0, max: await pages.length - 1 });
                             let selectedPage = await pages[randomIndexPage];
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return arguments[0].click()`, await pages[randomIndexPage])
                                 
@@ -2009,7 +1778,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`CONTENT WRITER - Check the previous page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Check the previous page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -2029,20 +1798,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -2051,7 +1808,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`)
                             await driver.executeScript
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
                                 
@@ -2081,7 +1838,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
                     
-                    it.skip(`CONTENT WRITER - Check the first page of pagination of Table List Form from browser ${browser}`, async () => {
+                    it.skip(`CONTENT WRITER - Check the first page of pagination of Table List Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -2101,20 +1858,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
+                            // Aksi klik menu 'Gallery'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
@@ -2122,7 +1867,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi mengecek pagination
                             let pages = await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => !isNaN(page.innerText))`);
                             let rows = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td[aria-colindex='1']")).map(value => Number(value.innerText))`);
-                            if(await pages?.length > 0) {
+                            if(await pages?.length > 1) {
                                 // Aksi klik button next page
                                 await driver.executeScript(`return Array.from(document.querySelectorAll("ul.pagination li.page-item button:not(.disabled)")).filter(page => isNaN(page.innerText))[0].click()`)
 
@@ -2153,7 +1898,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it.skip(`CONTENT WRITER - Delete the Form from browser ${browser}`, async () => {
+                    it(`CONTENT WRITER - Delete the Announcement from browser ${browser}`, async () => {
 
                         try {
 
@@ -2173,25 +1918,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).click()`)
+                            // Aksi klik menu 'Announcement'
+                            await driver.executeScript(`return document.querySelector("ul.navbar-nav li a i.ri-notification-3-line").click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
-                            await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
-                                const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
-                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
-
-                            // Aksi sleep
-                            await driver.sleep(3000)
-
-                            // Aksi memilih salah satu program untuk di hapus
+                            // Aksi memilih salah satu announcement untuk di hapus
                             let tableBody = await driver.executeScript(`return document.querySelector("table tbody").innerHTML`)
                             await driver.executeScript(`return document.querySelector("table tbody tr .btn-danger").click()`)
                             await driver.sleep(2000);
@@ -2206,7 +1939,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Expect results and add custom message for addtional description
                             let newTableBody = await driver.executeScript(`return document.querySelector("table tbody").innerHTML`)
                             customMessages = [
-                                await tableBody != await newTableBody ? '- Successfully deleted the blog ✅' : '- Failed to delete the blog ❌'
+                                await tableBody != await newTableBody ? '- Successfully deleted the announcement ✅' : '- Failed to delete the announcement ❌'
                             ];
                             expect(await tableBody != await newTableBody).to.be.true;
                             
@@ -2232,7 +1965,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 break;
 
                 default:
-                    it(`Other - from browser ${browser}`, async () => {
+                    it.skip(`Other - from browser ${browser}`, async () => {
 
                         try {
 

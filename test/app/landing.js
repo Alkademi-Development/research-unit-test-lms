@@ -188,7 +188,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 windows.forEach(async handle => {
                     if (handle !== originalWindow) {
                         await driver.switchTo().window(handle);
-                        // await driver.wait(async () => (await driver.getAllWindowHandles()).length === 2);
                     }
                 });
     

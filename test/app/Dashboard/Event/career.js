@@ -140,7 +140,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -149,7 +149,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -277,7 +277,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -286,7 +286,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -388,7 +388,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -397,7 +397,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -444,7 +444,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -453,7 +453,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -518,7 +518,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -527,7 +527,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -589,7 +589,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -598,7 +598,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -657,7 +657,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -666,7 +666,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -729,7 +729,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -738,7 +738,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -801,7 +801,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -810,7 +810,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -868,7 +868,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -877,7 +877,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1005,7 +1005,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1014,7 +1014,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1116,7 +1116,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1125,7 +1125,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1172,7 +1172,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1181,7 +1181,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1246,7 +1246,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1255,7 +1255,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1317,7 +1317,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1326,7 +1326,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1385,7 +1385,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1394,7 +1394,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1457,7 +1457,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1466,7 +1466,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1529,7 +1529,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1538,7 +1538,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1631,7 +1631,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1640,7 +1640,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1768,7 +1768,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1777,7 +1777,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1879,7 +1879,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1888,7 +1888,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1935,7 +1935,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -1944,7 +1944,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2009,7 +2009,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2018,7 +2018,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2080,7 +2080,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2089,7 +2089,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2148,7 +2148,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2157,7 +2157,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2220,7 +2220,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2229,7 +2229,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2292,7 +2292,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector(".sidenav-body").scrollTo(0, document.querySelector(".sidenav-body").scrollHeight)`);
                             await driver.sleep(3000) 
                             
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
@@ -2301,7 +2301,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Form'
+                            // Aksi klik menu 'Event'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-rocket-line ~ span");
                                 return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
