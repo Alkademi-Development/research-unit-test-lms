@@ -326,8 +326,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(3000)
 
                             // Aksi memilih salah satu program untuk di edit
-                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
-                            await driver.sleep(2000);                         
+                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)                     
 
                             // Aksi Sleep
                             await driver.sleep(3000)
@@ -1084,8 +1083,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(3000)
 
                             // Aksi memilih salah satu program untuk di edit
-                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
-                            await driver.sleep(2000);                         
+                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)                     
 
                             // Aksi Sleep
                             await driver.sleep(3000)
@@ -1877,8 +1875,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(3000)
 
                             // Aksi memilih salah satu program untuk di edit
-                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
-                            await driver.sleep(2000);                         
+                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)                     
 
                             // Aksi Sleep
                             await driver.sleep(3000)
