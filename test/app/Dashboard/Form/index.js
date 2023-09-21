@@ -1015,7 +1015,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 break;
 
                 case 1:
-                    it.skip(`ADMIN - Create a Form from browser ${browser}`, async () => {
+                    it(`ADMIN - Create a Form from browser ${browser}`, async () => {
 
                         try {
 
@@ -1031,70 +1031,187 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.wait(until.elementLocated(By.css("h1.text-welcome")), 10000);
                             await driver.sleep(5000)
 
-                            // Aksi klik menu 'Event'
+                            // Aksi klik menu 'Form'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li a")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
+                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
                             }).click()`)
 
                             // Aksi sleep
                             await driver.sleep(3000)
 
-                            // Aksi klik menu 'Event'
+                            // Aksi klik menu 'Form'
                             await driver.executeScript(`return Array.from(document.querySelectorAll("ul.navbar-nav li")).find(value => {
                                 const innerSpan = value.querySelector("i.ri-file-list-3-line ~ span");
-                                return innerSpan && innerSpan.innerText.toLowerCase().includes("event");
-                            }).querySelector("#Event ul:first-child li.nav-item a").click()`)
+                                return innerSpan && innerSpan.innerText.toLowerCase().includes("form");
+                            }).querySelector("#Form ul:first-child li.nav-item a").click()`)
 
                             // Aksi sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
-                            // Aksi sleep
-                            await driver.sleep(3000)
+                            // Aksi mengecek form yang sudah ada dan mengambil data dummy dari form yang sudah tersedia
+                            let titlesForm = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td span.status")).map(v => v.innerText.toLowerCase())`)
+                            let form = QUESTIONS.find(value => {
+                                return titlesForm.every(v => !v.includes(value.title.toLowerCase()))
+                            }) || null;
 
                             // Aksi menekan tombol '+ Formulir'
-                            await driver.executeScript(`return document.querySelector(".main-content a.btn-primary .ri-add-line").click()`)
-
+                            await driver.findElement(By.css(".main-content .btn-primary")).click();
+                            
                             // Aksi Sleep
-                            await driver.sleep(3000)
-
+                            await driver.sleep(10000)
+                            
+                            // Aksi berpindah ke halaman new tab baru
+                            let windows = await driver.getAllWindowHandles();
+                            await driver.switchTo().window(windows[windows.length - 1]);
+                            await driver.sleep(3000);
+                            
                             // Aksi mengisi form formulir
                             /** Dummy Data **/
-                            let title = faker.lorem.sentence(5);
-                            let description = faker.lorem.paragraph();
-                            let summary = description.slice(0, 100);
-                            /** Input title */
-                            await driver.findElement(By.id("Judul *")).sendKeys(title);
+                            let limitTime = form?.limitTime || faker.number.int({ min: 3, max: 10 });
+                            let formStats = form?.formStats || faker.datatype.boolean()
+                            let title = form?.title || faker.lorem.words()
+                            let description = form?.description || faker.lorem.sentence()
+                            let formType = form?.formType || faker.helpers.arrayElement(['basic', 'quiz'])
+                            let isNotifEmail = form?.isNotifyEmail || faker.datatype.boolean()
+                            let emailNotif = form?.emailNotif || 'adnanerlansyah505@gmail.com'
+                            let questions = form?.questions || [];
+                            let maxQuestion = form?.maxQuestion || faker.number.int({ min: 3, max: 5 });
+                            /** Input mengisi waktu menit di form */
+                            let labelMinute = await driver.findElement(By.css("label[for='input-minute']"));
+                            let actions = driver.actions({async: true});
+                            await actions.move({origin: labelMinute}).perform();
                             await driver.sleep(2000);
-                            /** Input summary */
-                            await driver.findElement(By.id("Rangkuman *")).sendKeys(summary);
+                            let inputMinute = await driver.findElement(By.css("input#input-minute"));
+                            await inputMinute.sendKeys(limitTime);
                             await driver.sleep(2000);
-                            /** Aksi upload file thumbnail */
-                            let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
-                            await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
+                            /** Aksi mengisi status formulir apakah tertutup atau terbuka */
+                            await driver.executeScript(`return document.querySelector("#create button.btn-secondary").click()`);
                             await driver.sleep(2000);
-                            /** Input article */
-                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
-                            await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
-
+                            if(formStats) await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("terbuka")).click();`)
+                            else await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("tertutup")).click()`)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi title */
+                            for (let index = 0; index < 40; index++) {
+                                await driver.findElement(By.css("input.input-title")).sendKeys(Key.BACK_SPACE)
+                                await driver.sleep(100);
+                            }
+                            await driver.findElement(By.css("input.input-title")).sendKeys(title)
+                            await driver.sleep(2000);
+                            /** Aksi mengisi description */
+                            await driver.findElement(By.css("textarea.input-description")).sendKeys(description);
+                            await driver.sleep(2000);
+                            /** Aksi memilih salah satu tipe form apakah basic atau quiz */
+                            if(formType == 'quiz') {
+                                await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("basic")).click()`)
+                                await driver.sleep(1000);
+                                await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("quiz")).click();`)
+                                await driver.sleep(1000);
+                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
+                                await driver.sleep(2000);
+                            }
+                            /** Aksi konfirmasi notifikasi email soal */
+                            if(isNotifEmail) {
+                                await driver.executeScript(`return document.querySelector(".send-email").click()`)
+                                await driver.findElement(By.id("emailTo")).sendKeys(emailNotif)
+                                await driver.sleep(2000);
+                                await driver.findElement(By.id("emailTo")).sendKeys(Key.ENTER);
+                                await driver.sleep(1000);
+                            }
+                            /** Aksi mengisi question */
+                            if(formType == 'basic') {
+                                for (let index = 0; index < maxQuestion - 1; index++) {
+                                    if(questions.length == 0) {
+                                        questions.push({
+                                            question: faker.lorem.words(),
+                                            required: faker.datatype.boolean()
+                                        })
+                                    }
+                                    /** Aksi mengisi input question */
+                                    let inputQuestions = await driver.findElements(By.id("input-question"));
+                                    await inputQuestions[index].sendKeys(questions[index].question);
+                                    await driver.sleep(2000);
+                                    /** Aksi mengonfirmasi apakah pertanyaan nya wajib di isi atau tidak */
+                                    let btnRequires = await driver.executeScript(`return Array.from(document.querySelectorAll(".action .btn-light")).filter(v => v.innerText.toLowerCase().includes("wajib"))`);
+                                    if(questions[index].required) await driver.executeScript(`return arguments[0].click()`, await btnRequires[index]);
+                                    await driver.sleep(2000);
+                                    /** Aksi tambah pertanyaaan */
+                                    if(index != maxQuestion - 2) await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("tambah")).click()`)
+                                    await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`)
+                                }
+                            } else {
+                                for (let index = 0; index <= questions?.length - 1; index++) {
+                                    if(questions?.length == 0) {
+                                        questions?.push({
+                                            question: faker.lorem.words(),
+                                            required: faker.datatype.boolean(),
+                                            options: [
+                                              {
+                                                value: 'TRUE',
+                                                isCorrect: true,
+                                              },
+                                              {
+                                                value: 'FALSE',
+                                                isCorrect: false,
+                                              },
+                                            ]
+                                        });
+                                    }
+                                    /** Aksi mengisi input question */
+                                    let inputQuestions = await driver.findElements(By.id("input-question"));
+                                    await inputQuestions[index].sendKeys(questions[index]?.question);
+                                    await driver.sleep(1000);
+                                    /** Aksi mengisi options pilihan jawaban */
+                                    let cards = await driver.executeScript(`return document.querySelectorAll(".card.add-wrapper")`);
+                                    
+                                    // Mengeksekusi perulangan terpisah untuk opsi
+                                    for (let idx = 0; idx <= questions[index].options.length - 1; idx++) {
+                                        let inputOptions = await cards[index].findElements(By.css(".option input[type=text]"))
+                                        await inputOptions[idx].clear()
+                                        await driver.sleep(1000);
+                                        await inputOptions[idx].sendKeys(questions[index].options[idx].value)
+                                        await driver.sleep(1000);
+                                        if(questions[index].options[idx].isCorrect) {
+                                            let btnChecks = await driver.executeScript(`return arguments[0].querySelectorAll(".option button.dropdown-toggle")`, await cards[index]);
+                                            await driver.executeScript(`return arguments[0].scrollIntoView()`, await btnChecks[idx]);
+                                            await driver.sleep(1000);
+                                            await btnChecks[idx].click();
+                                            await driver.sleep(1000);
+                                        }
+                                        if(idx != questions[index].options.length - 1) await driver.executeScript(`return document.querySelectorAll(".option .btn-new-option")[${index}].click()`);
+                                        await driver.sleep(2000);
+                                    }                                      
+                                    /** Aksi tambah pertanyaan */
+                                    if (index != questions.length - 1) await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("tambah")).click()`);
+                                    await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                                }
+                            }
+                            
                             // Aksi Sleep
-                            await driver.sleep(5000);
-
+                            await driver.sleep(3000);
+                            
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
-                                await driver.findElement(By.id("Judul *")).getAttribute("value"),
-                                await driver.findElement(By.id("Rangkuman *")).getAttribute("value"),
+                                await driver.findElement(By.css("input.input-title")).getAttribute('value'),
+                                await driver.findElement(By.css("textarea.input-description")).getAttribute('value'),
+                                await driver.findElement(By.id("input-question")).getAttribute('value'),
                             ]).then(results => results.every(value => value != ''));
-
-                            if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
-
+                            
+                            if(isAllFilled) {
+                                await driver.executeScript(`return document.querySelector(".next-button .btn-primary").click()`)
+                                await driver.sleep(2000);
+                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
+                                await driver.sleep(2000);
+                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
+                            }
+                            
                             // Aksi Sleep
-                            await driver.sleep(5000)
-
-                            if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
-
-                            // Aksi Sleep
-                            await driver.sleep(5000)
+                            await driver.sleep(3000)
+                            
+                            // Aksi pindah ke halaman utama
+                            windows = await driver.getAllWindowHandles();
+                            await driver.switchTo().window(windows[0]);
+                            await driver.sleep(2000);
 
                             // Thrown an Error when there are validation errors
                             let alertWarning = await driver.executeScript(`return document.querySelector(".alert-warning") ? document.querySelector(".alert-warning") : null`)
@@ -1102,9 +1219,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form ✅' : 'Failed to create a new form ❌'
+                                await windows.length - 1 == 0 && isAllFilled ? 'Successfully created a new form ✅' : 'Failed to create a new form ❌'
                             ]
-                            expect(await alertWarning).to.be.null
+                            expect(await windows.length).to.be.equal(1);
                             expect(isAllFilled).to.be.true
 
                         } catch (error) {
@@ -1145,51 +1262,161 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             }).querySelector("#Form ul:first-child li.nav-item a").click()`)
 
                             // Aksi sleep
-                            await driver.sleep(3000)
+                            await driver.sleep(5000)
 
-                            // Aksi memilih salah satu blog untuk di edit
-                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)  
+                            // Aksi memilih salah satu form untuk di edit
+                            await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
 
                             // Aksi Sleep
-                            await driver.sleep(5000)
+                            await driver.sleep(10000)
+
+                            // Aksi berpindah ke halaman new tab baru
+                            let windows = await driver.getAllWindowHandles();
+                            await driver.switchTo().window(windows[windows.length - 1]);
+                            await driver.sleep(3000);
+
+                            // console.log(await driver.getCurrentUrl())
 
                             // Aksi mengisi form formulir
                             /** Dummy Data **/
-                            let title = faker.lorem.sentence(5);
-                            let description = faker.lorem.paragraph();
-                            let summary = description.slice(0, 100);
-                            /** Input title */
-                            await driver.findElement(By.id("Judul *")).clear()
-                            await driver.findElement(By.id("Judul *")).sendKeys(title);
+                            let limitTime = faker.number.int({ min: 3, max: 10 });
+                            let formStats = faker.datatype.boolean()
+                            let title = faker.lorem.words()
+                            let description = faker.lorem.sentence()
+                            let formType = await driver.executeScript(`return document.querySelectorAll(".card.form button.btn-secondary")[document.querySelectorAll(".card.form button.btn-secondary").length - 1].innerText.toLowerCase()`)
+                            let isNotifEmail = faker.datatype.boolean()
+                            let emailNotif = 'adnanerlansyah505@gmail.com'
+                            let questions = [];
+                            // let maxQuestion = faker.number.int({ min: 3, max: 5 });
+                            /** Input mengisi waktu menit di form */
+                            // let labelMinute = await driver.findElement(By.css("label[for='input-minute']"));
+                            // let actions = driver.actions({async: true});
+                            // await actions.move({origin: labelMinute}).perform();
+                            // await driver.sleep(2000);
+                            // let inputMinute = await driver.findElement(By.css("input#input-minute"));
+                            // await inputMinute.sendKeys(limitTime);
+                            // await driver.sleep(2000);
+                            /** Aksi mengisi status formulir apakah tertutup atau terbuka */
+                            await driver.executeScript(`return document.querySelector("#create button.btn-secondary").click()`);
                             await driver.sleep(2000);
-                            /** Input summary */
-                            await driver.findElement(By.id("Rangkuman *")).clear();
-                            await driver.findElement(By.id("Rangkuman *")).sendKeys(summary);
+                            if(formStats) await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("terbuka")).click();`)
+                            else await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("tertutup")).click()`)
                             await driver.sleep(2000);
-                            /** Aksi upload file thumbnail */
-                            let inputFileElements = await driver.wait(until.elementsLocated(By.css("input[type=file].dz-hidden-input")));
-                            await inputFileElements[0].sendKeys(path.resolve('./resources/images/jongkreatif.png'));
+                            /** Aksi mengisi title */
+                            for (let index = 0; index < 30; index++) {
+                                await driver.findElement(By.css("input.input-title")).sendKeys(Key.BACK_SPACE)
+                                await driver.sleep(50);
+                            }
+                            await driver.findElement(By.css("input.input-title")).sendKeys(title)
                             await driver.sleep(2000);
-                            /** Input article */
-                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '';`);
+                            /** Aksi mengisi description */
+                            await driver.findElement(By.css("textarea.input-description")).clear()
+                            await driver.sleep(1000);
+                            await driver.findElement(By.css("textarea.input-description")).sendKeys(description);
                             await driver.sleep(2000);
-                            await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML += '<p>${description}</p>';`);
-                            await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                            /** Aksi memilih salah satu tipe form apakah basic atau quiz */
+                            // if(formType == 'quiz') {
+                            //     await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("basic")).click()`)
+                            //     await driver.sleep(1000);
+                            //     await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("quiz")).click();`)
+                            //     await driver.sleep(1000);
+                            //     await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
+                            //     await driver.sleep(1000);
+                            // }
+                            /** Aksi konfirmasi notifikasi email soal */
+                            // if(isNotifEmail) {
+                            //     await driver.executeScript(`return document.querySelector(".send-email").click()`)
+                            //     await driver.findElement(By.id("emailTo")).sendKeys(emailNotif)
+                            //     await driver.sleep(2000);
+                            //     await driver.findElement(By.id("emailTo")).sendKeys(Key.ENTER);
+                            //     await driver.sleep(1000);
+                            // }
+                            /** Aksi mengisi question */
+                            let cards = await driver.executeScript(`return document.querySelectorAll(".card.add-wrapper")`);
+                            if(formType == 'basic') {
+                                for (let index = 0; index <= await cards.length - 1; index++) {
+                                    questions.push({
+                                        question: faker.lorem.words(),
+                                        required: faker.datatype.boolean()
+                                    })
+                                    /** Aksi mengisi input question */
+                                    let inputQuestions = await driver.findElements(By.id("input-question"));
+                                    await inputQuestions[index].clear();
+                                    await driver.sleep(1000);
+                                    await inputQuestions[index].sendKeys(questions[index].question);
+                                    await driver.sleep(1000);
+                                    /** Aksi mengonfirmasi apakah pertanyaan nya wajib di isi atau tidak */
+                                    // let btnRequires = await driver.executeScript(`return Array.from(document.querySelectorAll(".action .btn-light")).filter(v => v.innerText.toLowerCase().includes("wajib"))`);
+                                    // if(questions[index].required) await driver.executeScript(`return arguments[0].click()`, await btnRequires[index]);
+                                    // await driver.sleep(2000);
+                                    /** Aksi tambah pertanyaaan */
+                                    // if(index != await cards.length - 1) await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("tambah")).click()`)
+                                    await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`)
+                                    await driver.sleep(2000);
+                                }
+                                 
+                            } else {
+                                for (let index = 0; index <= await cards.length - 1; index++) {
+                                    questions.push({
+                                      question: faker.lorem.words(),
+                                      required: faker.datatype.boolean(),
+                                    });
+                                    /** Aksi mengisi input question */
+                                    let inputQuestions = await driver.findElements(By.id("input-question"));
+                                    await inputQuestions[index].clear()
+                                    await driver.sleep(1000);
+                                    await inputQuestions[index].sendKeys(questions[index].question);
+                                    await driver.sleep(1000);
+                                    /** Aksi mengisi options pilihan jawaban */
+                                    // Mengeksekusi perulangan terpisah untuk opsi
+                                    // for (let idx = 0; idx <= questions[index].options.length - 1; idx++) {
+                                    //     let inputOptions = await cards[index].findElements(By.css(".option input[type=text]"))
+                                    //     await inputOptions[idx].clear()
+                                    //     await driver.sleep(1000);
+                                    //     await inputOptions[idx].sendKeys(questions[index].options[idx].value)
+                                    //     await driver.sleep(1000);
+                                    //     if(questions[index].options[idx].isCorrect) {
+                                    //         let btnChecks = await driver.executeScript(`return arguments[0].querySelectorAll(".option button.dropdown-toggle")`, await cards[index]);
+                                    //         await driver.executeScript(`return arguments[0].scrollIntoView()`, await btnChecks[idx]);
+                                    //         await driver.sleep(1000);
+                                    //         await btnChecks[idx].click();
+                                    //         await driver.sleep(1000);
+                                    //     }
+                                    //     if(idx != questions[index].options.length - 1) await driver.executeScript(`return document.querySelectorAll(".option .btn-new-option")[${index}].click()`);
+                                    //     await driver.sleep(2000);
+                                    // }                                      
+                                    /** Aksi tambah pertanyaan */
+                                    // if (index != await cards.length - 1) await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("tambah")).click()`);
+                                    await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
+                                }
+                                 
+                            }
 
                             // Aksi Sleep
-                            await driver.sleep(5000);
+                            await driver.sleep(3000);
 
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
-                                await driver.findElement(By.id("Judul *")).getAttribute("value"),
-                                await driver.findElement(By.id("Rangkuman *")).getAttribute("value"),
-                                // await driver.executeScript(`return document.querySelector(".tox-edit-area iframe").contentWindow.document.querySelector("body p").innerHTML`),
+                                await driver.findElement(By.css("input.input-title")).getAttribute('value'),
+                                await driver.findElement(By.css("textarea.input-description")).getAttribute('value'),
+                                // await driver.findElement(By.id("input-question")).getAttribute('value'),
                             ]).then(results => results.every(value => value != ''));
 
-                            if(isAllFilled) await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`)
+                            if(isAllFilled) {
+                                await driver.executeScript(`return document.querySelector(".next-button .btn-primary").click()`)
+                                await driver.sleep(2000);
+                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
+                                await driver.sleep(2000);
+                                await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
+                            }
 
                             // Aksi Sleep
-                            await driver.sleep(5000)
+                            await driver.sleep(3000)
+
+                            // Aksi pindah ke halaman utama
+                            windows = await driver.getAllWindowHandles();
+                            await driver.switchTo().window(windows[0]);
+                            await driver.sleep(2000);
 
                             // Thrown an Error when there are validation errors
                             let alertWarning = await driver.executeScript(`return document.querySelector(".alert-warning") ? document.querySelector(".alert-warning") : null`)
@@ -1197,9 +1424,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Expect results and add custom message for addtional description
                             customMessages = [
-                                await alertWarning == null && isAllFilled ? 'Successfully created a new form Admin ✅' : 'Failed to create a new form ❌'
+                                await windows.length - 1 == 0 && isAllFilled ? 'Successfully created a new form ✅' : 'Failed to create a new form ❌'
                             ]
-                            expect(await alertWarning).to.be.null
+                            expect(await windows.length).to.be.equal(1);
                             expect(isAllFilled).to.be.true
 
                         } catch (error) {
