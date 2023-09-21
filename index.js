@@ -10,7 +10,8 @@ import { rl } from '#root/commons/utils/inputUtils';
 import { ALL_TEXT_INPUT } from '#root/commons/constants/input';
 import { getCustomOptionReportFile } from '#root/commons/utils/inputUtils';
 import { ROLES } from "#root/commons/constants/role"
-import { TEST_NEED_AUTHENTICATION } from '#root/commons/constants/file';
+import { TEST_NEED_AUTHENTICATION, TEST_WITHOUT_AUTHENTICATION } from '#root/commons/constants/file';
+import readline from "readline"
 
 const { questionInputReportFile } = ALL_TEXT_INPUT;
 
@@ -37,7 +38,7 @@ async function getInput() {
                         if(inputReportFile.includes(' ')) {
                             console.log(clc.red('Path folder report tidak boleh ada spasi!, tolong masukkan nama nya sesuai format yang di berikan'));
                             return askReportFile();
-                        } else if(inputReportFile.includes('.')) {
+                        } else if(inputReportFile.match(/[.,;:'"!@#$%^&*?=><|}{[()-]/g)) {
                             console.log(clc.red('Path folder report tidak boleh ada tanda titik!, tolong masukkan nama nya sesuai format yang di berikan'));
                             return askReportFile();
                         }
@@ -66,6 +67,21 @@ async function getInput() {
                                     function getInfoAccount() {
                                         const testFolderPath = path.join(testFolder, input);
                                         let absolutePath = path.join(testFolderPath);
+                                        let isPasswordInput = false;
+                                        rl.input.on("keypress", function (c, k) {
+                                            if (isPasswordInput) {
+                                              // get the number of characters entered so far:
+                                              var len = rl.line.length;
+                                              // move cursor back to the beginning of the input:
+                                              readline.moveCursor(rl.output, -len, 0);
+                                              // clear everything to the right of the cursor:
+                                              readline.clearLine(rl.output, 1);
+                                              // replace the original input with asterisks:
+                                              for (var i = 0; i < len; i++) {
+                                                rl.output.write("*");
+                                              }
+                                            }
+                                          });
                                         
                                         rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
                                             if(inputEmail.trim() === '') {
@@ -76,7 +92,7 @@ async function getInput() {
                                                 rl.close();
                                             } else {
                                                 function getPassword() {
-                                                    
+                                                    isPasswordInput = true
                                                     rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
                         
                                                         if(inputPassword.trim() === '') {
@@ -93,6 +109,7 @@ async function getInput() {
                                                             if(response.ok) {
                                                                 if(response?.body?.status === false) {
                                                                     console.log(clc.red(response?.body?.message));
+                                                                    isPasswordInput = false
                                                                     getInfoAccount();
                                                                 } else {
                                                                     const { name, email, kind } = response?.body?.data;
@@ -100,6 +117,7 @@ async function getInput() {
                                                                     const dataJson = JSON.stringify(data);
                                                                     
                                                                       function askAccount() {
+                                                                        isPasswordInput = false
                                                                         rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
                                                                           if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
                                                                             console.log(`\n${clc.bgYellow(clc.whiteBright(`Program is running in test all ${input} test`))}`);
@@ -116,6 +134,7 @@ async function getInput() {
                                                                             });
                                                                           } else if (inputAddAccount.trim().toLowerCase() === 'y') {
                                                                               if (data.accounts.length < ROLES.length) {
+                                                                                isPasswordInput = false
                                                                                 getInfoAccount();
                                                                                 askAccount() 
                                                                             } else {
@@ -137,6 +156,7 @@ async function getInput() {
                                                                           } else {
                                                                             console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
                                                                             if (data.accounts.length < ROLES.length) {
+                                                                                isPasswordInput = false
                                                                                 askAccount() 
                                                                             } else {
                                                                                 console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
@@ -198,17 +218,33 @@ async function getInput() {
                                                         console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
                 
                                                         function getInfoAccount() {
+                                                            let isPasswordInput = false;
+                                                            rl.input.on("keypress", function (c, k) {
+                                                                if (isPasswordInput) {
+                                                                  // get the number of characters entered so far:
+                                                                  var len = rl.line.length;
+                                                                  // move cursor back to the beginning of the input:
+                                                                  readline.moveCursor(rl.output, -len, 0);
+                                                                  // clear everything to the right of the cursor:
+                                                                  readline.clearLine(rl.output, 1);
+                                                                  // replace the original input with asterisks:
+                                                                  for (var i = 0; i < len; i++) {
+                                                                    rl.output.write("*");
+                                                                  }
+                                                                }
+                                                            });
                                         
                                                             rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), (inputEmail) => {
                                                                 if(inputEmail.trim() === '') {
                                                                     console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                                                    isPasswordInput = false
                                                                     getInfoAccount();
                                                                 } else if (inputEmail.trim() === "x") {
                                                                     console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
                                                                     rl.close();
                                                                 } else {
                                                                     function getPassword() {
-                                                                        
+                                                                        isPasswordInput = true
                                                                         rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
                                             
                                                                             if(inputPassword.trim() === '') {
@@ -224,6 +260,7 @@ async function getInput() {
                                                                                 if(response.ok) {
                                                                                     if(response?.body?.status === false) {
                                                                                         console.log(clc.red(response?.body?.message));
+                                                                                        isPasswordInput = false
                                                                                         getInfoAccount();
                                                                                     } else {
                                                                                         const { name, email, kind } = response?.body?.data;
@@ -231,6 +268,7 @@ async function getInput() {
                                                                                         const dataJson = JSON.stringify(data);
                                                                                         
                                                                                         function askAccount() {
+                                                                                            isPasswordInput = false;
                                                                                             rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
                                                                                                 if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
                                                                                 
@@ -239,7 +277,7 @@ async function getInput() {
                                                                                                     isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                                                     
                                                                                                     if(isHaveFolder) {
-                                                                                                        rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                                                                        rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                                                                                     
                                                                                                             if(inputConfirm.trim() === '') {
                                                                                                                 console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
@@ -301,6 +339,7 @@ async function getInput() {
                                                                                 
                                                                                                 } else if (inputAddAccount.trim().toLowerCase() === 'y') {
                                                                                                     if (data.accounts.length < ROLES.length) {
+                                                                                                        isPasswordInput = false;
                                                                                                         getInfoAccount();
                                                                                                         askAccount() 
                                                                                                     } else {
@@ -310,7 +349,7 @@ async function getInput() {
                                                                                                         isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                                                     
                                                                                                         if(isHaveFolder) {
-                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                                                                                     
                                                                                                                 if(inputConfirm.trim() === '') {
                                                                                                                     console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
@@ -375,6 +414,7 @@ async function getInput() {
                                                                                                 } else {
                                                                                                     console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
                                                                                                     if (data.accounts.length < ROLES.length) {
+                                                                                                        isPasswordInput = false
                                                                                                         askAccount() 
                                                                                                     } else {
                                                                                                         console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
@@ -384,7 +424,7 @@ async function getInput() {
                                                                                                         isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                                                     
                                                                                                         if(isHaveFolder) {
-                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                                                                                     
                                                                                                                 if(inputConfirm.trim() === '') {
                                                                                                                     console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
@@ -477,7 +517,7 @@ async function getInput() {
                                                         isHaveFolder = isHaveFolder.some(item => fs.statSync(path.join(absolutePath, item)).isDirectory());  
                                                         
                                                         if(isHaveFolder) {
-                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/N ) ')}`, inputConfirm => {
+                                                            rl.question(`${clc.bold('\nDi dalam folder ini memiliki folder test lagi, apakah anda ingin menjalankan test recursive ? ( Ketik Y/T ) ')}`, inputConfirm => {
                 
                                                                 if(inputConfirm.trim() === '') {
                                                                     console.log(`${clc.red(clc.bold('Tolong ketik sesuai yg dari instruksi'))}`);
@@ -545,123 +585,308 @@ async function getInput() {
                                                     let authenticationFound = TEST_NEED_AUTHENTICATION.some((item) =>
                                                         input.toLowerCase().includes(item)
                                                     );
-                
-                                                    if(authenticationFound) {
-                                                        console.log(clc.yellowBright('=== Silahkan masukkan akun terlebih dahulu untuk mengetes file ini ==='));
-                            
-                                                        function getInfoAccount() {
-                                                            
-                                                            rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), async (inputEmail) => {
-                                                                if(inputEmail.trim() === '') {
-                                                                    console.log(clc.yellowBright('Wajib memasukkan email & password'));
-                                                                    getInfoAccount();
-                                                                } else if (inputEmail.trim() === "x") {
-                                                                    console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
-                                                                    rl.close();
-                                                                } else {
-                                                                    function getPassword() {
+                                                    let withoutAuthentication = TEST_WITHOUT_AUTHENTICATION.some((item) =>
+                                                        input.toLowerCase().includes(item)
+                                                    );
+
+                                                    if(authenticationFound && withoutAuthentication) {
+
+                                                        function getConfirmTest() {
+                                                            rl.question(clc.bold(`Apakah anda hanya ingin menjalankan test yang autentikasi saja atau dengan tanpa autentikasinya juga ? (Y/t) `), (inputConfirmTest) => {
+                                                        
+                                                                if(inputConfirmTest.trim().toLowerCase() === 'y') {
+                                                                    console.log(clc.yellowBright('=== Silahkann masukkan akun terlebih dahulu untuk mengetes file ini ==='));
+                                                                    function getInfoAccount() {
+                                                                        let isPasswordInput = false;
+                                                                        rl.input.on("keypress", function (c, k) {
+                                                                            if (isPasswordInput) {
+                                                                              // get the number of characters entered so far:
+                                                                              var len = rl.line.length;
+                                                                              // move cursor back to the beginning of the input:
+                                                                              readline.moveCursor(rl.output, -len, 0);
+                                                                              // clear everything to the right of the cursor:
+                                                                              readline.clearLine(rl.output, 1);
+                                                                              // replace the original input with asterisks:
+                                                                              for (var i = 0; i < len; i++) {
+                                                                                rl.output.write("*");
+                                                                              }
+                                                                            }
+                                                                        });
                                                                         
-                                                                        rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
-                            
-                                                                            if(inputPassword.trim() === '') {
-                                                                                console.log(clc.yellowBright('Wajib memasukkan email & password'))
-                                                                                getPassword();
-                                                                            } else if (inputPassword.trim() === "x") {
+                                                                        rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), async (inputEmail) => {
+                                                                            if(inputEmail.trim() === '') {
+                                                                                console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                                                                isPasswordInput = false
+                                                                                getInfoAccount();
+                                                                            } else if (inputEmail.trim() === "x") {
                                                                                 console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
                                                                                 rl.close();
                                                                             } else {
-                                                                                let dataRequest = { email: inputEmail, password: inputPassword };
-                                                                                const response = await signIn(dataRequest);  
-                                                                                
-                                                                                if(response.ok) {
-                                                                                    if(response?.body?.status === false) {
-                                                                                        console.log(clc.red(response?.body?.message));
-                                                                                        getInfoAccount();
-                                                                                    } else {
-                                                                                        const { name, email, kind } = response?.body?.data;
-                                                                                        data.accounts.push(`akun=${email};${inputPassword};${name};${kind}`);
-                                                                                        const dataJson = JSON.stringify(data);
-                                                                                        
-                                                                                          function askAccount() {
-                                                                                            rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
-                                                                                              if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
-                                                                                                console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                                                exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                                                  if (error) {
-                                                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                                                  }
-                                                                                              
-                                                                                                  console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
-                                                                                                  console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                                                  console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                                                                              
-                                                                                                  process.exit();
-                                                                                                });
-                                                                                              } else if (inputAddAccount.trim().toLowerCase() === 'y') {
-                                                                                                  if (data.accounts.length < ROLES.length) {
+                                                                                function getPassword() {
+                                                                                    isPasswordInput = true
+                                                                                    rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
+                                        
+                                                                                        if(inputPassword.trim() === '') {
+                                                                                            console.log(clc.yellowBright('Wajib memasukkan email & password'))
+                                                                                            getPassword();
+                                                                                        } else if (inputPassword.trim() === "x") {
+                                                                                            console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                                                            rl.close();
+                                                                                        } else {
+                                                                                            let dataRequest = { email: inputEmail, password: inputPassword };
+                                                                                            const response = await signIn(dataRequest);  
+                                                                                            
+                                                                                            if(response.ok) {
+                                                                                                if(response?.body?.status === false) {
+                                                                                                    console.log(clc.red(response?.body?.message));
+                                                                                                    isPasswordInput = false
                                                                                                     getInfoAccount();
-                                                                                                    askAccount() 
                                                                                                 } else {
-                                                                                                    console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
-                                                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                                                    exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                                                      if (error) {
-                                                                                                        console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                                                      } 
+                                                                                                    const { name, email, kind } = response?.body?.data;
+                                                                                                    data.accounts.push(`akun=${email};${inputPassword};${name};${kind}`);
+                                                                                                    const dataJson = JSON.stringify(data);
+                                                                                                    
+                                                                                                      function askAccount() {
+                                                                                                        isPasswordInput = false
+                                                                                                        rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
+                                                                                                          if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
+                                                                                                            console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                                            exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                                              if (error) {
+                                                                                                                console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                              }
+                                                                                                          
+                                                                                                              console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                                                              console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                                              console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                                                                          
+                                                                                                              process.exit();
+                                                                                                            });
+                                                                                                          } else if (inputAddAccount.trim().toLowerCase() === 'y') {
+                                                                                                              if (data.accounts.length < ROLES.length) {
+                                                                                                                isPasswordInput = false
+                                                                                                                getInfoAccount();
+                                                                                                                askAccount() 
+                                                                                                            } else {
+                                                                                                                console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
+                                                                                                                console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                                                exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                                                  if (error) {
+                                                                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                                  } 
+                                                                                                                  
+                                                                                                                  console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                                                                  console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                                                  console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                                                                              
+                                                                                                                  process.exit();
+                                                                                                                });
+                                                                                                            }
                                                                                                       
-                                                                                                      console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
-                                                                                                      console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                                                      console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                                                                                  
-                                                                                                      process.exit();
-                                                                                                    });
+                                                                                                          } else {
+                                                                                                            console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
+                                                                                                            if (data.accounts.length < ROLES.length) {
+                                                                                                                isPasswordInput = false
+                                                                                                                askAccount() 
+                                                                                                            } else {
+                                                                                                                console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
+                                                                                                                console.log(`{clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                                                exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                                                  if (error) {
+                                                                                                                    console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                                  }
+                                                                                                              
+                                                                                                                  console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                                                                  console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                                                  console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                                                                              
+                                                                                                                  process.exit();
+                                                                                                                });
+                                                                                                            }
+                                                                                                          }
+                                                                                                        });
+                                                                                                    }
+                                                                                                    askAccount();
+                                                                                                    
                                                                                                 }
-                                                                                          
-                                                                                              } else {
-                                                                                                console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
-                                                                                                if (data.accounts.length < ROLES.length) {
-                                                                                                    askAccount() 
-                                                                                                } else {
-                                                                                                    console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
-                                                                                                    console.log(`{clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
-                                                                                                    exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
-                                                                                                      if (error) {
-                                                                                                        console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
-                                                                                                      }
-                                                                                                  
-                                                                                                      console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
-                                                                                                      console.log(clc.yellow('Eksekusi telah selesai!'));
-                                                                                                      console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
-                                                                                                  
-                                                                                                      process.exit();
-                                                                                                    });
-                                                                                                }
-                                                                                              }
-                                                                                            });
-                                                                                        }
-                                                                                        askAccount();
+                                                                                            } else {
+                                                                                                console.log(clc.red(response?.error));
+                                                                                                console.log(clc.yellow(clc.bold('Maaf sepertinya terjadi kesalahan pada server, mohon untuk di tunggu sebentar...')));
+                                                                                                process.exit();
+                                                                                            }
                                                                                         
-                                                                                    }
-                                                                                } else {
-                                                                                    console.log(clc.red(response?.error));
-                                                                                    console.log(clc.yellow(clc.bold('Maaf sepertinya terjadi kesalahan pada server, mohon untuk di tunggu sebentar...')));
-                                                                                    process.exit();
+                                                                                        }
+                                                                                        
+                                                                                    });
                                                                                 }
-                                                                            
+                                                                                getPassword();
                                                                             }
-                                                                            
                                                                         });
+                                        
                                                                     }
-                                                                    getPassword();
+                                                                    getInfoAccount();
+                                                                } else if(inputConfirmTest.trim().toLowerCase() === 't') {
+                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                    exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                        if (error) {
+                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                        } 
+                                            
+                                                                        console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                            
+                                                                        process.exit();
+                                                                    });
+                                                                } else {
+                                                                    console.log(clc.red("Maaf input yang anda masukkan tidak dapat di mengerti, tolong masukkan sesuai instruksi"))
+                                                                    getConfirmTest();
                                                                 }
-                                                            });
-                            
+
+                                                            })
                                                         }
-                            
-                                                        getInfoAccount();
+                                                        getConfirmTest()
                             
                                                         found = true;
                                                         
+                                                    } else if(authenticationFound) { 
+
+                                                        function getConfirmTest() {
+                                                            console.log(clc.yellowBright('=== Silahkann masukkan akun terlebih dahulu untuk mengetes file ini ==='));
+                                                            function getInfoAccount() {
+                                                                let isPasswordInput = false;
+                                                                rl.input.on("keypress", function (c, k) {
+                                                                    if (isPasswordInput) {
+                                                                    // get the number of characters entered so far:
+                                                                    var len = rl.line.length;
+                                                                    // move cursor back to the beginning of the input:
+                                                                    readline.moveCursor(rl.output, -len, 0);
+                                                                    // clear everything to the right of the cursor:
+                                                                    readline.clearLine(rl.output, 1);
+                                                                    // replace the original input with asterisks:
+                                                                    for (var i = 0; i < len; i++) {
+                                                                        rl.output.write("*");
+                                                                    }
+                                                                    }
+                                                                });
+                                                                
+                                                                rl.question(clc.bold('Masukkan akun email: (ketik x untuk close) '), async (inputEmail) => {
+                                                                    if(inputEmail.trim() === '') {
+                                                                        console.log(clc.yellowBright('Wajib memasukkan email & password'));
+                                                                        isPasswordInput = false
+                                                                        getInfoAccount();
+                                                                    } else if (inputEmail.trim() === "x") {
+                                                                        console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                                        rl.close();
+                                                                    } else {
+                                                                        function getPassword() {
+                                                                            isPasswordInput = true
+                                                                            rl.question(clc.bold('Masukkan akun password: (ketik x untuk close) '), async (inputPassword) => {
+                                
+                                                                                if(inputPassword.trim() === '') {
+                                                                                    console.log(clc.yellowBright('Wajib memasukkan email & password'))
+                                                                                    getPassword();
+                                                                                } else if (inputPassword.trim() === "x") {
+                                                                                    console.log(clc.green('Terimakasih sudah mencoba tester 😊'))
+                                                                                    rl.close();
+                                                                                } else {
+                                                                                    let dataRequest = { email: inputEmail, password: inputPassword };
+                                                                                    const response = await signIn(dataRequest);  
+                                                                                    
+                                                                                    if(response.ok) {
+                                                                                        if(response?.body?.status === false) {
+                                                                                            console.log(clc.red(response?.body?.message));
+                                                                                            isPasswordInput = false
+                                                                                            getInfoAccount();
+                                                                                        } else {
+                                                                                            const { name, email, kind } = response?.body?.data;
+                                                                                            data.accounts.push(`akun=${email};${inputPassword};${name};${kind}`);
+                                                                                            const dataJson = JSON.stringify(data);
+                                                                                            
+                                                                                            function askAccount() {
+                                                                                                isPasswordInput = false
+                                                                                                rl.question(clc.bold(`Apakah ingin menambahkan akun lagi? (Ketik 't' untuk tidak) `), inputAddAccount => {
+                                                                                                if (inputAddAccount.trim().toLowerCase() === '' || inputAddAccount.trim().toLowerCase() === 't') {
+                                                                                                    console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                                    exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                                    if (error) {
+                                                                                                        console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                    }
+                                                                                                
+                                                                                                    console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                                                    console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                                    console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                                                                
+                                                                                                    process.exit();
+                                                                                                    });
+                                                                                                } else if (inputAddAccount.trim().toLowerCase() === 'y') {
+                                                                                                    if (data.accounts.length < ROLES.length) {
+                                                                                                        isPasswordInput = false
+                                                                                                        getInfoAccount();
+                                                                                                        askAccount() 
+                                                                                                    } else {
+                                                                                                        console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
+                                                                                                        console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                                        exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                                        if (error) {
+                                                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                        } 
+                                                                                                        
+                                                                                                        console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                                                                    
+                                                                                                        process.exit();
+                                                                                                        });
+                                                                                                    }
+                                                                                            
+                                                                                                } else {
+                                                                                                    console.log(clc.red('Maaf, kami tidak bisa mengerti inputan anda. Tolong ikuti sesuai instruksi'));
+                                                                                                    if (data.accounts.length < ROLES.length) {
+                                                                                                        isPasswordInput = false
+                                                                                                        askAccount() 
+                                                                                                    } else {
+                                                                                                        console.log(clc.yellow('\nMaaf, batas memasukkan akun data hanya ' + ROLES.length));
+                                                                                                        console.log(`{clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
+                                                                                                        exec(`npm test ${absolutePath} -- --data='${dataJson}' ${inputReportCommand}`, (error, stdout, stderr) => {
+                                                                                                        if (error) {
+                                                                                                            console.error(clc.red('\n ❌ Terjadi kesalahan: '), error.stack);
+                                                                                                        }
+                                                                                                    
+                                                                                                        console.log(stdout.replace('AssertionError: ', '').replaceAll(/✔/g, clc.bold(clc.green('✔'))).replaceAll('passing', clc.green(clc.bold('PASSING'))).replaceAll('pending', clc.bold('PENDING')).replaceAll('failing', clc.bold(clc.red('FAILING'))).replaceAll("AssertionError", clc.bold(clc.red('AssertionError'))));
+                                                                                                        console.log(clc.yellow('Eksekusi telah selesai!'));
+                                                                                                        console.log(clc.green('Terimakasih sudah mencoba tester!, Kamu bisa cek hasil tester nya di reports 😊'));
+                                                                                                    
+                                                                                                        process.exit();
+                                                                                                        });
+                                                                                                    }
+                                                                                                }
+                                                                                                });
+                                                                                            }
+                                                                                            askAccount();
+                                                                                            
+                                                                                        }
+                                                                                    } else {
+                                                                                        console.log(clc.red(response?.error));
+                                                                                        console.log(clc.yellow(clc.bold('Maaf sepertinya terjadi kesalahan pada server, mohon untuk di tunggu sebentar...')));
+                                                                                        process.exit();
+                                                                                    }
+                                                                                
+                                                                                }
+                                                                                
+                                                                            });
+                                                                        }
+                                                                        getPassword();
+                                                                    }
+                                                                });
+                                
+                                                            }
+                                                            getInfoAccount();
+
+                                                        }
+                                                        getConfirmTest()
+                            
+                                                        found = true;
                                                     } else {
                                                         console.log(`\n${clc.bgYellow(clc.whiteBright("Program is running in test " + absolutePath))}`);
                                                         exec(`npm test ${absolutePath} -- --data=${data} ${inputReportCommand}`, (error, stdout, stderr) => {

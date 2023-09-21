@@ -32,7 +32,8 @@ if (process.platform === 'win32') {
     screenshootFilePath = path.resolve(`./testResults/screenshoots/${screenshootFilePath.split("/test/")[1].replaceAll(".js", "")}`);
 }
 
-describe("Dashboard/Classroom/Course/Module", () => {
+
+describe(`Module`, () => {
     let customMessages = [];
 
     after(async function () {
@@ -93,9 +94,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: fileNamePath
+            value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
         });
-        await driver.sleep(3000);
         try {
             await driver.close();
             await driver.quit();
@@ -103,7 +103,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
             console.error('Error occurred while quitting the driver:', error);
         }
     })
-
+    
     BROWSERS.forEach(browser => {
 
         users.forEach(userData => {
@@ -135,89 +135,106 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
                             // errorMessages = await captureConsoleErrors(driver, browser);
-                            
-                            // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
-                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
-                            // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
-                            // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
-                            
-                            // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
-                            await itemTabs[1].click();
+                            // Aksi sleep
+                            await driver.sleep(3000);
 
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.sleep(10000);
-                            
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length === 0);
+                            async function searchAvailableCourse() {
 
-                            // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
-                            let course = await listCourse[0];
-                            await course.findElement(By.css('.modul')).click();
-                            await driver.wait(until.elementLocated(By.css("#module-forms")));
+                                // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
+                                let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
+                                // Error ketika card classnya kosong
+                                await thrownAnError('Item class is empty', itemClass?.length == 0);
 
-                            // Aksi mengisi form untuk membuat materi baru
-                            let {
-                                titleModule,
-                                descriptionModule,
-                                multipleFileItems,
-                                typeCourse
-                            } = await createData(driver);
+                                // Aksi memilih salah satu card class
+                                await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
+                                
+                                // Aksi mengklik tab materi pada detail class
+                                let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                                await itemTabs[1].click();
 
-                            titleModule = await driver.findElement(By.id('Judul *'));
-                            multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
-                            typeCourse = await driver.findElement(By.css('.vs__selected'));
-                            
-                            let dataTitleModule = await titleModule.getAttribute("value");
+                                // Aksi menunggu list materi untuk muncul
+                                await driver.sleep(10000);
+                                
+                                // Aksi meng-hover icon edit dan mengkliknya
+                                let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
 
-                            // Periksa apakah semua elemen telah terisi
-                            const isAllFilled = await Promise.all([
-                                titleModule.getAttribute('value'),
-                                multipleFileItems?.length,
-                                typeCourse.getAttribute('innerText')
-                            ]).then(values => values.every(value => value != '' || value != 0));
-                            
-                            if (isAllFilled) {
-                                await driver.findElement(By.css("button[type='submit']")).click();
-                                await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
-                            }
-                            
-                            const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            
-                            // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
-                            const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
-                            let findModule = [];
+                                if(await listCourse.length === 0) {
+                                    await driver.executeScript(`return document.querySelector('.back-arrow').click();`);
+                                    await searchAvailableCourse();
+                                } else {
+                                    listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                                    
+                                    // Aksi sleep
+                                    await driver.sleep(3000);
 
-                            for (let index = 0; index < modules?.length; index++) {
-                                if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
-                                    findModule.push(modules[index]);
+                                    // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
+                                    let course = await listCourse[0];
+                                    await course.findElement(By.css('.modul')).click();
+                                    await driver.wait(until.elementLocated(By.css("#module-forms")));
+
+                                    // Aksi mengisi form untuk membuat materi baru
+                                    let {
+                                        titleModule,
+                                        descriptionModule,
+                                        multipleFileItems,
+                                        typeCourse
+                                    } = await createData(driver);
+
+                                    titleModule = await driver.findElement(By.id('Judul *'));
+                                    multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
+                                    typeCourse = await driver.findElement(By.css('.vs__selected'));
+                                    
+                                    let dataTitleModule = await titleModule.getAttribute("value");
+
+                                    // Periksa apakah semua elemen telah terisi
+                                    const isAllFilled = await Promise.all([
+                                        titleModule.getAttribute('value'),
+                                        multipleFileItems?.length,
+                                        typeCourse.getAttribute('innerText')
+                                    ]).then(values => values.every(value => value != '' || value != 0));
+                                    
+                                    if (isAllFilled) {
+                                        await driver.findElement(By.css("button[type='submit']")).click();
+                                        await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
+                                    }
+                                    
+                                    const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
+                                    
+                                    // Aksi menunggu list materi untuk muncul
+                                    await driver.wait(until.elementLocated(By.css("#courses .card-body")));
+                                    await driver.sleep(2000);
+                                    await driver.wait(async function () {
+                                        let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
+                                        const innerText = await emptyCourse?.getAttribute('innerText');
+                                        return innerText !== 'Memuat..';
+                                    });
+                                    
+                                    // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
+                                    const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
+                                    let findModule = [];
+
+                                    for (let index = 0; index < modules?.length; index++) {
+                                        if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
+                                            findModule.push(modules[index]);
+                                        }
+                                    }
+                                    
+                                    customMessages = [
+                                        alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
+                                        findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
+                                    ];
+                                    expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
+                                    expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                                    expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+
+                                    const pageUrl = await driver.getCurrentUrl();
+                                    expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
                                 }
-                            }
-                            
-                            customMessages = [
-                                alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
-                                findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
-                            ];
-                            expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
-                            const pageUrl = await driver.getCurrentUrl();
-                            expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
+                            }
+                            await searchAvailableCourse();
 
                         } catch (error) {
                             expect.fail(error.stack);
@@ -237,99 +254,112 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
                             // errorMessages = await captureConsoleErrors(driver, browser);
-                            
-                            // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
-                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
-                            // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass?.length == 0);
-
-                            // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
 
                             // Aksi sleep
-                            await driver.sleep(10000);
-                            
-                            // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
-                            await itemTabs[1].click();
-                            
-                            // Aksi sleep
-                            await driver.sleep(10000);
+                            await driver.sleep(3000);
 
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.executeScript(`return document.querySelectorAll("#courses .card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length === 0);
+                            async function searchAvailableCourse() {
 
-                            // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
-                            let course = await listCourse[0];
-                            await course.findElement(By.css('.modul')).click();
-                            await driver.wait(until.elementLocated(By.css("#module-forms")));
+                                // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
+                                let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
+                                // Error ketika card classnya kosong
+                                await thrownAnError('Item class is empty', itemClass?.length == 0);
 
-                            // Aksi mengisi form untuk membuat materi baru
-                            let {
-                                titleModule,
-                                descriptionModule,
-                                multipleFileItems,
-                                typeCourse
-                            } = await createData(driver);
+                                // Aksi memilih salah satu card class
+                                await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
+                                
+                                // Aksi mengklik tab materi pada detail class
+                                let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                                await itemTabs[1].click();
 
-                            titleModule = await driver.findElement(By.id('Judul *'));
-                            multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
-                            typeCourse = await driver.findElement(By.css('.vs__selected'));
-                            
-                            let dataTitleModule = await titleModule.getAttribute("value");
+                                // Aksi menunggu list materi untuk muncul
+                                await driver.sleep(10000);
+                                
+                                // Aksi meng-hover icon edit dan mengkliknya
+                                let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
 
-                            // Periksa apakah semua elemen telah terisi
-                            const isAllFilled = await Promise.all([
-                                titleModule.getAttribute('value'),
-                                multipleFileItems?.length,
-                                typeCourse.getAttribute('innerText')
-                            ]).then(values => values.every(value => value != '' || value != 0));
-                            
-                            if (isAllFilled) {
-                                await driver.findElement(By.css("button[type='submit']")).click();
-                                await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
-                            }
-                            
-                            const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            
-                            // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
-                            const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
-                            let findModule = [];
+                                if(await listCourse.length === 0) {
+                                    await driver.executeScript(`return document.querySelector('.back-arrow').click();`);
+                                    await searchAvailableCourse();
+                                } else {
+                                    listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                                    
+                                    // Aksi sleep
+                                    await driver.sleep(3000);
 
-                            for (let index = 0; index < modules?.length; index++) {
-                                if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
-                                    findModule.push(modules[index]);
+                                    // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
+                                    let course = await listCourse[0];
+                                    await course.findElement(By.css('.modul')).click();
+                                    await driver.wait(until.elementLocated(By.css("#module-forms")));
+
+                                    // Aksi mengisi form untuk membuat materi baru
+                                    let {
+                                        titleModule,
+                                        descriptionModule,
+                                        multipleFileItems,
+                                        typeCourse
+                                    } = await createData(driver);
+
+                                    titleModule = await driver.findElement(By.id('Judul *'));
+                                    multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
+                                    typeCourse = await driver.findElement(By.css('.vs__selected'));
+                                    
+                                    let dataTitleModule = await titleModule.getAttribute("value");
+
+                                    // Periksa apakah semua elemen telah terisi
+                                    const isAllFilled = await Promise.all([
+                                        titleModule.getAttribute('value'),
+                                        multipleFileItems?.length,
+                                        typeCourse.getAttribute('innerText')
+                                    ]).then(values => values.every(value => value != '' || value != 0));
+                                    
+                                    if (isAllFilled) {
+                                        await driver.findElement(By.css("button[type='submit']")).click();
+                                        await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
+                                    }
+                                    
+                                    const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
+                                    
+                                    // Aksi menunggu list materi untuk muncul
+                                    await driver.wait(until.elementLocated(By.css("#courses .card-body")));
+                                    await driver.sleep(2000);
+                                    await driver.wait(async function () {
+                                        let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
+                                        const innerText = await emptyCourse?.getAttribute('innerText');
+                                        return innerText !== 'Memuat..';
+                                    });
+                                    
+                                    // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
+                                    const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
+                                    let findModule = [];
+
+                                    for (let index = 0; index < modules?.length; index++) {
+                                        if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
+                                            findModule.push(modules[index]);
+                                        }
+                                    }
+                                    
+                                    customMessages = [
+                                        alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
+                                        findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
+                                    ];
+                                    expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
+                                    expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                                    expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+
+                                    const pageUrl = await driver.getCurrentUrl();
+                                    expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
                                 }
-                            }
-                            
-                            customMessages = [
-                                alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
-                                findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
-                            ];
-                            expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
-                            const pageUrl = await driver.getCurrentUrl();
-                            expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
+                            }
+                            await searchAvailableCourse();
 
                         } catch (error) {
                             expect.fail(error.stack);
@@ -349,99 +379,112 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
                             // errorMessages = await captureConsoleErrors(driver, browser);
-                            
-                            // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
-                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
-                            // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass?.length == 0);
-
-                            // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
 
                             // Aksi sleep
-                            await driver.sleep(10000);
-                            
-                            // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
-                            await itemTabs[1].click();
-                            
-                            // Aksi sleep
-                            await driver.sleep(10000);
-                            
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.executeScript(`return document.querySelectorAll("#courses .card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length === 0);
+                            await driver.sleep(3000);
 
-                            // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
-                            let course = await listCourse[0];
-                            await course.findElement(By.css('.modul')).click();
-                            await driver.wait(until.elementLocated(By.css("#module-forms")));
+                            async function searchAvailableCourse() {
 
-                            // Aksi mengisi form untuk membuat materi baru
-                            let {
-                                titleModule,
-                                descriptionModule,
-                                multipleFileItems,
-                                typeCourse
-                            } = await createData(driver);
+                                // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
+                                let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
+                                // Error ketika card classnya kosong
+                                await thrownAnError('Item class is empty', itemClass?.length == 0);
 
-                            titleModule = await driver.findElement(By.id('Judul *'));
-                            multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
-                            typeCourse = await driver.findElement(By.css('.vs__selected'));
-                            
-                            let dataTitleModule = await titleModule.getAttribute("value");
+                                // Aksi memilih salah satu card class
+                                await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
+                                
+                                // Aksi mengklik tab materi pada detail class
+                                let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                                await itemTabs[1].click();
 
-                            // Periksa apakah semua elemen telah terisi
-                            const isAllFilled = await Promise.all([
-                                titleModule.getAttribute('value'),
-                                multipleFileItems?.length,
-                                typeCourse.getAttribute('innerText')
-                            ]).then(values => values.every(value => value != '' || value != 0));
-                            
-                            if (isAllFilled) {
-                                await driver.findElement(By.css("button[type='submit']")).click();
-                                await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
-                            }
-                            
-                            const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            
-                            // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
-                            const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
-                            let findModule = [];
+                                // Aksi menunggu list materi untuk muncul
+                                await driver.sleep(10000);
+                                
+                                // Aksi meng-hover icon edit dan mengkliknya
+                                let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
 
-                            for (let index = 0; index < modules?.length; index++) {
-                                if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
-                                    findModule.push(modules[index]);
+                                if(await listCourse.length === 0) {
+                                    await driver.executeScript(`return document.querySelector('.back-arrow').click();`);
+                                    await searchAvailableCourse();
+                                } else {
+                                    listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                                    
+                                    // Aksi sleep
+                                    await driver.sleep(3000);
+
+                                    // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
+                                    let course = await listCourse[0];
+                                    await course.findElement(By.css('.modul')).click();
+                                    await driver.wait(until.elementLocated(By.css("#module-forms")));
+
+                                    // Aksi mengisi form untuk membuat materi baru
+                                    let {
+                                        titleModule,
+                                        descriptionModule,
+                                        multipleFileItems,
+                                        typeCourse
+                                    } = await createData(driver);
+
+                                    titleModule = await driver.findElement(By.id('Judul *'));
+                                    multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
+                                    typeCourse = await driver.findElement(By.css('.vs__selected'));
+                                    
+                                    let dataTitleModule = await titleModule.getAttribute("value");
+
+                                    // Periksa apakah semua elemen telah terisi
+                                    const isAllFilled = await Promise.all([
+                                        titleModule.getAttribute('value'),
+                                        multipleFileItems?.length,
+                                        typeCourse.getAttribute('innerText')
+                                    ]).then(values => values.every(value => value != '' || value != 0));
+                                    
+                                    if (isAllFilled) {
+                                        await driver.findElement(By.css("button[type='submit']")).click();
+                                        await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
+                                    }
+                                    
+                                    const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
+                                    
+                                    // Aksi menunggu list materi untuk muncul
+                                    await driver.wait(until.elementLocated(By.css("#courses .card-body")));
+                                    await driver.sleep(2000);
+                                    await driver.wait(async function () {
+                                        let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
+                                        const innerText = await emptyCourse?.getAttribute('innerText');
+                                        return innerText !== 'Memuat..';
+                                    });
+                                    
+                                    // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
+                                    const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
+                                    let findModule = [];
+
+                                    for (let index = 0; index < modules?.length; index++) {
+                                        if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
+                                            findModule.push(modules[index]);
+                                        }
+                                    }
+                                    
+                                    customMessages = [
+                                        alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
+                                        findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
+                                    ];
+                                    expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
+                                    expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                                    expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+
+                                    const pageUrl = await driver.getCurrentUrl();
+                                    expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
                                 }
-                            }
-                            
-                            customMessages = [
-                                alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
-                                findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
-                            ];
-                            expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
-                            const pageUrl = await driver.getCurrentUrl();
-                            expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
+                            }
+                            await searchAvailableCourse();
 
                         } catch (error) {
                             expect.fail(error.stack);
@@ -461,96 +504,112 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
                             // errorMessages = await captureConsoleErrors(driver, browser);
-                            
-                            // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementLocated(By.css("div.item-class")));
-                            let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
-                            // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass?.length == 0);
 
-                            // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
-                            
-                            // Aksi mengklik tab materi pada detail class
-                            let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
-                            await itemTabs[1].click();
+                            // Aksi sleep
+                            await driver.sleep(3000);
 
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.sleep(10000);
-                            
-                            // Aksi meng-hover icon edit dan mengkliknya
-                            let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
-                            await thrownAnError('Courses on detail classroom is empty', listCourse?.length === 0);
+                            async function searchAvailableCourse() {
 
-                            // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
-                            let course = await listCourse[0];
-                            await course.findElement(By.css('.modul')).click();
-                            await driver.wait(until.elementLocated(By.css("#module-forms")));
+                                // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
+                                let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
+                                // Error ketika card classnya kosong
+                                await thrownAnError('Item class is empty', itemClass?.length == 0);
 
-                            // Aksi mengisi form untuk membuat materi baru
-                            let {
-                                titleModule,
-                                descriptionModule,
-                                multipleFileItems,
-                                typeCourse
-                            } = await createData(driver);
+                                // Aksi memilih salah satu card class
+                                await itemClass[faker.helpers.arrayElement([0, 1, 2])].findElement(By.css('h1.title')).click();
+                                
+                                // Aksi mengklik tab materi pada detail class
+                                let itemTabs = await driver.executeScript("return document.querySelectorAll('.item-tab');");
+                                await itemTabs[1].click();
 
-                            titleModule = await driver.findElement(By.id('Judul *'));
-                            multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
-                            typeCourse = await driver.findElement(By.css('.vs__selected'));
-                            
-                            let dataTitleModule = await titleModule.getAttribute("value");
+                                // Aksi menunggu list materi untuk muncul
+                                await driver.sleep(10000);
+                                
+                                // Aksi meng-hover icon edit dan mengkliknya
+                                let listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
 
-                            // Periksa apakah semua elemen telah terisi
-                            const isAllFilled = await Promise.all([
-                                titleModule.getAttribute('value'),
-                                multipleFileItems?.length,
-                                typeCourse.getAttribute('innerText')
-                            ]).then(values => values.every(value => value != '' || value != 0));
-                            
-                            if (isAllFilled) {
-                                await driver.findElement(By.css("button[type='submit']")).click();
-                                await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
-                            }
-                            
-                            const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
-                            
-                            // Aksi menunggu list materi untuk muncul
-                            await driver.wait(until.elementLocated(By.css("#courses .card-body")));
-                            await driver.sleep(2000);
-                            await driver.wait(async function () {
-                                let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
-                                const innerText = await emptyCourse?.getAttribute('innerText');
-                                return innerText !== 'Memuat..';
-                            });
-                            
-                            // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
-                            const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
-                            let findModule = [];
+                                if(await listCourse.length === 0) {
+                                    await driver.executeScript(`return document.querySelector('.back-arrow').click();`);
+                                    await searchAvailableCourse();
+                                } else {
+                                    listCourse = await driver.executeScript(`return document.querySelectorAll(".card .card-body .header")`);
+                                    
+                                    // Aksi sleep
+                                    await driver.sleep(3000);
 
-                            for (let index = 0; index < modules?.length; index++) {
-                                if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
-                                    findModule.push(modules[index]);
+                                    // Aksi mengklik add modul dari salah satu course yang telah di seleksi / di pilih
+                                    let course = await listCourse[0];
+                                    await course.findElement(By.css('.modul')).click();
+                                    await driver.wait(until.elementLocated(By.css("#module-forms")));
+
+                                    // Aksi mengisi form untuk membuat materi baru
+                                    let {
+                                        titleModule,
+                                        descriptionModule,
+                                        multipleFileItems,
+                                        typeCourse
+                                    } = await createData(driver);
+
+                                    titleModule = await driver.findElement(By.id('Judul *'));
+                                    multipleFileItems = await driver.executeScript("return document.querySelectorAll('.multifile-value-container .multifile-item');");
+                                    typeCourse = await driver.findElement(By.css('.vs__selected'));
+                                    
+                                    let dataTitleModule = await titleModule.getAttribute("value");
+
+                                    // Periksa apakah semua elemen telah terisi
+                                    const isAllFilled = await Promise.all([
+                                        titleModule.getAttribute('value'),
+                                        multipleFileItems?.length,
+                                        typeCourse.getAttribute('innerText')
+                                    ]).then(values => values.every(value => value != '' || value != 0));
+                                    
+                                    if (isAllFilled) {
+                                        await driver.findElement(By.css("button[type='submit']")).click();
+                                        await driver.wait(until.elementLocated(By.css(".alert.alert-success")));
+                                    }
+                                    
+                                    const alertSuccess = await driver.executeScript("return document.querySelectorAll('.alert.alert-success')");
+                                    
+                                    // Aksi menunggu list materi untuk muncul
+                                    await driver.wait(until.elementLocated(By.css("#courses .card-body")));
+                                    await driver.sleep(2000);
+                                    await driver.wait(async function () {
+                                        let emptyCourse = await driver.findElement(By.css("#courses .card .card-body .row .col"));
+                                        const innerText = await emptyCourse?.getAttribute('innerText');
+                                        return innerText !== 'Memuat..';
+                                    });
+                                    
+                                    // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
+                                    const modules = await driver.findElements(By.css(".card-body .content-wrapper h4.title"));
+                                    let findModule = [];
+
+                                    for (let index = 0; index < modules?.length; index++) {
+                                        if (await modules[index].getAttribute('innerText') === await dataTitleModule) {
+                                            findModule.push(modules[index]);
+                                        }
+                                    }
+                                    
+                                    customMessages = [
+                                        alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
+                                        findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
+                                    ];
+                                    expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
+                                    expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
+                                    expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
+
+                                    const pageUrl = await driver.getCurrentUrl();
+                                    expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
                                 }
-                            }
-                            
-                            customMessages = [
-                                alertSuccess?.length > 0 ? "Data successfully created ✅" : "Data successfully created ❌",
-                                findModule?.length > 0 ? "'Module' successfully added to list module ✅" : "'Materi' successfully added to list module ❌"
-                            ];
-                            expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
-                            expect(alertSuccess?.length, 'Expect show alert success after created a new data').to.equal(1);
-                            expect(findModule?.length, 'The data returned should expect one data because it has previously created a new data').to.equal(1);
 
-                            const pageUrl = await driver.getCurrentUrl();
-                            expect(pageUrl, 'Expect return or back to detail classroom').to.include('dashboard/classroom');
+                            }
+                            await searchAvailableCourse();
 
                         } catch (error) {
                             expect.fail(error.stack);
@@ -561,9 +620,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                     break;
             }
         });
-
+        
     })
-
-
-
 });
+
+

@@ -32,79 +32,80 @@ if (process.platform === 'win32') {
     screenshootFilePath = path.resolve(`./testResults/screenshoots/${screenshootFilePath.split("/test/")[1].replaceAll(".js", "")}`);
 }
 
-describe("Dashboard/Classroom/Course", () => {
-    let customMessages = [];
 
-    after(async function () {
-        console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
-    });
+BROWSERS.forEach(browser => {
 
-    afterEach(async function () {
-        fs.mkdir(screenshootFilePath, { recursive: true }, (error) => {
-            if (error) {
-                console.error(`Terjadi kesalahan dalam membuat folder screenshoot:`, error);
+    describe(`Course from browser ${browser}`, () => {
+        let customMessages = [];
+    
+        after(async function () {
+            console.log(`${' '.repeat(4)}Screenshoots test berhasil di buat, berada di folder: ${screenshootFilePath} `);
+        });
+    
+        afterEach(async function () {
+            fs.mkdir(screenshootFilePath, { recursive: true }, (error) => {
+                if (error) {
+                    console.error(`Terjadi kesalahan dalam membuat folder screenshoot:`, error);
+                }
+            });
+            let fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]' : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]' }.png`);
+            await takeScreenshot(driver, fileNamePath);
+            if(this.currentTest.isPassed) {
+                addContext(this, {
+                    title: 'Expected Results',
+                    value: customMessages?.length > 0 ? "- " + customMessages?.map(msg => msg.trim()).join("\n- ") : 'No Results'
+                })
+            } else if (this.currentTest.isFailed) {
+                addContext(this, {
+                    title: 'Status Test',
+                    value: 'Failed ❌'
+                })
             }
-        });
-        let fileNamePath = path.resolve(`${screenshootFilePath}/${this.currentTest?.state != 'failed' ? (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[passed]' : (this.test?.parent.tests.findIndex(test => test.title === this.currentTest.title)) + 1 + '-[failed]' }.png`);
-        await takeScreenshot(driver, fileNamePath);
-        if(this.currentTest.isPassed) {
+    
+            // Performances Information
+            const performanceTiming = await driver.executeScript('return window.performance.timing');
+            const navigationStart = performanceTiming.navigationStart;
             addContext(this, {
-                title: 'Expected Results',
-                value: customMessages?.length > 0 ? "- " + customMessages?.map(msg => msg.trim()).join("\n- ") : 'No Results'
+                title: 'Performance Results',
+                value: `${moment().tz('Asia/Jakarta').format('dddd, MMMM D, YYYY h:mm:ss A')}
+    (Durasi waktu navigasi: ${navigationStart % 60} seconds)     
+    =====================================================================
+    Waktu Permintaan Pertama (fetchStart): (${performanceTiming.fetchStart - navigationStart}) milliseconds ( ${(performanceTiming.fetchStart - navigationStart) / 1000} seconds )
+    Waktu Pencarian Nama Domain Dimulai (domainLookupStart): (${performanceTiming.domainLookupStart - navigationStart}) milliseconds ( ${((performanceTiming.domainLookupStart - navigationStart) / 1000)} seconds )
+    Waktu Pencarian Nama Domain Selesai (domainLookupEnd): (${performanceTiming.domainLookupEnd - navigationStart}) milliseconds ( ${((performanceTiming.domainLookupEnd - navigationStart) / 1000)} seconds )
+    Waktu Permintaan Dimulai (requestStart): (${performanceTiming.requestStart - navigationStart}) milliseconds ( ${((performanceTiming.requestStart - navigationStart) / 1000)} seconds )
+    =====================================================================
+    Waktu Respons Dimulai (responseStart): (${performanceTiming.responseStart - navigationStart}) milliseconds ( ${((performanceTiming.responseStart - navigationStart) / 1000)} seconds )
+    Waktu Respons Selesai (responseEnd): (${performanceTiming.responseEnd - navigationStart}) milliseconds ( ${((performanceTiming.responseEnd - navigationStart) / 1000)} seconds )
+    Waktu Memuat Dokumen (domLoading): (${performanceTiming.domLoading - navigationStart}) milliseconds ( ${((performanceTiming.domLoading - navigationStart) / 1000)} seconds )
+    =====================================================================
+    Waktu Event Unload Dimulai (unloadEventStart): (${performanceTiming.unloadEventStart - navigationStart}) milliseconds ( ${((performanceTiming.unloadEventStart - navigationStart) / 1000)} seconds )
+    Waktu Event Unload Selesai (unloadEventEnd): (${performanceTiming.unloadEventEnd - navigationStart}) milliseconds ( ${((performanceTiming.unloadEventEnd - navigationStart) / 1000)} seconds )
+    =====================================================================
+    Waktu Interaktif DOM (domInteractive): (${performanceTiming.domInteractive - navigationStart}) milliseconds ( ${((performanceTiming.domInteractive - navigationStart) / 1000)} seconds )
+    Waktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (${performanceTiming.domContentLoadedEventStart - navigationStart}) milliseconds ( ${((performanceTiming.domContentLoadedEventStart - navigationStart) / 1000)} seconds )
+    Waktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (${performanceTiming.domContentLoadedEventEnd - navigationStart}) milliseconds ( ${((performanceTiming.domContentLoadedEventEnd - navigationStart) / 1000)} seconds )
+    =====================================================================
+    Waktu Dokumen Selesai Dimuat (domComplete): (${performanceTiming.domComplete - navigationStart}) milliseconds ( ${((performanceTiming.domComplete - navigationStart) / 1000)} seconds )
+    Waktu Event Load Dimulai (loadEventStart): (${performanceTiming.loadEventStart - navigationStart}) milliseconds ( ${((performanceTiming.loadEventStart - navigationStart) / 1000)} seconds )
+    =====================================================================
+    (timestamp loadEventEnd: ${performanceTiming.loadEventEnd})
+    Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - navigationStart}) milliseconds ( ${((performanceTiming.loadEventEnd - navigationStart) / 1000)} seconds )
+                `
             })
-        } else if (this.currentTest.isFailed) {
+    
             addContext(this, {
-                title: 'Status Test',
-                value: 'Failed ❌'
-            })
-        }
-
-        // Performances Information
-        const performanceTiming = await driver.executeScript('return window.performance.timing');
-        const navigationStart = performanceTiming.navigationStart;
-        addContext(this, {
-            title: 'Performance Results',
-            value: `${moment().tz('Asia/Jakarta').format('dddd, MMMM D, YYYY h:mm:ss A')}
-(Durasi waktu navigasi: ${navigationStart % 60} seconds)     
-=====================================================================
-Waktu Permintaan Pertama (fetchStart): (${performanceTiming.fetchStart - navigationStart}) milliseconds ( ${(performanceTiming.fetchStart - navigationStart) / 1000} seconds )
-Waktu Pencarian Nama Domain Dimulai (domainLookupStart): (${performanceTiming.domainLookupStart - navigationStart}) milliseconds ( ${((performanceTiming.domainLookupStart - navigationStart) / 1000)} seconds )
-Waktu Pencarian Nama Domain Selesai (domainLookupEnd): (${performanceTiming.domainLookupEnd - navigationStart}) milliseconds ( ${((performanceTiming.domainLookupEnd - navigationStart) / 1000)} seconds )
-Waktu Permintaan Dimulai (requestStart): (${performanceTiming.requestStart - navigationStart}) milliseconds ( ${((performanceTiming.requestStart - navigationStart) / 1000)} seconds )
-=====================================================================
-Waktu Respons Dimulai (responseStart): (${performanceTiming.responseStart - navigationStart}) milliseconds ( ${((performanceTiming.responseStart - navigationStart) / 1000)} seconds )
-Waktu Respons Selesai (responseEnd): (${performanceTiming.responseEnd - navigationStart}) milliseconds ( ${((performanceTiming.responseEnd - navigationStart) / 1000)} seconds )
-Waktu Memuat Dokumen (domLoading): (${performanceTiming.domLoading - navigationStart}) milliseconds ( ${((performanceTiming.domLoading - navigationStart) / 1000)} seconds )
-=====================================================================
-Waktu Event Unload Dimulai (unloadEventStart): (${performanceTiming.unloadEventStart - navigationStart}) milliseconds ( ${((performanceTiming.unloadEventStart - navigationStart) / 1000)} seconds )
-Waktu Event Unload Selesai (unloadEventEnd): (${performanceTiming.unloadEventEnd - navigationStart}) milliseconds ( ${((performanceTiming.unloadEventEnd - navigationStart) / 1000)} seconds )
-=====================================================================
-Waktu Interaktif DOM (domInteractive): (${performanceTiming.domInteractive - navigationStart}) milliseconds ( ${((performanceTiming.domInteractive - navigationStart) / 1000)} seconds )
-Waktu Event DOMContentLoaded Dimulai (domContentLoadedEventStart): (${performanceTiming.domContentLoadedEventStart - navigationStart}) milliseconds ( ${((performanceTiming.domContentLoadedEventStart - navigationStart) / 1000)} seconds )
-Waktu Event DOMContentLoaded Selesai (domContentLoadedEventEnd): (${performanceTiming.domContentLoadedEventEnd - navigationStart}) milliseconds ( ${((performanceTiming.domContentLoadedEventEnd - navigationStart) / 1000)} seconds )
-=====================================================================
-Waktu Dokumen Selesai Dimuat (domComplete): (${performanceTiming.domComplete - navigationStart}) milliseconds ( ${((performanceTiming.domComplete - navigationStart) / 1000)} seconds )
-Waktu Event Load Dimulai (loadEventStart): (${performanceTiming.loadEventStart - navigationStart}) milliseconds ( ${((performanceTiming.loadEventStart - navigationStart) / 1000)} seconds )
-=====================================================================
-(timestamp loadEventEnd: ${performanceTiming.loadEventEnd})
-Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - navigationStart}) milliseconds ( ${((performanceTiming.loadEventEnd - navigationStart) / 1000)} seconds )
-            `
+                title: 'Screenshoot-Test-Results',
+                value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
+            });
+            try {
+                await driver.close();
+                await driver.quit();
+            } catch (error) {
+                console.error('Error occurred while quitting the driver:', error);
+            }
         })
-
-        addContext(this, {
-            title: 'Screenshoot-Test-Results',
-            value: path.relative(fileURLToPath(import.meta.url), fileNamePath)
-        });
-        await driver.sleep(3000);
-        try {
-            await driver.close();
-            await driver.quit();
-        } catch (error) {
-            console.error('Error occurred while quitting the driver:', error);
-        }
-    })
-
-    BROWSERS.forEach(browser => {
+        
         users.forEach(userData => {
 
             const data = userData?.split('=');
@@ -119,7 +120,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
             switch (user?.kind) {
                 case 0:
                     
-                    it(`Super Admin - Create Materi from Detail Class from browser ${browser}`, async function () {
+                    it(`Super Admin - Create Materi from Detail Class`, async function () {
 
                         try {
 
@@ -134,17 +135,18 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
 
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', await itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi sleep
                             await driver.sleep(10000);
@@ -224,7 +226,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Super Admin - Edit Course from Detail Class from browser ${browser}`, async function () {
+                    it(`Super Admin - Edit Course from Detail Class`, async function () {
 
                         try {
 
@@ -239,10 +241,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', await itemClass?.length == 0);
@@ -252,7 +255,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -261,7 +264,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 await driver.sleep(3000);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -370,7 +373,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Super Admin - Check the icon edit and delete from Detail Class from browser ${browser}`, async function () {
+                    it(`Super Admin - Check the icon edit and delete from Detail Class`, async function () {
 
                         try {
 
@@ -383,8 +386,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));
@@ -397,7 +401,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -406,7 +410,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 await driver.sleep(3000);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -465,7 +469,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                     break;
                 case 1:
                     
-                    it(`Admin - Create Materi from Detail Class from browser ${browser}`, async function () {
+                    it(`Admin - Create Materi from Detail Class`, async function () {
 
                         try {
 
@@ -480,17 +484,18 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
 
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', await itemClass?.length == 0);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi sleep
                             await driver.sleep(10000);
@@ -570,7 +575,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Admin - Edit Course from Detail Class from browser ${browser}`, async function () {
+                    it(`Admin - Edit Course from Detail Class`, async function () {
 
                         try {
 
@@ -585,10 +590,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', await itemClass?.length == 0);
@@ -598,13 +604,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -713,7 +719,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Admin - Check the icon edit and delete from Detail Class from browser ${browser}`, async function () {
+                    it(`Admin - Check the icon edit and delete from Detail Class`, async function () {
 
                         try {
 
@@ -726,8 +732,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));
@@ -740,13 +747,16 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
+                                
+                                // Aksi sleep
+                                await driver.sleep(3000);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -805,7 +815,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                     break;
                 case 2:
                     
-                    it(`Mentor - Create Materi from Detail Class from browser ${browser}`, async function () {
+                    it(`Mentor - Create Materi from Detail Class`, async function () {
 
                         try {
 
@@ -820,10 +830,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             
                             // Aksi sleep
@@ -836,7 +847,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.sleep(3000);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi sleep
                             await driver.sleep(10000);
@@ -915,7 +926,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Mentor - Edit Course from Detail Class from browser ${browser}`, async function () {
+                    it(`Mentor - Edit Course from Detail Class`, async function () {
 
                         try {
 
@@ -930,10 +941,11 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', await itemClass?.length == 0);
@@ -943,13 +955,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -1059,7 +1071,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Mentor - Check the icon edit and delete from Detail Class from browser ${browser}`, async function () {
+                    it(`Mentor - Check the icon edit and delete from Detail Class`, async function () {
 
                         try {
 
@@ -1072,8 +1084,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));
@@ -1086,13 +1099,13 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -1152,7 +1165,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                 
                 default:
                     
-                    it(`Other Create Materi from Detail Class from browser ${browser}`, async function () {
+                    it(`Other Create Materi from Detail Class`, async function () {
 
                         try {
 
@@ -1167,23 +1180,18 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
-                            
-                            // Aksi sleep
-                            await driver.sleep(3000);
 
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', await itemClass?.length == 0);
-                            
-                            // Aksi sleep
-                            await driver.sleep(3000);
 
                             // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                            await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                             // Aksi sleep
                             await driver.sleep(10000);
@@ -1200,7 +1208,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css("i.ri-add-fill")).click();
                             await driver.wait(until.elementLocated(By.css(".dropdown-menu.dropdown-menu-right")));
                             let buttonsDropdownItem = await driver.findElements(By.css(".dropdown-menu.dropdown-menu-right button.dropdown-item"));
-                            await buttonsDropdownItem[2].click();
+                            await buttonsDropdownItem[1].click();
 
                             // Menunggu Element Form Muncul 
                             await driver.wait(until.elementLocated(By.id('Judul Materi *')));
@@ -1237,7 +1245,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.wait(until.elementsLocated(By.css("#courses .card .card-body .header h4.title")));
                             
                             // Aksi mendapatkan semua course setelah memasukkan data atau membuat data baru & mendapatkan data yg sudah di buat sebelumnya
-                            const courses = await driver.findElements(By.css(".card-body .header h4.title"));
+                            const courses = await driver.findElements(By.css(".card .card-body .header h4.title"));
                             let findCourse = [];
 
                             for (let index = 0; index < courses.length; index++) {
@@ -1247,7 +1255,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             }
                             await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
                             customMessages = [
-                                alertSuccess?.length > 0 ? "Show alert 'Berhasil menambahkan data' ✅" : "Show alert 'Berhasil menambahkan data' ❌",
+                                await alertSuccess?.length > 0 ? "Show alert 'Berhasil menambahkan data' ✅" : "Show alert 'Berhasil menambahkan data' ❌",
                                 findCourse.length > 0 ? "'Materi' successfully added to list of materi in detail classroom ✅" : "'Materi' successfully added to list of materi in detail classroom ❌"
                             ];
                             expect(isAllFilled, 'Expect all input value is filled').to.equal(true);
@@ -1263,7 +1271,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Other - Edit Course from Detail Class from browser ${browser}`, async function () {
+                    it(`Other - Edit Course from Detail Class`, async function () {
 
                         try {
 
@@ -1278,26 +1286,30 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
                             // let cardClass = await driver.findElement(By.css(`div.card-class`));
                             // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             // errorMessages = await captureConsoleErrors(driver, browser);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
-                            await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                            await driver.wait(until.elementLocated(By.css("div.item-class")));
                             let itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                             // Error ketika card classnya kosong
-                            await thrownAnError('Item class is empty', itemClass?.length == 0);
-
+                            await thrownAnError('Item class is empty', await itemClass?.length == 0);
+                            
                             // Aksi sleep
                             await driver.sleep(3000);
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
+                                
+                                // Aksi sleep
+                                await driver.sleep(3000);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -1376,12 +1388,14 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                     const courses = await driver.findElements(By.css(".card-body .header h4.title"));
                                     let findCourse = [];
 
+                                    // Aksi sleep
+                                    await driver.sleep(3000);
+
                                     for (let index = 0; index < courses.length; index++) {
                                         if (await courses[index].getAttribute('innerText') === await dataTitleCourse) {
-                                            findCourse.push(await courses[index]);
+                                            findCourse.push(courses[index]);
                                         }
                                     }
-                                    await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
                                     customMessages = [
                                         alertSuccess?.length > 0 ? "Show alert 'Berhasil memperbarui data' ✅" : "Show alert 'Berhasil memperbarui data' ❌",
                                         findCourse.length > 0 ? "'Materi' successfully updated to list of materi in detail classroom ✅" : "'Materi' successfully updated to list of materi in detail classroom ❌"
@@ -1396,6 +1410,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             }
                             await searchAvailableCourse();
+
                         } catch (error) {
                             // console.error(error?.stack?.split('\n')[1]);
                             expect.fail(error?.stack);
@@ -1404,7 +1419,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     });
 
-                    it(`Other - Check the icon edit and delete from Detail Class from browser ${browser}`, async function () {
+                    it(`Other - Check the icon edit and delete from Detail Class`, async function () {
 
                         try {
 
@@ -1417,8 +1432,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                             // Aksi Masuk ke dalam halaman class
                             await driver.findElement(By.css('a > i.ri-icon.ri-stack-fill')).click();
-                            let cardClass = await driver.findElement(By.css(`div.card-class`));
-                            await driver.wait(until.stalenessOf(cardClass));
+                            // let cardClass = await driver.findElement(By.css(`div.card-class`));
+                            // await driver.wait(until.stalenessOf(cardClass));
+                            await driver.sleep(3000);
                             
                             // Aksi mengecek apakah ada card class atau card classnya lebih dari 1
                             await driver.wait(until.elementLocated(By.css("div.item-class")));
@@ -1426,15 +1442,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Error ketika card classnya kosong
                             await thrownAnError('Item class is empty', itemClass?.length == 0);
 
-                            // Aksi memilih salah satu card class
-                            await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
-
                             // Aksi sleep
                             await driver.sleep(3000);
 
                             async function searchAvailableCourse() {
 
-                                await driver.wait(until.elementsLocated(By.css("div.item-class")));
+                                await driver.wait(until.elementLocated(By.css("div.item-class")));
                                 itemClass = await driver.executeScript("return document.querySelectorAll('div.item-class')");
                                 // Error ketika card classnya kosong
                                 await thrownAnError('Item class is empty', itemClass?.length == 0);
@@ -1443,7 +1456,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 await driver.sleep(3000);
 
                                 // Aksi memilih salah satu card class
-                                await itemClass[faker.helpers.arrayElement([0, 1, 2, 3])].findElement(By.css('h1.title')).click();
+                                await itemClass[faker.number.int({ min: 0, max: await itemClass.length - 1 })].findElement(By.css('h1.title')).click();
 
                                 // Aksi sleep
                                 await driver.sleep(10000);
@@ -1502,8 +1515,6 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                     break;
             }
         })
-    })
+    });
 
-
-
-});
+})
