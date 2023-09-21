@@ -23,19 +23,20 @@ const getUserAccount = (argv) => {
     // } 
 
     let users = [];
-    
-    if(argv?.data != null && argv?.data != undefined) {
-
+    if(argv != null && argv?.data != null && argv?.data != undefined) {
+        
         let data = argv?.data;
 
         // Mengapit value dengan tanda kutip tunggal
-        data = data.replace(/(?<=\[)[^[\]]+(?=\])/g, "'$&'");
-
-        // Parsing string menjadi objek
-        const parsedData = eval(`(${data})`);
+        data = data?.replace(/(?<=\[)[^[\]]+(?=\])/g, "'$&'");
         
-        // Get data account
-        users = parsedData?.accounts[0].split(',');
+        if(!data.includes("object")) {
+            // Parsing string menjadi objek
+            const parsedData = eval(`(${data})`);
+            
+            // Get data account
+            users = parsedData?.accounts[0].split(',');
+        }
 
     }
 

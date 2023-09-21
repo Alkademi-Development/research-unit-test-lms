@@ -1,8 +1,9 @@
 import * as dotenv from 'dotenv';
-dotenv.config({ path: '.env' }); // .env, .env.production, .env.staging, .env.development, local
+dotenv.config({ path: '.env.development' }); // .env, .env.production, .env.staging, .env.development, local
 
 const localURL = ''; // isi url ini jika ingin menggunakan local (yang di dapatkan dr npm run dev pada saat menjalankan project)
 let appHost = process?.env?.BASE_URL || localURL;
+let environment = process?.env?.NODE_ENV;
 
 if (localURL != '') {
   appHost = localURL;
@@ -10,4 +11,5 @@ if (localURL != '') {
 
 export {
   appHost,
+  environment
 }

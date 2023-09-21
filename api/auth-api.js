@@ -5,8 +5,11 @@ const signIn = async (dataRequest) => {
 
     try {
         const res = await request.post('auth/signin')
-          .set('Authorization', apiParamsRequest.Authorization)
+          // DEV
+          // .set('Authorization', apiParamsRequest.Authorization)
           .set('AppToken', apiParamsRequest.AppToken)
+          // STAGING
+          // .set('D-App-Authorization', apiParamsRequest.dAppToken)
           .send(dataRequest);
     
         return res;

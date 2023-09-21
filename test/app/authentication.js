@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import moment from 'moment-timezone';
 import { expect } from "chai";
-import { Builder, By, Key, until, logging, Capabilities } from 'selenium-webdriver';
+import { By, Key, until } from 'selenium-webdriver';
 import { describe, afterEach, before } from 'mocha';
 import { BROWSERS } from '#root/commons/constants/browser';
 import { getUserAccount } from '#root/commons/utils/userUtils';
@@ -13,14 +13,16 @@ import { goToApp } from '#root/commons/utils/appUtils';
 import { appHost } from '#root/api/app-token';
 import { takeScreenshot } from '#root/commons/utils/fileUtils';
 import { fileURLToPath } from 'url';
-import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
+import { removeModal, getAppTokenGoogle } from '#root/helpers/global';
+import { faker } from '@faker-js/faker';
+
 
 /**
  * Get the user data for authentication
  */
 
-const users = getUserAccount(yargs(process.argv.slice(2)).parse());
+const users = getUserAccount(yargs(process?.argv?.slice(2))?.parse()) ?? null;
 
 let driver;
 let errorMessages;
@@ -92,7 +94,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
         addContext(this, {
             title: 'Screenshoot-Test-Results',
-            value: fileNamePath
+            value: "..\\" + path.relative(fileURLToPath(import.meta.url), fileNamePath),
         });
         await driver.sleep(3000);
         try {
@@ -105,7 +107,8 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
     BROWSERS.forEach(browser => {
 
-        users.forEach(userData => {
+        // Need Login or authenticated
+        users?.forEach(userData => {
 
             const data = userData?.split('=');
             const userAccount = data[1].split(';');
@@ -125,12 +128,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Go to application
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
-                            errorMessages = await captureConsoleErrors(driver, browser);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
-                            await thrownAnError(errorMessages, errorMessages?.length > 0);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -168,6 +168,121 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`SUPER ADMIN - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`SUPER ADMIN - Relogin from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(8000);
+                            
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // aksi sleep
+                            await driver.sleep(5000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
+                            ];
+                            expect(userData.id).to.greaterThan(0);
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                     break;
                 case 1:
@@ -179,8 +294,14 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
 
+                            // Aksi sleep
+                            await driver.sleep(3000);
+
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi sleep
+                            await driver.sleep(3000);
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -198,6 +319,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 
                                 return requests;
                             `);
+                            
+                            // Aksi sleep
+                            await driver.sleep(3000);
 
                             // Tampilkan data jaringan
                             let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
@@ -220,6 +344,121 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             expect.fail(error);
                         }
 
+
+                    });
+                    
+                    it(`ADMIN - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`ADMIN - Relogin from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(8000);
+                            
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // aksi sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
+                            ];
+                            expect(userData.id).to.greaterThan(0);
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
@@ -277,6 +516,121 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`MENTOR - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`MENTOR - Relogin from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(8000);
+                            
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // aksi sleep
+                            await driver.sleep(5000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
+                            ];
+                            expect(userData.id).to.greaterThan(0);
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                     break;
 
@@ -332,6 +686,122 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`STUDENT - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`STUDENT - Relogin from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(8000);
+                            
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // aksi sleep
+                            await driver.sleep(5000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
+                            ];
+                            expect(userData.id).to.greaterThan(0);
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
 
                     break;
 
@@ -399,8 +869,14 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             driver = await goToApp(browser, appHost);
                             await driver.manage().window().maximize();
 
+                            // Aksi Sleep
+                            await driver.sleep(5000)
+                            
                             // login to the application
                             errorMessages = await enterDashboard(driver, user, browser, appHost);
+                            
+                            // Aksi Sleep
+                            await driver.sleep(5000)
 
                             let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
 
@@ -418,6 +894,9 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 
                                 return requests;
                             `);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000)
 
                             // Tampilkan data jaringan
                             let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
@@ -440,6 +919,121 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             expect.fail(error);
                         }
 
+
+                    });
+                    
+                    it(`CONTENT WRITER - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`CONTENT WRITER - Relogin from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(8000);
+                            
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // aksi sleep
+                            await driver.sleep(5000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData)
+
+                            customMessages = [
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
+                            ];
+                            expect(userData.id).to.greaterThan(0);
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
@@ -497,6 +1091,126 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
 
                     });
+                    
+                    it(`LEAD PROGRAM - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal
+                            let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                            if(await modalContent?.isDisplayed()) {
+                                await driver.wait(until.elementLocated(By.css('.modal-content'))); 
+                                await driver.sleep(2000);             
+                                await driver.executeScript(`return document.querySelector(".modal-content button.btn-danger").click()`);
+                            }
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`LEAD PROGRAM - Relogin from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(8000);
+                            
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // aksi sleep
+                            await driver.sleep(5000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
+                            ];
+                            expect(userData.id).to.greaterThan(0);
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
 
                     break;
                 
@@ -550,6 +1264,121 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             expect.fail(error);
                         }
 
+
+                    });
+                    
+                    it(`LEAD REGION - Signout from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(10000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData === null ? "Successfully signout from dashboard ✅" : "Failed to sign out from dashboard ❌"
+                            ]
+
+                            expect(userData).to.be.null;
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
+
+                    });
+                    
+                    it(`LEAD REGION - Relogin from browser ${browser}`, async () => {
+
+                        try {
+
+                            // Go to application
+                            driver = await goToApp(browser, appHost);
+                            await driver.manage().window().maximize();
+
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // Aksi Sleep
+                            await driver.sleep(5000);
+
+                            // Aksi mengklik button navbar profile
+                            await driver.executeScript(`return document.querySelector(".sidenav .navbar-profile").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(3000);
+
+                            // Aksi mengecek dropdownmenu apakah muncul atau tidak
+                            let dropdownMenuProfile = await driver.executeScript(`return document.querySelector(".dropdown-menu")`);
+                            await thrownAnError("Dropdown Menu Profile isn't showed up", await dropdownMenuProfile.isDisplayed());
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi klik button logout
+                            await driver.executeScript(`return document.querySelector(".dropdown-menu button").click();`)
+
+                            // Aksi Sleep
+                            await driver.sleep(4000);
+
+                            // Aksi mengkonfirmasi signout di modal 
+                            await driver.executeScript(`return document.querySelector(".modal-content .btn-danger").click()`);
+
+                            // Aksi Sleep
+                            await driver.sleep(8000);
+                            
+                            // login to the application
+                            errorMessages = await enterDashboard(driver, user, browser, appHost);
+
+                            // aksi sleep
+                            await driver.sleep(5000);
+
+                            // Expect results and add custom message for addtional description
+                            let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                            userData = await JSON.parse(userData);
+
+                            customMessages = [
+                                userData.id > 0 ? "Successfully re-login ✅" : "Failed to relogin ❌"
+                            ];
+                            expect(userData.id).to.greaterThan(0);
+
+                        } catch (error) {
+                            expect.fail(error);
+                        }
 
                     });
 
@@ -610,6 +1439,692 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
                     break;
             }
+        });
+
+        // No need some authentication user
+        it(`Checking button show password in login page from browser ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button eye untuk mengaktifkan show password
+                await driver.executeScript(`return document.querySelector("form .input-group-prepend .fa-eye-slash").click()`);
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").value = 'test123';`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Check the result
+                let typeInputPassword = await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").type`)
+                customMessages = [
+                    typeInputPassword === "text" ? "Successfully show the password field ✅" : "Failed to show the password field ❌"
+                ]
+                expect(typeInputPassword).to.equal("text")
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+        
+        it(`Checking button hide password in login page from browser ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button eye untuk mengaktifkan show password
+                await driver.executeScript(`return document.querySelector("form .input-group-prepend .fa-eye-slash").click()`);
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelector("form .input-group-prepend .fa-eye").click()`);
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").value = 'test123';`);
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Check the result
+                let typeInputPassword = await driver.executeScript(`return document.querySelectorAll("form .form-group")[1].querySelector("input").type`)
+                customMessages = [
+                    typeInputPassword === "password" ? "Successfully hide the password field ✅" : "Failed to hide the password field ❌"
+                ]
+                expect(typeInputPassword).to.equal("password")
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+
+        it(`Reset Password User from browser ${browser}`, async () => {
+            
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi menunggu modal content
+                let modalContent = await driver.executeScript(`return document.querySelector('.modal-content')`);
+                if(await modalContent?.isDisplayed()) {
+                    await driver.wait(until.elementLocated(By.css('.modal-content')));              
+                    await driver.findElement(By.css(".modal-content header button.close")).click();
+                }
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+                
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+                
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button 'Lupa Kata Sandi?'
+                await driver.executeScript(`return document.querySelector("form .form-group a.color-primary").click()`)
+                
+                // Aksi Sleep
+                await driver.sleep(3000);
+
+                // Aksi mengisi input field email
+                let fullName = faker.name.fullName();
+                let emailData = `${fullName.toLowerCase().replace(/ /g, '')}@gmail.com`;
+                let newUser;
+                let newPassword = "semuasama";
+                await driver.findElement(By.css("form .form-group input[type=email]")).sendKeys("adnanerlansyah505@gmail.com");
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click();`);
+                await driver.sleep(2000);
+                let alertError = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null;`);
+                await thrownAnError(await alertError?.getAttribute("innerText"), await alertError != null && await alertError?.getAttribute("innerText") != 'mohon tunggu hingga jangka waktu yang telah ditentukan')
+
+                // Aksi Sleep
+                await driver.sleep(3000);
+
+                // Check notification gmail for get the link reset password user
+                const linkHref = await getAppTokenGoogle("adnanerlansyah505@gmail.com", "nqsmebcccfpeyzla", ["Unseen"], /(?<=href=3D")[^"]*/)
+
+                // Aksi sleep
+                await driver.sleep(2000);
+
+                // Aksi pergi ke halaman reset password
+                await driver.get(await linkHref[0].replace("aku=", "aku").replace(/&amp;/g, '&').replace(/=3D/g, '=').replace(/=3D=/g, '=').replace(/=([^&=]+)=/g, '=$1'))
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi isi input password baru
+                await driver.findElement(By.css("input[type='password']")).sendKeys("semuasama")
+                await driver.sleep(2000)
+                await driver.findElement(By.css("input[placeholder='Ulangi Password']")).sendKeys("semuasama", Key.RETURN)
+                // console.log(newPassword)
+                
+                // Aksi Sleep
+                await driver.sleep(3000)
+                alertError = await driver.executeScript(`return document.querySelector(".alert.alert-warning") ? document.querySelector(".alert.alert-warning") : null;`);
+                await thrownAnError(await alertError?.getAttribute("innerText"), await alertError?.getAttribute("innerText"))
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Expect results and add custom message for addtional description
+                let textStatus = await driver.executeScript(`return document.querySelectorAll('h1.text-welcome').length`);
+                const networkData = await driver.executeScript(`
+                    const performanceEntries = performance.getEntriesByType('resource');
+                    const requests = performanceEntries.map(entry => {
+                        return {
+                            entry,
+                            url: entry.name,
+                            method: entry.initiatorType,
+                            type: entry.entryType,
+                        };
+                    });
+                    
+                    return requests;
+                `);
+                let correctUrl = await networkData.find(data => data.url.includes("v1/user/me"));
+                let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                userData = await JSON.parse(userData);
+                customMessages = [
+                    textStatus > 0 ? "Enter to dashboard ✅" : "Enter to dashboard ❌",
+                    userData.id > 0 ? "Succesfully logged in with the new password ✅" : "Failed to login with the new password ❌"
+                ];
+                
+                expect(textStatus).to.greaterThan(0);
+                expect(correctUrl.url).to.includes("v1/user/me");
+                expect(userData.id).to.greaterThan(0);
+                // const messageResetPassword = await driver.findElement(By.css('#auth .card.card-profile'));
+                // customMessages = [
+                //     await messageResetPassword.isDisplayed() ? 'Displayed page the reset link password ✅' : 'Failed to send link reset password ❌'
+                // ]
+                // expect(await messageResetPassword.isDisplayed()).to.equal(true)
+
+            } catch (error) {
+                expect.fail(error);
+            }
+            
+        })
+        
+        it(`Register or Create a new account from browser ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button 'Daftar Sekarang'
+                await driver.executeScript(`return document.querySelector(".card-body div.text-center a.color-primary").click();`);
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi fill form register
+                // Dummy data registration
+                let fullName = faker.name.fullName();
+                let emailData = `${fullName.toLowerCase().replace(/ /g, '')}@gmail.com`;
+                let passwordData = 'semuasama';
+                let phoneNumber = faker.phone.number('08##########');
+
+                // Fill data registration
+                await driver.wait(until.elementLocated(By.css(`input[type="email"]`)));
+                await driver.findElement(By.css(`input[type="email"]`)).sendKeys(emailData);
+                await driver.findElement(By.css(`input#inputName`)).sendKeys(fullName);
+                await driver.findElement(By.css(`input#inputPhone`)).sendKeys(phoneNumber);
+                await driver.sleep(2000);
+                await driver.wait(until.elementLocated(By.css("#inputGender.v-select")))
+                // Select gender
+                let inputSearch = await driver.findElement(By.css("#inputGender .vs__selected-options input[type=search]"));
+                let action = await driver.actions({async: true});
+                await action.move({origin: await inputSearch}).press().perform();
+                await driver.sleep(2000);
+                // Aksi mengecek pilihan gender
+                let genders = await driver.executeScript(`return document.querySelectorAll('#inputGender.v-select ul li')`)
+                let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+                await driver.sleep(1000);
+                await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+                await driver.sleep(2000);
+                let actions = driver.actions({async: true});
+                await actions.doubleClick(await genders[randomIndexGender]).perform();
+                await driver.sleep(3000);
+                await driver.wait(until.elementLocated(By.css("#inputProvince.v-select")))
+                // Select province
+                inputSearch = await driver.findElement(By.css("#inputProvince .vs__selected-options input[type=search]"));
+                action = await driver.actions({async: true});
+                await action.move({origin: await inputSearch}).press().perform();
+                await driver.sleep(2000);
+                // Aksi mengecek pilihan province
+                let provinces = await driver.executeScript(`return document.querySelectorAll('#inputProvince.v-select ul li')`)
+                let randomIndexProvince = faker.number.int({ min: 0, max: await provinces.length - 1 });
+                await driver.sleep(1000);
+                await driver.executeScript('arguments[0].scrollIntoView()', await provinces[randomIndexProvince]);
+                await driver.sleep(2000);
+                actions = driver.actions({async: true});
+                await actions.doubleClick(await provinces[randomIndexProvince]).perform();
+                await driver.sleep(3000);
+                await driver.wait(until.elementLocated(By.css("#inputCity.v-select")))
+                // Select city
+                inputSearch = await driver.findElement(By.css("#inputCity .vs__selected-options input[type=search]"));
+                action = await driver.actions({async: true});
+                await action.move({origin: await inputSearch}).press().perform();
+                await driver.sleep(2000);
+                // Aksi mengecek pilihan province
+                let cities = await driver.executeScript(`return document.querySelectorAll('#inputCity.v-select ul li')`)
+                let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+                await driver.sleep(1000);
+                await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+                await driver.sleep(2000);
+                actions = driver.actions({async: true});
+                await actions.doubleClick(await cities[randomIndexCity]).perform();
+                await driver.sleep(2000);
+                await driver.findElement(By.css(`input#inputPassword`)).sendKeys(passwordData);
+                await driver.findElement(By.css(`input#inputRepeat`)).sendKeys(passwordData);
+                const isAllFilled = await Promise.all([
+                    await driver.findElement(By.css("input[type='email']")).getAttribute('value'),
+                    await driver.findElement(By.css("input#inputName")).getAttribute('value'),
+                    await driver.findElement(By.css(`input#inputPhone`)).getAttribute('value'),
+                    // await driver.findElement(By.css("#inputGender.v-select input")).getAttribute('value'),
+                    // await driver.findElement(By.css("#inputProvince.v-select input")).getAttribute('value'),
+                    // await driver.findElement(By.css("#inputCity.v-select input")).getAttribute('value'),
+                    await driver.findElement(By.css("input#inputPassword")).getAttribute('value'),
+                    await driver.findElement(By.css("input#inputRepeat")).getAttribute('value'),
+                ]).then(results => results.every(value => value != ''));
+                
+                await driver.sleep(2000)
+                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+                await driver.sleep(2000)
+
+                if(isAllFilled) {
+                    await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                } else await thrownAnError('There are still empty input fields on form register', !isAllFilled)
+
+                // Aksi Sleep
+                await driver.sleep(3000);
+                
+                // Expect results and add custom message for addtional description
+                const messageConfirmEmail = await driver.findElement(By.css('#auth .card.card-profile'));
+                customMessages = [
+                    await messageConfirmEmail.isDisplayed() ? 'Displayed page to resend password confirmation ✅' : 'Failed to resend password confirmation ❌'
+                ]
+                expect(await messageConfirmEmail.isDisplayed()).to.equal(true)
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+        
+        // it(`Register & Login using google account from browser ${browser}`, async () => {
+
+        //     try {
+
+        //         // Go to application
+        //         driver = await goToApp(browser, appHost);
+        //         await driver.manage().window().maximize();
+
+        //         // Aksi Sleep
+        //         await driver.sleep(5000);
+
+        //         // Aksi remove modal
+        //         await removeModal(driver)
+
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
+
+        //         // Aksi klik button Masuk/Login
+        //         await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+        //         // Aksi sleep
+        //         await driver.sleep(5000);
+
+        //         // Aksi klik button Icon Google
+        //         await driver.executeScript(`return document.querySelector(".card-body .btn-inner--icon").click()`);
+
+        //         // Aksi Sleep
+        //         await driver.sleep(5000);
+
+        //         // Aksi fill form input email
+        //         await driver.findElement(By.css("input[type=email]")).sendKeys('adnanerlansyah505@gmail.com');
+        //         await driver.sleep(2000);
+        //         const captchaImage = await driver.executeScript(`return document.querySelector("img#captchaimg")`)
+        //         await driver.sleep(2000);
+        //         await driver.executeScript(`return document.querySelector("#identifierNext button").click();`);
+        //         await driver.sleep(2000);
+        //         let messageError = await driver.executeScript(`return document.querySelector('.LXRPh') ? document.querySelector('.LXRPh') : null`);
+        //         await thrownAnError('An error occurred while fill the input field', await messageError != null && await messageError?.isDisplayed());
+                
+        //         // Aksi sleep
+        //         await driver.sleep(3000);
+                
+        //         // Aksi fill form input password
+        //         await driver.findElement(By.css("input[type=password]")).sendKeys('45Adnan45');
+        //         await driver.sleep(2000);
+        //         await driver.executeScript(`return document.querySelector("#passwordNext button").click();`);
+        //         messageError = await driver.executeScript(`return document.querySelector('.LXRPh') ? document.querySelector('.LXRPh') : null`);
+        //         await thrownAnError('An error occurred while fill the input field', await messageError != null && await messageError?.isDisplayed());
+                
+        //         // Aksi sleep
+        //         await driver.sleep(12000);
+
+        //         let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
+        //         if(await modalContent != null && await modalContent.isDisplayed()) {
+                    
+        //             await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
+        //             // Select gender
+        //             let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
+        //             let action = await driver.actions({async: true});
+        //             await action.move({origin: await inputSearch}).press().perform();
+        //             await driver.sleep(2000);
+        //             // Aksi mengecek pilihan gender
+        //             let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
+        //             let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+        //             await driver.sleep(1000);
+        //             await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+        //             await driver.sleep(2000);
+        //             let actions = driver.actions({async: true});
+        //             await actions.doubleClick(await genders[randomIndexGender]).perform();
+        //             await driver.sleep(3000);
+        //             await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
+        //             // Select province
+        //             inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
+        //             action = await driver.actions({async: true});
+        //             await action.move({origin: await inputSearch}).press().perform();
+        //             await driver.sleep(2000);
+        //             // Aksi mengecek pilihan province
+        //             let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
+        //             let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+        //             await driver.sleep(1000);
+        //             await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+        //             await driver.sleep(2000);
+        //             actions = driver.actions({async: true});
+        //             await actions.doubleClick(await cities[randomIndexCity]).perform();
+
+        //             // Aksi Sleep
+        //             await driver.sleep(3000);
+
+        //             // Aksi klik button 'Simpan'
+        //             await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                    
+        //             // Aksi Sleep
+        //             await driver.sleep(3000);
+
+        //             // Aksi klik button konfirmasi
+        //             await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
+
+        //         }
+                
+        //         // Aksi Sleep
+        //         await driver.sleep(3000);
+
+        //         // Expect results and add custom message for addtional description
+        //         let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+        //         userData = await JSON.parse(userData);
+
+        //         customMessages = [
+        //             userData ? "Successfully register with account google ✅" : "Failed to register with account google ❌"
+        //         ]
+        //         expect(userData).to.be.not.null;
+
+
+        //     } catch (error) {
+        //         expect.fail(error);
+        //     }
+
+        // });
+        
+        it(`Register & Login using github account from browser ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button Icon Google
+                await driver.executeScript(`return document.querySelectorAll(".card-body .btn-inner--icon")[1].click()`);
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi fill form input email
+                await driver.findElement(By.css("input[name=login]")).sendKeys('adnanerlansyah505@gmail.com');
+                await driver.sleep(1000);
+                await driver.findElement(By.css("input[type=password]")).sendKeys('45Adnan45');
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelector("input[type=submit]").click();`);
+                await driver.sleep(2000);
+                let flashError = await driver.executeScript(`return document.querySelector(".flash.flash-error") ? document.querySelector(".flash.flash-error") : null`);
+                await thrownAnError(await flashError?.getAttribute('innerText'),  await flashError != null && await flashError?.isDisplayed())
+                
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button konfirmasi authroization
+                await driver.executeScript('window.scrollTo(0, document.body.scrollHeight)');
+                
+                // Aksi sleep
+                await driver.sleep(10000);
+
+                // Aksi fetch data message from email setelah konfirmasi authorization
+                
+                let buttonOAuhtorization = await driver.executeScript(`return document.getElementById('js-oauth-authorize-btn') ? document.getElementById('js-oauth-authorize-btn') : null;`);
+                if(await buttonOAuhtorization != null) {
+                    await buttonOAuhtorization.click();
+                }
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                let inputOtp = await driver.executeScript(`return document.querySelector("input#otp") ? document.querySelector("input#otp") : null`);
+                if(await inputOtp != null && await inputOtp?.isDisplayed()) {
+                    const verificationCode = await getAppTokenGoogle("adnanerlansyah505@gmail.com", "nqsmebcccfpeyzla", ["Unseen"], /\s+(\d+)/)
+
+                    await driver.findElement(By.css("input#otp")).sendKeys(await verificationCode[0]?.replaceAll(" ", ""), Key.RETURN)
+                    
+                    // Aksi sleep
+                    await driver.sleep(7000);
+                }
+                
+                let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
+                if(await modalContent != null && await modalContent?.isDisplayed()) {
+                    
+                    await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
+                    // Select gender
+                    let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
+                    let action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan gender
+                    let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
+                    let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+                    await driver.sleep(2000);
+                    let actions = driver.actions({async: true});
+                    await actions.doubleClick(await genders[randomIndexGender]).perform();
+                    await driver.sleep(3000);
+                    await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
+                    // Select province
+                    inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
+                    action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan province
+                    let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
+                    let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+                    await driver.sleep(2000);
+                    actions = driver.actions({async: true});
+                    await actions.doubleClick(await cities[randomIndexCity]).perform();
+
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button 'Simpan'
+                    await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                    
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button konfirmasi
+                    await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
+                    
+                }
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Expect results and add custom message for addtional description
+                let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                userData = await JSON.parse(userData);
+
+                customMessages = [
+                    userData ? "Successfully register with account github ✅" : "Failed to register with account github ❌"
+                ]
+                expect(userData).to.be.not.null;
+
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
+        });
+        
+        it(`Register & Login using linkedin account from browser ${browser}`, async () => {
+
+            try {
+
+                // Go to application
+                driver = await goToApp(browser, appHost);
+                await driver.manage().window().maximize();
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi remove modal
+                await removeModal(driver)
+
+                // Aksi sleep
+                await driver.sleep(3000);
+
+                // Aksi klik button Masuk/Login
+                await driver.executeScript(`return document.querySelector('ul li a.btn.btn-primary').click();`);
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Aksi klik button Icon Linkedin
+                await driver.executeScript(`return document.querySelectorAll(".card-body .btn-inner--icon")[2].click()`);
+
+                // Aksi Sleep
+                await driver.sleep(5000);
+
+                // Aksi fill form input email
+                await driver.findElement(By.css("input#username")).sendKeys('adnanerlansyah403@gmail.com');
+                await driver.sleep(1000);
+                await driver.findElement(By.css("input[type=password]")).sendKeys('45adnan45');
+                await driver.sleep(2000);
+                await driver.executeScript(`return document.querySelector(".login__form_action_container button[type=submit]").click();`);
+                await driver.sleep(2000);
+                // let errorForm = await driver.executeScript(`return document.querySelector(".form__label--error") ? document.querySelector(".form__label--error") : null`);
+                // await thrownAnError("An occured while fill form login",  await errorForm != null)
+
+                // Aksi klik button konfirmasi authroization
+                // await driver.executeScript(`return document.querySelector("form#oauth__auth-form button[type=submit]").click();`);
+                
+                // Aksi sleep
+                await driver.sleep(15000);
+                
+                let modalContent = await driver.executeScript(`return document.querySelector(".modal-content") ? document.querySelector(".modal-content") : null`);
+                if(await modalContent != null && await modalContent?.isDisplayed()) {
+                    
+                    await driver.wait(until.elementLocated(By.css("#selectGender.v-select")))
+                    // Select gender
+                    let inputSearch = await driver.findElement(By.css("#selectGender .vs__selected-options input[type=search]"));
+                    let action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan gender
+                    let genders = await driver.executeScript(`return document.querySelectorAll('#selectGender.v-select ul li')`)
+                    let randomIndexGender = faker.number.int({ min: 0, max: await genders.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await genders[randomIndexGender]);
+                    await driver.sleep(2000);
+                    let actions = driver.actions({async: true});
+                    await actions.doubleClick(await genders[randomIndexGender]).perform();
+                    await driver.sleep(3000);
+                    await driver.wait(until.elementLocated(By.css("#selectCity.v-select")))
+                    // Select province
+                    inputSearch = await driver.findElement(By.css("#selectCity .vs__selected-options input[type=search]"));
+                    action = await driver.actions({async: true});
+                    await action.move({origin: await inputSearch}).press().perform();
+                    await driver.sleep(2000);
+                    // Aksi mengecek pilihan province
+                    let cities = await driver.executeScript(`return document.querySelectorAll('#selectCity.v-select ul li')`)
+                    let randomIndexCity = faker.number.int({ min: 0, max: await cities.length - 1 });
+                    await driver.sleep(1000);
+                    await driver.executeScript('arguments[0].scrollIntoView()', await cities[randomIndexCity]);
+                    await driver.sleep(2000);
+                    actions = driver.actions({async: true});
+                    await actions.doubleClick(await cities[randomIndexCity]).perform();
+
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button 'Simpan'
+                    await driver.executeScript(`return document.querySelector("form button[type=submit].btn-primary").click()`);
+                    
+                    // Aksi Sleep
+                    await driver.sleep(3000);
+
+                    // Aksi klik button konfirmasi
+                    await driver.executeScript(`return document.querySelector(".modal-content .modal-body button[type=button].btn-primary").click();`);
+                    
+                }
+
+                // Aksi sleep
+                await driver.sleep(5000);
+
+                // Expect results and add custom message for addtional description
+                let userData = await driver.executeScript("return window.localStorage.getItem('user')")
+                userData = await JSON.parse(userData);
+
+                customMessages = [
+                    userData ? "Successfully register with account github ✅" : "Failed to register with account github ❌"
+                ]
+                expect(userData).to.be.not.null;
+
+
+            } catch (error) {
+                expect.fail(error);
+            }
+
         });
 
     })
