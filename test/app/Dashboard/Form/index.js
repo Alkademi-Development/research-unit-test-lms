@@ -17,6 +17,7 @@ import { captureConsoleErrors } from '#root/commons/utils/generalUtils';
 import { thrownAnError } from '#root/commons/utils/generalUtils';
 import moment from 'moment-timezone';
 import { faker } from '@faker-js/faker';
+import { QUESTIONS } from '#root/commons/constants/form';
 
 /**
  * Get the user data for authentication
@@ -120,7 +121,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
 
             switch (user.kind) {
                 case 0:
-                    it.skip(`SUPER ADMIN - Create a Form from browser ${browser}`, async () => {
+                    it(`SUPER ADMIN - Create a Form from browser ${browser}`, async () => {
 
                         try {
 
@@ -154,30 +155,34 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             // Aksi sleep
                             await driver.sleep(5000)
 
+                            // Aksi mengecek form yang sudah ada dan mengambil data dummy dari form yang sudah tersedia
+                            let titlesForm = await driver.executeScript(`return Array.from(document.querySelectorAll("table tbody tr td span.status")).map(v => v.innerText.toLowerCase())`)
+                            let form = QUESTIONS.find(value => {
+                                return titlesForm.every(v => !v.includes(value.title.toLowerCase()))
+                            }) || null;
+
                             // Aksi menekan tombol '+ Formulir'
                             await driver.findElement(By.css(".main-content .btn-primary")).click();
-
+                            
                             // Aksi Sleep
-                            await driver.sleep(7000)
-
+                            await driver.sleep(10000)
+                            
                             // Aksi berpindah ke halaman new tab baru
                             let windows = await driver.getAllWindowHandles();
                             await driver.switchTo().window(windows[windows.length - 1]);
                             await driver.sleep(3000);
-
-                            // console.log(await driver.getCurrentUrl())
-
+                            
                             // Aksi mengisi form formulir
                             /** Dummy Data **/
-                            let limitTime = faker.number.int({ min: 3, max: 10 });
-                            let formStats = faker.datatype.boolean()
-                            let title = faker.lorem.words()
-                            let description = faker.lorem.sentence()
-                            let formType = faker.helpers.arrayElement(['basic', 'quiz'])
-                            let isNotifEmail = faker.datatype.boolean()
-                            let emailNotif = 'adnanerlansyah505@gmail.com'
-                            let questions = [];
-                            let maxQuestion = faker.number.int({ min: 3, max: 5 });
+                            let limitTime = form?.limitTime || faker.number.int({ min: 3, max: 10 });
+                            let formStats = form?.formStats || faker.datatype.boolean()
+                            let title = form?.title || faker.lorem.words()
+                            let description = form?.description || faker.lorem.sentence()
+                            let formType = form?.formType || faker.helpers.arrayElement(['basic', 'quiz'])
+                            let isNotifEmail = form?.isNotifyEmail || faker.datatype.boolean()
+                            let emailNotif = form?.emailNotif || 'adnanerlansyah505@gmail.com'
+                            let questions = form?.questions || [];
+                            let maxQuestion = form?.maxQuestion || faker.number.int({ min: 3, max: 5 });
                             /** Input mengisi waktu menit di form */
                             let labelMinute = await driver.findElement(By.css("label[for='input-minute']"));
                             let actions = driver.actions({async: true});
@@ -193,7 +198,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             else await driver.executeScript(`return Array.from(document.querySelectorAll(".dropdown-menu.show .dropdown-item")).find(v => v.innerText.toLowerCase().includes("tertutup")).click()`)
                             await driver.sleep(2000);
                             /** Aksi mengisi title */
-                            for (let index = 0; index < 30; index++) {
+                            for (let index = 0; index < 40; index++) {
                                 await driver.findElement(By.css("input.input-title")).sendKeys(Key.BACK_SPACE)
                                 await driver.sleep(100);
                             }
@@ -222,10 +227,12 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             /** Aksi mengisi question */
                             if(formType == 'basic') {
                                 for (let index = 0; index < maxQuestion - 1; index++) {
-                                    questions.push({
-                                        question: faker.lorem.words(),
-                                        required: faker.datatype.boolean()
-                                    })
+                                    if(questions.length == 0) {
+                                        questions.push({
+                                            question: faker.lorem.words(),
+                                            required: faker.datatype.boolean()
+                                        })
+                                    }
                                     /** Aksi mengisi input question */
                                     let inputQuestions = await driver.findElements(By.id("input-question"));
                                     await inputQuestions[index].sendKeys(questions[index].question);
@@ -239,24 +246,26 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                     await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`)
                                 }
                             } else {
-                                for (let index = 0; index < maxQuestion - 1; index++) {
-                                    questions.push({
-                                      question: faker.lorem.words(),
-                                      required: faker.datatype.boolean(),
-                                      options: [
-                                        {
-                                          value: 'TRUE',
-                                          isCorrect: true,
-                                        },
-                                        {
-                                          value: 'FALSE',
-                                          isCorrect: false,
-                                        },
-                                      ]
-                                    });
+                                for (let index = 0; index <= questions?.length - 1; index++) {
+                                    if(questions?.length == 0) {
+                                        questions?.push({
+                                            question: faker.lorem.words(),
+                                            required: faker.datatype.boolean(),
+                                            options: [
+                                              {
+                                                value: 'TRUE',
+                                                isCorrect: true,
+                                              },
+                                              {
+                                                value: 'FALSE',
+                                                isCorrect: false,
+                                              },
+                                            ]
+                                        });
+                                    }
                                     /** Aksi mengisi input question */
                                     let inputQuestions = await driver.findElements(By.id("input-question"));
-                                    await inputQuestions[index].sendKeys(questions[index].question);
+                                    await inputQuestions[index].sendKeys(questions[index]?.question);
                                     await driver.sleep(1000);
                                     /** Aksi mengisi options pilihan jawaban */
                                     let cards = await driver.executeScript(`return document.querySelectorAll(".card.add-wrapper")`);
@@ -279,22 +288,21 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                         await driver.sleep(2000);
                                     }                                      
                                     /** Aksi tambah pertanyaan */
-                                    if (index != maxQuestion - 2) await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("tambah")).click()`);
+                                    if (index != questions.length - 1) await driver.executeScript(`return Array.from(document.querySelectorAll("#create button.btn-secondary")).find(v => v.innerText.toLowerCase().includes("tambah")).click()`);
                                     await driver.executeScript(`return window.scrollTo(0, document.body.scrollHeight);`);
                                 }
-                                  
                             }
-
+                            
                             // Aksi Sleep
                             await driver.sleep(3000);
-
+                            
                             // Cek semua input telah terisi
                             let isAllFilled = await Promise.all([
                                 await driver.findElement(By.css("input.input-title")).getAttribute('value'),
                                 await driver.findElement(By.css("textarea.input-description")).getAttribute('value'),
                                 await driver.findElement(By.id("input-question")).getAttribute('value'),
                             ]).then(results => results.every(value => value != ''));
-
+                            
                             if(isAllFilled) {
                                 await driver.executeScript(`return document.querySelector(".next-button .btn-primary").click()`)
                                 await driver.sleep(2000);
@@ -302,10 +310,10 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                                 await driver.sleep(2000);
                                 await driver.executeScript(`return document.querySelector(".swal2-confirm").click()`);
                             }
-
+                            
                             // Aksi Sleep
                             await driver.sleep(3000)
-
+                            
                             // Aksi pindah ke halaman utama
                             windows = await driver.getAllWindowHandles();
                             await driver.switchTo().window(windows[0]);
@@ -366,7 +374,7 @@ Waktu Event Load Selesai (loadEventEnd): (${performanceTiming.loadEventEnd - nav
                             await driver.executeScript(`return document.querySelector("table tbody tr .btn-warning").click()`)
 
                             // Aksi Sleep
-                            await driver.sleep(7000)
+                            await driver.sleep(10000)
 
                             // Aksi berpindah ke halaman new tab baru
                             let windows = await driver.getAllWindowHandles();

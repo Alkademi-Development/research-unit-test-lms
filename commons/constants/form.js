@@ -5,10 +5,11 @@ const QUESTIONS = [
         limitTime: faker.number.int({ min: 3, max: 10 }),
         formStats: faker.datatype.boolean(),
         title: "Algoritma Fundemental",
-        description: "",
+        description: faker.lorem.paragraph(),
         formType: "basic",
         isNotifyEmail: faker.datatype.boolean(),
         emailNotif: "adnanerlansyah505@gmail.com",
+        maxQuestion: faker.number.int({ min: 3, max: 5 }),
         questions: [
             {
                 question: 'Apa itu algoritma ?',
@@ -32,10 +33,11 @@ const QUESTIONS = [
         limitTime: faker.number.int({ min: 3, max: 10 }),
         formStats: faker.datatype.boolean(),
         title: "Teknologi Greentech",
-        description: "",
+        description: faker.lorem.paragraph(),
         formType: "basic",
         isNotifyEmail: faker.datatype.boolean(),
         emailNotif: "adnanerlansyah505@gmail.com",
+        maxQuestion: faker.number.int({ min: 3, max: 5 }),
         questions: [
             {
                 question: 'Apa yang di maksud dengan teknologi greentech ?',
@@ -55,10 +57,11 @@ const QUESTIONS = [
         limitTime: faker.number.int({ min: 3, max: 10 }),
         formStats: faker.datatype.boolean(),
         title: "Pseudocode",
-        description: "",
+        description: faker.lorem.paragraph(),
         formType: "quiz",
         isNotifyEmail: faker.datatype.boolean(),
         emailNotif: "adnanerlansyah505@gmail.com",
+        // maxQuestion: faker.number.int({ min: 3, max: 5 }),
         questions: [
             {
                 question: 'Apa itu pseudocode ?',
@@ -80,10 +83,11 @@ const QUESTIONS = [
         limitTime: faker.number.int({ min: 3, max: 10 }),
         formStats: faker.datatype.boolean(),
         title: "Budibase",
-        description: "",
+        description: faker.lorem.paragraph(),
         formType: "quiz",
         isNotifyEmail: faker.datatype.boolean(),
         emailNotif: "adnanerlansyah505@gmail.com",
+        maxQuestion: faker.number.int({ min: 3, max: 5 }),
         questions: [
             {
                 question: 'Apa itu Budibase Data ?',
@@ -119,10 +123,11 @@ const QUESTIONS = [
         limitTime: faker.number.int({ min: 3, max: 10 }),
         formStats: faker.datatype.boolean(),
         title: "HTML",
-        description: "",
+        description: faker.lorem.paragraph(),
         formType: "quiz",
         isNotifyEmail: faker.datatype.boolean(),
         emailNotif: "adnanerlansyah505@gmail.com",
+        maxQuestion: faker.number.int({ min: 3, max: 5 }),
         questions: [
             {
                 question: 'Apa itu HTML ?',
